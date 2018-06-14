@@ -1,0 +1,7 @@
+{
+    "name": "No Controls",
+    "type": "linear",
+    "length": 3000,
+    "climb": 50,
+    "controls": []
+}

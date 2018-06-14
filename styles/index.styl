@@ -1,0 +1,257 @@
+@require 'helpers'
+@require 'titlebar'
+@require 'menu'
+@require 'input'
+@require 'table'
+
+html,body
+    margin:0
+    padding:0
+    height:100%
+    width:100%
+    overflow:hidden
+
+main
+    width:calc(100% - 160px)
+    font-family:Roboto
+    font-weight:300
+    float:left
+    .card
+        box-shadow(1.5)
+        padding: 10px
+        margin-top: 10px
+        transition: .5s
+        &:first-child
+            margin-top:0
+
+::-webkit-scrollbar
+    width: 10px
+
+
+::-webkit-scrollbar-thumb
+    background: #ECEFF1
+    transition: .3s
+
+
+::-webkit-scrollbar-thumb:hover
+    background: #CFD8DC
+
+
+::-webkit-scrollbar-thumb:active
+    background: #B0BEC5
+
+.fade-enter-active, .fade-leave-active
+  transition: opacity .2s
+
+.fade-enter, .fade-leave-to
+  opacity: 0
+
+.fade-move
+  transform:transition .2s
+
+
+.error
+    user-select:none
+    color: #D32F2F
+    margin:5px 0px
+    text-align:center
+.info
+    user-select:none
+    color: color-500
+    margin:5px 0px
+    text-align:center
+.warning
+    user-select:none
+    color:#E65100
+    margin:5px 0px
+    text-align:center
+
+#welcome
+    width: calc(100% + 140px)
+    overflow-y:auto
+    overflow-x:hidden
+    height:calc(100% - 55px)
+    padding:10px
+    user-select:none
+    h2, h3, h4,p
+        font: Roboto
+        margin:3px 0
+        font-weight:300
+    #welcome-update
+        button
+            width:calc(100% - 10px)
+            display:inline-block
+            outline:0
+            user-select:none
+            margin:0
+            margin: 10px 5px 5px 5px
+            border:1px solid color-300
+            font-family:Roboto
+            font-weight:300
+            font-size:15px
+            transition:.3s
+            padding:5px
+            color:color-500
+            background-color:white
+            &:hover
+                background-color:color-300
+                color:white
+    .center
+        text-align:center
+    .colored
+        color:white
+        background:linear-gradient(37deg, color-500, color-300)
+        button
+            outline:0
+            user-select:none
+            margin:0
+            width:calc(100% - 10px)
+            margin: 10px 5px 5px 5px
+            border:1px solid color-200
+            font-family:Roboto
+            font-weight:300
+            font-size:15px
+            transition:.3s
+            padding:5px
+            color:white
+            background-color:#fff0
+            &:hover
+                background-color:#fff4
+                color:white
+#home
+    overflow-y:auto
+    overflow-x:hidden
+    height:calc(100% - 55px)
+    padding:10px
+    user-select:none
+    h2, h3, h4,p
+        font: Roboto
+        margin:3px 0
+        font-weight:300
+    #home-update
+        margin-bottom:10px
+        button
+            width:calc(100% - 10px)
+            display:inline-block
+            outline:0
+            user-select:none
+            margin:0
+            margin: 10px 5px 5px 5px
+            border:1px solid color-300
+            font-family:Roboto
+            font-weight:300
+            font-size:15px
+            transition:.3s
+            padding:5px
+            color:color-500
+            background-color:white
+            &:hover
+                background-color:color-300
+                color:white
+#download
+    h1,h2
+        margin:5px 0
+        font-weight:300
+        font-family:Roboto
+
+    p, b
+        font-size:16px
+        margin:5px 0
+        font-weight:300
+        font-family:Roboto
+
+    overflow-y:auto
+    overflow-x:hidden
+    height:calc(100% - 55px)
+    padding:10px
+    .connected
+        user-select:none
+        color:white
+        background: linear-gradient(37deg, color-400,  color-500)
+        text-align:center
+        font-size:18px
+        p
+            margin:3px
+            text-align:center
+
+    .disconnected
+        user-select:none
+        text-align:center
+        color:white
+        background: linear-gradient(37deg, #F44336, #D32F2F)
+        font-size:18px
+        p
+            margin:3px
+            text-align:center
+#entries
+    overflow-y:auto
+    overflow-x:hidden
+    height:calc(100% - 55px)
+    padding:10px
+    .text-input:last-child
+        margin-bottom:5px
+    #entries-add
+        margin-top:0
+    #entries-info
+        margin-bottom:10px
+    h1
+        margin:10px 0
+        font-weight: 300
+        font-size: 25px
+    p
+        margin:7px 0
+        font-weight: 300
+    b
+        font-weight:300
+        font-size:20px
+    th
+        font-weight:400
+
+#results
+    user-select:none
+    th
+        font-weight:400
+    overflow-y:auto
+    overflow-x:hidden
+    height:calc(100% - 55px)
+    padding:10px
+    h1
+        margin:5px
+        font-size:30px
+        font-weight:300
+    #results-info
+        margin-bottom:10px
+
+#courses
+    user-select:none
+    overflow-y:auto
+    overflow-x:hidden
+    height:calc(100% - 55px)
+    padding:10px
+    .card:first-child
+        margin-top:0
+        margin-bottom:10px
+    h3
+        margin:10px 0
+        font-weight: 300
+        font-size: 30px
+    p
+        margin:7px 0
+
+
+#about
+    overflow-y:auto
+    overflow-x:hidden
+    height:calc(100% - 55px)
+    padding:10px
+    h2
+        margin:10px 0
+        font-weight:300
+    h3, p
+        margin:7px 0
+        font-weight:300
+    h4
+        font-size:18px
+        margin:10px 0 7px 0
+        font-weight:300
+

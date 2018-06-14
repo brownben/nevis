@@ -1,0 +1,103 @@
+#menu
+    float:left
+    width:160px
+    height:calc(100% - 35px)
+    box-shadow(2)
+    -webkit-user-select: none;
+    user-select: none;
+    overflow-y: none
+    ::-webkit-scrollbar
+        display: none;
+    button
+        width:100%
+        outline:0
+        border:0
+        margin:0
+        padding: 7px 5px
+        color: color-500
+        background-color:white
+        font-family:Roboto
+        font-weight:300
+        font-size:17px
+        transition:.3s
+        -webkit-user-select: none;
+        user-select: none;
+        &:hover
+            color:white
+            background-color:color-500
+        &:first-child
+            margin-top:5px
+
+    #menu-back
+        background:white
+        position:absolute
+        width:160px
+        bottom:0px
+        button
+            margin-bottom:10px
+
+#menu-download
+    overflow-y:auto
+    height:calc(100% - 50px)
+    badding-bottom:10px
+
+    button
+        margin-top:10px
+    .dropdown-menu
+        font-family:Roboto
+        font-weight:300
+        h4
+            font-weight:300
+            margin:0
+            margin-top:10px
+            margin-bottom:5px
+            font-size:14px
+            color:color-500
+            text-align:center
+            &:first-child
+                margin-top:5px
+                margin-bottom:5px
+        button
+            margin-top:0px
+            height:34px
+            p
+                margin:0
+            &:hover
+                & svg
+                    fill:white
+            svg
+                height:20px
+                margin:-20px 5px 0px 0px
+                transition:.3s
+                fill:color-500
+                float:right
+
+        ul
+            padding:0
+            margin:0
+            width:100%
+            text-align:center
+            color:color-500
+            font-size:16px
+            list-style:none
+        li
+            transition:.3s
+            padding:7px 5px
+            &:hover
+                color:white
+                background-color:color-500
+        .hidden
+            li
+                height:0
+                padding:0
+                font-size:0
+
+        #menu-download-printer-button-content
+            font-size:14px
+            overflow: hidden
+            padding-right:20px
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        #menu-download-printer-dropdown
+            font-size:14px

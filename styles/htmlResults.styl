@@ -1,0 +1,105 @@
+
+@font-face
+  font-family: 'Roboto'
+  font-style: normal
+  font-weight: 300
+  src: local('Roboto Light'), local('Roboto-Light'), url(https://fonts.gstatic.com/s/Roboto/v18/KFOlCnqEu92Fr1MmSU5fBBc4.woff2) format('woff2')
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+
+@font-face
+  font-family: 'Roboto'
+  font-style: normal
+  font-weight: 400
+  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/Roboto/v18/KFOmCnqEu92Fr1Mu4mxK.woff2) format('woff2')
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
+
+color-700  = #1976D2
+color-500  = #2196F3
+color-400  = #42A5F5
+color-300  = #64B5F6
+color-200  = #90CAF9
+color-100  = #BBDEFB
+color-50   = #E3F2FD
+label-grey = #9E9E9E
+
+box-shadow(level)
+if level == 1
+    box-shadow:0 2px 2px 0 rgba(0,0,0,0.14),0 1px 5px 0 rgba(0,0,0,0.12),0 3px 1px -2px rgba(0,0,0,0.2)
+if level == 1.5
+    box-shadow:0 3px 3px 0 rgba(0,0,0,0.14),0 1px 7px 0 rgba(0,0,0,0.12),0 3px 1px -1px rgba(0,0,0,0.2)
+if level == 2
+    box-shadow:0 4px 5px 0 rgba(0,0,0,0.14),0 1px 10px 0 rgba(0,0,0,0.12),0 2px 4px -1px rgba(0,0,0,0.3)
+if level == 3
+    box-shadow:0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12),0 3px 5px -1px rgba(0,0,0,0.3)
+if level == 4
+    box-shadow:0 8px 10px 1px rgba(0,0,0,0.14),0 3px 14px 2px rgba(0,0,0,0.12),0 5px 5px -3px rgba(0,0,0,0.3)
+if level == 5
+    box-shadow:0 16px 24px 2px rgba(0,0,0,0.14),0 6px 30px 5px rgba(0,0,0,0.12),0 8px 10px -5px rgba(0,0,0,0.3)
+
+html, body
+    margin:0
+    padding:0
+    height:100%
+
+header
+    background-color:color-500
+    text-align:center
+    padding:4px
+    h1
+        font-family: Roboto
+        font-weight:300
+        color:white
+        margin:0
+main
+    width:90%
+    margin-left:5%
+    min-height:calc(100% - 94px)
+    h2
+        font-family:Roboto
+        font-weight:300
+        font-size:30px
+        margin: 7px 0
+    p
+        font-family:Roboto
+        font-weight:300
+        margin: 4px
+    table
+        border-collapse: collapse
+        width:100%
+        font-family:Roboto
+        font-weight:300
+        text-align:center
+        tr
+            transition:.5s
+            &:nth-child(even)
+                background-color: color-50
+            &:hover
+                background-color:color-100
+        td, th
+            padding:5px
+        th
+            font-family:Roboto
+            font-weight:400
+
+
+footer
+    margin-top:8px
+    text-align:center
+    background-color: color-700
+    padding:6px
+    font-family:Roboto
+    font-weight:300
+    p
+        color:white
+        margin:0
+
+@media(max-width:400px)
+    .club
+        display:none
+
+@media(max-width:380px)
+    main
+        min-height:calc(100% - 113px)
+@media(max-width:300px)
+    .class
+        display:none
