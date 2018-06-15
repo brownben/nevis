@@ -37,7 +37,7 @@ To create your own executable then run:
 npm run dist
 ````
 
-To download from Sportident Stations you will also need their driver
+To download from Sportident Stations you will also need their driver and drivers for any printers you wish to print from
 
 ## Help
 
