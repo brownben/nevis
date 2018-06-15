@@ -23,21 +23,6 @@ With Nevis you can:
 - Have all data Encrypted in Database
 - Splits Printing
 
-## The Future
-I would like to add at some point:
-- Live Display Scoreboard
-- Encryption with Custom Password
-- Splits with Results (IOF XML + HTML)
-- CSV Results
-- Edit Courses in the Program
-- SI Card 6 Download Support
-- Help Documentation
-- SI Card Archive Support
-- A database accessible by multiple users
-- Automatic Updates
-- Auto Course Assign if Unknown Download
-- Safety Check
-
 ## Install
 Get the Windows installer from the Releases page
 
