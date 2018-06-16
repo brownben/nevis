@@ -45,7 +45,7 @@
     "dependencies": {
         "ejs": "^2.6.1",
         "electron-updater": "^2.21.10",
-        "lokijs": "^1.5.4",
+        "lokijs": "^1.5.5",
         "node-thermal-printer": "git+https://github.com/bonalybob/node-thermal-printer.git",
         "printer": "^0.2.2",
         "serialport": "^6.2.0",
@@ -54,12 +54,12 @@
         "xml2js": "^0.4.19"
     },
     "devDependencies": {
-        "electron": "^2.0.0",
-        "electron-builder": "^20.13.3",
+        "electron": "^2.0.2",
+        "electron-builder": "^20.15.1",
         "eslint": "^4.19.1",
-        "eslint-plugin-import": "^2.11.0",
+        "eslint-plugin-import": "^2.12.0",
         "eslint-plugin-node": "^6.0.1",
-        "eslint-plugin-promise": "^3.7.0",
+        "eslint-plugin-promise": "^3.8.0",
         "eslint-plugin-standard": "^3.1.0",
         "stylus": "^0.54.5"
     }
