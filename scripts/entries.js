@@ -66,43 +66,27 @@ function updateEntry () {
         try {
             let entryToUpdate = competitorsDB.findOne({ $loki: parseInt(document.getElementById('entries-add-id').value) })
             const inputedCourse = document.getElementById('entries-add-course').value
-            if ((entryToUpdate.download && entryToUpdate.course === inputedCourse) || entryToUpdate.download === null) {
-                entryToUpdate.name = document.getElementById('entries-add-name').value
-                entryToUpdate.siid = document.getElementById('entries-add-siid').value
-                entryToUpdate.club = document.getElementById('entries-add-club').value
-                entryToUpdate.membershipNumber = document.getElementById('entries-add-membership-number').value
-                entryToUpdate.ageClass = document.getElementById('entries-add-age-class').value
-                entryToUpdate.nonCompetitive = document.getElementById('entries-add-non-competitive').checked
-                entryToUpdate.course = inputedCourse
-                competitorsDB.update(entryToUpdate)
-                db.saveDatabase()
-                blankEntry()
-                navigatePage('Entries')
-                document.getElementById('entries-add-id').value = ''
-            }
-            else {
+            if (entryToUpdate.download && entryToUpdate.course !== inputedCourse) {
                 if (inputedCourse === '') {
                     entryToUpdate.download.totalTime = entryToUpdate.download.finish - entryToUpdate.download.start
                 }
                 else {
                     const courseComplete = checkCourse(entryToUpdate.download.controls, coursesDB.findOne({ name: inputedCourse }).controls)
-                    if (courseComplete[1] !== '') {
-                        entryToUpdate.download.totalTime = courseComplete[1]
-                    }
+                    if (courseComplete.errors !== '') entryToUpdate.download.totalTime = courseComplete.errors
                 }
-                entryToUpdate.name = document.getElementById('entries-add-name').value
-                entryToUpdate.siid = document.getElementById('entries-add-siid').value
-                entryToUpdate.club = document.getElementById('entries-add-club').value
-                entryToUpdate.membershipNumber = document.getElementById('entries-add-membership-number').value
-                entryToUpdate.ageClass = document.getElementById('entries-add-age-class').value
-                entryToUpdate.nonCompetitive = document.getElementById('entries-add-non-competitive').checked
-                entryToUpdate.course = inputedCourse
-                competitorsDB.update(entryToUpdate)
-                db.saveDatabase()
-                blankEntry()
-                navigatePage('Entries')
-                document.getElementById('entries-add-id').value = ''
             }
+            entryToUpdate.name = document.getElementById('entries-add-name').value
+            entryToUpdate.siid = document.getElementById('entries-add-siid').value
+            entryToUpdate.club = document.getElementById('entries-add-club').value
+            entryToUpdate.membershipNumber = document.getElementById('entries-add-membership-number').value
+            entryToUpdate.ageClass = document.getElementById('entries-add-age-class').value
+            entryToUpdate.nonCompetitive = document.getElementById('entries-add-non-competitive').checked
+            entryToUpdate.course = inputedCourse
+            competitorsDB.update(entryToUpdate)
+            db.saveDatabase()
+            blankEntry()
+            navigatePage('Entries')
+            document.getElementById('entries-add-id').value = ''
         }
         catch (error) {
             entryInfo('error', ' Error: An entry already exists for this SI Card ')
@@ -212,7 +196,6 @@ function blankEntry () {
 }
 
 function entryLink (id) {
-    blankEntry()
     navigatePage('Entries/Update')
     let linkedEntry = competitorsDB.findOne({ $loki: parseInt(id) })
     document.getElementById('entries-add-id').value = id
