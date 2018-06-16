@@ -70,6 +70,34 @@ module.exports.navigatePage = function (page) {
         document.getElementById('menu-courses').setAttribute('style', 'display:block')
         document.getElementById('home').setAttribute('style', 'display:none')
         document.getElementById('courses').setAttribute('style', 'display:block')
+        document.getElementById('courses-overview').setAttribute('style', 'display:block')
+        document.getElementById('menu-courses-add').setAttribute('style', 'display:none')
+        document.getElementById('courses-add').setAttribute('style', 'display:none')
+        document.getElementById('menu-courses-update').setAttribute('style', 'display:none')
+    }
+    else if (page === 'Courses/Add') {
+        blankCourse()
+        document.getElementById('menu-main').setAttribute('style', 'display:none')
+        document.getElementById('menu-back').setAttribute('style', 'display:block')
+        document.getElementById('menu-courses').setAttribute('style', 'display:block')
+        document.getElementById('home').setAttribute('style', 'display:none')
+        document.getElementById('courses').setAttribute('style', 'display:block')
+        document.getElementById('courses-overview').setAttribute('style', 'display:none')
+        document.getElementById('menu-courses-add').setAttribute('style', 'display:block')
+        document.getElementById('courses-add').setAttribute('style', 'display:block')
+        document.getElementById('menu-courses-update').setAttribute('style', 'display:none')
+    }
+    else if (page === 'Courses/Update') {
+        blankCourse()
+        document.getElementById('menu-main').setAttribute('style', 'display:none')
+        document.getElementById('menu-back').setAttribute('style', 'display:block')
+        document.getElementById('menu-courses').setAttribute('style', 'display:block')
+        document.getElementById('home').setAttribute('style', 'display:none')
+        document.getElementById('courses').setAttribute('style', 'display:block')
+        document.getElementById('courses-overview').setAttribute('style', 'display:none')
+        document.getElementById('menu-courses-add').setAttribute('style', 'display:none')
+        document.getElementById('courses-add').setAttribute('style', 'display:block')
+        document.getElementById('menu-courses-update').setAttribute('style', 'display:block')
     }
     else if (page === 'Results') {
         document.getElementById('menu-main').setAttribute('style', 'display:none')
@@ -98,6 +126,17 @@ module.exports.navigatePage = function (page) {
             document.getElementById('entries-add').setAttribute('style', 'display:none')
             document.getElementById('entries-download-data').setAttribute('style', 'display:none')
         }
+        else if (currentLocation === 'Courses/Add' || currentLocation === 'Courses/Update') {
+            document.getElementById('menu-main').setAttribute('style', 'display:none')
+            document.getElementById('menu-back').setAttribute('style', 'display:block')
+            document.getElementById('menu-courses').setAttribute('style', 'display:block')
+            document.getElementById('home').setAttribute('style', 'display:none')
+            document.getElementById('courses').setAttribute('style', 'display:block')
+            document.getElementById('courses-overview').setAttribute('style', 'display:block')
+            document.getElementById('menu-courses-add').setAttribute('style', 'display:none')
+            document.getElementById('courses-add').setAttribute('style', 'display:none')
+            document.getElementById('menu-courses-update').setAttribute('style', 'display:none')
+        }
         else {
             document.getElementById('menu').setAttribute('style', 'display:block')
             document.getElementById('menu-main').setAttribute('style', 'display:block')
@@ -118,7 +157,12 @@ module.exports.navigatePage = function (page) {
             document.getElementById('entries-download-data').setAttribute('style', 'display:none')
             document.getElementById('results').setAttribute('style', 'display:none')
             document.getElementById('courses').setAttribute('style', 'display:none')
+            document.getElementById('courses-overview').setAttribute('style', 'display:none')
             document.getElementById('about').setAttribute('style', 'display:none')
+            document.getElementById('courses-overview').setAttribute('style', 'display:none')
+            document.getElementById('menu-courses-add').setAttribute('style', 'display:none')
+            document.getElementById('courses-add').setAttribute('style', 'display:none')
+            document.getElementById('menu-courses-update').setAttribute('style', 'display:none')
         }
     }
     currentLocation = page

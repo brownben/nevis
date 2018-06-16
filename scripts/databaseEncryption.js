@@ -10,7 +10,7 @@ function encrypt (input, key) {
     }
     try {
         return {
-            version: 'Nevis 3.0.0',
+            version: 'Nevis 3.1.0',
             type: 'Full Event',
             date: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
             value: encryptor.encrypt(input),

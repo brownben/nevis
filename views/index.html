@@ -96,9 +96,18 @@
             <button onClick="deleteEntry()">Delete Entry</button>
         </div>
         <div id="menu-courses" style="display:none">
+            <button onCLick="navigatePage('Courses/Add')">Add Course</button>
             <button onCLick="importXMLCourses()">Import IOF XML</button>
             <button onClick="importJSONCourses()">Import Nevis JSON</button>
             <button onClick="deleteAllCourses()">Delete All Courses</button>
+        </div>
+        <div id="menu-courses-add" style="display:none">
+            <button onClick="blankCourse()">Clear Details</button>
+            <button onClick="addCourse()">Create Course</button>
+        </div>
+        <div id="menu-courses-update" style="display:none">
+            <button onClick="updateCourse()">Update Course</button>
+            <button onClick="deleteCourse()">Delete Course</button>
         </div>
         <div id="menu-results" style="display:none">
             <button onClick="generateHTMLResults()">Export HTML</button>
@@ -257,12 +266,35 @@
         <div id="courses" style="display:none;">
             <div id="courses-info" class="card info" onClick="hideCoursesInfo()" style="display:none;">
             </div>
-            <div>
-                <div v-for="course in courses" class="card">
+            <div id="courses-overview">
+                <div v-for="course in courses" class="card" :key="course.name" :id="course.$loki" onClick="courseLink(this.id)">
                     <h3>{{ course.name }}</h3>
                     <p>Length: {{ course.length / 1000 }}km Climb: {{ course.climb }}m</p>
                     <p>Controls: {{ course.controls }}</p>
                 </div>
+            </div>
+            <div id="courses-add" style="display:none">
+                <div class="text-input">
+                    <input id="courses-add-name" required/>
+                    <label for="courses-add-name"> Course Name </label>
+                    <span class="bar"></span>
+                </div>
+                <div class="text-input">
+                    <input id="courses-add-climb" required/>
+                    <label for="courses-add-climb"> Climb (m) </label>
+                    <span class="bar"></span>
+                </div>
+                <div class="text-input">
+                    <input id="courses-add-length" required/>
+                    <label for="courses-add-length"> Length (km) </label>
+                    <span class="bar"></span>
+                </div>
+                <div class="text-input">
+                    <input id="courses-add-controls" required/>
+                    <label for="courses-add-controls"> Controls (Comma Separated Code Numbers) </label>
+                    <span class="bar"></span>
+                </div>
+                <input id="courses-add-id" style="display:none;height:0px!important" />
             </div>
         </div>
 
