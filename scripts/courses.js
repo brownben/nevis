@@ -61,19 +61,18 @@ function updateCourse () {
         try {
             courseToUpdate.name = document.getElementById('courses-add-name').value
             courseToUpdate.climb = document.getElementById('courses-add-climb').value
-            courseToUpdate.length = document.getElementById('courses-add-length').value
-            courseToUpdate.controls = document.getElementById('courses-add-controls').value
+            courseToUpdate.length = Math.round(parseFloat(document.getElementById('courses-add-length').value) * 1000)
+            courseToUpdate.controls = document.getElementById('courses-add-controls').value.split(',').map((item) => parseInt(item))
             coursesDB.update(courseToUpdate)
         }
         catch (error) {
             coursesInfo('error', ' Error: An course with this name already exists ')
         }
-        if (original !== courseToUpdate.controls && competitorsDB.find({ name: document.getElementById('courses-add-name').value }).length > 1) {
-            for (competitor of competitorsDB.find({ name: document.getElementById('courses-add-name').value })) {
+        if (originalControls !== courseToUpdate.controls && competitorsDB.find({ course: document.getElementById('courses-add-name').value }).length > 1) {
+            for (let competitor of competitorsDB.find({ course: document.getElementById('courses-add-name').value })) {
                 const courseComplete = checkCourse(competitor.download.controls, courseToUpdate.controls)
-                if (courseComplete.errors !== '') {
-                    competitor.download.totalTime = courseComplete[1]
-                }
+                if (courseComplete.errors !== '') competitor.download.totalTime = courseComplete.errors
+                else competitor.download.totalTime = competitor.download.finish - competitor.download.start
                 competitorsDB.update(competitor)
             }
         }
@@ -203,7 +202,7 @@ function courseLink (id) {
     document.getElementById('courses-add-id').value = id
     document.getElementById('courses-add-name').value = linkedCourse.name
     document.getElementById('courses-add-climb').value = linkedCourse.climb
-    document.getElementById('courses-add-length').value = linkedCourse.length
+    document.getElementById('courses-add-length').value = linkedCourse.length / 1000
     document.getElementById('courses-add-controls').value = linkedCourse.controls
 }
 
