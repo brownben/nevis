@@ -73,6 +73,7 @@ function updateEntry () {
                 else {
                     const courseComplete = checkCourse(entryToUpdate.download.controls, coursesDB.findOne({ name: inputedCourse }).controls)
                     if (courseComplete.errors !== '') entryToUpdate.download.totalTime = courseComplete.errors
+                    else entryToUpdate.download.totalTime = entryToUpdate.download.finish - entryToUpdate.download.start
                 }
             }
             entryToUpdate.name = document.getElementById('entries-add-name').value
