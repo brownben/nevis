@@ -8,7 +8,7 @@ let port
 let currentBuffer = Buffer.from([])
 
 // Course Checking Algorithmn. Checks course is completed in correct order
-const checkCourse = require('./scripts/courseCheck.js')
+const checkCourse = require('../scripts/courseCheck.js')
 
 // Dropdown Menus to Select Port + Baud Rate + Printer
 function downloadBaudMenuToggle () {

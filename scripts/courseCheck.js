@@ -8,16 +8,16 @@ var checkCourse = function (cardList, courseList) {
         let match = false
         cardListCounter += 1
         courseListCounter += 1
-        if (cardList[cardListCounter].code === courseList[courseListCounter]) {
-            controlLinks.push(cardList[cardCounter].time)
+        if (cardList[cardListCounter] && cardList[cardListCounter].code === courseList[courseListCounter]) {
+            controlLinks.push(cardList[cardListCounter].time)
             match = true
         }
         else {
             let tempCardListCounter = cardListCounter
             while (tempCardListCounter < cardList.length) {
                 tempCardListCounter += 1
-                if (cardList[tempCardListCounter].code === courseList[courseListCounter]) {
-                    controlLinks.push(cardList[cardCounter].time)
+                if (cardList[tempCardListCounter] && cardList[tempCardListCounter].code === courseList[courseListCounter]) {
+                    controlLinks.push(cardList[cardListCounter].time)
                     match = true
                     cardListCounter = tempCardListCounter
                 }
@@ -29,7 +29,7 @@ var checkCourse = function (cardList, courseList) {
             while (tempCardListCounter < cardList.length && tempCourseListCounter < courseList.length && !match) {
                 tempCardListCounter += 1
                 tempCourseListCounter += 1
-                if (cardList[tempCardListCounter].code === courseList[tempCourseListCounter]) {
+                if (cardList[tempCardListCounter] && cardList[tempCardListCounter].code === courseList[tempCourseListCounter]) {
                     for (let numberOfWrong = 0; numberOfWrong < tempCourseListCounter - courseListCounter; numberOfWrong += 1) {
                         errors += ' W' + (courseListCounter + numberOfWrong + 1)
                         correctVisited -= 1
@@ -45,7 +45,7 @@ var checkCourse = function (cardList, courseList) {
             let tempCourseListCounter = courseListCounter
             while (tempCourseListCounter < courseList.length) {
                 tempCourseListCounter += 1
-                if (cardList[cardListCounter].code === courseList[tempCourseListCounter]) {
+                if (cardList[cardListCounter] && cardList[cardListCounter].code === courseList[tempCourseListCounter]) {
                     if (tempCourseListCounter - courseListCounter > 1) {
                         errors += ' M' + (courseListCounter + 1) + '-' + tempCourseListCounter
                         correctVisited -= tempCourseListCounter - courseListCounter
@@ -67,8 +67,10 @@ var checkCourse = function (cardList, courseList) {
         }
     }
     if (courseListCounter < courseList.length) {
+        courseListCounter += 1
         correctVisited -= courseList.length - courseListCounter
-        errors += ' M' + courseListCounter + '-' + courseList.length
+        if (courseList.length - courseListCounter > 1) errors += ' M' + courseListCounter + '-' + courseList.length
+        else errors += ' M' + courseListCounter
     }
     let percentageCorrect = correctVisited / courseList.length
     return {
