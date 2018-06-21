@@ -97,8 +97,7 @@
         </div>
         <div id="menu-courses" style="display:none">
             <button onCLick="navigatePage('Courses/Add')">Add Course</button>
-            <button onCLick="importXMLCourses()">Import IOF XML</button>
-            <button onClick="importJSONCourses()">Import Nevis JSON</button>
+            <button onCLick="importCourses()">Import Courses</button>
             <button onClick="deleteAllCourses()">Delete All Courses</button>
         </div>
         <div id="menu-courses-add" style="display:none">
@@ -132,9 +131,9 @@
             <div>
                 <div id="home-overview" class="card">
                     <h2>{{ eventInfo.name }}:</h2>
-                    <p>{{ competitorsData.length }} Entries</p>
+                    <p>{{ competitors.data.length }} Entries</p>
                     <p>{{ downloads }} Downloads</p>
-                    <p>{{ courses.length }} Courses</p>
+                    <p>{{ courses.data.length }} Courses</p>
                 </div>
             </div>
         </div>
@@ -267,7 +266,7 @@
             <div id="courses-info" class="card info" onClick="hideCoursesInfo()" style="display:none;">
             </div>
             <div id="courses-overview">
-                <div v-for="course in courses" class="card" :key="course.name" :id="course.$loki" onClick="courseLink(this.id)">
+                <div v-for="course in courses.data" class="card" :key="course.name" :id="course.$loki" onClick="courseLink(this.id)">
                     <h3>{{ course.name }}</h3>
                     <p>Length: {{ course.length / 1000 }}km Climb: {{ course.climb }}m</p>
                     <p>Controls: {{ course.controls }}</p>

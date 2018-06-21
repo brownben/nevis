@@ -9,7 +9,6 @@ const entriesVue = new Vue({
         course: '',
         sortBy: 'name',
         data: '',
-        courses: '',
     },
     computed: {
         entries: function () {

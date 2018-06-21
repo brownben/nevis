@@ -4,7 +4,7 @@
 const coursesVue = new Vue({
     el: '#courses',
     data: {
-        courses: [],
+        courses: { data: [] },
     },
 })
 
@@ -35,11 +35,17 @@ function addCourse () {
     }
     else {
         try {
+            let lengthValue = Math.round(parseFloat(document.getElementById('courses-add-length').value) * 1000)
+            let climbValue = parseInt(document.getElementById('courses-add-climb').value)
+            let controls = document.getElementById('courses-add-controls').value.split(',').map((item) => parseInt(item))
+            if (isNaN(lengthValue)) lengthValue = 0
+            if (isNaN(climbValue)) climbValue = 0
+            if (controls.length === 1 && !controls[0]) controls = []
             coursesDB.insert({
                 name: document.getElementById('courses-add-name').value,
-                climb: document.getElementById('courses-add-climb').value,
-                length: Math.round(parseFloat(document.getElementById('courses-add-length').value) * 1000),
-                controls: document.getElementById('courses-add-controls').value.split(',').map((item) => parseInt(item)),
+                climb: climbValue,
+                length: lengthValue,
+                controls: controls,
             })
             db.saveDatabase()
             blankCourse()
@@ -97,57 +103,11 @@ function deleteCourse () {
 }
 
 // Import course from different file types
-const importXMLCourses = function () {
+const importCourses = function () {
     dialog.showOpenDialog({
         title: 'Nevis - Import Courses',
         filters: [
             { name: 'IOF XML 3.0', extensions: ['xml'] },
-            { name: 'All Files', extensions: ['*'] },
-        ],
-        properties: ['openFile'],
-    }, function (paths) {
-        if (paths) {
-            fs.exists(paths[0], function (exists) {
-                if (exists) {
-                    parseXML(fs.readFileSync(paths[0], 'utf8'), function (error, result) {
-                        try {
-                            for (let courseData of result.CourseData.RaceCourseData[0].Course) {
-                                let course = {
-                                    name: courseData.Name[0],
-                                    controls: [],
-                                    length: 0,
-                                    climb: 0,
-                                }
-                                if (courseData.Length[0]) course.length = courseData.Length[0]
-                                if (courseData.Climb[0]) course.climb = courseData.Climb[0]
-                                for (let control of courseData.CourseControl) {
-                                    if (control.Control[0] !== 'S' && control.Control[0] !== 'F') course.controls.push(parseInt(control.Control[0]))
-                                }
-                                try {
-                                    coursesDB.insert(course)
-                                }
-                                catch (error) {
-                                    coursesInfo('error', 'Error: A course already exists with the name - ' + course.name)
-                                }
-                            }
-                            db.saveDatabase()
-                            coursesInfo('info', result.CourseData.RaceCourseData[0].Course.length + ' Courses Imported from XML')
-                        }
-                        catch (error) {
-                            coursesInfo('blank')
-                            coursesInfo('error', 'Error: File format is invalid')
-                        }
-                    })
-                }
-            })
-        }
-    })
-}
-
-const importJSONCourses = function () {
-    dialog.showOpenDialog({
-        title: 'Nevis - Import Courses',
-        filters: [
             { name: 'Nevis JSON', extensions: ['JSON'] },
             { name: 'All Files', extensions: ['*'] },
         ],
@@ -155,30 +115,69 @@ const importJSONCourses = function () {
     }, function (paths) {
         if (paths) {
             fs.exists(paths[0], function (exists) {
-                if (exists) {
-                    let errorFound = false
-                    let courseData = ''
-                    try {
-                        courseData = fs.readFileSync(paths[0], 'utf8')
-                    }
-                    catch (error) {
-                        coursesInfo('error', 'Error: File format is invalid')
-                        errorFound = true
-                    }
-                    if (!errorFound) {
-                        try {
-                            coursesDB.insert(JSON.parse(courseData))
-                            db.saveDatabase()
-                            coursesInfo('info', 'Course Imported from JSON')
-                        }
-                        catch (error) {
-                            coursesInfo('error', 'Error: A course already exists with the same name')
-                        }
-                    }
+                if (exists && paths[0].split('.')[1].toLowerCase() === 'xml') {
+                    importXMLCourses(paths[0])
+                }
+                else if (exists && paths[0].split('.')[1].toLowerCase() === 'json') {
+                    importJSONCourses(paths[0])
                 }
             })
         }
     })
+}
+
+const importXMLCourses = function (path) {
+    parseXML(fs.readFileSync(path, 'utf8'), function (error, result) {
+        try {
+            for (let courseData of result.CourseData.RaceCourseData[0].Course) {
+                let course = {
+                    name: courseData.Name[0],
+                    controls: [],
+                    length: 0,
+                    climb: 0,
+                }
+                if (courseData.Length[0]) course.length = courseData.Length[0]
+                if (courseData.Climb[0]) course.climb = courseData.Climb[0]
+                for (let control of courseData.CourseControl) {
+                    if (control.Control[0] !== 'S' && control.Control[0] !== 'F') course.controls.push(parseInt(control.Control[0]))
+                }
+                try {
+                    coursesDB.insert(course)
+                }
+                catch (error) {
+                    coursesInfo('error', 'Error: A course already exists with the name - ' + course.name)
+                }
+            }
+            db.saveDatabase()
+            coursesInfo('info', result.CourseData.RaceCourseData[0].Course.length + ' Courses Imported from XML')
+        }
+        catch (error) {
+            coursesInfo('blank')
+            coursesInfo('error', 'Error: File format is invalid')
+        }
+    })
+}
+
+const importJSONCourses = function (path) {
+    let errorFound = false
+    let courseData = ''
+    try {
+        courseData = fs.readFileSync(path, 'utf8')
+    }
+    catch (error) {
+        coursesInfo('error', 'Error: File format is invalid')
+        errorFound = true
+    }
+    if (!errorFound) {
+        try {
+            coursesDB.insert(JSON.parse(courseData))
+            db.saveDatabase()
+            coursesInfo('info', 'Course Imported from JSON')
+        }
+        catch (error) {
+            coursesInfo('error', 'Error: A course already exists with the same name')
+        }
+    }
 }
 
 // Remove all courses
