@@ -19,14 +19,12 @@ function databaseInitialize () {
     eventInfo = db.getCollection('event-info')
 
     // Save data to Vue Instances
-    entriesVue.courses = coursesDB.data
     entriesVue.data = competitorsDB
-    coursesVue.courses = coursesDB.data
+    coursesVue.courses = coursesDB
     resultsVue.courses = coursesDB.data
     resultsVue.competitors = competitorsDB
     homeVue.competitors = competitorsDB
-    homeVue.competitorsData = competitorsDB.data
-    homeVue.courses = coursesDB.data
+    homeVue.courses = coursesDB
     homeVue.eventInfo = eventInfo.data[0]
 }
 
