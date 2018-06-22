@@ -31,6 +31,35 @@ ipc.on('window', function (event, arg) {
     }
 })
 
+// Zoom In + Out
+ipc.send('zoom-get')
+
+ipc.on('zoom', function (event, arg) {
+    webFrame.setZoomFactor(arg)
+})
+
+function zoomChange (amount) {
+    webFrame.setZoomFactor(webFrame.getZoomFactor() + amount)
+    ipc.send('zoom-change', webFrame.getZoomFactor())
+}
+
+// Set Default Folder Location
+function changeDefaultLocation () {
+    dialog.showOpenDialog({
+        title: 'Nevis - Set Default Location',
+        properties: ['openDirectory'],
+    }, function (paths) {
+        if (paths) {
+            document.getElementById('about-settings-default-location').innerText = 'Default Location:  ' + paths[0]
+            ipc.send('default-location-change', paths[0])
+            defaultPath = paths[0]
+        }
+    })
+}
+ipc.on('default-location', function (event, args) {
+    document.getElementById('about-settings-default-location').innerText = 'Default Location:  ' + args
+})
+
 // Disable Eval()
 // eslint-disable-next-line
 window.eval = global.eval = function () {

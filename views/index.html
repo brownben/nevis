@@ -298,11 +298,13 @@
         </div>
 
         <div id="about" style="display:none;">
-            <div class="card">
+            <div id="settings" class="card">
                 <h2>Settings</h2>
-                <button onClick="webFrame.setZoomLevel(webFrame.getZoomLevel() + 0.5)" class="fifty">Zoom In</button>
-                <button onClick="webFrame.setZoomLevel(webFrame.getZoomLevel() - 0.5)" class="fifty">Zoom Out</button>
+                <button onClick="zoomChange(0.1)" class="fifty">Zoom In</button>
+                <button onClick="zoomChange(-0.1)" class="fifty">Zoom Out</button>
                 <button onClick="ipc.send('toggle-dev-tools')">Open Developer Tools</button>
+                <p id="about-settings-default-location">Default Location: </p>
+                <button onClick="changeDefaultLocation()">Select Default Location</button>
             </div>
             <div class="card">
                 <h2>System</h2>

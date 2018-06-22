@@ -107,6 +107,7 @@ module.exports.navigatePage = function (page) {
         document.getElementById('results').setAttribute('style', 'display:block')
     }
     else if (page === 'About') {
+        ipc.send('default-location-get')
         document.getElementById('menu-main').setAttribute('style', 'display:none')
         document.getElementById('menu-back').setAttribute('style', 'display:block')
         document.getElementById('home').setAttribute('style', 'display:none')
