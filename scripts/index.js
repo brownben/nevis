@@ -2,7 +2,7 @@
 
 // Electron Process
 const { dialog, BrowserWindow, ipcMain, shell } = require('electron').remote
-const ipc = require('electron').ipcRenderer
+const { ipcRenderer: ipc, webFrame } = require('electron')
 
 // Node System Commands
 const fs = require('fs')
