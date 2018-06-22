@@ -87,3 +87,8 @@ ipcMain.on('window', function (event, arg) {
         win.minimize()
     }
 })
+
+// Toggle Dev Tools
+ipcMain.on('toggle-dev-tools', function (event, arg) {
+    win.webContents.toggleDevTools()
+})
