@@ -1,30 +1,35 @@
 const { app, BrowserWindow, Menu, ipcMain } = require('electron')
 const path = require('path')
 const url = require('url')
+const Config = require('electron-store')
+const config = new Config()
 
 let win
 
 function createWindow () {
-    win = new BrowserWindow(
-        {
-            width: 630,
-            height: 550,
-            minWidth: 365,
-            minHeight: 90,
-            frame: false,
-            icon: './assets/Nevis Logo.png',
-            show: false,
-        })
-
+    let options = {
+        width: 630,
+        height: 550,
+        minWidth: 365,
+        minHeight: 90,
+        frame: false,
+        icon: './assets/Nevis Logo.png',
+        show: false,
+    }
+    Object.assign(options, config.get('winBounds'))
+    win = new BrowserWindow(options)
     win.loadURL(url.format({
         pathname: path.join(__dirname, '/views/index.html'),
         protocol: 'file:',
         slashes: true,
     }))
-    win.on('ready-to-show', function () {
+    win.on('ready-to-show', () => {
         win.show()
         win.webContents.send('resize', win.getSize())
         win.focus()
+    })
+    win.on('close', () => {
+        config.set('winBounds', win.getBounds())
     })
     win.on('closed', () => {
         win = null
