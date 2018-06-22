@@ -1,8 +1,8 @@
 'use strict'
 
 // Electron Process
-const { dialog, BrowserWindow, ipcMain, shell } = require('electron').remote
 const { ipcRenderer: ipc, webFrame } = require('electron')
+const { dialog, BrowserWindow, ipcMain, shell, app } = require('electron').remote
 
 // Node System Commands
 const fs = require('fs')
@@ -37,6 +37,7 @@ let eventInfo
 
 const databaseEncryptionAdapter = require('../scripts/databaseEncryption')
 const database = require('../scripts/database')
+const defaultPath = path.join(app.getPath('documents'), '/nevis')
 
 // Set Up Menu and Naviagtion
 let currentLocation = ''

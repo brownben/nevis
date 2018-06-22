@@ -43,6 +43,7 @@ module.exports.selectDatabase = function () {
     dialog.showOpenDialog({
         title: 'Nevis - Open Event',
         icon: './assets/assets/nevis.ico',
+        defaultPath: defaultPath,
         filters: [
             { name: 'Nevis Event', extensions: ['evnt'] },
             { name: 'Event Database', extensions: ['db'] },
@@ -67,6 +68,7 @@ module.exports.createDatabase = function () {
             title: 'Nevis - Create Event',
             icon: './assets/assets/nevis.ico',
             buttonLabel: 'Create',
+            defaultPath: defaultPath,
             filters: [
                 { name: 'Nevis Event', extensions: ['evnt'] },
                 { name: 'Event Database', extensions: ['db'] },

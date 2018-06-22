@@ -252,6 +252,7 @@ main
     h3, p
         margin:7px 0
         font-weight:300
+        word-wrap: break-word
     h4
         font-size:18px
         margin:10px 0 7px 0
@@ -272,6 +273,15 @@ main
         &:hover
             background-color:color-500
             color:white
+    #settings
+        user-select:none
+        p
+            margin: 5px 0 0 0
+            font-weight: 300
+            height: 18px
+            white-space: nowrap
+            overflow: hidden
+            text-overflow: ellipsis
     .fifty
         width:calc(50% - 5px)
         margin-right:5px
