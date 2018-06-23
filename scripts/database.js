@@ -26,6 +26,18 @@ function databaseInitialize () {
     homeVue.competitors = competitorsDB
     homeVue.courses = coursesDB
     homeVue.eventInfo = eventInfo.data[0]
+
+    // Open SI Card Archive
+    archive = new Loki(path.join(defaultPath, './archive.json'), {
+        adapter: archiveEncryptionAdapter,
+        autoload: true,
+        autoloadCallback: archiveInitialize,
+    })
+}
+
+function archiveInitialize () {
+    cards = archive.getCollection('cards')
+    if (cards === null) cards = archive.addCollection('cards')
 }
 
 function databaseInitializeCreate (name, date) {
@@ -40,6 +52,7 @@ function databaseInitializeCreate (name, date) {
 
 // Create new Database and select existing ones
 module.exports.selectDatabase = function () {
+    ipc.send('default-location-get')
     dialog.showOpenDialog({
         title: 'Nevis - Open Event',
         icon: './assets/assets/nevis.ico',
@@ -51,7 +64,7 @@ module.exports.selectDatabase = function () {
         ],
     }, (file) => {
         if (file) {
-            databaseEncryptionAdapter.setKey('OrienteerInTheWoods')
+            databaseEncryptionAdapter.setKey(defaultEncryptionKey)
             db = new Loki(file[0], {
                 adapter: databaseEncryptionAdapter,
                 autoload: true,
@@ -63,6 +76,7 @@ module.exports.selectDatabase = function () {
 }
 
 module.exports.createDatabase = function () {
+    ipc.send('default-location-get')
     dialogs.createEventDialog().then((data) => {
         dialog.showSaveDialog({
             title: 'Nevis - Create Event',
@@ -76,7 +90,7 @@ module.exports.createDatabase = function () {
             ],
         }, (file) => {
             if (file) {
-                databaseEncryptionAdapter.setKey('OrienteerInTheWoods')
+                databaseEncryptionAdapter.setKey(defaultEncryptionKey)
                 db = new Loki(file, {
                     adapter: databaseEncryptionAdapter,
                 })

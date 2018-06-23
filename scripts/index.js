@@ -34,10 +34,15 @@ let db
 let competitorsDB
 let coursesDB
 let eventInfo
+let archive
+let cards
 
-const databaseEncryptionAdapter = require('../scripts/databaseEncryption')
+const crypto = require('crypto')
+const databaseEncryptionAdapter = require('../scripts/databaseEncryption').LokiCryptedFileAdapter
+const archiveEncryptionAdapter = require('../scripts/databaseEncryption').ArchiveEncryptionAdapter
 const database = require('../scripts/database')
-const defaultPath = path.join(app.getPath('documents'), '/nevis')
+let defaultPath = ''
+const defaultEncryptionKey = 'IOrienteerInTheWoods'
 
 // Set Up Menu and Naviagtion
 let currentLocation = ''

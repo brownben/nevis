@@ -58,6 +58,7 @@ function changeDefaultLocation () {
 }
 ipc.on('default-location', function (event, args) {
     document.getElementById('about-settings-default-location').innerText = 'Default Location:  ' + args
+    defaultPath = args
 })
 
 // Disable Eval()
