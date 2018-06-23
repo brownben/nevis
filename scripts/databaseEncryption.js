@@ -1,81 +1,91 @@
 'use strict'
-const encryptor = require('simple-encryptor')({
-    hmac: true,
-    key: 'OrienteerInTheWoods',
-})
 
-function encrypt (input, key) {
-    if (!key) {
-        throw new Error('A key is required to encrypt')
-    }
-    try {
-        return {
-            version: 'Nevis 3.1.0',
-            type: 'Full Event',
-            date: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
-            value: encryptor.encrypt(input),
-        }
-    }
-    catch (err) {
-        throw new Error('Unable to encrypt value due to: ' + err)
-    }
+function DatabaseEncryptionAdapter () { }
+
+function hmac (text, key) {
+    return crypto.createHmac('sha256', key).update(text).digest('hex')
 }
 
-function decrypt (input, key) {
-    // Ensure we have something to decrypt
-    if (!input) {
-        throw new Error('You must provide a value to decrypt')
-    }
-    // Ensure we have the key used to encrypt this value
-    if (!key) {
-        throw new Error('A key is required to decrypt')
-    }
-
-    // If we get a string as input, turn it into an object
-    if (typeof input !== 'object') {
-        try {
-            input = JSON.parse(input)
-        }
-        catch (err) {
-            throw new Error('Unable to parse string input as JSON')
-        }
-    }
-
-    try {
-        return encryptor.decrypt(input.value)
-    }
-    catch (err) {
-        throw new Error('Unable to decrypt value due to: ' + err)
-    }
+DatabaseEncryptionAdapter.prototype.setKey = function setKey (key) {
+    this.key = crypto.createHash('sha256').update(key).digest()
 }
 
-function LokiCryptedFileAdapter () { }
-
-LokiCryptedFileAdapter.prototype.setKey = function setKey (key) {
-    this.key = key
-}
-
-LokiCryptedFileAdapter.prototype.loadDatabase = function loadDatabase (dbname, callback) {
-    let decrypted
+DatabaseEncryptionAdapter.prototype.loadDatabase = function loadDatabase (dbname, callback) {
     const key = this.key
     fs.exists(dbname, function (exists) {
         if (exists) {
-            const decryptInput = fs.readFileSync(dbname, 'utf8')
-            decrypted = decrypt(decryptInput, key)
-        }
-        if (typeof (callback) === 'function') {
-            callback(decrypted)
+            let file = fs.readFileSync(dbname, 'utf8')
+            let data = JSON.parse(file).value
+            if (data) {
+                let expectedHmac = data.substring(0, 64)
+                data = data.substring(64)
+                let actualHmac = hmac(data, key)
+                if (actualHmac === expectedHmac) {
+                    let iv = Buffer.from(data.substring(0, 32), 'hex')
+                    let encryptedJson = data.substring(32)
+                    let decipher = crypto.createDecipheriv('aes256', key, iv)
+                    let json = decipher.update(encryptedJson, 'base64', 'utf8') + decipher.final('utf8')
+                    if (typeof (callback) === 'function') callback(json)
+                }
+            }
         }
     })
 }
 
-LokiCryptedFileAdapter.prototype.saveDatabase = function saveDatabase (dbname, dbstring, callback) {
-    const encrypted = encrypt(dbstring, this.key)
-    fs.writeFileSync(dbname, JSON.stringify(encrypted, null, '  '), 'utf8')
-    if (typeof (callback) === 'function') {
-        callback()
+DatabaseEncryptionAdapter.prototype.saveDatabase = function saveDatabase (dbname, dbstring, callback) {
+    const iv = crypto.randomBytes(16)
+    const cipher = crypto.createCipheriv('aes256', this.key, iv)
+    const encryptedJson = cipher.update(dbstring, 'utf8', 'base64') + cipher.final('base64')
+    let result = iv.toString('hex') + encryptedJson
+    result = hmac(result, this.key) + result
+    const toWrite = {
+        version: 'Nevis 3',
+        type: 'Full Event',
+        date: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+        value: result,
     }
+    fs.writeFileSync(dbname, JSON.stringify(toWrite, null, '  '), 'utf8')
+    if (typeof (callback) === 'function') callback()
 }
 
-module.exports = new LokiCryptedFileAdapter()
-exports.LokiCryptedFileAdapter = LokiCryptedFileAdapter()
+function ArchiveEncryptionAdapter () { }
+
+ArchiveEncryptionAdapter.prototype.key = crypto.createHash('sha256').update('IOrienteerInTheWoods').digest()
+
+ArchiveEncryptionAdapter.prototype.loadDatabase = function loadArchive (dbname, callback) {
+    const key = this.key
+    fs.exists(dbname, function (exists) {
+        if (exists) {
+            let file = JSON.parse(fs.readFileSync(dbname, 'utf8')).value
+            file = file.substring(64)
+            let iv = Buffer.from(file.substring(0, 32), 'hex')
+            let encryptedJson = file.substring(32)
+            let decipher = crypto.createDecipheriv('aes256', key, iv)
+            let json = decipher.update(encryptedJson, 'base64', 'utf8') + decipher.final('utf8')
+            if (typeof (callback) === 'function') callback(json)
+        }
+        else {
+            let json = {}
+            if (typeof (callback) === 'function') callback(json)
+        }
+    })
+}
+
+ArchiveEncryptionAdapter.prototype.saveDatabase = function saveArchive (dbname, dbstring, callback) {
+    const iv = crypto.randomBytes(16)
+    const cipher = crypto.createCipheriv('aes256', this.key, iv)
+    const encryptedJson = cipher.update(dbstring, 'utf8', 'base64') + cipher.final('base64')
+    let result = iv.toString('hex') + encryptedJson
+    result = hmac(result, this.key) + result
+    const toWrite = {
+        version: 'Nevis 3',
+        type: 'SI Card Archive',
+        date: new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+        value: result,
+    }
+    fs.writeFileSync(dbname, JSON.stringify(toWrite, null, '  '), 'utf8')
+    if (typeof (callback) === 'function') callback()
+}
+
+exports.LokiCryptedFileAdapter = new DatabaseEncryptionAdapter()
+exports.ArchiveEncryptionAdapter = new ArchiveEncryptionAdapter()

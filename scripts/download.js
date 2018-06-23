@@ -211,7 +211,16 @@ function processRecievedData (packet, port) {
                         download: processedData,
                         nonCompetitive: false,
                     }
-                    if (processedData.name) competitor.name = processedData.name
+                    if (cards.findOne({ siid: competitor.siid })) {
+                        const result = cards.findOne({ siid: competitor.siid })
+                        competitor.name = result.name
+                        competitor.membershipNumber = result.membershipNumber
+                        competitor.ageClass = calculateAgeClass(result.sex, result.yearOfBirth)
+                        competitor.club = result.club
+                    }
+                    else if (processedData.name) {
+                        competitor.name = processedData.name
+                    }
                     competitorsDB.insert(competitor)
                     document.getElementById('download-latest-download').innerHTML = `
                         <h2>${competitor.name}<h2>

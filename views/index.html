@@ -85,14 +85,17 @@
         <div id="menu-entries" style="display:none">
             <button onClick="navigatePage('Entries/Add')">Add Entry</button>
             <button onClick="importXMLEntries()">Import IOF XML</button>
+            <button onClick="importSICardArchiveFromFile()">Import Card Archive</button>
             <button onClick="deleteAllEntries()">Delete All Entries</button>
         </div>
         <div id="menu-entries-add" style="display:none">
-            <button onClick="blankEntry()">Clear Entry</button>
             <button onClick="addEntry()">Submit Entry</button>
+            <button onClick="searchArchive()">Search Archive</button>
+            <button onClick="blankEntry()">Clear Entry</button>
         </div>
         <div id="menu-entries-update" style="display:none">
             <button onClick="updateEntry()">Update Entry</button>
+            <button onClick="searchArchive()">Search Archive</button>
             <button onClick="deleteEntry()">Delete Entry</button>
         </div>
         <div id="menu-courses" style="display:none">
@@ -190,7 +193,10 @@
                     </div>
                 </transition>
             </div>
-
+            <div id="entries-archive-result-cycle" class="card" style="display:none;">
+                <p>Multiple Archive Entries Exist:</p>
+                <button onClick="nextArchiveEntry()">Go To The Next Entry In Archive</button>
+            </div>
             <div id="entries-add" class="card" style="display:none;">
                 <div class="text-input">
                     <input id="entries-add-name" required/>
@@ -300,11 +306,11 @@
         <div id="about" style="display:none;">
             <div id="settings" class="card">
                 <h2>Settings</h2>
-                <button onClick="zoomChange(0.1)" class="fifty">Zoom In</button>
-                <button onClick="zoomChange(-0.1)" class="fifty">Zoom Out</button>
-                <button onClick="ipc.send('toggle-dev-tools')">Open Developer Tools</button>
                 <p id="about-settings-default-location">Default Location: </p>
-                <button onClick="changeDefaultLocation()">Select Default Location</button>
+                <button onClick="changeDefaultLocation()">Change Default Location</button>
+                <button onClick="zoomChange(0.1)" class="fifty" id="about-zoom-in">Zoom In</button>
+                <button onClick="zoomChange(-0.1)" class="fifty" id="about-zoom-out">Zoom Out</button>
+                <button onClick="ipc.send('toggle-dev-tools')">Open Developer Tools</button>
             </div>
             <div class="card">
                 <h2>System</h2>
@@ -338,9 +344,6 @@
                 <h4>EJS</h4>
                 <p>Apache 2.0 License - https://github.com/mde/ejs/blob/master/LICENSE</p>
                 <p>Copyright (c) 2112 Matthew Eernisse</p>
-                <h4>Simple Encryptor</h4>
-                <p>MIT License - https://github.com/sehrope/node-simple-encryptor/blob/master/LICENSE</p>
-                <p>Copyright (c) 2018 Sehrope Sarkuni</p>
                 <h4>XML2JS</h4>
                 <p>MIT License - https://github.com/Leonidas-from-XIV/node-xml2js/blob/master/LICENSE</p>
             </div>

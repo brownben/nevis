@@ -114,6 +114,6 @@ ipcMain.on('default-location-change', function (event, arg) {
 
 ipcMain.on('default-location-get', function (event, arg) {
     let location = config.get('default-location')
-    if (location === null) location = app.getPath('documents') + '/nevis'
+    if (location === null) location = path.join(app.getPath('documents'), './nevis')
     event.sender.send('default-location', location)
 })

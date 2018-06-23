@@ -1,3 +1,5 @@
+'use strict'
+
 var checkCourse = function (cardList, courseList) {
     let cardListCounter = -1
     let courseListCounter = -1

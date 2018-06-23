@@ -183,8 +183,121 @@ function importXMLEntries () {
     })
 }
 
+// Import CSV SI Card ARchive into DB
+function importSICardArchiveFromFile () {
+    entryInfo('blank')
+    dialog.showOpenDialog({
+        title: 'Nevis - Import SI Card Archive ',
+        icon: './assets/assets/nevis.ico',
+        filters: [
+            { name: 'Comma Separated Values', extensions: ['csv'] },
+            { name: 'All Files', extensions: ['*'] },
+        ],
+    }, (file) => {
+        if (file) {
+            fs.exists(file[0], function (exists) {
+                let data = fs.readFileSync(file[0], 'utf8')
+                let rows = data.split('\n')
+                cards.clear()
+                for (let row of rows) {
+                    let personData = row.split(',')
+                    if (personData[0] !== '"CardNumber"' && personData[0] !== '') {
+                        if (personData[5].length > 4) personData[5] = personData[5].split('/')[2]
+                        cards.insert({
+                            siid: personData[0],
+                            name: personData[3].replace(/"/g, ''),
+                            sex: personData[4].replace(/"/g, ''),
+                            yearOfBirth: personData[5],
+                            club: personData[7].replace(/"/g, ''),
+                            membershipNumber: personData[6].replace(/"/g, ''),
+                        })
+                    }
+                }
+                archive.saveDatabase()
+                entryInfo('info', 'SI Card Archive Imported')
+            })
+        }
+    })
+}
+
+// Search Archive
+let lastIndex = 0
+let lastResults = []
+function searchArchive () {
+    document.getElementById('entries-archive-result-cycle').setAttribute('style', 'display:none')
+    let results = cards.find({
+        'name': { '$contains': document.getElementById('entries-add-name').value },
+        'siid': { '$contains': document.getElementById('entries-add-siid').value },
+    })
+    if (results.length > 1) {
+        entryInfo('blank')
+        document.getElementById('entries-archive-result-cycle').setAttribute('style', 'display:block')
+        lastResults = results
+        lastIndex = 0
+    }
+    const result = results[lastIndex]
+    if (result) {
+        if (document.getElementById('entries-add-name').value === '' || document.getElementById('entries-add-name').value !== result.name) document.getElementById('entries-add-name').value = result.name
+        if (document.getElementById('entries-add-siid').value === '' || document.getElementById('entries-add-siid').value !== result.siid) document.getElementById('entries-add-siid').value = result.siid
+        if (document.getElementById('entries-add-membership-number').value === '') document.getElementById('entries-add-membership-number').value = result.membershipNumber
+        if (document.getElementById('entries-add-age-class').value === '') document.getElementById('entries-add-age-class').value = calculateAgeClass(result.sex, result.yearOfBirth)
+        if (document.getElementById('entries-add-club').value === '') document.getElementById('entries-add-club').value = result.club
+    }
+}
+
+function nextArchiveEntry () {
+    if (lastIndex === lastResults.length - 1) lastIndex = -1
+    lastIndex += 1
+    const result = lastResults[lastIndex]
+    if (result) {
+        document.getElementById('entries-add-name').value = result.name
+        document.getElementById('entries-add-siid').value = result.siid
+        document.getElementById('entries-add-membership-number').value = result.membershipNumber
+        document.getElementById('entries-add-age-class').value = calculateAgeClass(result.sex, result.yearOfBirth)
+        document.getElementById('entries-add-club').value = result.club
+    }
+}
+
+// get Age Class from Year of Birth
+function calculateAgeClass (sex, yearOfBirth) {
+    if (yearOfBirth !== 0 && yearOfBirth !== '') {
+        let ageClass = ''
+        if (sex === 'm') ageClass += 'M'
+        else ageClass += 'W'
+        const date = new Date()
+        const year = 1900 + date.getYear()
+        const age = year - parseInt(yearOfBirth)
+        if (age <= 10) ageClass += '10'
+        else if (age <= 12) ageClass += '12'
+        else if (age <= 14) ageClass += '14'
+        else if (age <= 16) ageClass += '16'
+        else if (age <= 18) ageClass += '18'
+        else if (age <= 20) ageClass += '20'
+        else if (age >= 95) ageClass += '95'
+        else if (age >= 90) ageClass += '90'
+        else if (age >= 85) ageClass += '85'
+        else if (age >= 80) ageClass += '80'
+        else if (age >= 75) ageClass += '75'
+        else if (age >= 70) ageClass += '70'
+        else if (age >= 65) ageClass += '65'
+        else if (age >= 60) ageClass += '60'
+        else if (age >= 55) ageClass += '55'
+        else if (age >= 50) ageClass += '50'
+        else if (age >= 45) ageClass += '45'
+        else if (age >= 40) ageClass += '40'
+        else if (age >= 35) ageClass += '35'
+        else if (age >= 21) ageClass += '21'
+        return ageClass
+    }
+    else {
+        return ''
+    }
+}
+
 // Navigate between add entries and update and refresh the data
 function blankEntry () {
+    entryInfo('blank')
+    document.getElementById('entries-archive-result-cycle').setAttribute('style', 'display:none')
     document.getElementById('entries-add-name').value = ''
     document.getElementById('entries-add-siid').value = ''
     document.getElementById('entries-add-membership-number').value = ''

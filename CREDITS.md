@@ -29,9 +29,5 @@ Copyright (c) 2013-present, Yuxi (Evan) You
 Apache 2.0 License - https://github.com/mde/ejs/blob/master/LICENSE
 Copyright (c) 2112 Matthew Eernisse
 
-## Simple Encryptor
-MIT License - https://github.com/sehrope/node-simple-encryptor/blob/master/LICENSE
-Copyright (c) 2018 Sehrope Sarkuni
-
 ## XML2JS
 MIT License - https://github.com/Leonidas-from-XIV/node-xml2js/blob/master/LICENSE

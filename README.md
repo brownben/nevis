@@ -16,12 +16,15 @@ With Nevis you can:
 - Download SI Cards
   - Tested with SI Card 5, 8, 10, 11 + SIAC
   - SI Card P + 9 (Not Tested: But Logic Exists)
+  - SI Card 6 Support to Come Later
 - Use Automatic Course Checking
+- Add + Edit Courses
 - Import Courses from IOF XML or JSON
 - View Results
 - Export Results in PDF, HTML or IOF XML (Partially)
 - Have all data Encrypted in Database
 - Splits Printing
+- SI Card Archive Lookup
 
 ## Install
 Get the Windows installer from the Releases page
