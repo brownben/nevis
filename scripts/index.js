@@ -41,7 +41,6 @@ const crypto = require('crypto')
 const databaseEncryptionAdapter = require('../scripts/databaseEncryption').LokiCryptedFileAdapter
 const archiveEncryptionAdapter = require('../scripts/databaseEncryption').ArchiveEncryptionAdapter
 const database = require('../scripts/database')
-let defaultPath = ''
 const defaultEncryptionKey = 'IOrienteerInTheWoods'
 
 // Set Up Menu and Naviagtion

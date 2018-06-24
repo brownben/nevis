@@ -1,6 +1,7 @@
 {
     "name": "nevis",
-    "version": "3.3.0",
+    "productName": "Nevis",
+    "version": "3.3.1",
     "description": "Fast and Easy Results for Orienteering",
     "license": "MIT",
     "author": {

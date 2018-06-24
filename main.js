@@ -106,14 +106,3 @@ ipcMain.on('zoom-change', function (event, arg) {
 ipcMain.on('zoom-get', function (event, arg) {
     event.sender.send('zoom', config.get('zoom', arg))
 })
-
-// Default Location of Files
-ipcMain.on('default-location-change', function (event, arg) {
-    config.set('default-location', arg)
-})
-
-ipcMain.on('default-location-get', function (event, arg) {
-    let location = config.get('default-location')
-    if (location === null) location = path.join(app.getPath('documents'), './nevis')
-    event.sender.send('default-location', location)
-})

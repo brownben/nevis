@@ -28,7 +28,7 @@ function databaseInitialize () {
     homeVue.eventInfo = eventInfo.data[0]
 
     // Open SI Card Archive
-    archive = new Loki(path.join(defaultPath, './archive.json'), {
+    archive = new Loki(path.join(app.getPath('userData'), './archive.json'), {
         adapter: archiveEncryptionAdapter,
         autoload: true,
         autoloadCallback: archiveInitialize,
@@ -52,11 +52,9 @@ function databaseInitializeCreate (name, date) {
 
 // Create new Database and select existing ones
 module.exports.selectDatabase = function () {
-    ipc.send('default-location-get')
     dialog.showOpenDialog({
         title: 'Nevis - Open Event',
         icon: './assets/assets/nevis.ico',
-        defaultPath: defaultPath,
         filters: [
             { name: 'Nevis Event', extensions: ['evnt'] },
             { name: 'Event Database', extensions: ['db'] },
@@ -84,13 +82,12 @@ module.exports.selectDatabase = function () {
 }
 
 module.exports.createDatabase = function () {
-    ipc.send('default-location-get')
     dialogs.createEventDialog().then((data) => {
         dialog.showSaveDialog({
             title: 'Nevis - Create Event',
             icon: './assets/assets/nevis.ico',
             buttonLabel: 'Create',
-            defaultPath: defaultPath,
+
             filters: [
                 { name: 'Nevis Event', extensions: ['evnt'] },
                 { name: 'Event Database', extensions: ['db'] },
