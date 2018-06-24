@@ -201,11 +201,13 @@ function importSICardArchiveFromFile () {
                 cards.clear()
                 for (let row of rows) {
                     let personData = row.split(',')
-                    if (personData[0] !== '"CardNumber"' && personData[0] !== '') {
+                    if (personData[0] !== '"CardNumber"' && personData[7]) {
                         if (personData[5].length > 4) personData[5] = personData[5].split('/')[2]
+                        let name = personData[3].replace(/"/g, '')
+                        if (personData[2].replace(/"/g, '') !== 'Owned') name = personData[2].replace(/"/g, '') + ' - ' + name
                         cards.insert({
                             siid: personData[0],
-                            name: personData[3].replace(/"/g, ''),
+                            name: name,
                             sex: personData[4].replace(/"/g, ''),
                             yearOfBirth: personData[5],
                             club: personData[7].replace(/"/g, ''),

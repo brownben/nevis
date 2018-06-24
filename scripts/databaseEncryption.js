@@ -27,6 +27,9 @@ DatabaseEncryptionAdapter.prototype.loadDatabase = function loadDatabase (dbname
                     let json = decipher.update(encryptedJson, 'base64', 'utf8') + decipher.final('utf8')
                     if (typeof (callback) === 'function') callback(json)
                 }
+                else {
+                    if (typeof (callback) === 'function') callback(new Error('Wrong Password'))
+                }
             }
         }
     })

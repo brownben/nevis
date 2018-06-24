@@ -64,13 +64,21 @@ module.exports.selectDatabase = function () {
         ],
     }, (file) => {
         if (file) {
-            databaseEncryptionAdapter.setKey(defaultEncryptionKey)
-            db = new Loki(file[0], {
-                adapter: databaseEncryptionAdapter,
-                autoload: true,
-                autoloadCallback: databaseInitialize,
+            dialogs.passwordDialog().then((password) => {
+                databaseEncryptionAdapter.setKey(password)
+                db = new Loki(file[0], {
+                    adapter: databaseEncryptionAdapter,
+                })
+                db.loadDatabase({}, function (error) {
+                    if (!error) {
+                        databaseInitialize()
+                        navigatePage('Home')
+                    }
+                    else {
+                        document.getElementById('welcome-wrong-password').setAttribute('style', 'display:block')
+                    }
+                })
             })
-            navigatePage('Home')
         }
     })
 }
@@ -90,7 +98,7 @@ module.exports.createDatabase = function () {
             ],
         }, (file) => {
             if (file) {
-                databaseEncryptionAdapter.setKey(defaultEncryptionKey)
+                databaseEncryptionAdapter.setKey(data[2])
                 db = new Loki(file, {
                     adapter: databaseEncryptionAdapter,
                 })

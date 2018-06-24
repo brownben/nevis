@@ -10,13 +10,15 @@ module.exports.openConfirmDialog = function (title = 'Nevis', message = 'Are you
             alwaysOnTop: true,
             icon: './assets/Nevis Logo.png',
             show: false,
+            modal: true,
+            parent: getCurrentWindow(),
         })
-
         messageWindow.loadURL(url.format({
             pathname: path.join(__dirname, '../views/message.html'),
             protocol: 'file:',
             slashes: true,
         }))
+        messageWindow.focus()
         ipcMain.on('message-ready', function (event, data) {
             messageWindow.show()
             event.sender.send('message-dialog-initial-data', [message, confirmText, cancelText, title])
@@ -39,6 +41,7 @@ module.exports.createPDF = function (filePath, data) {
             protocol: 'file:',
             slashes: true,
         }))
+        pdfWindow.focus()
         pdfWindow.on('closed', () => { pdfWindow = null })
         ipcMain.on('pdf-window-ready', (event) => event.sender.send('pdf-contents', data))
         ipcMain.on('pdf-window-loaded', function (event, data) {
@@ -61,23 +64,58 @@ module.exports.createEventDialog = function () {
     return new Promise((resolve, reject) => {
         let messageWindow = new BrowserWindow({
             width: 450,
-            height: 175,
+            height: 215,
             resizable: false,
             frame: false,
             alwaysOnTop: true,
             icon: './assets/Nevis Logo.png',
             show: false,
+            modal: true,
+            parent: getCurrentWindow(),
         })
         messageWindow.loadURL(url.format({
             pathname: path.join(__dirname, '../views/new-event.html'),
             protocol: 'file:',
             slashes: true,
         }))
+        messageWindow.focus()
         messageWindow.on('ready-to-show', function () {
             messageWindow.show()
             messageWindow.focus()
         })
         ipcMain.on('select-new-event-location', function (event, data) {
+            resolve(data)
+        })
+        messageWindow.on('closed', () => {
+            messageWindow = null
+        })
+    })
+}
+
+module.exports.passwordDialog = function () {
+    return new Promise((resolve, reject) => {
+        let messageWindow = new BrowserWindow({
+            width: 400,
+            height: 130,
+            resizable: false,
+            frame: false,
+            alwaysOnTop: true,
+            icon: './assets/Nevis Logo.png',
+            show: false,
+            modal: true,
+            parent: getCurrentWindow(),
+        })
+        messageWindow.loadURL(url.format({
+            pathname: path.join(__dirname, '../views/password.html'),
+            protocol: 'file:',
+            slashes: true,
+        }))
+        messageWindow.focus()
+        messageWindow.on('ready-to-show', function () {
+            messageWindow.show()
+            messageWindow.focus()
+        })
+        ipcMain.on('open-event', function (event, data) {
             resolve(data)
         })
         messageWindow.on('closed', () => {
