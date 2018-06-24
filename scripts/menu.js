@@ -115,6 +115,7 @@ module.exports.navigatePage = function (page) {
     }
     else {
         if (currentLocation === 'Entries/Add' || currentLocation === 'Entries/Update') {
+            blankEntry()
             document.getElementById('menu-main').setAttribute('style', 'display:none')
             document.getElementById('menu-entries').setAttribute('style', 'display:block')
             document.getElementById('menu-entries-add').setAttribute('style', 'display:none')
