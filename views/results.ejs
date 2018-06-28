@@ -1,42 +1,58 @@
-<ResultList
-    xmlns="http://www.orienteering.org/datastandard/3.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    iofVersion="3.0"
-    createTime="<% var date = new Date(); %><%= date.toISOString() %>"
-    creator="Nevis">
-<Event>
-    <Name><%= eventName %></Name>
-    <StartTime><%= eventDate %></StartTime>
-</Event>
-<% for(var course of courses){ %>
-    <ClassResult>
-        <Class>
-            <Id><%= course.$loki %></Id>
-            <Name><%= course.name %></Name>
-        </Class>
-    <% competitors.forEach(function(competitor){ %>
-        <PersonResult>
-            <Person>
-                <Id><%= competitor.name %></Id>
+<ResultList xmlns="http://www.orienteering.org/datastandard/3.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" iofVersion="3.0"
+    createTime="<% var date = new Date(); %><%= date.toISOString() %>" creator="Nevis">
+    <Event>
+        <Name>
+            <%= eventName %>
+        </Name>
+        <StartTime>
+            <%= eventDate %>
+        </StartTime>
+    </Event>
+    <% for(var course of courses){ %>
+        <ClassResult>
+            <Class>
+                <Id>
+                    <%= course.$loki %>
+                </Id>
                 <Name>
-                    <Family><%= competitor.name.substr( competitor.name.indexOf(" ") + 1) %></Family>
-                    <Given><%= competitor.name.substr(0, competitor.name.indexOf(" ")) %></Given>
+                    <%= course.name %>
                 </Name>
-            </Person>
-            <% if (competitor.club){ %>
-                <Organisation>
-                    <Name><%= competitor.club %></Name>
-                </Organisation>
-            <% } %>
-            <Result>
-                <% if (!isNaN(competitor.download.totalTime)){ %>
-                    <Time><%= competitor.download.totalTime %></Time>
-                <%} else {%>
-                    <Status>MissingPunch</Status>
-                <% } %>
-            </Result>
-        </PersonResult>
-    <% }) %>
-    </ClassResult>
-<% } %>
+            </Class>
+            <% competitors.forEach(function(competitor){ %>
+                <PersonResult>
+                    <Person>
+                        <Id>
+                            <%= competitor.name %>
+                        </Id>
+                        <Name>
+                            <Family>
+                                <%= competitor.name.substr( competitor.name.indexOf(" ") + 1) %>
+                            </Family>
+                            <Given>
+                                <%= competitor.name.substr(0, competitor.name.indexOf(" ")) %>
+                            </Given>
+                        </Name>
+                    </Person>
+                    <% if (competitor.club){ %>
+                        <Organisation>
+                            <Name>
+                                <%= competitor.club %>
+                            </Name>
+                        </Organisation>
+                        <% } %>
+                            <% if (competitor.download){ %>
+                                <Result>
+                                    <% if (!isNaN(competitor.download.totalTime)){ %>
+                                        <Time>
+                                            <%= competitor.download.totalTime %>
+                                        </Time>
+                                        <%} else {%>
+                                            <Status>MissingPunch</Status>
+                                            <% } %>
+                                </Result>
+                                <% } %>
+                </PersonResult>
+                <% }) %>
+        </ClassResult>
+        <% } %>
 </ResultList>
