@@ -81,7 +81,7 @@ function combineHTMLResults (eventName, mainHTML) {
         <title> ${eventInfo.findOne().name} - Results</title>
         <meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1,minimum-scale=1'>
         <style>
-        @font-face{font-family:'Roboto';font-style:normal;font-weight:300;src:local('Roboto Light'),local('Roboto-Light'),url("https://fonts.gstatic.com/s/Roboto/v18/KFOlCnqEu92Fr1MmSU5fBBc4.woff2") format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Roboto';font-style:normal;font-weight:400;src:local('Roboto'),local('Roboto-Regular'),url("https://fonts.gstatic.com/s/Roboto/v18/KFOmCnqEu92Fr1Mu4mxK.woff2") format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}html,body{margin:0;padding:0;height:100%}header{background-color:#2196f3;text-align:center;padding:4px;}header h1{font-family:Roboto;font-weight:300;color:#fff;margin:0}main{width:90%;margin-left:5%;min-height:calc(100% - 94px);}main h2{font-family:Roboto;font-weight:300;font-size:30px;margin:7px 0}main p{font-family:Roboto;font-weight:300;margin:4px}main table{border-collapse:collapse;width:100%;font-family:Roboto;font-weight:300;text-align:center;}main table tr{transition:.5s;}main table tr:nth-child(even){background-color:#e3f2fd}main table tr:hover{background-color:#bbdefb}main table td,main table th{padding:5px}main table th{font-family:Roboto;font-weight:400}footer{margin-top:8px;text-align:center;background-color:#1976d2;padding:6px;font-family:Roboto;font-weight:300;}footer p{color:#fff;margin:0}@media (max-width:400px){.club{display:none}}@media (max-width:380px){main{min-height:calc(100% - 113px)}}@media (max-width:300px){.class{display:none}}
+        @font-face{font-family:'Roboto';font-style:normal;font-weight:300;src:local('Roboto Light'),local('Roboto-Light'),url("https://fonts.gstatic.com/s/Roboto/v18/KFOlCnqEu92Fr1MmSU5fBBc4.woff2") format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Roboto';font-style:normal;font-weight:400;src:local('Roboto'),local('Roboto-Regular'),url("https://fonts.gstatic.com/s/Roboto/v18/KFOmCnqEu92Fr1Mu4mxK.woff2") format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}*{box-sizing:border-box}html,body{height:100%;width:100%;margin:0;padding:0}header{color:#fff;background-color:#2196f3;}header h1{text-align:center;font-family:Roboto,'Segoe UI',Oxygen,Ubuntu,'Open Sans',sans-serif;font-weight:300;font-size:2rem;margin:0;padding:.2rem}main{min-height:calc(100% - 4.55rem);padding:1rem 5% 1rem 5%;}main h2{font-family:Roboto,'Segoe UI',Oxygen,Ubuntu,'Open Sans',sans-serif;font-weight:300;font-size:2rem;margin:0;padding:0}main p{font-family:Roboto,'Segoe UI',Oxygen,Ubuntu,'Open Sans',sans-serif;font-weight:300;font-size:1rem;margin:0;padding:.5rem 0}main table{width:100%;border-collapse:collapse;}main table tr{transition:.5s;}main table tr:nth-child(even){background-color:#e3f2fd}main table tr:hover{background-color:#bbdefb}main table td,main table th{text-align:center;font-family:Roboto,'Segoe UI',Oxygen,Ubuntu,'Open Sans',sans-serif;font-weight:300;font-size:1rem;padding:.4rem}main table th{font-weight:400}footer{color:#fff;background-color:#1976d2;}footer p{text-align:center;font-family:Roboto,'Segoe UI',Oxygen,Ubuntu,'Open Sans',sans-serif;font-weight:300;font-size:1rem;margin:0;padding:.3rem}@media (max-width:600px){.club{font-size:0;height:0;width:0;padding:0;margin:0;border:0}}@media (max-width:400px){.class{font-size:0;height:0;width:0;padding:0;margin:0;border:0}}
         </style>
     </head>
     <body>
@@ -128,21 +128,15 @@ function getCompetitorsFinishedOnCourseFromDB (competitors, course) {
     return competitorsDB.chain()
         .find({
             '$and': [
-                {
-                    'course': course.name,
-                },
-                {
-                    'download': { '$ne': null },
-                }],
+                { 'course': course.name },
+                { 'download': { '$ne': null } },
+            ],
         })
         .sort(function compare (a, b) {
-            if (isNaN(b.download.totalTime) || a.download.totalTime < b.download.totalTime) {
-                return -1
-            }
-            else if (isNaN(a.download.totalTime)) {
-                return 1
-            }
-            return 0
+            if (typeof (b.download.totalTime) === 'number' && a.download.totalTime < b.download.totalTime) return -1
+            else if (isNaN(a.download.totalTime) && isNaN(b.download.totalTime)) return a.download.totalTime.length > b.download.totalTime.length
+            else if (isNaN(a.download.totalTime)) return 1
+            else return 0
         })
         .data()
 }
@@ -162,11 +156,11 @@ function generateResultTable (competitors, currentHTML) {
             competitor.position = positionCounter
             positionCounter = positionCounter + 1
         }
-        currentHTML = currentHTML + `
+        currentHTML += `
             <tr>
                 <td>${competitor.position}</td>
                 <td>${competitor.name}</td>
-                <td class='class'>${competitor.class}</td>
+                <td class='class'>${competitor.ageClass}</td>
                 <td class='club'>${competitor.club}</td>
                 <td>${readableTimeElapsed(competitor.download.totalTime)}</td>
             </tr>
@@ -189,10 +183,12 @@ function generateHTMLResults () {
         if (file) {
             let htmlResults = ''
             for (let course of coursesDB.data) {
-                if (htmlResults !== '') htmlResults = '</table></div>'
-                htmlResults = htmlResults + `<div id='course'><h2 class="course-name" id="${course.name}">${course.name}</h2> <p class="course-details">Length: ${course.length / 1000}km     Climb: ${course.climb}m</p><table><tr><th>Pos.</th><th>Name</th><th class='class'>Class</th><th class='club'>Club</th><th>Time</th></tr>`
                 let competitorsOnCourse = getCompetitorsFinishedOnCourseFromDB(competitorsDB, course)
-                htmlResults = generateResultTable(competitorsOnCourse, htmlResults)
+                if (competitorsOnCourse.length > 0) {
+                    if (htmlResults !== '') htmlResults += '</table></div>'
+                    htmlResults += `<div id='course'><h2 class="course-name" id="${course.name}">${course.name}</h2> <p class="course-details">Length: ${course.length / 1000}km     Climb: ${course.climb}m</p><table><tr><th>Pos.</th><th>Name</th><th class='class'>Class</th><th class='club'>Club</th><th>Time</th></tr>`
+                    htmlResults = generateResultTable(competitorsOnCourse, htmlResults)
+                }
             }
             fs.writeFileSync(file, combineHTMLResults(eventInfo.findOne().name, htmlResults), 'utf8')
             resultsInfo('info', 'HTML Results Created')
@@ -234,7 +230,7 @@ function generateXMLResults () {
 }
 
 function generatePDFResults () {
-    dialogs.openConfirmDialog('Nevis - PDF Results', 'How do you want the PDF styled?', 'Single Page', 'Separate Pages').then((state) => {
+    dialogs.openConfirmDialog('Nevis - PDF Results', 'How do you want the PDF styled?', 'Single Page', 'Separate Pages').then((singlePage) => {
         dialog.showSaveDialog({
             title: 'Nevis - Save PDF Results',
             icon: './assets/assets/nevis.ico',
@@ -248,31 +244,44 @@ function generatePDFResults () {
             if (file) {
                 let htmlResults = ''
                 for (let course of coursesDB.data) {
-                    if (state) {
-                        if (htmlResults !== '') htmlResults = `</table></div></main><footer><p> Created: ${new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')} - Results from Nevis</p></footer>`
-                        htmlResults = htmlResults + `
-                                <div id='course'>
-                                    <h2 class="course-name" id="${course.name}">${course.name}</h2>
-                                    <p class="course-details">Length: ${course.length / 1000}km     Climb: ${course.climb}m</p>
-                                    <table><tr><th>Pos.</th><th>Name</th><th class='class'>Class</th><th class='club'>Club</th><th>Time</th></tr>`
-                    }
-                    else {
-                        if (htmlResults !== '') htmlResults = '</table></div>'
-                        htmlResults = htmlResults + `
-                                <header>
-                                    <h1>${eventName} - Results </h1>
-                                </header>
-                                <main>
+                    if (getCompetitorsFinishedOnCourseFromDB(competitorsDB, course).length > 0) {
+                        if (singlePage) {
+                            if (htmlResults !== '') htmlResults += `</table></div>`
+                            htmlResults += `
                                     <div id='course'>
                                         <h2 class="course-name" id="${course.name}">${course.name}</h2>
                                         <p class="course-details">Length: ${course.length / 1000}km     Climb: ${course.climb}m</p>
                                         <table><tr><th>Pos.</th><th>Name</th><th class='class'>Class</th><th class='club'>Club</th><th>Time</th></tr>`
+                        }
+                        else {
+                            if (htmlResults !== '') {
+                                htmlResults += `
+                                    </table></div></main>
+                                    <footer>
+                                        <p> Created: ${new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')} - Results from Nevis</p>
+                                    </footer>`
+                            }
+                            htmlResults = htmlResults + `
+                                <style>
+                                    div:not(:last-child) {
+                                        page-break-after: always;
+                                    }
+                                </style>
+                                    <header>
+                                        <h1>${eventName} - Results </h1>
+                                    </header>
+                                    <main>
+                                        <div id='course'>
+                                            <h2 class="course-name" id="${course.name}">${course.name}</h2>
+                                            <p class="course-details">Length: ${course.length / 1000}km     Climb: ${course.climb}m</p>
+                                            <table><tr><th>Pos.</th><th>Name</th><th class='class'>Class</th><th class='club'>Club</th><th>Time</th></tr>`
+                        }
+                        let competitorsOnCourse = getCompetitorsFinishedOnCourseFromDB(competitorsDB, course)
+                        htmlResults = generateResultTable(competitorsOnCourse, htmlResults)
                     }
-                    let competitorsOnCourse = getCompetitorsFinishedOnCourseFromDB(competitorsDB, course)
-                    htmlResults = generateResultTable(competitorsOnCourse, htmlResults)
-                    if (state) htmlResults = mainBodyHTMLResults(eventName, htmlResults)
-                    else htmlResults = multipleMainBodyHTMLResults(eventName, htmlResults)
                 }
+                if (singlePage) htmlResults = mainBodyHTMLResults(eventName, htmlResults)
+                else htmlResults = multipleMainBodyHTMLResults(eventName, htmlResults)
                 dialogs.createPDF(file, htmlResults)
                     .then(() => {
                         resultsInfo('info', 'PDF Results Created')

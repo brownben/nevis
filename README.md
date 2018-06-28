@@ -17,14 +17,14 @@ With Nevis you can:
   - Tested with SI Card 5, 8, 10, 11 + SIAC
   - SI Card P + 9 (Not Tested: But Logic Exists)
   - SI Card 6 Support to Come Later
-- Use Automatic Course Checking
+- Use Automatic Course Checking and matching if course is unknown
 - Add + Edit Courses
 - Import Courses from IOF XML or JSON
 - View Results
 - Export Results in PDF, HTML or IOF XML (Partially)
 - Have all data Encrypted in Database
-- Splits Printing
-- SI Card Archive Lookup
+- Have Splits Printing
+- Use SI Card Archive to Lookup Details
 
 ## Install
 Get the Windows installer from the Releases page
