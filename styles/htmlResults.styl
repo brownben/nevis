@@ -22,84 +22,93 @@ color-100  = #BBDEFB
 color-50   = #E3F2FD
 label-grey = #9E9E9E
 
-box-shadow(level)
-if level == 1
-    box-shadow:0 2px 2px 0 rgba(0,0,0,0.14),0 1px 5px 0 rgba(0,0,0,0.12),0 3px 1px -2px rgba(0,0,0,0.2)
-if level == 1.5
-    box-shadow:0 3px 3px 0 rgba(0,0,0,0.14),0 1px 7px 0 rgba(0,0,0,0.12),0 3px 1px -1px rgba(0,0,0,0.2)
-if level == 2
-    box-shadow:0 4px 5px 0 rgba(0,0,0,0.14),0 1px 10px 0 rgba(0,0,0,0.12),0 2px 4px -1px rgba(0,0,0,0.3)
-if level == 3
-    box-shadow:0 6px 10px 0 rgba(0,0,0,0.14),0 1px 18px 0 rgba(0,0,0,0.12),0 3px 5px -1px rgba(0,0,0,0.3)
-if level == 4
-    box-shadow:0 8px 10px 1px rgba(0,0,0,0.14),0 3px 14px 2px rgba(0,0,0,0.12),0 5px 5px -3px rgba(0,0,0,0.3)
-if level == 5
-    box-shadow:0 16px 24px 2px rgba(0,0,0,0.14),0 6px 30px 5px rgba(0,0,0,0.12),0 8px 10px -5px rgba(0,0,0,0.3)
+*
+    box-sizing:border-box
 
 html, body
+    height:100%
+    width:100%
     margin:0
     padding:0
-    height:100%
 
 header
+    color:white
     background-color:color-500
-    text-align:center
-    padding:4px
+
     h1
-        font-family: Roboto
-        font-weight:300
-        color:white
-        margin:0
-main
-    width:90%
-    margin-left:5%
-    min-height:calc(100% - 94px)
-    h2
-        font-family:Roboto
-        font-weight:300
-        font-size:30px
-        margin: 7px 0
-    p
-        font-family:Roboto
-        font-weight:300
-        margin: 4px
-    table
-        border-collapse: collapse
-        width:100%
-        font-family:Roboto
-        font-weight:300
         text-align:center
+        font-family:Roboto, 'Segoe UI', Oxygen, Ubuntu, 'Open Sans', sans-serif
+        font-weight:300
+        font-size:2rem
+        margin:0
+        padding:0.2rem
+
+main
+    min-height:calc(100% - 4.55rem)
+    padding:1rem 5% 1rem 5%
+
+    h2
+        font-family:Roboto, 'Segoe UI', Oxygen, Ubuntu, 'Open Sans', sans-serif
+        font-weight:300
+        font-size:2rem
+        margin:0
+        padding:0
+
+    p
+        font-family:Roboto, 'Segoe UI', Oxygen, Ubuntu, 'Open Sans', sans-serif
+        font-weight:300
+        font-size:1rem
+        margin:0
+        padding: 0.5rem 0
+
+    table
+        width:100%
+        border-collapse:collapse
         tr
             transition:.5s
+
             &:nth-child(even)
-                background-color: color-50
+                background-color:color-50
+
             &:hover
                 background-color:color-100
-        td, th
-            padding:5px
+
+        td
+            text-align:center
+            font-family:Roboto, 'Segoe UI', Oxygen, Ubuntu, 'Open Sans', sans-serif
+            font-weight:300
+            font-size:1rem
+            padding:0.4rem
+
         th
-            font-family:Roboto
+            @extend main table td
             font-weight:400
 
-
 footer
-    margin-top:8px
-    text-align:center
+    color:white
     background-color: color-700
-    padding:6px
-    font-family:Roboto
-    font-weight:300
     p
-        color:white
+        text-align:center
+        font-family:Roboto, 'Segoe UI', Oxygen, Ubuntu, 'Open Sans', sans-serif
+        font-weight:300
+        font-size:1rem
         margin:0
+        padding:0.3rem
 
-@media(max-width:400px)
+@media (max-width:600px)
     .club
-        display:none
+        font-size:0
+        height:0
+        width:0
+        padding:0
+        margin:0
+        border:0
 
-@media(max-width:380px)
-    main
-        min-height:calc(100% - 113px)
-@media(max-width:300px)
+@media (max-width:400px)
     .class
-        display:none
+        font-size:0
+        height:0
+        width:0
+        padding:0
+        margin:0
+        border:0

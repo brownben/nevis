@@ -5,7 +5,7 @@
     <title>Nevis</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="../styles/message.css" />
-    <meta http-equiv="Content-Security-Policy" content="default-src self; script-src 'unsafe-inline'  'self' ;img-src 'self'; font-src 'self';style-src 'unsafe-inline'">
+    <meta http-equiv="Content-Security-Policy" content="default-src self; script-src 'unsafe-inline'  'self' ;img-src 'self'; font-src 'self';style-src 'self' 'unsafe-inline'">
 </head>
 
 <body>
@@ -20,8 +20,10 @@
     </div>
     <main>
         <p id="message">Are you sure?</p>
-        <button id="confirm" onClick="returnValue(true)">Yes</button>
-        <button id="cancel" onClick="returnValue(false)">Cancel</button>
+        <div class="buttons">
+            <button id="confirm" onClick="returnValue(true)">Yes</button>
+            <button id="cancel" onClick="returnValue(false)">Cancel</button>
+        </div>
     </main>
 </body>
 <script>

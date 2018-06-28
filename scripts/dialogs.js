@@ -3,8 +3,8 @@
 module.exports.openConfirmDialog = function (title = 'Nevis', message = 'Are you sure?', confirmText = 'Confirm', cancelText = 'Cancel') {
     return new Promise((resolve, reject) => {
         let messageWindow = new BrowserWindow({
-            width: 375,
-            height: 115,
+            width: 400,
+            height: 120,
             resizable: false,
             frame: false,
             alwaysOnTop: true,
@@ -28,6 +28,7 @@ module.exports.openConfirmDialog = function (title = 'Nevis', message = 'Are you
             resolve(data)
         })
         messageWindow.on('closed', () => {
+            messageWindow.destroy()
             messageWindow = null
         })
     })
@@ -54,6 +55,7 @@ module.exports.createPDF = function (filePath, data) {
                     if (error) reject(error)
                     resolve(filePath)
                     pdfWindow.close()
+                    pdfWindow.destroy()
                 })
             })
         })
@@ -87,6 +89,7 @@ module.exports.createEventDialog = function () {
             resolve(data)
         })
         messageWindow.on('closed', () => {
+            messageWindow.destroy()
             messageWindow = null
         })
     })
@@ -119,6 +122,7 @@ module.exports.passwordDialog = function () {
             resolve(data)
         })
         messageWindow.on('closed', () => {
+            messageWindow.destroy()
             messageWindow = null
         })
     })
