@@ -135,7 +135,7 @@ function importXMLEntries () {
                         parseXML(fs.readFileSync(paths[0], 'utf8'), function (error, result) {
                             let errorMessage = ''
                             let errorCounter = 0
-                            let blankSiidCounter = 1
+                            let blankSiidCounter = competitorsDB.data.length
                             let xmlCourses = []
                             for (let entry of result.EntryList.PersonEntry) {
                                 const competitor = {
@@ -151,7 +151,7 @@ function importXMLEntries () {
                                     competitor.siid = entry.ControlCard[0]
                                 }
                                 else {
-                                    competitor.siid = 'Unknown' + blankSiidCounter.toString()
+                                    competitor.siid = 'Unknown-' + blankSiidCounter.toString()
                                     blankSiidCounter = blankSiidCounter + 1
                                     entryInfo('warning', 'Warning: No SI Card specified for ' + competitor.name + ', a Placeholder Value has been Stored')
                                 }

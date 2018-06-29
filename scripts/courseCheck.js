@@ -1,6 +1,6 @@
 'use strict'
 
-var checkCourse = function (cardList, courseList) {
+let checkCourse = function (cardList, courseList) {
     let cardListCounter = -1
     let courseListCounter = -1
     let errors = ''
@@ -11,7 +11,10 @@ var checkCourse = function (cardList, courseList) {
         cardListCounter += 1
         courseListCounter += 1
         if (cardList[cardListCounter] && cardList[cardListCounter].code === courseList[courseListCounter]) {
-            controlLinks.push(cardList[cardListCounter].time)
+            controlLinks.push({
+                counter: courseListCounter,
+                time: cardList[cardListCounter].time,
+            })
             match = true
         }
         else {
@@ -19,9 +22,12 @@ var checkCourse = function (cardList, courseList) {
             while (tempCardListCounter < cardList.length) {
                 tempCardListCounter += 1
                 if (cardList[tempCardListCounter] && cardList[tempCardListCounter].code === courseList[courseListCounter]) {
-                    controlLinks.push(cardList[cardListCounter].time)
-                    match = true
                     cardListCounter = tempCardListCounter
+                    controlLinks.push({
+                        counter: courseListCounter,
+                        time: cardList[cardListCounter].time,
+                    })
+                    match = true
                 }
             }
         }
@@ -32,14 +38,9 @@ var checkCourse = function (cardList, courseList) {
                 tempCardListCounter += 1
                 tempCourseListCounter += 1
                 if (cardList[tempCardListCounter] && cardList[tempCardListCounter].code === courseList[tempCourseListCounter]) {
-                    for (let numberOfWrong = 0; numberOfWrong < tempCourseListCounter - courseListCounter; numberOfWrong += 1) {
-                        errors += ' W' + (courseListCounter + numberOfWrong + 1)
-                        correctVisited -= 1
-                    }
+                    errors += ' W' + (courseListCounter + 1)
+                    correctVisited -= 1
                     match = true
-                    controlLinks.push('----')
-                    cardListCounter = tempCardListCounter
-                    courseListCounter = tempCourseListCounter
                 }
             }
         }
@@ -57,14 +58,16 @@ var checkCourse = function (cardList, courseList) {
                         correctVisited -= 1
                     }
                     match = true
-                    controlLinks.push('----')
                     courseListCounter = tempCourseListCounter
+                    controlLinks.push({
+                        counter: courseListCounter,
+                        time: cardList[cardListCounter].time,
+                    })
                 }
             }
         }
         if (!match && cardListCounter < cardList.length && courseListCounter < courseList.length) {
             errors += ' W' + (courseListCounter + 1)
-            controlLinks.push('----')
             correctVisited -= 1
         }
     }
