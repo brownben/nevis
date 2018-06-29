@@ -29,7 +29,6 @@ module.exports.openConfirmDialog = function (title = 'Nevis', message = 'Are you
         })
         messageWindow.on('closed', () => {
             messageWindow.destroy()
-            messageWindow = null
         })
     })
 }
@@ -43,7 +42,6 @@ module.exports.createPDF = function (filePath, data) {
             slashes: true,
         }))
         pdfWindow.focus()
-        pdfWindow.on('closed', () => { pdfWindow = null })
         ipcMain.on('pdf-window-ready', (event) => event.sender.send('pdf-contents', data))
         ipcMain.on('pdf-window-loaded', function (event, data) {
             event.sender.webContents.printToPDF({
@@ -90,14 +88,13 @@ module.exports.createEventDialog = function () {
         })
         messageWindow.on('closed', () => {
             messageWindow.destroy()
-            messageWindow = null
         })
     })
 }
 
 module.exports.passwordDialog = function () {
     return new Promise((resolve, reject) => {
-        let messageWindow = new BrowserWindow({
+        let passwordWindow = new BrowserWindow({
             width: 400,
             height: 130,
             resizable: false,
@@ -108,22 +105,21 @@ module.exports.passwordDialog = function () {
             modal: true,
             parent: getCurrentWindow(),
         })
-        messageWindow.loadURL(url.format({
+        passwordWindow.loadURL(url.format({
             pathname: path.join(__dirname, '../views/password.html'),
             protocol: 'file:',
             slashes: true,
         }))
-        messageWindow.focus()
-        messageWindow.on('ready-to-show', function () {
-            messageWindow.show()
-            messageWindow.focus()
+        passwordWindow.focus()
+        passwordWindow.on('ready-to-show', function () {
+            passwordWindow.show()
+            passwordWindow.focus()
         })
         ipcMain.on('open-event', function (event, data) {
             resolve(data)
         })
-        messageWindow.on('closed', () => {
-            messageWindow.destroy()
-            messageWindow = null
+        passwordWindow.on('closed', () => {
+            passwordWindow.destroy()
         })
     })
 }
