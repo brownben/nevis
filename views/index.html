@@ -80,6 +80,20 @@
                     <li value="No Printers Connected" onClick="downloadChangePrinter('No Printing')">No Printing</li>
                 </ul>
             </div>
+            <div id="menu-download-mode" class="dropdown-menu">
+                <h4>Print Mode:</h4>
+                <button onClick="downloadModeMenuToggle()">
+                    <p id="menu-download-mode-button-content">Normal</p>
+                    <svg viewBox="0 0 24 24">
+                        <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z" />
+                        <path d="M0-.75h24v24H0z" fill="none" />
+                    </svg>
+                </button>
+                <ul id="menu-download-mode-dropdown" class="hidden">
+                    <li value="Normal" onClick="downloadChangeMode('Normal')">Normal</li>
+                    <li value="Check Details" onClick="downloadChangeMode('Check Details')">Check Details</li>
+                </ul>
+            </div>
             <button id="menu-download-connect-button" onClick="connectPort()">Connect</button>
         </div>
         <div id="menu-entries" style="display:none">

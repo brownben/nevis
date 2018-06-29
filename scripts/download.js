@@ -63,6 +63,11 @@ function downloadPrinterMenuToggle () {
     }
 }
 
+function downloadModeMenuToggle () {
+    if (document.getElementById('menu-download-mode-dropdown').getAttribute('class') === 'hidden') document.getElementById('menu-download-mode-dropdown').setAttribute('class', '')
+    else document.getElementById('menu-download-mode-dropdown').setAttribute('class', 'hidden')
+}
+
 function downloadChangeBaud (value) {
     document.getElementById('menu-download-baud-button-content').innerText = value
     downloadBaudMenuToggle()
@@ -77,6 +82,11 @@ function downloadChangePort (value) {
 function downloadChangePrinter (value) {
     document.getElementById('menu-download-printer-button-content').innerText = value
     downloadPrinterMenuToggle()
+}
+
+function downloadChangeMode (value) {
+    document.getElementById('menu-download-mode-button-content').innerText = value
+    downloadModeMenuToggle()
 }
 
 // Format Time in seconds into Human Readable times
@@ -126,10 +136,10 @@ function connectPort () {
             port.on('error', function () { port.close() })
             port.on('close', function () { document.getElementById('menu-download-connect-button').innerText = 'Connect' })
         }
-        else {
-            port.close()
-            document.getElementById('menu-download-connect-button').innerText = 'Connect'
-        }
+    }
+    else {
+        port.close()
+        document.getElementById('menu-download-connect-button').innerText = 'Connect'
     }
 }
 
@@ -139,7 +149,7 @@ function packetData (incomingData) {
     const correctDelimiters = currentBuffer[currentBuffer.length - 1] === parseInt(0x03) && currentBuffer[0] === parseInt(0x02)
     const correctLength = (currentBuffer.length === 12 || currentBuffer.length === 136 || currentBuffer.length === 137)
     if (correctDelimiters && correctLength) {
-        var toReturn = currentBuffer
+        let toReturn = currentBuffer
         currentBuffer = Buffer.from([])
         return toReturn
     }
@@ -150,6 +160,7 @@ function packetData (incomingData) {
 
 // Enter the data into the database once processed
 function processRecievedData (packet, port) {
+    let unknown = false
     const inserted = SI.inserted(packet)
     if (inserted) {
         currentCard = inserted
@@ -158,50 +169,26 @@ function processRecievedData (packet, port) {
     else if (currentCard) {
         if (currentCard.dataRecieved(packet)) {
             const processedData = currentCard.processData(packet, port)
+            let competitor = {}
+            let courseComplete = {
+                links: [],
+                errors: '',
+                percentageComplete: 1,
+            }
             if (processedData) {
-                const linkedCompetitor = competitorsDB.findOne({ siid: processedData.siid.toString() })
-                if (linkedCompetitor) {
-                    linkedCompetitor.download = processedData
-                    const linkedCompetitorCourse = coursesDB.findOne({ 'name': linkedCompetitor.course })
-                    let courseComplete = []
-                    if (linkedCompetitorCourse.controls !== []) {
-                        courseComplete = checkCourse(processedData.controls, linkedCompetitorCourse.controls)
+                competitor = competitorsDB.findOne({ siid: processedData.siid.toString() })
+                if (competitor) {
+                    competitor.download = processedData
+                    const competitorCourse = coursesDB.findOne({ 'name': competitor.course })
+                    if (competitorCourse.controls !== []) {
+                        courseComplete = checkCourse(processedData.controls, competitorCourse.controls)
                     }
-                    else {
-                        courseComplete = {
-                            links: [],
-                            errors: '',
-                            percentageComplete: 1,
-                        }
-                    }
-                    if (courseComplete.errors !== '') linkedCompetitor.download.totalTime = courseComplete.errors
-                    document.getElementById('download-latest-download').innerHTML = `
-                        <h2>${linkedCompetitor.name}<h2>
-                        <p><b>Course: </b>${linkedCompetitor.course}</p>
-                        <h1>Time: ${readableTimeElapsed(linkedCompetitor.download.totalTime)}</h1>
-                    `
-                    var splits = []
-                    var counter = 0
-                    var lastTime = linkedCompetitor.download.start
-
-                    while (counter < courseComplete.links.length) {
-                        if (courseComplete.links[counter] !== '----') {
-                            splits.push([courseComplete.links[counter] - lastTime, courseComplete.links[counter] - linkedCompetitor.download.start])
-                            lastTime = courseComplete.links[counter]
-                        }
-                        else {
-                            splits.push(['--:--', '--:--'])
-                        }
-                        counter += 1
-                    }
-                    while (counter < linkedCompetitorCourse.controls.length) {
-                        splits.push(['--:--', '--:--'])
-                        counter += 1
-                    }
-                    printSplits(linkedCompetitor, splits, [linkedCompetitor.download.finish - lastTime, linkedCompetitor.finish - linkedCompetitor.start])
+                    if (courseComplete.errors !== '') competitor.download.totalTime = courseComplete.errors
+                    competitorsDB.update(competitor)
                 }
                 else {
-                    const competitor = {
+                    unknown = true
+                    competitor = {
                         name: 'Unknown',
                         course: 'Unknown',
                         siid: processedData.siid.toString(),
@@ -221,14 +208,37 @@ function processRecievedData (packet, port) {
                     else if (processedData.name) {
                         competitor.name = processedData.name
                     }
+                    let matchedCourse = matchCourse(competitor.download.controls)
+                    if (matchedCourse) {
+                        competitor.course = matchedCourse.name
+                        if (matchedCourse.checked.errors !== '') competitor.download.totalTime = matchedCourse.checked.errors
+                        courseComplete = matchedCourse.checked
+                    }
                     competitorsDB.insert(competitor)
-                    document.getElementById('download-latest-download').innerHTML = `
-                        <h2>${competitor.name}<h2>
-                        <h1>Time: ${readableTimeElapsed(processedData.totalTime)}</h1>
-                    `
-                    printSplits(competitor, [], [competitor.download.finish - lastTime, competitor.finish - competitor.start])
                 }
-
+                document.getElementById('download-latest-download').innerHTML = `
+                    <h2>${competitor.name}<h2>
+                    <p><b>Course: </b>${competitor.course}</p>
+                    <h1>Time: ${readableTimeElapsed(competitor.download.totalTime)}</h1>
+                `
+                let splits = []
+                let lastTime = competitor.download.start
+                let linksCounter = 0
+                for (let courseCounter = 0; courseCounter < coursesDB.findOne({ 'name': competitor.course }).controls.length; courseCounter += 1) {
+                    if (courseComplete.links[linksCounter] && courseCounter === courseComplete.links[linksCounter].counter) {
+                        splits.push([
+                            courseComplete.links[linksCounter].time - lastTime,
+                            courseComplete.links[linksCounter].time - competitor.download.start,
+                        ])
+                        lastTime = courseComplete.links[linksCounter].time
+                        linksCounter += 1
+                    }
+                    else {
+                        splits.push(['--:--', '--:--'])
+                    }
+                }
+                let finish = [competitor.download.finish - lastTime, competitor.download.finish - competitor.download.start]
+                printSplits(competitor, splits, finish, unknown)
                 db.saveDatabase()
                 currentCard = null
                 document.getElementById('download-latest-download').setAttribute('style', '')
@@ -236,8 +246,28 @@ function processRecievedData (packet, port) {
         }
     }
 }
+
+// Find Best Matching Course to Download
+function matchCourse (cardList) {
+    let courses = coursesDB.find()
+    let mostCorrect = {
+        checked: {
+            percentageCorrect: 0,
+        },
+    }
+    for (let course of courses) {
+        course.checked = checkCourse(cardList, course.controls)
+        if (course.checked.percentageCorrect > mostCorrect.checked.percentageCorrect) {
+            mostCorrect = course
+            mostCorrect.checked.percentageCorrect = course.checked.percentageCorrect
+        }
+    }
+    if (mostCorrect.checked.percentageCorrect > 0.6) return mostCorrect
+    else return null
+}
+
 // Print Splits
-function printSplits (data, splits, finish) {
+function printSplits (data, splits, finish, unknown) {
     if (document.getElementById('menu-download-printer-button-content').innerText !== 'No Printing') {
         thermalPrinter.init({
             type: 'epson',
@@ -245,6 +275,26 @@ function printSplits (data, splits, finish) {
         })
         thermalPrinter.isPrinterConnected(function (isConnected) {
             if (isConnected) {
+                if (unknown && document.getElementById('menu-download-mode-button-content').innerText === 'Check Details') {
+                    thermalPrinter.setTypeFontA()
+                    thermalPrinter.alignLeft()
+                    thermalPrinter.setTextQuadArea()
+                    thermalPrinter.println('Sorry')
+                    thermalPrinter.newLine()
+                    thermalPrinter.setTextNormal()
+                    thermalPrinter.println('There has been a problem and your details need checked. Please check your details   and hand this slip in with any corrections')
+                    thermalPrinter.newLine()
+                    thermalPrinter.println('Name:      ' + data.name)
+                    thermalPrinter.println('SI Card:   ' + data.siid)
+                    thermalPrinter.println('Course:    ' + data.course)
+                    thermalPrinter.println('Age Class: ' + data.ageClass)
+                    thermalPrinter.println('Club:      ' + data.club)
+                    thermalPrinter.newLine()
+                    thermalPrinter.println('__________________________________________')
+                    thermalPrinter.newLine()
+                    thermalPrinter.println('__________________________________________')
+                    thermalPrinter.cut()
+                }
                 thermalPrinter.setTypeFontA()
                 thermalPrinter.alignLeft()
                 thermalPrinter.println(eventInfo.findOne().name + ' - ' + eventInfo.findOne().date)
@@ -270,8 +320,8 @@ function printSplits (data, splits, finish) {
                 thermalPrinter.setTypeFontA()
                 thermalPrinter.bold(false)
                 thermalPrinter.println('S                          00:00     00:00')
-                var counter = 1
-                for (var split of splits) {
+                let counter = 1
+                for (let split of splits) {
                     thermalPrinter.println(counter + '                          ' + readableTimeElapsed(split[0]) + '     ' + readableTimeElapsed(split[1]))
                     counter += 1
                 }
