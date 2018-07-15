@@ -200,10 +200,12 @@ function processRecievedData (packet, port) {
                     }
                     if (cards.findOne({ siid: competitor.siid })) {
                         const result = cards.findOne({ siid: competitor.siid })
-                        competitor.name = result.name
-                        competitor.membershipNumber = result.membershipNumber
-                        competitor.ageClass = calculateAgeClass(result.sex, result.yearOfBirth)
-                        competitor.club = result.club
+                        if (!result.name.contains('Hire')) {
+                            competitor.name = result.name
+                            competitor.membershipNumber = result.membershipNumber
+                            competitor.ageClass = calculateAgeClass(result.sex, result.yearOfBirth)
+                            competitor.club = result.club
+                        }
                     }
                     else if (processedData.name) {
                         competitor.name = processedData.name
@@ -221,22 +223,7 @@ function processRecievedData (packet, port) {
                     <p><b>Course: </b>${competitor.course}</p>
                     <h1>Time: ${readableTimeElapsed(competitor.download.totalTime)}</h1>
                 `
-                let splits = []
-                let lastTime = competitor.download.start
-                let linksCounter = 0
-                for (let courseCounter = 0; courseCounter < coursesDB.findOne({ 'name': competitor.course }).controls.length; courseCounter += 1) {
-                    if (courseComplete.links[linksCounter] && courseCounter === courseComplete.links[linksCounter].counter) {
-                        splits.push([
-                            courseComplete.links[linksCounter].time - lastTime,
-                            courseComplete.links[linksCounter].time - competitor.download.start,
-                        ])
-                        lastTime = courseComplete.links[linksCounter].time
-                        linksCounter += 1
-                    }
-                    else {
-                        splits.push(['--:--', '--:--'])
-                    }
-                }
+                let splits = formatSplits(courseComplete, competitor.download.start)
                 let finish = [competitor.download.finish - lastTime, competitor.download.finish - competitor.download.start]
                 printSplits(competitor, splits, finish, unknown)
                 db.saveDatabase()
@@ -244,6 +231,12 @@ function processRecievedData (packet, port) {
                 document.getElementById('download-latest-download').setAttribute('style', '')
             }
         }
+    }
+    else {
+        document.getElementById('download-latest-download').innerHTML = `
+        <h2>Error<h2>
+        <p>Sorry a SI Card which is not supported has been used</p>
+    `
     }
 }
 
@@ -264,6 +257,36 @@ function matchCourse (cardList) {
     }
     if (mostCorrect.checked.percentageCorrect > 0.6) return mostCorrect
     else return null
+}
+
+// Format data into splits for printing
+function formatSplits (courseComplete, start) {
+    let splits = []
+    let lastTime = start
+    let linksCounter = 0
+    for (let courseCounter = 0; courseCounter < coursesDB.findOne({ 'name': competitor.course }).controls.length; courseCounter += 1) {
+        if (courseComplete.links[linksCounter] && courseCounter === courseComplete.links[linksCounter].counter) {
+            if (lastTime !== '-') {
+                splits.push([
+                    courseComplete.links[linksCounter].time - lastTime,
+                    courseComplete.links[linksCounter].time - competitor.download.start,
+                ])
+            }
+            else {
+                splits.push([
+                    '--:--',
+                    courseComplete.links[linksCounter].time - competitor.download.start,
+                ])
+            }
+            lastTime = courseComplete.links[linksCounter].time
+            linksCounter += 1
+        }
+        else {
+            splits.push(['--:--', '--:--'])
+            lastTime = '-'
+        }
+    }
+    return splits
 }
 
 // Print Splits
@@ -322,7 +345,14 @@ function printSplits (data, splits, finish, unknown) {
                 thermalPrinter.println('S                          00:00     00:00')
                 let counter = 1
                 for (let split of splits) {
-                    thermalPrinter.println(counter + '                          ' + readableTimeElapsed(split[0]) + '     ' + readableTimeElapsed(split[1]))
+                    thermalPrinter.println(counter)
+                    if (counter < 10) thermalPrinter.print('                         ')
+                    else thermalPrinter.print('                        ')
+                    if (readableTimeElapsed(split[0]).length === 5) thermalPrinter.print(' ')
+                    thermalPrinter.print(readableTimeElapsed(split[0]))
+                    if (readableTimeElapsed(split[1]).length === 5) thermalPrinter.print('     ')
+                    else thermalPrinter.print('    ')
+                    thermalPrinter.print(readableTimeElapsed(split[1]))
                     counter += 1
                 }
                 thermalPrinter.println('F                          ' + readableTimeElapsed(finish[0]) + '     ' + readableTimeElapsed(finish[1]))
