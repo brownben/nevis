@@ -287,7 +287,7 @@ function generatePDFResults () {
                         resultsInfo('info', 'PDF Results Created')
                         shell.openExternal('file://' + file)
                     })
-                    .catch((error) => resultsInfo('error', 'Error: Problem Creating PDF'))
+                    .catch(resultsInfo('error', 'Error: Problem Creating PDF'))
             }
             else resultsInfo('error', 'Error: Problem Creating Results')
         })

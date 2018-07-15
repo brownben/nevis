@@ -37,7 +37,8 @@ function addCourse () {
         try {
             let lengthValue = Math.round(parseFloat(document.getElementById('courses-add-length').value) * 1000)
             let climbValue = parseInt(document.getElementById('courses-add-climb').value)
-            let controls = document.getElementById('courses-add-controls').value.split(',').map((item) => parseInt(item))
+            let controls = []
+            if (document.getElementById('courses-add-controls').value !== '') controls = document.getElementById('courses-add-controls').value.split(',').filter(item => !isNaN(item)).map(item => parseInt(item))
             if (isNaN(lengthValue)) lengthValue = 0
             if (isNaN(climbValue)) climbValue = 0
             if (controls.length === 1 && !controls[0]) controls = []
@@ -68,7 +69,7 @@ function updateCourse () {
             courseToUpdate.name = document.getElementById('courses-add-name').value
             courseToUpdate.climb = document.getElementById('courses-add-climb').value
             courseToUpdate.length = Math.round(parseFloat(document.getElementById('courses-add-length').value) * 1000)
-            courseToUpdate.controls = document.getElementById('courses-add-controls').value.split(',').map((item) => parseInt(item))
+            if (document.getElementById('courses-add-controls').value !== '') courseToUpdate.controls = document.getElementById('courses-add-controls').value.split(',').filter(item => !isNaN(item)).map(item => parseInt(item))
             coursesDB.update(courseToUpdate)
         }
         catch (error) {
@@ -128,32 +129,34 @@ const importCourses = function () {
 
 const importXMLCourses = function (path) {
     parseXML(fs.readFileSync(path, 'utf8'), function (error, result) {
-        try {
-            for (let courseData of result.CourseData.RaceCourseData[0].Course) {
-                let course = {
-                    name: courseData.Name[0],
-                    controls: [],
-                    length: 0,
-                    climb: 0,
+        if (!error) {
+            try {
+                for (let courseData of result.CourseData.RaceCourseData[0].Course) {
+                    let course = {
+                        name: courseData.Name[0],
+                        controls: [],
+                        length: 0,
+                        climb: 0,
+                    }
+                    if (courseData.Length[0]) course.length = courseData.Length[0]
+                    if (courseData.Climb[0]) course.climb = courseData.Climb[0]
+                    for (let control of courseData.CourseControl) {
+                        if (control.Control[0] !== 'S' && control.Control[0] !== 'F') course.controls.push(parseInt(control.Control[0]))
+                    }
+                    try {
+                        coursesDB.insert(course)
+                    }
+                    catch (error) {
+                        coursesInfo('error', 'Error: A course already exists with the name - ' + course.name)
+                    }
                 }
-                if (courseData.Length[0]) course.length = courseData.Length[0]
-                if (courseData.Climb[0]) course.climb = courseData.Climb[0]
-                for (let control of courseData.CourseControl) {
-                    if (control.Control[0] !== 'S' && control.Control[0] !== 'F') course.controls.push(parseInt(control.Control[0]))
-                }
-                try {
-                    coursesDB.insert(course)
-                }
-                catch (error) {
-                    coursesInfo('error', 'Error: A course already exists with the name - ' + course.name)
-                }
+                db.saveDatabase()
+                coursesInfo('info', result.CourseData.RaceCourseData[0].Course.length + ' Courses Imported from XML')
             }
-            db.saveDatabase()
-            coursesInfo('info', result.CourseData.RaceCourseData[0].Course.length + ' Courses Imported from XML')
-        }
-        catch (error) {
-            coursesInfo('blank')
-            coursesInfo('error', 'Error: File format is invalid')
+            catch (error) {
+                coursesInfo('blank')
+                coursesInfo('error', 'Error: File format is invalid')
+            }
         }
     })
 }
