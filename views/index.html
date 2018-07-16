@@ -30,7 +30,11 @@
             </svg>
         </button>
     </div>
-    <div id="menu" style="display:none">
+    <div id="menu">
+        <div id="menu-welcome">
+            <button onClick="database.createDatabase()">Create an Event</button>
+            <button onClick="database.selectDatabase()">Select an Event</button>
+        </div>
         <div id="menu-main">
             <button onClick="navigatePage('Download')">Download</button>
             <button onClick="navigatePage('Entries')">Entries</button>
@@ -139,8 +143,6 @@
             <div class="card center colored">
                 <img src="../assets/Nevis Logo.png" height="80px" />
                 <h2>Welcome to Nevis</h2>
-                <button onClick="database.createDatabase()">Create an Event</button>
-                <button onClick="database.selectDatabase()">Select an Event</button>
             </div>
             <div id="welcome-wrong-password" class="card center" style="display:none">
                 <h3>Please Try Again</h3>
@@ -267,7 +269,7 @@
             </div>
             <div id="results-overview">
                 <div v-for="course of courses" v-if="results[course.name]" class="card">
-                    <h1>{{ course.name }}</h1>
+                    <h2>{{ course.name }}</h2>
                     <table>
                         <tr>
                             <th class="pos">Pos.</th>
@@ -290,7 +292,7 @@
             </div>
             <div id="courses-overview">
                 <div v-for="course in courses.data" class="card" :key="course.name" :id="course.$loki" onClick="courseLink(this.id)">
-                    <h3>{{ course.name }}</h3>
+                    <h2>{{ course.name }}</h2>
                     <p>Length: {{ course.length / 1000 }}km Climb: {{ course.climb }}m</p>
                     <p>Controls: {{ course.controls }}</p>
                 </div>

@@ -1,46 +1,41 @@
 #menu
-    float:left
-    width:160px
-    height:calc(100% - 35px)
-    box-shadow(2)
-    -webkit-user-select: none;
-    user-select: none;
-    overflow-y: none
+    width:180px
+    height:100%
+    box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.25)
+    position:fixed
+    -webkit-user-select: none
+    user-select: none
+    overflow-y: hidden
     ::-webkit-scrollbar
-        display: none;
+        display: none
+
     button
-        width:100%
-        outline:0
+        width: 180px
+        height: 35px
+        color:color-main
+        background:white
         border:0
-        margin:0
-        padding: 7px 5px
-        color: color-main
-        background-color:white
-        font-family:Montserrat
-        font-weight:300
-        font-size:17px
-        transition:.3s
-        -webkit-user-select: none;
-        user-select: none;
-        &:hover
-            color:white
-            background-color:color-main
+        outline:0
+        font-family: Montserrat
+        font-style: normal
+        font-weight: normal
+        line-height: normal
+        font-size: 16px
+        text-align: center
+        -webkit-user-select: none
+        user-select: none
+        transition:.5s
+
         &:first-child
             margin-top:5px
 
-    #menu-back
-        background:white
-        position:absolute
-        width:160px
-        bottom:0px
-        button
-            margin-bottom:10px
+        &:hover
+            color:white
+            background:color-main
 
 #menu-download
     overflow-y:auto
-    height:calc(100% - 50px)
-    badding-bottom:10px
-
+    padding-bottom:10px
     button
         margin-top:10px
     .dropdown-menu
@@ -50,13 +45,11 @@
             font-weight:300
             margin:0
             margin-top:10px
-            margin-bottom:5px
+            margin-bottom:3px
             font-size:14px
             color:color-main
             text-align:center
-            &:first-child
-                margin-top:5px
-                margin-bottom:5px
+
         button
             margin-top:0px
             height:34px
@@ -96,8 +89,17 @@
             font-size:14px
             overflow: hidden
             padding-right:20px
-            display: -webkit-box;
-            -webkit-line-clamp: 1;
-            -webkit-box-orient: vertical;
+            display: -webkit-box
+            -webkit-line-clamp: 1
+            -webkit-box-orient: vertical
         #menu-download-printer-dropdown
             font-size:14px
+
+#menu-back
+    position:absolute
+    bottom: 35px
+    background-color:white
+    z-index:5
+    button
+        margin-bottom:10px
+
