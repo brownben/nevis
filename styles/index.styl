@@ -20,17 +20,30 @@ main
 
 .card
     box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.25)
-    padding:15px
+    padding:10px 15px
+    &.info
+        text-align:center
+        color:color-main
+    &.warning
+        text-align:center
+        color:#E65100
+    &.error
+        text-align:center
+        color:#D32F2F
 
 h1, h2, h3, h4, h5, h6, p
     font-family:Montserrat
+    user-select:none
     margin:0
 
 h2
-    margin:5px
+    margin: 5px 0
 
 h3, h4
-    margin:3px
+    margin: 3px 0
+
+p
+    margin: 2px 0
 
 main, #download, #entries, #courses, #about, #courses-overview, #results-overview, #welcome, #entries-search, #results
     display:grid
@@ -45,6 +58,10 @@ main, #download, #entries, #courses, #about, #courses-overview, #results-overvie
     color: white
     text-align: center
 
+#about
+    word-break: break-word
+
+// Builitn Parts
 ::-webkit-scrollbar
     width: 10px
 
@@ -57,3 +74,17 @@ main, #download, #entries, #courses, #about, #courses-overview, #results-overvie
 
 ::-webkit-scrollbar-thumb:active
     background: #B0BEC5
+
+::selection
+  background: color-main
+  color:white
+
+// Vue Fade Transitions
+.fade-enter-active, .fade-leave-active
+  transition: opacity .2s
+
+.fade-enter, .fade-leave-to
+  opacity: 0
+
+.fade-move
+  transform:transition .2s

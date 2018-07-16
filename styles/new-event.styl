@@ -10,34 +10,19 @@ html,body
     overflow:hidden
 
 main
-    padding:10px
+    padding:10px 15px
     outline:0
     user-select:none
-    width:100%
+    width:calc(100% - 30px)
     p
         margin:10px
-        font-weight:300
         font-size:18px
         font-family: Montserrat
-    button
-        outline:0
-        user-select:none
-        margin-top:20px
-        width:calc(100% - 20px)
-        border:1px solid color-highlight
-        font-family:Montserrat
-        font-weight:300
-        font-size:15px
-        transition:.3s
-        padding:5px
-        color:color-main
-        background-color:white
-        &:hover
-            background-color:color-main
-            color:white
 
 .text-input
     width:calc(100% - 20px)
     .bar:after, .bar:before
         height:.5px!important
 
+main button
+    margin-top:10px
