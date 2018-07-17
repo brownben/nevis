@@ -2,34 +2,35 @@
     width:100%
     height:35px
     color:white
-    background:linear-gradient(37deg, color-500, color-300)
-    -webkit-user-select: none;
+    background:color-main
+    -webkit-user-select: none
     -webkit-app-region: drag
-    user-select: none;
-    img
-        height:25px
-        margin: 5px 10px
-        float: left
+    user-select: none
+
     p
-        height:35px
-        line-height:35px
-        margin:0
-        font-family:Roboto
-        font-weight:300
+        font-family: Montserrat
+        font-style: normal
+        font-weight: normal
+        line-height: normal
+        font-size: 16px
         float:left
+        margin:7px 0 7px 12px
+
     button
+        height:100%
+        width:50px
         float:right
         border:0
         outline:0
         padding:0
-        height:100%
-        width:50px
         fill:white
         background:none
-        transition:.2s
         -webkit-app-region: no-drag
+        transition:.5s
+
         &:hover
-            background-color:color-500
+            background-color:color-highlight
+
     #titlebar-close
         &:hover
             background-color:#E53935

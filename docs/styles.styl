@@ -1,16 +1,9 @@
-@font-face 
-  font-family: 'Roboto'
-  font-style: normal
-  font-weight: 300
-  src: local('Roboto Light'), local('Roboto-Light'), url(https://fonts.gstatic.com/s/roboto/v18/KFOlCnqEu92Fr1MmSU5fBBc4.woff2) format('woff2')
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-
-@font-face 
-  font-family: 'Roboto'
+@font-face
+  font-family: 'Montserrat'
   font-style: normal
   font-weight: 400
-  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v18/KFOmCnqEu92Fr1Mu4mxK.woff2) format('woff2')
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  src: local('Montserrat Light'), local('Montserrat-Light'), url(https://fonts.gstatic.com/s/montserrat/v12/JTURjIg1_i6t8kCHKm45_cJD3gnD_g.woff2) format('woff2')
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD
 
 box-shadow(level)
     if level == 1
@@ -32,8 +25,8 @@ html, body
     height:100%
     margin:0
     padding:0
-    font-family:Roboto
-    font-weight:300
+    font-family:Montserrat
+
 
 header
     padding:2rem 1rem
@@ -41,7 +34,7 @@ header
     box-shadow(3)
     text-align:center
     color:white
-    background:linear-gradient(37deg, #2196F3, #64B5F6)
+    background:linear-gradient(45deg,#1E88E5,#1565C0)
     img
         height:150px
     div
@@ -53,8 +46,6 @@ header
                 margin:15px
                 margin-bottom:20px
                 font-size:3.5rem
-                font-weight:300
-
             a
                 border:1px solid #ffffff5a
                 font-size:16px
@@ -71,45 +62,39 @@ header
 
 
 main
-    font-family: Roboto
-    font-weight:300
+    font-family: Montserrat
     margin-top:2.5rem
     margin-left:10%
     width:80%
     img
         height:150px
     a
-        color:#2196F3
-        font-weight:300
-        font-family:Roboto
+        color:#0D47A1
+
+        font-family:Montserrat
     h4
-        font-weight:300
-        font-family:Roboto
+        font-family:Montserrat
         font-size:1.3rem
     h2
-        font-family:Roboto
+        font-family:Montserrat
         font-size:2.1rem
         margin-top: 2rem
         margin-bottom: 1rem
         font-weight: 300
-        color:#2196F3
+        color:#0D47A1
     p
-        font-weight:300
-        font-family:Roboto
+        font-family:Montserrat
         font-size:1.1rem
-
     blockquote
-        font-weight:300
-        font-family:Roboto
+        font-family:Montserrat
         font-size:1.3rem
-        border-left:3px#2196F3 solid
+        border-left:3px#0D47A1 solid
         margin:0
         padding-left:15px
 
-
 footer
     margin-top:20px
-    border-top:1px #bdbdbd solid
+    border-top:1px #0D47A1 solid
     width:80%
     margin-left:10%
     p
@@ -120,7 +105,6 @@ footer
 @media (max-width:510px)
     header
         padding:1rem
-
         div div
             width:100%
             h1
@@ -147,14 +131,14 @@ code
     padding: 2px 4px
     font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace
     font-size: 0.9rem
-    color: #567482
+    color: black
     background-color: #f3f6fa
 
 pre
     margin-top: 0
     padding:.88rem
     font: 1rem Consolas, "Liberation Mono", Menlo, Courier, monospace
-    color: #567482
+    color: black
     word-wrap: normal
     background-color: #f3f6fa
     border: solid 1px #dce6f0
@@ -167,7 +151,7 @@ pre > code
     padding: 0
     margin: 0
     font-size: 0.9rem
-    color: #567482
+    color: black
     word-break: normal
     white-space: pre
     background: transparent

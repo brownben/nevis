@@ -324,7 +324,7 @@ function entryLink (id) {
     if (linkedEntry.download) {
         document.getElementById('entries-download-data').setAttribute('style', 'display:block')
         document.getElementById('entries-download-data').innerHTML = `
-            <h1>Time: ${readableTimeElapsed(linkedEntry.download.totalTime)}</h1>
+            <h2>Time: ${readableTimeElapsed(linkedEntry.download.totalTime)}</h2>
             <p>Start: ${readableTime(linkedEntry.download.start)}</p>
             <p>Finish: ${readableTime(linkedEntry.download.finish)}</p>
             <p>Controls: ${linkedEntry.download.controls.map((control, i) => control.code)}</p>

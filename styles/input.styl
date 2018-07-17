@@ -1,100 +1,61 @@
+input
+    font-family: Montserrat
+    width: 100%
+    border: 1px solid alpha(color-main, 0.5)
+    outline: 0
+    padding: 4px
+    margin: 3px 0 5px 0
+    color: black
+    transition:.5s
+    font-size:14px
+    &:last-child
+        margin-bottom:0px
+    &:focus
+        border: 1px solid color-main
 
-.text-input
-    height: 25px
-    margin-top:18px
-    &:first-child
-        margin-top:0px
-    input
+label
+    font-family:Montserrat
+    font-size:10px
+    margin-bottom:3px
+    user-select:none
 
-        border: 0
-        border-bottom:1px label-grey solid
-        outline: 0
-        font-family: Roboto
-        font-weight: 300
-        font-size: 16px
-        margin-top: 10px
-        width: calc(100% - 10px)
-
-        transition: 1s
-
-        &:valid,
+.dropdown-input
+    margin-bottom:-20px
+    select
+        -webkit-appearance: none
+        border: 1px solid alpha(color-main, 0.5)
+        width: 100%
+        padding: 4px
+        font-size:14px
+        font-family: Montserrat
+        outline:0
+        color:black
+        margin: 3px 0 5px 0
         &:focus
-            border-bottom: 0
-
-        &:valid + label
-            color: label-grey
-            position: relative
-            top: -20px
-            font-size: 10px
-
-        &:focus + label
-            color: color-500
-            position: relative
-            top: -20px
-            font-size: 10px
-
-
-
-
-    label
-        -webkit-user-select: none
-        user-select: none
-        font-family: Roboto
-        font-weight: 300
+            border: 1px solid color-main
+    select:focus+label
+        svg
+            fill:color-main
+    svg
         position: relative
-        font-size: 15px
-        color:  label-grey
-        width: 50px
-        transition: .25s ease-out
-        margin-left: calc(5px - 100%)
+        top: -30px
+        right: calc(-100% + 25px)
+        transition:.5s
+        alpha(color-main, 0.5)
 
-    .bar
-        position: relative
-        display: block
-        width: calc(100% - 10px)
-
-        &:before,
-        &:after
-            content: ""
-            height: 1px
-            width: 0
-            position: absolute
-
-            transition: 0.2s ease all
-
-        &:before
-            left: 50%
-
-        &:after
-            right: 50%
-
-    input:focus ~ .bar:before,
-    input:valid ~ .bar:before,
-    input:focus ~ .bar:after,
-    input:valid ~ .bar:after
-        width: 50%
-
-    input:valid ~ .bar:before,
-    input:valid ~ .bar:after
-        background: label-grey
-
-    input:focus ~ .bar:before,
-    input:focus ~ .bar:after
-        background: color-500
+::placeholder
+    color:alpha(color-main, 0.5)
+    transition:.5s color
 
 
-    .bar.thin:before, .bar.thin:after
-        height:1px
 .checkbox-input
-    margin-top: 20px
     margin-bottom: 20px
     padding: 0
     height: 0
-
     input
         display: none
-
     label
+        font-family:Montserrat
         position: relative
         font-size: 16px
         width: 50px
@@ -102,26 +63,22 @@
         margin: 0px
         -webkit-user-select: none
         user-select: none
-        color:label-grey
+        color:black
         &:not(:first-child)
             margin-left: 20px
-
-
     span
         height: 10px
         width: 10px
         margin-left: 10px
-        border: 1px solid label-grey
+        border: 1px solid alpha(color-main, 0.5)
         display: inline-block
         position: relative
         transition: 0.5s
-
-
     [type="checkbox"]:checked+span
         height: 12px
         width: 6px
         margin-left: 13px
-        border: 1.5px solid color-500
+        border: 1.5px solid color-main
         display: inline-block
         position: relative
         border-top: 0
@@ -129,53 +86,19 @@
         transition: 0.5s
         transform: rotate(405deg)
 
-
-.dropdown-input
-    height: 45px;
-    margin-top: 5px;
-
-    select
-        border: 0
-        border-bottom:1px label-grey solid
-        margin-top: 25px;
-        width: calc(100% - 10px);
-        font-weight: 300;
-        font-size: 16px;
-        font-family: Roboto
-        outline: 0;
-        transition: .5s;
-        -webkit-appearance:none;
-        &:focus
-            border-bottom: 1px color-500 solid;
-
-            &+label
-                color: color-500
-                fill: color-500
-
-                & svg
-                    fill: color-500
-
-    option
-        font-weight:300
-
-    label
-        transition: .2s;
-        font-size:10px
-        color: #9E9E9E;
-        font-family: Roboto
-        display: block;
-        position: relative;
-        top: -50px;
-        user-select: none;
-        -moz-user-select: none;
-
-    svg
-        transition: .2s;
-        position: relative;
-        top: 27px;
-        left: calc(100% - 65px);
-
-
-
-
-
+main button
+    user-select:none
+    width:100%
+    color:color-main
+    background-color:white
+    border: 1px solid color-main
+    padding:5px
+    outline:0
+    margin:3px 0
+    font-family:Montserrat
+    transition:.5s
+    &:hover
+        background-color:color-main
+        color:white
+    &.fifty
+        width: calc(50% - 2px)

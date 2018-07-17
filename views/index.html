@@ -10,7 +10,6 @@
 
 <body>
     <div id="titlebar">
-        <img src="../assets/Nevis Logo.png" />
         <p>Nevis</p>
         <button id="titlebar-close">
             <svg color="white" width="10" height="10">
@@ -31,7 +30,11 @@
             </svg>
         </button>
     </div>
-    <div id="menu" style="display:none">
+    <div id="menu">
+        <div id="menu-welcome">
+            <button onClick="database.createDatabase()">Create an Event</button>
+            <button onClick="database.selectDatabase()">Select an Event</button>
+        </div>
         <div id="menu-main">
             <button onClick="navigatePage('Download')">Download</button>
             <button onClick="navigatePage('Entries')">Entries</button>
@@ -140,8 +143,6 @@
             <div class="card center colored">
                 <img src="../assets/Nevis Logo.png" height="80px" />
                 <h2>Welcome to Nevis</h2>
-                <button onClick="database.createDatabase()">Create an Event</button>
-                <button onClick="database.selectDatabase()">Select an Event</button>
             </div>
             <div id="welcome-wrong-password" class="card center" style="display:none">
                 <h3>Please Try Again</h3>
@@ -168,21 +169,15 @@
             </div>
             <div id="entries-search" style="display:none;">
                 <div class="card">
-                    <div class="text-input">
-                        <input id="entries-search-name" v-model="name" required/>
-                        <label for="entries-search-name"> Name </label>
-                        <span class="bar"></span>
-                    </div>
-                    <div class="text-input">
-                        <input id="entries-search-siid" v-model="siid" required/>
-                        <label for="entries-search-siid"> SI Number </label>
-                        <span class="bar"></span>
-                    </div>
+                    <label>Name:</label>
+                    <input id="entries-search-name" v-model="name" />
+                    <label>SI Number:</label>
+                    <input id="entries-search-siid" v-model="siid" />
+                    <label>Course:</label>
                     <div class="dropdown-input">
-                        <select id="entries-search-course" v-model="course" required>
-                            <option></option>
+                        <select id="entries-search-course" v-model="course">
                         </select>
-                        <label id="entries-search-course-label" for="entries-search-course">Course
+                        <label for="entries-search-course">
                             <svg id="entries-search-course-svg" for="entries-search-course" fill="#9E9E9E" height="24" viewBox="0 0 24 24" width="24"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z" />
@@ -216,41 +211,26 @@
                 <button onClick="nextArchiveEntry()">Go To The Next Entry In Archive</button>
             </div>
             <div id="entries-add" class="card" style="display:none;">
-                <div class="text-input">
-                    <input id="entries-add-name" required/>
-                    <label for="entries-add-name"> Name </label>
-                    <span class="bar"></span>
-                </div>
-                <div class="text-input">
-                    <input id="entries-add-siid" required/>
-                    <label for="entries-add-siid"> SI Number </label>
-                    <span class="bar"></span>
-                </div>
-                <div class="text-input">
-                    <input id="entries-add-membership-number" required/>
-                    <label for="entries-add-membership-number"> Membership Number </label>
-                    <span class="bar thin"></span>
-                </div>
-                <div class="text-input">
-                    <input id="entries-add-age-class" required/>
-                    <label for="entries-add-age-class"> Age Class </label>
-                    <span class="bar"></span>
-                </div>
-                <div class="text-input">
-                    <input id="entries-add-club" required/>
-                    <label for="entries-add-club"> Club </label>
-                    <span class="bar"></span>
-                </div>
+                <label>Name:</label>
+                <input id="entries-add-name" />
+                <label>SI Number:</label>
+                <input id="entries-add-siid" />
+                <label>Membership Number:</label>
+                <input id="entries-add-membership-number" />
+                <label>Age Class:</label>
+                <input id="entries-add-age-class" />
+                <label>Club:</label>
+                <input id="entries-add-club" />
+                <label>Course:</label>
                 <div class="dropdown-input">
-                    <select id="entries-add-course" onClick="entriesAddCourseDropdownRefresh()" required>
+                    <select id="entries-add-course" onClick="entriesAddCourseDropdownRefresh()">
                     </select>
-                    <label id="entries-add-course-label" for="entries-add-course">Course
+                    <label for="entries-add-course">
                         <svg id="entries-add-course-svg" for="entries-add-course" fill="#9E9E9E" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z" />
                             <path d="M0-.75h24v24H0z" fill="none" />
                         </svg>
                     </label>
-
                 </div>
                 <div class="checkbox-input">
                     <label for="entries-add-non-competitive">Non-Competitive?
@@ -268,7 +248,7 @@
             </div>
             <div id="results-overview">
                 <div v-for="course of courses" v-if="results[course.name]" class="card">
-                    <h1>{{ course.name }}</h1>
+                    <h2>{{ course.name }}</h2>
                     <table>
                         <tr>
                             <th class="pos">Pos.</th>
@@ -291,32 +271,20 @@
             </div>
             <div id="courses-overview">
                 <div v-for="course in courses.data" class="card" :key="course.name" :id="course.$loki" onClick="courseLink(this.id)">
-                    <h3>{{ course.name }}</h3>
+                    <h2>{{ course.name }}</h2>
                     <p>Length: {{ course.length / 1000 }}km Climb: {{ course.climb }}m</p>
                     <p>Controls: {{ course.controls }}</p>
                 </div>
             </div>
             <div id="courses-add" style="display:none" class="card">
-                <div class="text-input">
-                    <input id="courses-add-name" required/>
-                    <label for="courses-add-name"> Course Name </label>
-                    <span class="bar"></span>
-                </div>
-                <div class="text-input">
-                    <input id="courses-add-length" required/>
-                    <label for="courses-add-length"> Length (km) </label>
-                    <span class="bar"></span>
-                </div>
-                <div class="text-input">
-                    <input id="courses-add-climb" required/>
-                    <label for="courses-add-climb"> Climb (m) </label>
-                    <span class="bar"></span>
-                </div>
-                <div class="text-input">
-                    <input id="courses-add-controls" required/>
-                    <label for="courses-add-controls"> Controls (Comma Separated) </label>
-                    <span class="bar"></span>
-                </div>
+                <label>Course Name:</label>
+                <input id="courses-add-name" />
+                <label>Length (km):</label>
+                <input id="courses-add-length" />
+                <label>Climb (m):</label>
+                <input id="courses-add-climb" />
+                <label>Control Codes (Comma Separated):</label>
+                <input id="courses-add-controls" />
                 <input id="courses-add-id" style="display:none;height:0px!important" />
             </div>
         </div>
