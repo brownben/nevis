@@ -30,9 +30,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.1767767"
-     inkscape:cx="-1083.9703"
-     inkscape:cy="496.03946"
+     inkscape:zoom="0.25"
+     inkscape:cx="943.02358"
+     inkscape:cy="-47.946773"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -66,24 +66,23 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:none;stroke-width:0.1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+       id="rect823"
+       width="215"
+       height="215"
+       x="-2.7898781"
+       y="51.744938"
+       inkscape:export-filename="C:\Users\Ben\Documents\nevis\docs\Nevis Logo.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
     <path
-       sodipodi:type="star"
-       style="fill:#0d47a1;stroke-width:0.26458332;fill-opacity:1"
-       id="path10"
-       sodipodi:sides="3"
-       sodipodi:cx="45.357143"
-       sodipodi:cy="225.94048"
-       sodipodi:r1="153.46019"
-       sodipodi:r2="76.730095"
-       sodipodi:arg1="-1.5757224"
-       sodipodi:arg2="-0.52852484"
-       inkscape:flatsided="false"
-       inkscape:rounded="0"
-       inkscape:randomized="0"
-       d="m 44.60119,72.482148 67.01637,114.766412 67.01637,114.7664 -132.898811,0.65468 -132.898809,0.65467 65.88244,-115.42108 z"
-       inkscape:transform-center-x="-0.2274759"
-       inkscape:transform-center-y="-34.798616"
-       transform="matrix(0.60182739,0,0,0.9148563,77.174758,-12.727412)"
+       style="fill:#0d47a1;fill-opacity:1;stroke:none;stroke-width:0.26458332px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 103.89539,52.802453 25.04921,265.30011 184.67836,265.24991 Z"
+       id="path819"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc"
+       inkscape:export-filename="C:\Users\Ben\Documents\nevis\docs\Nevis Logo.png"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96" />
     <path
@@ -93,6 +92,7 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccccc"
        inkscape:export-xdpi="96"
-       inkscape:export-ydpi="96" />
+       inkscape:export-ydpi="96"
+       inkscape:export-filename="C:\Users\Ben\Documents\nevis\docs\Nevis Logo.png" />
   </g>
 </svg>

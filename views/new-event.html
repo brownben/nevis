@@ -11,7 +11,6 @@
 
 <body>
     <div id="titlebar">
-        <img src="../assets/Nevis Logo.png" />
         <p id="titlebar-text">Nevis - Create New Event</p>
         <button id="titlebar-close">
             <svg color="white" width="10" height="10">
@@ -21,21 +20,12 @@
     </div>
     <main>
         <form>
-            <div class="text-input">
-                <input id="event-name" required/>
-                <label for="event-name"> Event Name </label>
-                <span class="bar"></span>
-            </div>
-            <div class="text-input">
-                <input id="event-date" required/>
-                <label for="event-date"> Event Date </label>
-                <span class="bar"></span>
-            </div>
-            <div class="text-input">
-                <input id="event-password" required/>
-                <label for="event-password"> Password </label>
-                <span class="bar"></span>
-            </div>
+            <label> Event Name: </label>
+            <input id="event-name" />
+            <label> Event Date: </label>
+            <input id="event-date" />
+            <label> Password: </label>
+            <input id="event-password" />
             <button onClick="selectNewEventLocation()">Create Event</button>
         </form>
     </main>
