@@ -160,10 +160,10 @@ function importXMLEntries () {
                                     competitorsDB.insert(competitor)
                                 }
                                 catch (err) {
-                                    entryInfo('error', 'Error: SI Card - ' + competitor.siid + ' already assigned')
+                                    entryInfo('error', 'Error: SI Card - ' + competitor.siid + ' already assigned. Entry Skipped')
                                     errorCounter = errorCounter - 1
                                 }
-                                if (!xmlCourses[competitor.course]) xmlCourses.push(competitor.course)
+                                if (xmlCourses.indexOf(competitor.course) === -1) xmlCourses.push(competitor.course)
                             }
                             db.saveDatabase()
                             entryInfo('info', ' ' + String(result.EntryList.PersonEntry.length + errorCounter) + ' Entries Imported from XML')
