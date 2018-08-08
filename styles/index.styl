@@ -21,15 +21,19 @@ main
 .card
     box-shadow: 2px 4px 5px rgba(0, 0, 0, 0.25)
     padding:10px 15px
-    &.info
-        text-align:center
-        color:color-main
-    &.warning
-        text-align:center
-        color:#E65100
-    &.error
-        text-align:center
-        color:#D32F2F
+    -webkit-animation: fade .3s ease-in-out
+
+.info
+    text-align:center
+    color:color-main
+
+.warning
+    text-align:center
+    color:#F57F17
+
+.error
+    text-align:center
+    color:#BF360C
 
 h1, h2, h3, h4, h5, h6, p
     font-family:Montserrat
@@ -45,7 +49,7 @@ h3, h4
 p
     margin: 2px 0
 
-main, #download, #entries, #courses, #about, #courses-overview, #results-overview, #welcome, #entries-search, #results
+main, #download, #entries, #courses, #about, #courses-overview, #results-overview, #welcome, #entries-search, #results, #home
     display:grid
     height:auto
     grid-gap: 15px

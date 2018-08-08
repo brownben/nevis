@@ -8,7 +8,8 @@
     overflow-y: hidden
     ::-webkit-scrollbar
         display: none
-
+    div
+        -webkit-animation: fade .3s ease-in-out
     button
         width: 180px
         height: 35px
@@ -35,6 +36,7 @@
 
 #menu-download
     overflow-y:auto
+    max-height: calc(100% - 100px);
     padding-bottom:10px
     button
         margin-top:10px
