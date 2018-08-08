@@ -52,7 +52,7 @@ function addCourse () {
             blankCourse()
         }
         catch (error) {
-            coursesInfo('error', ' Error: An course with this name already exists')
+            coursesInfo('error', ' Error: An course with this name already exists. Course skipped')
         }
     }
 }

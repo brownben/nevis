@@ -171,7 +171,7 @@
                 <div class="card">
                     <label>Name:</label>
                     <input id="entries-search-name" v-model="name" />
-                    <label>SI Number:</label>
+                    <label>SI Card Number:</label>
                     <input id="entries-search-siid" v-model="siid" />
                     <label>Course:</label>
                     <div class="dropdown-input">
@@ -213,7 +213,7 @@
             <div id="entries-add" class="card" style="display:none;">
                 <label>Name:</label>
                 <input id="entries-add-name" />
-                <label>SI Number:</label>
+                <label>SI Card Number:</label>
                 <input id="entries-add-siid" />
                 <label>Membership Number:</label>
                 <input id="entries-add-membership-number" />
@@ -294,7 +294,7 @@
                 <h2>Settings</h2>
                 <button onClick="zoomChange(0.1)" class="fifty" id="about-zoom-in">Zoom In</button>
                 <button onClick="zoomChange(-0.1)" class="fifty" id="about-zoom-out">Zoom Out</button>
-                <button onClick="ipc.send('toggle-dev-tools')">Open Developer Tools</button>
+                <button onClick="ipc.send('toggle-dev-tools')">Toggle Developer Tools</button>
             </div>
             <div class="card">
                 <h2>System</h2>

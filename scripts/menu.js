@@ -148,7 +148,7 @@ module.exports.navigatePage = function (page) {
             document.getElementById('menu-results').setAttribute('style', 'display:none')
             document.getElementById('menu-back').setAttribute('style', 'display:none')
             document.getElementById('welcome').setAttribute('style', 'display:none')
-            document.getElementById('home').setAttribute('style', 'display:block')
+            document.getElementById('home').setAttribute('style', 'display:grid')
             document.getElementById('download').setAttribute('style', 'display:none')
             document.getElementById('entries').setAttribute('style', 'display:none')
             document.getElementById('entries-info').setAttribute('style', 'display:none')
