@@ -26,6 +26,7 @@ function databaseInitialize () {
     homeVue.competitors = competitorsDB
     homeVue.courses = coursesDB
     homeVue.eventInfo = eventInfo.data[0]
+    safetyCheckVue.data = competitorsDB
 
     // Open SI Card Archive
     archive = new Loki(path.join(app.getPath('userData'), './archive.json'), {

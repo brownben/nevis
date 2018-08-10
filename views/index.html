@@ -40,6 +40,7 @@
             <button onClick="navigatePage('Entries')">Entries</button>
             <button onClick="navigatePage('Courses')">Courses</button>
             <button onClick="navigatePage('Results')">Results</button>
+            <button onClick="navigatePage('Safety Check')">Safety Check</button>
             <button onClick="navigatePage('About')">About</button>
         </div>
         <div id="menu-download" style="display:none">
@@ -132,6 +133,9 @@
             <button onClick="generateHTMLResults()">Export HTML</button>
             <button onClick="generatePDFResults()">Export PDF</button>
             <button onClick="generateXMLResults()">Export IOF XML</button>
+        </div>
+        <div id="menu-safety-check" style="display:none">
+            <button onClick="importSafetyCheck()">Import from Config+</button>
         </div>
         <div id="menu-back" style="display:none">
             <button onClick="navigatePage('Back')">Back</button>
@@ -288,7 +292,23 @@
                 <input id="courses-add-id" style="display:none;height:0px!important" />
             </div>
         </div>
-
+        <div id="safety-check" style="display:none">
+            <div v-if="outstanding.length > 0" class="card" id="safety-check-outstanding">
+                <h2>Outstanding Competitors</h2>
+                <table>
+                    <tr>
+                        <th>Name</th>
+                        <th>Control</th>
+                        <th>Time</th>
+                    </tr>
+                    <tr v-for="competitor in outstanding">
+                        <td>{{ competitor.name }}</td>
+                        <td>{{ competitor.safetyCheck.lastSeenAt }}</td>
+                        <td>{{ competitor.safetyCheck.lastSeenTime }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
         <div id="about" style="display:none;">
             <div id="settings" class="card">
                 <h2>Settings</h2>
@@ -364,5 +384,6 @@
 <script src="../scripts/entries.js"></script>
 <script src="../scripts/results.js"></script>
 <script src="../scripts/courses.js"></script>
+<script src="../scripts/safetyCheck.js"></script>
 
 </html>
