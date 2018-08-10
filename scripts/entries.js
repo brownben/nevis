@@ -46,6 +46,7 @@ function addEntry () {
                 nonCompetitive: document.getElementById('entries-add-non-competitive').checked,
                 course: document.getElementById('entries-add-course').value,
                 download: null,
+                safetyCheck: null,
             })
             db.saveDatabase()
             blankEntry()
@@ -70,7 +71,7 @@ function updateEntry () {
                     entryToUpdate.download.totalTime = entryToUpdate.download.finish - entryToUpdate.download.start
                 }
                 else {
-                    const courseComplete = checkCourse(entryToUpdate.download.controls, coursesDB.findOne({ name: inputedCourse }).controls)
+                    const courseComplete = checkCourse(entryToUpdate.download.controls, coursesDB.findOne({ name: inputedCourse }).controls, entryToUpdate.download)
                     if (courseComplete.errors !== '') entryToUpdate.download.totalTime = courseComplete.errors
                     else entryToUpdate.download.totalTime = entryToUpdate.download.finish - entryToUpdate.download.start
                 }
