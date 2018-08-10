@@ -3,6 +3,7 @@
     "productName": "Nevis",
     "version": "3.4.0",
     "description": "Fast and Easy Results for Orienteering",
+    "homepage": "https://bonalybob.github.io/nevis/",
     "license": "MIT",
     "author": {
         "name": "bonalybob"
@@ -34,10 +35,6 @@
     "build": {
         "appId": "Nevis",
         "productName": "Nevis",
-        "license": "./LICENSE.md",
-        "installerIcon": "./assets/nevis.ico",
-        "installerHeaderIcon": "./assets/nevis.ico",
-        "copyright": "Copyright © 2018 Bonalybob",
         "win": {
             "target": "nsis",
             "icon": "./assets/nevis.ico"
