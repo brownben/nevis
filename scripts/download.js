@@ -181,7 +181,7 @@ function processRecievedData (packet, port) {
                     competitor.download = processedData
                     const competitorCourse = coursesDB.findOne({ 'name': competitor.course })
                     if (competitorCourse.controls !== []) {
-                        courseComplete = checkCourse(processedData.controls, competitorCourse.controls)
+                        courseComplete = checkCourse(competitor.download.controls, competitorCourse.controls, competitor.download)
                     }
                     if (courseComplete.errors !== '') competitor.download.totalTime = courseComplete.errors
                     competitorsDB.update(competitor)
@@ -197,10 +197,11 @@ function processRecievedData (packet, port) {
                         club: '',
                         download: processedData,
                         nonCompetitive: false,
+                        safetyCheck: null,
                     }
                     if (cards.findOne({ siid: competitor.siid })) {
                         const result = cards.findOne({ siid: competitor.siid })
-                        if (!result.name.contains('Hire')) {
+                        if (!result.name.includes('Hire')) {
                             competitor.name = result.name
                             competitor.membershipNumber = result.membershipNumber
                             competitor.ageClass = calculateAgeClass(result.sex, result.yearOfBirth)
@@ -210,7 +211,7 @@ function processRecievedData (packet, port) {
                     else if (processedData.name) {
                         competitor.name = processedData.name
                     }
-                    let matchedCourse = matchCourse(competitor.download.controls)
+                    let matchedCourse = matchCourse(competitor.download)
                     if (matchedCourse) {
                         competitor.course = matchedCourse.name
                         if (matchedCourse.checked.errors !== '') competitor.download.totalTime = matchedCourse.checked.errors
@@ -223,25 +224,20 @@ function processRecievedData (packet, port) {
                     <p><b>Course: </b>${competitor.course}</p>
                     <h1>Time: ${readableTimeElapsed(competitor.download.totalTime)}</h1>
                 `
-                let splits = formatSplits(courseComplete, competitor.download.start)
-                let finish = [competitor.download.finish - lastTime, competitor.download.finish - competitor.download.start]
-                printSplits(competitor, splits, finish, unknown)
+                let splits = formatSplits(courseComplete, competitor.download.start, competitor)
+                let finish = [competitor.download.finish - splits[1], competitor.download.finish - competitor.download.start]
+                printSplits(competitor, splits[0], finish, unknown)
                 db.saveDatabase()
                 currentCard = null
                 document.getElementById('download-latest-download').setAttribute('style', '')
             }
         }
     }
-    else {
-        document.getElementById('download-latest-download').innerHTML = `
-        <h2>Error<h2>
-        <p>Sorry a SI Card which is not supported has been used</p>
-    `
-    }
 }
 
 // Find Best Matching Course to Download
-function matchCourse (cardList) {
+function matchCourse (downloadData) {
+    let cardList = downloadData.controls
     let courses = coursesDB.find()
     let mostCorrect = {
         checked: {
@@ -249,7 +245,7 @@ function matchCourse (cardList) {
         },
     }
     for (let course of courses) {
-        course.checked = checkCourse(cardList, course.controls)
+        course.checked = checkCourse(cardList, course.controls, downloadData)
         if (course.checked.percentageCorrect > mostCorrect.checked.percentageCorrect) {
             mostCorrect = course
             mostCorrect.checked.percentageCorrect = course.checked.percentageCorrect
@@ -260,7 +256,7 @@ function matchCourse (cardList) {
 }
 
 // Format data into splits for printing
-function formatSplits (courseComplete, start) {
+function formatSplits (courseComplete, start, competitor) {
     let splits = []
     let lastTime = start
     let linksCounter = 0
@@ -286,7 +282,7 @@ function formatSplits (courseComplete, start) {
             lastTime = '-'
         }
     }
-    return splits
+    return [splits, lastTime]
 }
 
 // Print Splits

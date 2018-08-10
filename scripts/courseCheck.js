@@ -1,6 +1,6 @@
 'use strict'
 
-let checkCourse = function (cardList, courseList) {
+let checkCourse = function (cardList, courseList, downloadData) {
     let cardListCounter = -1
     let courseListCounter = -1
     let errors = ''
@@ -78,6 +78,8 @@ let checkCourse = function (cardList, courseList) {
         else errors += ' M' + courseListCounter
     }
     let percentageCorrect = correctVisited / courseList.length
+    if (downloadData.start === null) errors = 'MS' + errors
+    if (downloadData.finish === null) errors += 'DNF'
     return {
         links: controlLinks,
         errors: errors.trim(),
