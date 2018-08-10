@@ -112,6 +112,13 @@ module.exports.navigatePage = function (page) {
         document.getElementById('home').setAttribute('style', 'display:none')
         document.getElementById('about').setAttribute('style', 'display:grid')
     }
+    else if (page === 'Safety Check') {
+        document.getElementById('menu-main').setAttribute('style', 'display:none')
+        document.getElementById('menu-back').setAttribute('style', 'display:block')
+        document.getElementById('home').setAttribute('style', 'display:none')
+        document.getElementById('menu-safety-check').setAttribute('style', 'display:block')
+        document.getElementById('safety-check').setAttribute('style', 'display:grid')
+    }
     else {
         if (currentLocation === 'Entries/Add' || currentLocation === 'Entries/Update') {
             blankEntry()
@@ -163,6 +170,8 @@ module.exports.navigatePage = function (page) {
             document.getElementById('menu-courses-add').setAttribute('style', 'display:none')
             document.getElementById('courses-add').setAttribute('style', 'display:none')
             document.getElementById('menu-courses-update').setAttribute('style', 'display:none')
+            document.getElementById('menu-safety-check').setAttribute('style', 'display:none')
+            document.getElementById('safety-check').setAttribute('style', 'display:none')
         }
     }
     currentLocation = page

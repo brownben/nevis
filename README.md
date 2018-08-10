@@ -25,6 +25,7 @@ With Nevis you can:
 - Have all data Encrypted in Database
 - Have Splits Printing
 - Use SI Card Archive to Lookup Details
+- Safety Check (import from SI Config+)
 
 ## Install
 Get the Windows installer from the Releases page
@@ -40,11 +41,19 @@ To create your own executable then run:
 npm run dist
 ````
 
-To download from Sportident Stations you will also need their driver and drivers for any printers you wish to print from
+To download from Sportident Stations you will also need their driver and drivers for any printers you wish to print from.
+To get the safety data from stations you will have to use Si Config+.
 
 ## Help
 
 For help please create an Issue on Github
+
+### Safety Check
+
+To import safety check data from station.
+- Open SI Config+ and the station you are importing
+- Go to Backup > Export > Export Current View
+- Export as CSV with Semi-Colon Field Delimiters and save as the Controls Code as the file name
 
 ## License
 Released under a MIT License.
