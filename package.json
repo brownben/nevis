@@ -41,24 +41,23 @@
         }
     },
     "dependencies": {
-        "ajv": "^6.0.0",
         "ejs": "^2.6.1",
         "electron-store": "^2.0.0",
         "lokijs": "^1.5.5",
         "node-thermal-printer": "git+https://github.com/bonalybob/node-thermal-printer.git",
         "printer": "^0.2.2",
         "serialport": "^6.2.1",
-        "vue": "^2.5.16",
+        "vue": "^2.5.17",
         "xml2js": "^0.4.19"
     },
     "devDependencies": {
         "electron": "^2.0.8",
-        "electron-builder": "^20.21.2",
-        "eslint": "^4.19.1",
-        "eslint-plugin-import": "^2.13.0",
-        "eslint-plugin-node": "^6.0.1",
-        "eslint-plugin-promise": "^3.8.0",
-        "eslint-plugin-standard": "^3.1.0",
+        "electron-builder": "^20.28.3",
+        "eslint": "^5.5.0",
+        "eslint-plugin-import": "^2.14.0",
+        "eslint-plugin-node": "^7.0.1",
+        "eslint-plugin-promise": "^4.0.0",
+        "eslint-plugin-standard": "^4.0.0",
         "stylus": "^0.54.5"
     }
 }
