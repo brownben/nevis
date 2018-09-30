@@ -1,63 +1,46 @@
 {
     "name": "nevis",
     "productName": "Nevis",
-    "version": "3.4.0",
-    "description": "Fast and Easy Results for Orienteering",
-    "homepage": "https://brownben.github.io/nevis/",
-    "license": "MIT",
-    "author": {
-        "name": "Ben Brown"
-    },
-    "keywords": [
-        "orienteering",
-        "sportident",
-        "timing",
-        "results",
-        "nevis",
-        "electron"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/brownben/nevis.git"
-    },
-    "main": "main.js",
+    "version": "4.0.0",
     "scripts": {
-        "start": "electron .",
-        "rebuild": "electron-builder install-app-deps",
-        "postinstall": "npm run rebuild",
-        "dist": "build",
-        "pack": "build --dir",
-        "go": "npm install && npm run styles && npm start",
-        "lint": "eslint ./scripts/** && eslint ./main.js",
-        "styles": "stylus ./styles/index.styl -o ./styles/styles.css -m -c && stylus ./styles/message.styl -m -c && stylus ./styles/new-event.styl -m -c",
-        "watch:styles": "stylus ./styles/index.styl -o ./styles/styles.css -m -c -w"
-    },
-    "build": {
-        "appId": "Nevis",
-        "productName": "Nevis",
-        "win": {
-            "target": "nsis",
-            "icon": "./assets/nevis.ico"
-        }
+        "dev": "concurrently \"vue-cli-service serve\" \"electron . --NODE_ENV=development\"",
+        "build": "vue-cli-service build",
+        "lint": "vue-cli-service lint"
     },
     "dependencies": {
-        "ejs": "^2.6.1",
-        "electron-store": "^2.0.0",
-        "lokijs": "^1.5.5",
-        "node-thermal-printer": "git+https://github.com/brownben/node-thermal-printer.git",
-        "printer": "^0.2.2",
-        "serialport": "^6.2.1",
+        "concurrently": "^4.0.1",
         "vue": "^2.5.17",
-        "xml2js": "^0.4.19"
+        "vue-router": "^3.0.1"
     },
     "devDependencies": {
-        "electron": "^2.0.8",
-        "electron-builder": "^20.28.3",
-        "eslint": "^5.5.0",
-        "eslint-plugin-import": "^2.14.0",
-        "eslint-plugin-node": "^7.0.1",
-        "eslint-plugin-promise": "^4.0.0",
-        "eslint-plugin-standard": "^4.0.0",
-        "stylus": "^0.54.5"
+        "@vue/cli-plugin-eslint": "^3.0.3",
+        "@vue/cli-service": "^3.0.3",
+        "@vue/eslint-config-standard": "^3.0.3",
+        "electron": "^3.0.0",
+        "electron-builder": "^20.28.4",
+        "stylus": "^0.54.5",
+        "stylus-loader": "^3.0.2",
+        "vue-template-compiler": "^2.5.17"
+    },
+    "description": "Fast and Easy Results for Orienteering",
+    "main": "main.js",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/bonalybob/nevis.git"
+    },
+    "keywords": [
+        "timing",
+        "orienteering",
+        "results",
+        "sportident"
+    ],
+    "author": "Bonalybob",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/bonalybob/nevis/issues"
+    },
+    "homepage": "https://github.com/bonalybob/nevis#readme",
+    "vue": {
+        "baseUrl": "./"
     }
 }
