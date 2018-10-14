@@ -1,46 +1,62 @@
 {
   "name": "nevis",
   "productName": "Nevis",
-  "version": "4.0.0",
-  "scripts": {
-    "dev": "concurrently \"vue-cli-service serve\" \"electron . --NODE_ENV=development\"",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
-  },
-  "dependencies": {
-    "concurrently": "^4.0.1",
-    "vue": "^2.5.17",
-    "vue-router": "^3.0.1"
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-eslint": "^3.0.3",
-    "@vue/cli-service": "^3.0.3",
-    "@vue/eslint-config-standard": "^3.0.3",
-    "electron": "^3.0.0",
-    "electron-builder": "^20.28.4",
-    "stylus": "^0.54.5",
-    "stylus-loader": "^3.0.2",
-    "vue-template-compiler": "^2.5.17"
-  },
+  "version": "4.0.0-beta",
   "description": "Fast and Easy Results for Orienteering",
+  "author": "Bonalybob",
+  "license": "MIT",
+  "repository": "git+https://github.com/bonalybob/nevis.git",
+  "bugs": "https://github.com/bonalybob/nevis/issues",
+  "homepage": "https://github.com/bonalybob/nevis#readme",
   "main": "main.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/bonalybob/nevis.git"
-  },
   "keywords": [
     "timing",
     "orienteering",
     "results",
     "sportident"
   ],
-  "author": "Bonalybob",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/bonalybob/nevis/issues"
+  "dependencies": {
+    "pouchdb": "^7.0.0",
+    "vue": "^2.5.17",
+    "vue-async-computed": "^3.4.1",
+    "vue-router": "^3.0.1"
   },
-  "homepage": "https://github.com/bonalybob/nevis#readme",
+  "devDependencies": {
+    "@vue/cli-service": "^3.0.5",
+    "concurrently": "^4.0.1",
+    "electron": "^3.0.4",
+    "electron-builder": "^20.28.4",
+    "eslint": "^5.5.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.0",
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-vue": "^4.7.1",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
+    "stylus-supremacy": "^2.12.7",
+    "vue-template-compiler": "^2.5.17"
+  },
+  "scripts": {
+    "dev": "concurrently -n vue,electron \"vue-cli-service serve\" \"electron . --NODE_ENV=development\"",
+    "build": "vue-cli-service build",
+    "rebuild": "electron-builder install-app-deps",
+    "postinstall": "npm run rebuild",
+    "dist": "build",
+    "pack": "build --dir",
+    "lint": "npm run lint-styles && npm run lint-js",
+    "lint-js": "eslint main.js ./src/ --ext .vue,.js",
+    "lint-styles": "stylus-supremacy format ./src/assets/styles/*.styl --options stylusSupremacy.json --replace"
+  },
   "vue": {
     "baseUrl": "./"
+  },
+  "build": {
+    "appId": "Nevis",
+    "productName": "Nevis",
+    "win": {
+      "target": "nsis",
+      "icon": "./assets/nevis.ico"
+    }
   }
 }
