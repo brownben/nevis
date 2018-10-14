@@ -1,87 +1,83 @@
 <template>
-    <div>
-        <p>Nevis</p>
-        <button v-on:click="close()">
-            <svg color=" white" width="10" height="10">
-                <path d="M 0,0 0,0.7 4.3,5 0,9.3 0,10 0.7,10 5,5.7 9.3,10 10,10 10,9.3 5.7,5 10,0.7 10,0 9.3,0 5,4.3 0.7,0 Z"></path>
-            </svg>
-        </button>
-        <button v-on:click="maximize()">
-            <svg color="white" width="10" height="10" v-if="!maximized">
-                <path d="M 0,0 0,10 10,10 10,0 Z M 1,1 9,1 9,9 1,9 Z"></path>
-            </svg>
-            <svg color="white" width="10" height="10" v-if="maximized">
-                <path d="m 2,1e-5 0,2 -2,0 0,8 8,0 0,-2 2,0 0,-8 z m 1,1 6,0 0,6 -1,0 0,-5 -5,0 z m -2,2 6,0 0,6 -6,0 z"></path>
-            </svg>
-        </button>
-        <button v-on:click="minimize()">
-            <svg color="white" width="10" height="10">
-                <path d="M 0,5 10,5 10,6 0,6 Z"></path>
-            </svg>
-        </button>
-    </div>
+  <div>
+    <p>Nevis</p>
+    <button id="close" @click="close()">
+      <svg color=" white" width="10" height="10">
+        <path
+          d="M 0,0 0,0.7 4.3,5 0,9.3 0,10 0.7,10 5,5.7 9.3,10 10,10 10,9.3 5.7,5 10,0.7 10,0 9.3,0 5,4.3 0.7,0 Z"
+        />
+      </svg>
+    </button>
+    <button @click="maximize()">
+      <svg v-if="!maximized" color="white" width="10" height="10">
+        <path d="M 0,0 0,10 10,10 10,0 Z M 1,1 9,1 9,9 1,9 Z"/>
+      </svg>
+      <svg v-if="maximized" color="white" width="10" height="10">
+        <path
+          d="m 2,1e-5 0,2 -2,0 0,8 8,0 0,-2 2,0 0,-8 z m 1,1 6,0 0,6 -1,0 0,-5 -5,0 z m -2,2 6,0 0,6 -6,0 z"
+        />
+      </svg>
+    </button>
+    <button @click="minimize()">
+      <svg color="white" width="10" height="10">
+        <path d="M 0,5 10,5 10,6 0,6 Z"/>
+      </svg>
+    </button>
+  </div>
 </template>
 
 <script>
 export default {
-    name: "TitleBar",
-    data: function () {
-        return {
-            maximized: false,
-        }
-    },
-    methods: {
-        close: () => { window.close() },
-        maximize: function () { this.$electron.ipcRenderer.send('window', 'maximize') },
-        minimize: function () { this.$electron.ipcRenderer.send('window', 'minimize') },
-    },
-    mounted () {
-        this.$electron.ipcRenderer.on('window', (event, data) => { this.maximized = data === 'maximized' })
-    }
-};
+  name: 'TitleBar',
+  data: () => ({
+    maximized: false,
+  }),
+  mounted: function () {
+    this.$electron.ipcRenderer.on('window', (event, data) => { this.maximized = data === 'maximized' })
+  },
+  methods: {
+    close: () => window.close(),
+    maximize: function () { this.$electron.ipcRenderer.send('window', 'maximize') },
+    minimize: function () { this.$electron.ipcRenderer.send('window', 'minimize') },
+  },
+}
 </script>
 
 <style scoped lang="stylus">
+@import '../assets/styles/helpers.styl'
+
 div
-    width:100%
-    height:35px
-    color:white
-    background:#0D47A1
-    -webkit-user-select: none
-    -webkit-app-region: drag
-    user-select: none
+  width: 100%
+  height: 35px
+  background: main-color
+  color: white
+  user-select: none
+  -webkit-user-select: none
+  -webkit-app-region: drag
 
-    p
-        font-family: 'Montserrat'
-        font-style: normal
-        font-weight: 300
-        line-height: normal
-        font-size: 16px
-        float:left
-        margin:7px 0 7px 12px
+  p
+    float: left
+    margin: 7px 0 7px 12px
+    default-font()
+    font-size: 16px
+    line-height: normal
 
-    button
-        height:100%
-        width:50px
-        float:right
-        border:0
-        outline:0
-        padding:0
-        fill:white
-        background:none
-        -webkit-app-region: no-drag
-        transition:.5s
+  button
+    float: right
+    padding: 0
+    width: 50px
+    height: 100%
+    outline: 0
+    border: 0
+    background: none
+    transition: 0.5s
+    fill: white
+    -webkit-app-region: no-drag
 
-        &:hover
-            background-color:#1565C0
+    &:hover
+      background-color: hover-color
 
-    #close
-        &:hover
-            background-color:#D32F2F
-
-@media(max-width:230px)
-    #titlebar
-        #maximize, #minimize
-            display:none
-
+  #close
+    &:hover
+      background-color: #D32F2F
 </style>
