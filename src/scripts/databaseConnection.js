@@ -1,0 +1,26 @@
+import eventFunctions from './eventOverview'
+import competitorFunctions from './competitors'
+import courseFunctions from './courses'
+
+const PouchDB = window.require('pouchdb')
+
+const databaseFunctions = {
+  database: null,
+  isConnected: false,
+
+  serverName: 'localhost',
+  port: 5984,
+  databaseName: '',
+
+  connect: function () {
+    this.database = new PouchDB('http://' + this.serverName + ':' + this.port + '/' + this.databaseName)
+    this.isConnected = true
+  },
+
+  setDatabase: function (server = 'localhost', name = '') {
+    this.serverName = server
+    this.databaseName = name
+  },
+}
+
+export default { ...databaseFunctions, ...eventFunctions, ...competitorFunctions, ...courseFunctions }
