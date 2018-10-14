@@ -4,7 +4,10 @@
     "node": true,
     "es6": true
   },
-  "extends": "eslint:recommended",
+  "extends": [
+    "plugin:vue/recommended",
+    "eslint:recommended"
+  ],
   "plugins": [
     "import",
     "node",
@@ -433,6 +436,8 @@
     ],
     "dot-notation": "error",
     "no-plusplus": "error",
-    "no-ternary": "error"
+    "no-ternary": "error",
+    "vue/max-attributes-per-line": "off",
+    "vue/script-indent": "off"
   }
 }
