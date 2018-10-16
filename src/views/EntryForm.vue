@@ -122,5 +122,16 @@ export default {
         .catch(error => this.$messages.addMessage('Error: ' + error.message, 'error'))
     },
   },
+  asyncComputed: {
+    courses: function () {
+      return this.$database.getCourses()
+        .then(data => {
+          let courses = data.map(course => course.doc.name)
+          courses.unshift('')
+          return courses
+        })
+        .catch(error => this.$messages.addMessage('Error: ' + error.message, 'error'))
+    },
+  },
 }
 </script>

@@ -9,6 +9,13 @@ export default {
     course._id = id
     course._rev = rev
     course.controls = course.controls.split(',').map(control => parseInt(control))
+
+    this.database.get(id).then(originalCourse => {
+      if (originalCourse.name !== course.name) {
+        this.changeCourseOfCompetitors(originalCourse.name, course.name)
+      }
+    })
+
     return this.database.put(course)
   },
 
