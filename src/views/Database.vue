@@ -35,7 +35,13 @@ export default {
     connect: function () {
       this.$database.setDatabase(this.hostname, this.event)
       this.$database.connect()
-      this.$router.push('dashboard')
+        .then(() => {
+          this.$router.push('dashboard')
+        })
+        .catch(() => {
+          this.$messages.clearMessages()
+          this.$messages.addMessage('Error: Not Connected to Database', 'error')
+        })
     },
   },
 }
