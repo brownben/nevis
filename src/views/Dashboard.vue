@@ -2,6 +2,7 @@
   <base-layout>
     <div slot="menu">
       <router-link to="/entries">Entries</router-link>
+      <router-link to="/courses">Courses</router-link>
       <router-link to="/about">About</router-link>
       <router-link to="/" class="back">Change Event</router-link>
     </div>
@@ -29,7 +30,7 @@ export default {
     if (this.$database.database === null) {
       this.$router.push('/')
       this.$messages.clearMessages()
-      this.$messages.addMessage('Error: Not Connected to Database', 'error')
+      this.$messages.addMessage('Error: Not Connected to the Database', 'error')
     }
 
     this.$database.getOverview()
