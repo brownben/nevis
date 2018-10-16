@@ -12,7 +12,8 @@ export default {
 
   deleteCompetitor: function (id) {
     let db = this.database
-    db.get(id).then(data => db.remove(data))
+    return db.get(id)
+      .then(data => db.remove(data))
   },
 
   getCompetitors: function () {
@@ -29,14 +30,15 @@ export default {
   },
 
   searchCompetitors: function (name, siid, course) {
-    return this.getCompetitors().then(data => {
-      let competitors = data.map(data => data.doc)
-      competitors = competitors.filter(data =>
-        data.name.includes(name) &&
-        data.siid.includes(siid) &&
-        data.course === course
-      )
-      return competitors
-    })
+    return this.getCompetitors()
+      .then(data => {
+        let competitors = data.map(data => data.doc)
+        competitors = competitors.filter(data =>
+          data.name.includes(name) &&
+          data.siid.includes(siid) &&
+          data.course === course
+        )
+        return competitors
+      })
   },
 }

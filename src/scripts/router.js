@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Database from './views/Database.vue'
-import Dashboard from './views/Dashboard.vue'
-import Entries from './views/Entries.vue'
-import EntryForm from './views/EntryForm.vue'
-import About from './views/About.vue'
+import Database from '../views/Database.vue'
+import Dashboard from '../views/Dashboard.vue'
+import Entries from '../views/Entries.vue'
+import EntryForm from '../views/EntryForm.vue'
+import About from '../views/About.vue'
 
 Vue.use(Router)
 

@@ -51,6 +51,7 @@ export default {
     'base-layout': BaseLayout,
     'dropdown-input': DropdownInput,
   },
+
   data: () => ({
     name: '',
     siid: '',
@@ -58,7 +59,10 @@ export default {
     courses: [],
   }),
   created: function () {
-    if (this.$database.database === null) this.$router.push('/')
+    if (this.$database.database === null) {
+      this.$router.push('/')
+      this.$messages.addMessage('Error: Not Connected to Database', 'error')
+    }
   },
   methods: {
     dropdownChanged: function (value) { this.course = value },
@@ -66,7 +70,7 @@ export default {
   asyncComputed: {
     competitors: function () {
       return this.$database.searchCompetitors(this.name, this.siid, this.course)
-        .catch(error => console.log(error))
+        .catch(error => this.$messages.addMessage('Error: ' + error.message, 'error'))
     },
   },
 }

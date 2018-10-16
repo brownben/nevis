@@ -62,13 +62,19 @@ export default {
 
   }),
   created: function () {
-    if (this.$database.database === null) this.$router.push('/')
+    if (this.$database.database === null) {
+      this.$router.push('/')
+      this.$messages.clearMessages()
+      this.$messages.addMessage('Error: Not Connected to Database', 'error')
+    }
     this._id = this.$route.params.id
     if (this._id) {
-      this.$database.findCompetitor(this._id).then(data => {
-        this.competitor = data
-        this._rev = data._rev
-      }).catch(error => console.log(error))
+      this.$database.findCompetitor(this._id)
+        .then(data => {
+          this.competitor = data
+          this._rev = data._rev
+        })
+        .catch(error => this.$messages.addMessage('Error: ' + error.message, 'error'))
     }
   },
   methods: {
@@ -92,21 +98,27 @@ export default {
     addEntry: function () {
       if (this.name !== '' || this.siid !== '') {
         this.$database.addCompetitor(this.competitor)
-          .then(response => this.clearEntry())
-          .catch(error => console.log(error))
+          .then(() => this.clearEntry())
+          .catch(error => {
+            if (error.message === 'Document update conflict') this.$messages.addMessage('Error: A Competitor with this SI Card already exists', 'error')
+            else this.$messages.addMessage('Error: ' + error.message, 'error')
+          })
       }
     },
 
     updateEntry: function () {
       this.$database.updateCompetitor(this.competitor, this._id, this._rev)
-        .then(response => this.$router.go(-1))
-        .catch(error => console.log('update', this._id, this._rev, error))
+        .then(() => this.$router.go(-1))
+        .catch(error => this.$messages.addMessage('Error: ' + error.message, 'error'))
     },
 
     deleteEntry: function () {
-      this.$database.deleteEntry(this._id)
-        .then(response => this.$router.go(-1))
-        .catch(error => console.log(error))
+      this.$database.deleteCompetitor(this._id)
+        .then(() => {
+          this.$router.go(-1)
+          this.$messages.addMessage('Entry Deleted', 'info')
+        })
+        .catch(error => this.$messages.addMessage('Error: ' + error.message, 'error'))
     },
   },
 }
