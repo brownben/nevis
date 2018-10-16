@@ -61,7 +61,7 @@ export default {
   created: function () {
     if (this.$database.database === null) {
       this.$router.push('/')
-      this.$messages.addMessage('Error: Not Connected to Database', 'error')
+      this.$messages.addMessage('Error: Not Connected to the Database', 'error')
     }
   },
   methods: {

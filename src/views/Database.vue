@@ -36,11 +36,12 @@ export default {
       this.$database.setDatabase(this.hostname, this.event)
       this.$database.connect()
         .then(() => {
+          this.$messages.clearMessages()
           this.$router.push('dashboard')
         })
         .catch(() => {
           this.$messages.clearMessages()
-          this.$messages.addMessage('Error: Not Connected to Database', 'error')
+          this.$messages.addMessage('Error: Not Connected to the Database', 'error')
         })
     },
   },

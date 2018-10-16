@@ -45,7 +45,7 @@
     "dist": "build",
     "pack": "build --dir",
     "lint": "npm run lint-styles && npm run lint-js",
-    "lint-js": "eslint main.js ./src/ --ext .vue,.js",
+    "lint-js": "eslint main.js ./src/ --ext .vue,.js --fix",
     "lint-styles": "stylus-supremacy format ./src/assets/styles/*.styl --options stylusSupremacy.json --replace"
   },
   "vue": {
