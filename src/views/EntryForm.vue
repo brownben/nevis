@@ -65,7 +65,7 @@ export default {
     if (this.$database.database === null) {
       this.$router.push('/')
       this.$messages.clearMessages()
-      this.$messages.addMessage('Error: Not Connected to Database', 'error')
+      this.$messages.addMessage('Error: Not Connected to the Database', 'error')
     }
     this._id = this.$route.params.id
     if (this._id) {
@@ -104,6 +104,7 @@ export default {
             else this.$messages.addMessage('Error: ' + error.message, 'error')
           })
       }
+      else this.$messages.addMessage('Error: Please set the Competitors Name or SI Card', 'error')
     },
 
     updateEntry: function () {
