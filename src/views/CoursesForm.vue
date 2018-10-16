@@ -54,6 +54,7 @@ export default {
       this.$database.findCourse(this._id)
         .then(data => {
           this.course = data
+          this.course.controls = this.course.controls.toString()
           this._rev = data._rev
         })
         .catch(error => this.$messages.addMessage('Error: ' + error.message, 'error'))

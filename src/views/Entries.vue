@@ -18,9 +18,9 @@
           <table>
             <tbody>
               <tr>
-                <th>Name</th>
-                <th>SI Card</th>
-                <th>Course</th>
+                <th @click="sortBy('name')">Name</th>
+                <th @click="sortBy('siid')">SI Card</th>
+                <th @click="sortBy('course')">Course</th>
               </tr>
             </tbody>
             <tbody is="transition-group" name="fade">
@@ -56,7 +56,8 @@ export default {
     name: '',
     siid: '',
     course: '',
-    courses: [],
+    sortByField: 'name',
+    reverseSort: false,
   }),
   created: function () {
     if (this.$database.database === null) {
@@ -66,10 +67,23 @@ export default {
   },
   methods: {
     dropdownChanged: function (value) { this.course = value },
+    sortBy: function (field) {
+      if (this.sortByField === field) this.reverseSort = !this.reverseSort
+      this.sortByField = field
+    },
   },
   asyncComputed: {
     competitors: function () {
-      return this.$database.searchCompetitors(this.name, this.siid, this.course)
+      return this.$database.searchCompetitors(this.name, this.siid, this.course, this.sortByField, this.reverseSort)
+        .catch(error => this.$messages.addMessage('Error: ' + error.message, 'error'))
+    },
+    courses: function () {
+      return this.$database.getCourses()
+        .then(data => {
+          let courses = data.map(course => course.doc.name)
+          courses.unshift('')
+          return courses
+        })
         .catch(error => this.$messages.addMessage('Error: ' + error.message, 'error'))
     },
   },

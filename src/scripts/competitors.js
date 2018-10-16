@@ -29,16 +29,31 @@ export default {
     return this.database.get(id)
   },
 
-  searchCompetitors: function (name, siid, course) {
+  searchCompetitors: function (name, siid, course, sortBy, invert) {
     return this.getCompetitors()
       .then(data => {
         let competitors = data.map(data => data.doc)
         competitors = competitors.filter(data =>
-          data.name.includes(name) &&
+          data.name.toLowerCase().includes(name.toLowerCase()) &&
           data.siid.includes(siid) &&
-          data.course === course
+          data.course.includes(course)
         )
+        competitors.sort((a, b) => a[sortBy] > b[sortBy])
+        if (invert) competitors.reverse()
         return competitors
+      })
+  },
+
+  changeCourseOfCompetitors: function (oldCourse, newCourse) {
+    this.getCompetitors()
+      .then(competitors => {
+        competitors = competitors.filter(competitor => competitor.doc.course === oldCourse)
+        competitors.forEach(competitor => {
+          let toInsert = competitor.doc
+          toInsert._id = competitor.id
+          toInsert.course = newCourse
+          this.database.put(toInsert)
+        })
       })
   },
 }
