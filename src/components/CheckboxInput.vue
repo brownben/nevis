@@ -12,8 +12,14 @@
 export default {
   name: 'CheckboxInput',
   props: {
-    'state': Boolean,
-    'label': String,
+    'state': {
+      type: Boolean,
+      default: false,
+    },
+    'label': {
+      type: String,
+      default: '',
+    },
   },
   data: function () {
     return {

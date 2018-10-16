@@ -16,8 +16,14 @@
 export default {
   name: 'CheckboxInput',
   props: {
-    'initial': String,
-    'list': Array,
+    'initial': {
+      type: String,
+      default: '',
+    },
+    'list': {
+      type: Array,
+      default: [],
+    },
   },
   data: () => ({
     output: '',
