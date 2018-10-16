@@ -15,6 +15,12 @@ const databaseFunctions = {
   connect: function () {
     this.database = new PouchDB('http://' + this.serverName + ':' + this.port + '/' + this.databaseName)
     this.isConnected = true
+    return this.database.info()
+  },
+
+  disconnect: function () {
+    this.database = null
+    this.isConnected = false
   },
 
   setDatabase: function (server = 'localhost', name = '') {
