@@ -5,6 +5,8 @@ import Database from '../views/Database.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Entries from '../views/Entries.vue'
 import EntryForm from '../views/EntryForm.vue'
+import Courses from '../views/Courses.vue'
+import CoursesForm from '../views/CoursesForm'
 import About from '../views/About.vue'
 
 Vue.use(Router)
@@ -30,6 +32,18 @@ export default new Router({
     {
       path: '/entries/update/:id',
       component: EntryForm,
+    },
+    {
+      path: '/courses',
+      component: Courses,
+    },
+    {
+      path: '/courses/add',
+      component: CoursesForm,
+    },
+    {
+      path: '/courses/update/:id',
+      component: CoursesForm,
     },
     {
       path: '/about',
