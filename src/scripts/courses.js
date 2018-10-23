@@ -1,8 +1,13 @@
 export default {
-  addCourse: function (course) {
-    course._id = 'course-' + course.name
-    course.controls = course.controls.split(',').map(control => parseInt(control))
-    return this.database.put(course)
+
+  addCourse: async function (course) {
+    if (await this.checkDuplicateName(course.name)) {
+      const size = await this.size()
+      course._id = 'course-' + size
+      course.controls = course.controls.split(',').map(control => parseInt(control))
+      return this.database.put(course)
+    }
+    else throw Error('A Course with this Name already exists')
   },
 
   updateCourse: function (course, id, rev) {
@@ -36,5 +41,10 @@ export default {
 
   findCourse: function (id) {
     return this.database.get(id)
+  },
+
+  checkDuplicateName: function (name) {
+    return this.getCourses()
+      .then(courses => courses.filter(course => course.doc.name === name).length === 0)
   },
 }

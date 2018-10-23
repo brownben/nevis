@@ -74,13 +74,10 @@ export default {
     },
 
     addCourse: function () {
-      if (this.name !== '') {
+      if (this.course.name !== '') {
         this.$database.addCourse(this.course)
           .then(() => this.clearCourse())
-          .catch(error => {
-            if (error.message === 'Document update conflict') this.$messages.addMessage('Error: A Course with this Name already exists', 'error')
-            else this.$messages.addMessage('Error: ' + error.message, 'error')
-          })
+          .catch(error => this.$messages.addMessage('Error: ' + error.message, 'error'))
       }
       else this.$messages.addMessage('Error: Please give the Course a Name', 'error')
     },

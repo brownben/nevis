@@ -1,4 +1,8 @@
 export default {
+  size: function () {
+    return this.database.allDocs().then(data => data.rows.length)
+  },
+
   getCoursesLength: function () {
     return this.database.allDocs({
       include_docs: true,
