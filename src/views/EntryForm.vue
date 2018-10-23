@@ -99,10 +99,7 @@ export default {
       if (this.name !== '' || this.siid !== '') {
         this.$database.addCompetitor(this.competitor)
           .then(() => this.clearEntry())
-          .catch(error => {
-            if (error.message === 'Document update conflict') this.$messages.addMessage('Error: A Competitor with this SI Card already exists', 'error')
-            else this.$messages.addMessage('Error: ' + error.message, 'error')
-          })
+          .catch(error => this.$messages.addMessage('Error: ' + error.message, 'error'))
       }
       else this.$messages.addMessage('Error: Please set the Competitors Name or SI Card', 'error')
     },
