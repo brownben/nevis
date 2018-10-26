@@ -30,7 +30,10 @@ export default {
     display: none
 
   div
-    height: calc(100% - 17px)
+    height: calc(100% - 75px)
+
+  &:first-child
+    margin-top: 5px
 
 a, button
   display: block
@@ -52,14 +55,11 @@ a, button
   user-select: none
   -webkit-user-select: none
 
-  &:first-child
-    margin-top: 5px
-
   &:hover
     background-color: main-color
     color: white
 
 .back
   position: absolute
-  bottom: 43px
+  bottom: 45px
 </style>

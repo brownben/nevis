@@ -65,7 +65,7 @@ export default {
     if (this.$database.database === null) {
       this.$router.push('/')
       this.$messages.clearMessages()
-      this.$messages.addMessage('Error: Not Connected to the Database', 'error')
+      this.$messages.addMessage('Not Connected to the Database', 'error')
     }
     this._id = this.$route.params.id
     if (this._id) {
@@ -74,7 +74,7 @@ export default {
           this.competitor = data
           this._rev = data._rev
         })
-        .catch(error => this.$messages.addMessage('Error: ' + error.message, 'error'))
+        .catch(error => this.$messages.addMessage(error.message, 'error'))
     }
   },
   methods: {
@@ -99,15 +99,15 @@ export default {
       if (this.name !== '' || this.siid !== '') {
         this.$database.addCompetitor(this.competitor)
           .then(() => this.clearEntry())
-          .catch(error => this.$messages.addMessage('Error: ' + error.message, 'error'))
+          .catch(error => this.$messages.addMessage(error.message, 'error'))
       }
-      else this.$messages.addMessage('Error: Please set the Competitors Name or SI Card', 'error')
+      else this.$messages.addMessage('Please set the Competitors Name or SI Card', 'error')
     },
 
     updateEntry: function () {
       this.$database.updateCompetitor(this.competitor, this._id, this._rev)
         .then(() => this.$router.go(-1))
-        .catch(error => this.$messages.addMessage('Error: ' + error.message, 'error'))
+        .catch(error => this.$messages.addMessage(error.message, 'error'))
     },
 
     deleteEntry: function () {
@@ -116,7 +116,7 @@ export default {
           this.$router.go(-1)
           this.$messages.addMessage('Entry Deleted', 'info')
         })
-        .catch(error => this.$messages.addMessage('Error: ' + error.message, 'error'))
+        .catch(error => this.$messages.addMessage(error.message, 'error'))
     },
   },
   asyncComputed: {
@@ -127,7 +127,7 @@ export default {
           courses.unshift('')
           return courses
         })
-        .catch(error => this.$messages.addMessage('Error: ' + error.message, 'error'))
+        .catch(error => this.$messages.addMessage(error.message, 'error'))
     },
   },
 }

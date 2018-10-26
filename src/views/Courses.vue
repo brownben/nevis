@@ -33,7 +33,7 @@ export default {
   created: function () {
     if (this.$database.database === null) {
       this.$router.push('/')
-      this.$messages.addMessage('Error: Not Connected to the Database', 'error')
+      this.$messages.addMessage('Not Connected to the Database', 'error')
     }
   },
 
@@ -41,7 +41,7 @@ export default {
     courses: function () {
       return this.$database.getCourses()
         .then(data => data.map(course => course.doc))
-        .catch(error => this.$messages.addMessage('Error: ' + error.message, 'error'))
+        .catch(error => this.$messages.addMessage(error.message, 'error'))
     },
   },
 }

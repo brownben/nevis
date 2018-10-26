@@ -67,5 +67,5 @@ export default {
     position: relative
     top: -30px
     right: calc(-100% + 25px)
-    transition: 0.5s
+    transition: 0.3s
 </style>

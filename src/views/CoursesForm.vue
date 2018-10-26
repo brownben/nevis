@@ -47,7 +47,7 @@ export default {
     if (this.$database.database === null) {
       this.$router.push('/')
       this.$messages.clearMessages()
-      this.$messages.addMessage('Error: Not Connected to the Database', 'error')
+      this.$messages.addMessage('Not Connected to the Database', 'error')
     }
     this._id = this.$route.params.id
     if (this._id) {
@@ -57,7 +57,7 @@ export default {
           this.course.controls = this.course.controls.toString()
           this._rev = data._rev
         })
-        .catch(error => this.$messages.addMessage('Error: ' + error.message, 'error'))
+        .catch(error => this.$messages.addMessage(error.message, 'error'))
     }
   },
   methods: {
@@ -77,15 +77,15 @@ export default {
       if (this.course.name !== '') {
         this.$database.addCourse(this.course)
           .then(() => this.clearCourse())
-          .catch(error => this.$messages.addMessage('Error: ' + error.message, 'error'))
+          .catch(error => this.$messages.addMessage(error.message, 'error'))
       }
-      else this.$messages.addMessage('Error: Please give the Course a Name', 'error')
+      else this.$messages.addMessage('Please give the Course a Name', 'error')
     },
 
     updateCourse: function () {
       this.$database.updateCourse(this.course, this._id, this._rev)
         .then(() => this.$router.go(-1))
-        .catch(error => this.$messages.addMessage('Error: ' + error.message, 'error'))
+        .catch(error => this.$messages.addMessage(error.message, 'error'))
     },
 
     deleteCourse: function () {
@@ -94,7 +94,7 @@ export default {
           this.$router.go(-1)
           this.$messages.addMessage('Course Deleted', 'info')
         })
-        .catch(error => this.$messages.addMessage('Error: ' + error.message, 'error'))
+        .catch(error => this.$messages.addMessage(error.message, 'error'))
     },
   },
 }

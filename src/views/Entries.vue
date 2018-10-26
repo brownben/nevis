@@ -62,7 +62,7 @@ export default {
   created: function () {
     if (this.$database.database === null) {
       this.$router.push('/')
-      this.$messages.addMessage('Error: Not Connected to the Database', 'error')
+      this.$messages.addMessage('Not Connected to the Database', 'error')
     }
   },
   methods: {
@@ -75,7 +75,7 @@ export default {
   asyncComputed: {
     competitors: function () {
       return this.$database.searchCompetitors(this.name, this.siid, this.course, this.sortByField, this.reverseSort)
-        .catch(error => this.$messages.addMessage('Error: ' + error.message, 'error'))
+        .catch(error => this.$messages.addMessage(error.message, 'error'))
     },
     courses: function () {
       return this.$database.getCourses()
@@ -84,7 +84,7 @@ export default {
           courses.unshift('')
           return courses
         })
-        .catch(error => this.$messages.addMessage('Error: ' + error.message, 'error'))
+        .catch(error => this.$messages.addMessage(error.message, 'error'))
     },
   },
 }
