@@ -2,8 +2,8 @@ import Vue from 'vue'
 import AsyncComputed from 'vue-async-computed'
 import App from './App.vue'
 import router from './scripts/router'
-import databaseConnection from './scripts/databaseConnection'
-import messageStore from './scripts/messageStore.js'
+import databaseConnection from './scripts/database/connection'
+import messageStore from './scripts/messageStore'
 
 const electron = window.require('electron')
 

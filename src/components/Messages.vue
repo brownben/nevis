@@ -5,7 +5,10 @@
       :key="message.id"
       :class="message.type"
       @click="clear(message.id)"
-    >{{ message.text }}</p>
+    >
+      <span v-if="message.type === 'error'">Error:</span>
+      {{ message.text }}
+    </p>
   </div>
 </template>
 

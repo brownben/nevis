@@ -30,14 +30,14 @@ export default {
     if (this.$database.database === null) {
       this.$router.push('/')
       this.$messages.clearMessages()
-      this.$messages.addMessage('Error: Not Connected to the Database', 'error')
+      this.$messages.addMessage('Not Connected to the Database', 'error')
     }
 
     this.$database.getOverview()
       .then(data => { this.eventData = data })
       .catch(() => {
         this.$messages.clearMessages()
-        this.$messages.addMessage('Error: Can\'t Connect to Database', 'error')
+        this.$messages.addMessage('Can\'t Connect to Database', 'error')
         this.$router.go(-1)
       })
   },

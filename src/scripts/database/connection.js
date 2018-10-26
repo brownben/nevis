@@ -4,7 +4,7 @@ import courseFunctions from './courses'
 
 const PouchDB = window.require('pouchdb')
 
-const databaseFunctions = {
+export default {
   database: null,
   isConnected: false,
 
@@ -27,6 +27,7 @@ const databaseFunctions = {
     this.serverName = server
     this.databaseName = name
   },
+  ...eventFunctions,
+  ...competitorFunctions,
+  ...courseFunctions,
 }
-
-export default { ...databaseFunctions, ...eventFunctions, ...competitorFunctions, ...courseFunctions }

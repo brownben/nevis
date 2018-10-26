@@ -70,7 +70,7 @@ div
     outline: 0
     border: 0
     background: none
-    transition: 0.5s
+    transition: 0.3s
     fill: white
     -webkit-app-region: no-drag
 
