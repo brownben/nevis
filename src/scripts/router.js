@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import Database from '../views/Database.vue'
 import Dashboard from '../views/Dashboard.vue'
+import Download from '../views/Download.vue'
 import Entries from '../views/Entries.vue'
 import EntryForm from '../views/EntryForm.vue'
 import Courses from '../views/Courses.vue'
@@ -20,6 +21,10 @@ export default new Router({
     {
       path: '/dashboard',
       component: Dashboard,
+    },
+    {
+      path: '/download',
+      component: Download,
     },
     {
       path: '/entries',

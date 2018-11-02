@@ -1,6 +1,7 @@
 <template>
   <base-layout>
     <div slot="menu">
+      <router-link to="/download">Download</router-link>
       <router-link to="/entries">Entries</router-link>
       <router-link to="/courses">Courses</router-link>
       <router-link to="/about">About</router-link>

@@ -4,6 +4,8 @@ import App from './App.vue'
 import router from './scripts/router'
 import databaseConnection from './scripts/database/connection'
 import messageStore from './scripts/messageStore'
+import port from './scripts/port'
+import si from './scripts/SI/si'
 
 const electron = window.require('electron')
 
@@ -11,6 +13,8 @@ Vue.config.productionTip = false
 Vue.prototype.$electron = electron
 Vue.prototype.$database = databaseConnection
 Vue.prototype.$messages = messageStore
+Vue.prototype.$port = port
+Vue.prototype.$si = si
 
 Vue.use(AsyncComputed)
 
