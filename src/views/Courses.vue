@@ -13,8 +13,8 @@
         tag="div"
       >
         <h1>{{ course.name }}</h1>
-        <p>Length: {{ course.length }}km</p>
-        <p>Climb: {{ course.climb }}m</p>
+        <p>Length: {{ course.length }}km &emsp; Climb: {{ course.climb }}m &emsp;</p>
+        <p>Number of Entrants: {{ course.noOfEntrants }}</p>
         <p>Controls: {{ course.controls.toString() }}</p>
       </router-link>
     </div>
@@ -38,9 +38,15 @@ export default {
   },
 
   asyncComputed: {
-    courses: function () {
-      return this.$database.getCourses()
+    courses () {
+      const database = this.$database
+      return database.getCourses()
         .then(data => data.map(course => course.doc))
+        .then(data => data.map(async course => {
+          course.noOfEntrants = await database.competitorsOnCourse(course.name)
+          return course
+        }))
+        .then(data => Promise.all(data))
         .catch(error => this.$messages.addMessage(error.message, 'error'))
     },
   },

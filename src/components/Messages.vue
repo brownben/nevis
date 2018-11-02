@@ -7,6 +7,7 @@
       @click="clear(message.id)"
     >
       <span v-if="message.type === 'error'">Error:</span>
+      <span v-if="message.type === 'warning'">Warning:</span>
       {{ message.text }}
     </p>
   </div>
@@ -51,6 +52,9 @@ p
 
 .error
   color: red
+
+.warning
+  color: orange
 
 .list-enter-active, .list-leave-active
   transition: all 0.3s

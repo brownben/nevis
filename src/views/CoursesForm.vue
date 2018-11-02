@@ -90,7 +90,8 @@ export default {
 
     deleteCourse: function () {
       this.$database.deleteCourse(this._id)
-        .then(() => {
+        .then(message => {
+          if (typeof message === 'string' && message.includes('Warning:')) this.$messages.addMessage(message, 'warning')
           this.$router.go(-1)
           this.$messages.addMessage('Course Deleted', 'info')
         })

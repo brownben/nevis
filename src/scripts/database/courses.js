@@ -27,7 +27,12 @@ export default {
   deleteCourse: function (id) {
     let db = this.database
     return db.get(id)
-      .then(data => db.remove(data))
+      .then(async data => {
+        db.remove(data)
+        const competitorsOnCourse = await this.competitorsOnCourse(data.name)
+        this.changeCourseOfCompetitors(data.name, '')
+        if (competitorsOnCourse > 0) return `${competitorsOnCourse} Competitors Now Have No Assigned Course`
+      })
   },
 
   getCourses: function () {
@@ -46,5 +51,10 @@ export default {
   checkDuplicateName: function (name) {
     return this.getCourses()
       .then(courses => courses.filter(course => course.doc.name === name).length === 0)
+  },
+
+  competitorsOnCourse: function (course) {
+    return this.getCompetitors()
+      .then(competitors => competitors.filter(competitor => competitor.doc.course === course).length)
   },
 }
