@@ -63,6 +63,7 @@
   ],
   "dependencies": {
     "pouchdb": "^7.0.0",
+    "serialport": "^7.0.2",
     "vue": "^2.5.17",
     "vue-async-computed": "^3.4.1",
     "vue-router": "^3.0.1"
@@ -72,6 +73,7 @@
     "concurrently": "^4.0.1",
     "electron": "^3.0.4",
     "electron-builder": "^20.28.4",
+    "electron-toolkit": "^1.0.24",
     "eslint": "^5.5.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^7.0.1",
@@ -92,7 +94,8 @@
     "pack": "build --dir",
     "lint": "npm run lint-styles && npm run lint-js",
     "lint-js": "eslint main.js ./src/ --ext .vue,.js --fix",
-    "lint-styles": "stylus-supremacy format ./src/assets/styles/*.styl --options stylusSupremacy.json --replace"
+    "lint-styles": "stylus-supremacy format ./src/assets/styles/*.styl --options stylusSupremacy.json --replace",
+    "electron-toolkit": "electron ./node_modules/electron-toolkit"
   },
   "vue": {
     "baseUrl": "./"
@@ -105,5 +108,9 @@
       "icon": "./assets/nevis.ico"
     }
   }
+<<<<<<< HEAD
 >>>>>>> Add Linters
 }
+=======
+}
+>>>>>>> Feature - Read SI Cards
