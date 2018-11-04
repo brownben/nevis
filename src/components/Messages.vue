@@ -1,5 +1,5 @@
 <template>
-  <div is="transition-group" v-show="messages.length > 0" id="messages" name="list">
+  <div is="transition-group" v-show="messages.length > 0" id="messages" name="list" mode="out-in">
     <p
       v-for="message of messages"
       :key="message.id"
@@ -57,7 +57,7 @@ p
   color: orange
 
 .list-enter-active, .list-leave-active
-  transition: all 0.3s
+  transition: all 0.5s ease-out
 
 .list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */
   opacity: 0

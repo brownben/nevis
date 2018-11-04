@@ -10,8 +10,19 @@
     <div slot="main" class="main">
       <div class="card">
         <h1>{{ eventData.name }} on {{ eventData.date }}</h1>
-        <p>Number of Courses: {{ eventData.noOfCourses }}</p>
-        <p>Number of Competitors: {{ eventData.noOfCompetitors }}</p>
+        <p>On {{ eventData.database.host }} as {{ eventData.database.db_name }}</p>
+      </div>
+      <div id="info-cards">
+        <div class="card info-card" @click="$router.push('entries')">
+          <img class="svg" src="../assets/images/Competitor.svg">
+          <h2>Entries</h2>
+          <p>{{ eventData.noOfCompetitors }} Competitors</p>
+        </div>
+        <div class="card info-card" @click="$router.push('courses')">
+          <img class="svg" src="../assets/images/Course.svg">
+          <h2>Courses</h2>
+          <p>{{ eventData.noOfCourses }} Courses</p>
+        </div>
       </div>
     </div>
   </base-layout>
@@ -25,7 +36,7 @@ export default {
     'base-layout': BaseLayout,
   },
   data: () => ({
-    eventData: {},
+    eventData: { database: {} },
   }),
   created: function () {
     if (this.$database.database === null) {
@@ -33,7 +44,6 @@ export default {
       this.$messages.clearMessages()
       this.$messages.addMessage('Not Connected to the Database', 'error')
     }
-
     this.$database.getOverview()
       .then(data => { this.eventData = data })
       .catch(() => {
@@ -44,3 +54,26 @@ export default {
   },
 }
 </script>
+<style lang="stylus">
+@import '../assets/styles/helpers.styl'
+
+.svg
+  height: 150px
+  fill: main-color
+
+#info-cards
+  display: grid
+  box-sizing: border-box
+  width: 100%
+  grid-gap: 15px
+  grid-template-columns: 1fr 1fr
+
+.info-card
+  box-sizing: border-box
+  width: 100%
+  text-align: center
+
+@media (min-width: 900px)
+  #info-cards
+    grid-template-columns: 1fr 1fr 1fr
+</style>
