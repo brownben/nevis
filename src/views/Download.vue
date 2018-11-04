@@ -31,8 +31,9 @@
         <h1>Last Download</h1>
         <p v-if="lastDownload.name">Name: {{ lastDownload.name }}</p>
         <p>SI Card: {{ lastDownload.siid }}</p>
-        <p>Start: {{ lastDownload.start || '-'}}</p>
-        <p>Finish: {{ lastDownload.finish || '-'}}</p>
+        <p>Start: {{ $time.actual(lastDownload.start) || '-'}}</p>
+        <p>Finish: {{ $time.actual(lastDownload.finish) || '-'}}</p>
+        <p>Time: {{ $time.elapsed(time)}}</p>
       </div>
     </div>
   </base-layout>
@@ -47,6 +48,7 @@ export default {
     'base-layout': BaseLayout,
     'dropdown-input': DropdownInput,
   },
+
   data: () => ({
     selectedPort: '',
     selectedBaud: 38400,
@@ -58,12 +60,14 @@ export default {
     connectButtonText: 'Connect',
     lastDownload: false,
   }),
+
   created: function () {
     if (this.$database.database === null) {
       this.$router.push('/')
       this.$messages.addMessage('Not Connected to the Database', 'error')
     }
   },
+
   methods: {
     back: function () {
       this.$port.disconnect()
@@ -110,7 +114,7 @@ export default {
         this.$port.data = data => {
           this.$si.getInfo(data, this.$port.port)
             .then(data => {
-              if (data) this.lastDownload = data
+              if (data) this.saveCardData(data)
             })
             .catch(error => this.$messages.addMessage(error.message, 'error'))
         }
@@ -119,6 +123,36 @@ export default {
         this.$port.connect(this.selectedPort, this.selectedBaud)
       }
     },
+    saveCardData: function (data) {
+      this.lastDownload = data
+      this.$database.findCompetitorBySIID(data.siid)
+        .then(competitor => {
+          if (competitor) {
+            this.lastDownload.name = competitor.name
+            competitor.download = data
+            this.$database.updateCompetitor(competitor)
+          }
+          else {
+            const competitor = {
+              name: data.name || 'Unknown',
+              siid: data.siid.toString(),
+              ageClass: '',
+              club: '',
+              course: 'Unknown',
+              membershipNumber: '',
+              nonCompetitive: false,
+              download: data,
+            }
+            this.$database.addCompetitor(competitor)
+          }
+        })
+    },
+  },
+
+  computed: {
+    time: function () {
+      if (this.lastDownload) return this.lastDownload.finish - this.lastDownload.start
+    }
   },
 }
 </script>

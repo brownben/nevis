@@ -9,8 +9,8 @@ export default {
   },
 
   updateCompetitor: function (competitor, id, rev) {
-    competitor._id = id
-    competitor._rev = rev
+    competitor._id = id || competitor._id
+    competitor._rev = rev || competitor._rev
     return this.database.put(competitor)
   },
 
@@ -31,6 +31,14 @@ export default {
 
   findCompetitor: function (id) {
     return this.database.get(id)
+  },
+
+  findCompetitorBySIID: function (siid) {
+    siid = siid.toString()
+    return this.getCompetitors()
+      .then(competitors => competitors.filter(competitor => competitor.doc && competitor.doc.siid))
+      .then(competitors => competitors.filter(competitor => competitor.doc.siid === siid))
+      .then(competitors => { if (competitors.length > 0) return competitors[0].doc })
   },
 
   searchCompetitors: function (name, siid, course, sortBy, invert) {
