@@ -6,6 +6,7 @@ import databaseConnection from './scripts/database/connection'
 import messageStore from './scripts/messageStore'
 import port from './scripts/port'
 import si from './scripts/SI/si'
+import time from './scripts/time'
 
 const electron = window.require('electron')
 
@@ -15,6 +16,7 @@ Vue.prototype.$database = databaseConnection
 Vue.prototype.$messages = messageStore
 Vue.prototype.$port = port
 Vue.prototype.$si = si
+Vue.prototype.$time = time
 
 Vue.use(AsyncComputed)
 

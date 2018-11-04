@@ -31,6 +31,13 @@
           @changed="checkboxChanged"
         />
       </div>
+      <div class="card" v-if="this._id && this.competitor.download">
+        <h2>Download</h2>
+        <p>Time: {{ $time.elapsed(time)}}</p>
+        <p>Start: {{ $time.actual(competitor.download.start) || '-'}}</p>
+        <p>Finish: {{ $time.actual(competitor.download.finish) || '-'}}</p>
+        <p>Controls: {{ competitor.download.controls.map(control => control.code).toString() }}</p>
+      </div>
     </div>
   </base-layout>
 </template>
@@ -119,6 +126,13 @@ export default {
         .catch(error => this.$messages.addMessage(error.message, 'error'))
     },
   },
+
+  computed: {
+    time: function () {
+      if (this._id && this.competitor.download) return this.competitor.download.finish - this.competitor.download.start
+    }
+  },
+
   asyncComputed: {
     courses: function () {
       return this.$database.getCourses()
