@@ -48,7 +48,7 @@ a, button
   text-align: center
   text-decoration: none
   font-size: 16px
-  transition: 0.3s
+  transition: 0.3s ease-out
   user-select: none
   -webkit-user-select: none
   default-font()

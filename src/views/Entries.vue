@@ -13,31 +13,29 @@
         <label>Course:</label>
         <dropdown-input :list="courses" @changed="dropdownChanged"/>
       </div>
-      <transition name="fade">
-        <div v-if="competitors && competitors.length > 0" class="card">
-          <table>
-            <tbody>
-              <tr>
-                <th @click="sortBy('name')">Name</th>
-                <th @click="sortBy('siid')">SI Card</th>
-                <th @click="sortBy('course')">Course</th>
-              </tr>
-            </tbody>
-            <tbody is="transition-group" name="fade">
-              <router-link
-                v-for="competitor of competitors"
-                :to="'/entries/update/' + competitor._id"
-                :key="competitor._id"
-                tag="tr"
-              >
-                <td>{{ competitor.name }}</td>
-                <td>{{ competitor.siid }}</td>
-                <td>{{ competitor.course }}</td>
-              </router-link>
-            </tbody>
-          </table>
-        </div>
-      </transition>
+      <div v-if="competitors && competitors.length > 0" class="card">
+        <table>
+          <tbody>
+            <tr>
+              <th @click="sortBy('name')">Name</th>
+              <th @click="sortBy('siid')">SI Card</th>
+              <th @click="sortBy('course')">Course</th>
+            </tr>
+          </tbody>
+          <tbody is="transition-group" name="fade">
+            <router-link
+              v-for="competitor of competitors"
+              :to="'/entries/update/' + competitor._id"
+              :key="competitor._id"
+              tag="tr"
+            >
+              <td>{{ competitor.name }}</td>
+              <td>{{ competitor.siid }}</td>
+              <td>{{ competitor.course }}</td>
+            </router-link>
+          </tbody>
+        </table>
+      </div>
     </div>
   </base-layout>
 </template>

@@ -188,7 +188,7 @@ button
       width: 24px
       height: 33px
       vertical-align: middle
-      transition: 0.3s
+      transition: 0.3s ease-out
       fill: main-color
 
     p
@@ -214,7 +214,7 @@ ul
     color: main-color
     vertical-align: middle
     text-align: center
-    transition: 0.3s
+    transition: 0.3s ease-out
     default-font()
 
     &:hover

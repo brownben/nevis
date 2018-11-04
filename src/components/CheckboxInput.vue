@@ -68,7 +68,7 @@ export default {
     width: 10px
     height: 10px
     border: 1px solid alpha(main-color, 0.5)
-    transition: 0.3s
+    transition: 0.3s ease-out
 
   [type='checkbox']:checked+span
     position: relative
@@ -79,6 +79,6 @@ export default {
     border: 1.5px solid main-color
     border-top: 0
     border-left: 0
-    transition: 0.3s
+    transition: 0.3s ease-in-out
     transform: rotate(405deg)
 </style>

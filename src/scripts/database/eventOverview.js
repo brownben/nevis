@@ -23,14 +23,16 @@ export default {
     const coursesLength = this.getCoursesLength()
     const competitorsLength = this.getCompetitorsLength()
     const eventData = this.database.get('eventInformation')
+    const databaseInfo = this.database.info()
 
-    return Promise.all([coursesLength, competitorsLength, eventData])
+    return Promise.all([coursesLength, competitorsLength, eventData, databaseInfo])
       .then(values => {
         return {
           name: values[2].name,
           date: values[2].date,
           noOfCourses: values[0],
           noOfCompetitors: values[1],
+          database: values[3],
         }
       })
   },
