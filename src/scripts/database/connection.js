@@ -1,6 +1,7 @@
 import eventFunctions from './eventOverview'
 import competitorFunctions from './competitors'
 import courseFunctions from './courses'
+import resultsFunctions from './results'
 
 const PouchDB = window.require('pouchdb')
 
@@ -30,4 +31,5 @@ export default {
   ...eventFunctions,
   ...competitorFunctions,
   ...courseFunctions,
+  ...resultsFunctions,
 }

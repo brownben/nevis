@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import BaseLayout from '@/components/BaseLayout.vue'
+import BaseLayout from '@/components/BaseLayout'
 
 export default {
   components: {

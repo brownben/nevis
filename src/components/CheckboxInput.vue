@@ -43,6 +43,7 @@ export default {
 .checkbox-input
   margin-bottom: 20px
   padding: 0
+  padding-top: 2px
   height: 0
 
   input
@@ -52,7 +53,8 @@ export default {
     position: relative
     margin: 0
     width: 50px
-    font-size: 14px
+    color: black
+    font-size: 16px
     font-family: Montserrat
     transition: 0.45s ease-out
     user-select: none

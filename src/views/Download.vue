@@ -40,8 +40,8 @@
 </template>
 
 <script>
-import BaseLayout from '@/components/BaseLayout.vue'
-import DropdownInput from '@/components/DropdownInput.vue'
+import BaseLayout from '@/components/BaseLayout'
+import DropdownInput from '@/components/DropdownInput'
 
 export default {
   components: {

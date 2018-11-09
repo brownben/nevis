@@ -43,9 +43,9 @@
 </template>
 
 <script>
-import BaseLayout from '@/components/BaseLayout.vue'
-import DropdownInput from '@/components/DropdownInput.vue'
-import CheckboxInput from '@/components/CheckboxInput.vue'
+import BaseLayout from '@/components/BaseLayout'
+import DropdownInput from '@/components/DropdownInput'
+import CheckboxInput from '@/components/CheckboxInput'
 
 export default {
   components: {

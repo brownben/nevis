@@ -20,7 +20,7 @@ export default {
   width: 180px
   height: 100%
   background-color: white
-  box-shadow(0.1)
+  box-shadow()
   position: fixed
   overflow-y: hidden
   user-select: none
@@ -32,8 +32,8 @@ export default {
   div
     height: calc(100% - 75px)
 
-  &:first-child
-    margin-top: 5px
+    &:first-child
+      margin-top: 5px
 
 a, button
   display: block
