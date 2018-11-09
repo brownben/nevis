@@ -50,10 +50,12 @@ export default {
       siid: siid,
       start: start,
       finish: finish,
+      time: finish - start,
       controls: controls,
       other: other,
     }
     if (name) this.currentCompetitor.name = name
+    if (other) this.currentCompetitor.time = other
     if (type === 9 && controls.length < 18) return Promise.resolve(this.currentCompetitor)
   },
 
