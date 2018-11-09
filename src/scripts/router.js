@@ -8,6 +8,7 @@ import Entries from '../views/Entries'
 import EntryForm from '../views/EntryForm'
 import Courses from '../views/Courses'
 import CoursesForm from '../views/CoursesForm'
+import Results from '../views/Results'
 import About from '../views/About'
 
 Vue.use(Router)
@@ -49,6 +50,10 @@ export default new Router({
     {
       path: '/courses/update/:id',
       component: CoursesForm,
+    },
+    {
+      path: '/results',
+      component: Results,
     },
     {
       path: '/about',

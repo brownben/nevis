@@ -10,4 +10,9 @@ export default {
     const timeInSeconds = (totalTimeInSeconds % 3600) % 60
     return timeInHours + ':' + timeInMinutes + ':' + timeInSeconds
   },
+  calculateTime: function (download) {
+    if (download.other !== '') return download.other
+    const time = download.finish - download.start
+    return time
+  },
 }
