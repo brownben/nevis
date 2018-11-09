@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Database from '../views/Database.vue'
-import Dashboard from '../views/Dashboard.vue'
-import Download from '../views/Download.vue'
-import Entries from '../views/Entries.vue'
-import EntryForm from '../views/EntryForm.vue'
-import Courses from '../views/Courses.vue'
+import Database from '../views/Database'
+import Dashboard from '../views/Dashboard'
+import Download from '../views/Download'
+import Entries from '../views/Entries'
+import EntryForm from '../views/EntryForm'
+import Courses from '../views/Courses'
 import CoursesForm from '../views/CoursesForm'
-import About from '../views/About.vue'
+import About from '../views/About'
 
 Vue.use(Router)
 

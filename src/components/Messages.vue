@@ -44,7 +44,7 @@ p
   margin: 0
   padding: 10px
   text-align: center
-  box-shadow(1)
+  box-shadow()
   default-font()
 
 .info

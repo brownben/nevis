@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import AppMenu from '@/components/AppMenu.vue'
-import Messages from '@/components/Messages.vue'
+import AppMenu from '@/components/AppMenu'
+import Messages from '@/components/Messages'
 
 export default {
   name: 'BaseLayout',
