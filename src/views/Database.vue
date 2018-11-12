@@ -2,6 +2,8 @@
   <base-layout>
     <div slot="menu">
       <button @click="connect">Connect</button>
+      <router-link to="/event/add">Add Event</router-link>
+      <router-link to="/event/restore">Restore Event</router-link>
       <router-link to="/about">About</router-link>
     </div>
     <div slot="main" class="main">
@@ -11,10 +13,10 @@
       </div>
       <div class="card">
         <h2>Database Settings</h2>
-        <label>Hostname:</label>
+        <label>Server:</label>
         <input v-model="hostname" type="text">
-        <label>Event:</label>
-        <input v-model="event" type="text">
+        <label>Event ID:</label>
+        <dropdown-input :list="events" :initial="event" @changed="dropdownChanged"/>
       </div>
     </div>
   </base-layout>
@@ -22,27 +24,51 @@
 
 <script>
 import BaseLayout from '@/components/BaseLayout'
+import DropdownInput from '@/components/DropdownInput'
 
 export default {
   components: {
     'base-layout': BaseLayout,
+    'dropdown-input': DropdownInput,
   },
+
   data: () => ({
     hostname: 'localhost',
     event: 'test',
+    events: [],
   }),
+
   methods: {
+    dropdownChanged: function (value) { this.event = value },
+
     connect: function () {
-      this.$database.setDatabase(this.hostname, this.event)
-      this.$database.connect()
-        .then(() => {
-          this.$messages.clearMessages()
-          this.$router.push('dashboard')
+      if (this.event === '' || this.event === 'No Events Found') this.$messages.addMessage('No Event Specified', 'error')
+      else {
+        this.$database.connect(this.hostname, this.event)
+          .then(() => {
+            this.$messages.clearMessages()
+            this.$router.push('dashboard')
+          })
+          .catch(() => {
+            this.$messages.clearMessages()
+            this.$messages.addMessage('Not Connected to the Database', 'error')
+          })
+      }
+    },
+  },
+
+  asyncComputed: {
+    listEvents: function () {
+      this.$node.http.get('http://' + this.hostname + ':5984/_all_dbs', response => {
+        let data = ''
+        response.on('data', chunk => { data += chunk })
+        response.on('end', () => {
+          const events = JSON.parse(data).filter(event => event !== '_users' && event !== '_replicator')
+          if (events.length === 0) this.events = ['No Events Found']
+          else this.events = events
         })
-        .catch(() => {
-          this.$messages.clearMessages()
-          this.$messages.addMessage('Not Connected to the Database', 'error')
-        })
+      })
+        .on('error', () => { this.events = ['No Events Found'] })
     },
   },
 }

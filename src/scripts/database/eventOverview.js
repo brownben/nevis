@@ -1,8 +1,4 @@
 export default {
-  size: function () {
-    return this.database.allDocs().then(data => data.rows.length)
-  },
-
   getCoursesLength: function () {
     return this.database.allDocs({
       include_docs: true,
@@ -19,11 +15,26 @@ export default {
     }).then(data => data.rows.length)
   },
 
+  getEventInformation: function () {
+    return this.database.get('eventInformation')
+  },
+
+  eventInformationExists: function () {
+    return this.getEventInformation()
+      .then(() => true)
+      .catch(() => false)
+  },
+
+  setEventInformation: function (event) {
+    event._id = 'eventInformation'
+    return this.database.put(event)
+  },
+
   getOverview: function () {
     const coursesLength = this.getCoursesLength()
     const competitorsLength = this.getCompetitorsLength()
     const downloadLength = this.getDownloadsLength()
-    const eventData = this.database.get('eventInformation')
+    const eventData = this.getEventInformation()
     const databaseInfo = this.database.info()
 
     return Promise.all([coursesLength, competitorsLength, eventData, databaseInfo, downloadLength])
