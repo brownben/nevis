@@ -46,7 +46,6 @@ export default {
   created: function () {
     if (this.$database.database === null) {
       this.$router.push('/')
-      this.$messages.clearMessages()
       this.$messages.addMessage('Not Connected to the Database', 'error')
     }
     this._id = this.$route.params.id

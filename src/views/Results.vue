@@ -5,10 +5,10 @@
     </div>
     <div slot="main" class="main">
       <div
-        class="card"
         v-for="course in courses"
+        v-if="downloadsForCourse(course).length > 0"
         :key="course"
-        v-if="downloadsForCourse(course).length>0"
+        class="card"
       >
         <h1>{{ course }}</h1>
         <table>
@@ -55,7 +55,7 @@ export default {
         let downloads = this.downloads
         let currentPosition = 1
         downloads = downloads.filter(competitor => competitor.course === course)
-        downloads.forEach(competitor => competitor.time = this.$time.calculateTime(competitor.download))
+        downloads.forEach(competitor => { competitor.time = this.$time.calculateTime(competitor.download) })
         downloads = downloads.sort((a, b) => {
           if (typeof a.time === 'string' && typeof b.time === 'string') return a.time.length > b.time.length
           else if (typeof a.time === 'string') return true
