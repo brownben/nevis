@@ -9,9 +9,15 @@ import si from './scripts/SI/si'
 import time from './scripts/time'
 
 const electron = window.require('electron')
+const fs = window.require('fs')
+const http = window.require('http')
 
 Vue.config.productionTip = false
 Vue.prototype.$electron = electron
+Vue.prototype.$node = {
+  http: http,
+  fs: fs,
+}
 Vue.prototype.$database = databaseConnection
 Vue.prototype.$messages = messageStore
 Vue.prototype.$port = port

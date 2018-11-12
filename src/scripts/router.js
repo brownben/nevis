@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import Database from '../views/Database'
+import EventForm from '../views/EventForm'
 import Dashboard from '../views/Dashboard'
 import Download from '../views/Download'
 import Entries from '../views/Entries'
@@ -58,6 +59,18 @@ export default new Router({
     {
       path: '/about',
       component: About,
+    },
+    {
+      path: '/event/add',
+      component: EventForm,
+    },
+    {
+      path: '/event/edit',
+      component: EventForm,
+    },
+    {
+      path: '/event/restore',
+      component: EventForm,
     },
   ],
 })
