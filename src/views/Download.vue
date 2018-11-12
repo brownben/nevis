@@ -5,8 +5,8 @@
       <button :class="{ dropdown: true, nohover: connected }" @click="refreshPortList()">
         <p>{{ selectedPort }}</p>
         <svg v-if="!connected" viewBox="0 0 24 24">
-          <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z"></path>
-          <path d="M0-.75h24v24H0z" fill="none"></path>
+          <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z"/>
+          <path d="M0-.75h24v24H0z" fill="none"/>
         </svg>
       </button>
       <ul v-if="portOpen">
@@ -16,24 +16,24 @@
       <button :class="{ dropdown: true, nohover: connected }" @click="refreshBaudList()">
         <p>{{ selectedBaud }}</p>
         <svg v-if="!connected" viewBox="0 0 24 24">
-          <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z"></path>
-          <path d="M0-.75h24v24H0z" fill="none"></path>
+          <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z"/>
+          <path d="M0-.75h24v24H0z" fill="none"/>
         </svg>
       </button>
       <ul v-show="baudOpen">
         <li v-for="baud of baudList" :key="baud" @click="changeBaud(baud)">{{ baud }}</li>
       </ul>
       <button @click="connect()">{{ connectButtonText }}</button>
-      <button @click="back" class="back">Back</button>
+      <button class="back" @click="back">Back</button>
     </div>
     <div slot="main" class="main">
       <div v-show="lastDownload" class="card">
         <h1>Last Download</h1>
         <p v-if="lastDownload.name">Name: {{ lastDownload.name }}</p>
         <p>SI Card: {{ lastDownload.siid }}</p>
-        <p>Start: {{ $time.actual(lastDownload.start) || '-'}}</p>
-        <p>Finish: {{ $time.actual(lastDownload.finish) || '-'}}</p>
-        <p>Time: {{ $time.elapsed(time)}}</p>
+        <p>Start: {{ $time.actual(lastDownload.start) || '-' }}</p>
+        <p>Finish: {{ $time.actual(lastDownload.finish) || '-' }}</p>
+        <p>Time: {{ $time.elapsed(time) }}</p>
       </div>
     </div>
   </base-layout>
@@ -60,6 +60,12 @@ export default {
     connectButtonText: 'Connect',
     lastDownload: false,
   }),
+
+  computed: {
+    time: function () {
+      if (this.lastDownload) return this.lastDownload.finish - this.lastDownload.start
+    },
+  },
 
   created: function () {
     if (this.$database.database === null) {
@@ -147,12 +153,6 @@ export default {
           }
         })
     },
-  },
-
-  computed: {
-    time: function () {
-      if (this.lastDownload) return this.lastDownload.finish - this.lastDownload.start
-    }
   },
 }
 </script>

@@ -31,11 +31,11 @@
           @changed="checkboxChanged"
         />
       </div>
-      <div class="card" v-if="this._id && this.competitor.download">
+      <div v-if="_id && competitor.download" class="card">
         <h2>Download</h2>
-        <p>Time: {{ $time.elapsed(time)}}</p>
-        <p>Start: {{ $time.actual(competitor.download.start) || '-'}}</p>
-        <p>Finish: {{ $time.actual(competitor.download.finish) || '-'}}</p>
+        <p>Time: {{ $time.elapsed(time) }}</p>
+        <p>Start: {{ $time.actual(competitor.download.start) || '-' }}</p>
+        <p>Finish: {{ $time.actual(competitor.download.finish) || '-' }}</p>
         <p>Controls: {{ competitor.download.controls.map(control => control.code).toString() }}</p>
       </div>
     </div>
@@ -53,6 +53,7 @@ export default {
     'dropdown-input': DropdownInput,
     'checkbox-input': CheckboxInput,
   },
+
   data: () => ({
     competitor: {
       name: '',
@@ -68,10 +69,16 @@ export default {
     courses: [],
 
   }),
+
+  computed: {
+    time: function () {
+      if (this._id && this.competitor.download) return this.competitor.download.finish - this.competitor.download.start
+    },
+  },
+
   created: function () {
     if (this.$database.database === null) {
       this.$router.push('/')
-      this.$messages.clearMessages()
       this.$messages.addMessage('Not Connected to the Database', 'error')
     }
     this._id = this.$route.params.id
@@ -84,6 +91,7 @@ export default {
         .catch(error => this.$messages.addMessage(error.message, 'error'))
     }
   },
+
   methods: {
     dropdownChanged: function (value) { this.competitor.course = value },
     checkboxChanged: function (value) { this.competitor.nonCompetitive = value },
@@ -125,12 +133,6 @@ export default {
         })
         .catch(error => this.$messages.addMessage(error.message, 'error'))
     },
-  },
-
-  computed: {
-    time: function () {
-      if (this._id && this.competitor.download) return this.competitor.download.finish - this.competitor.download.start
-    }
   },
 
   asyncComputed: {
