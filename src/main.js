@@ -10,12 +10,12 @@ import time from './scripts/time'
 
 const electron = window.require('electron')
 const fs = window.require('fs')
-const http = window.require('http')
+const axios = window.require('axios')
 
 Vue.config.productionTip = false
 Vue.prototype.$electron = electron
 Vue.prototype.$node = {
-  http: http,
+  axios: axios,
   fs: fs,
 }
 Vue.prototype.$database = databaseConnection

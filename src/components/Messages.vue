@@ -16,11 +16,13 @@
 <script>
 export default {
   name: 'Messages',
+
   data: function () {
     return {
       messages: this.$messages.messages,
     }
   },
+
   methods: {
     clear: function (id) {
       this.$messages.removeMessage(id)

@@ -15,6 +15,7 @@
 <script>
 export default {
   name: 'DropdownInput',
+
   props: {
     'initial': {
       type: String,
@@ -25,14 +26,17 @@ export default {
       default: [],
     },
   },
+
   data: () => ({
     output: '',
   }),
+
   watch: {
     initial (value) {
       this.output = value
     },
   },
+
   methods: {
     onChange: function () { this.$emit('changed', this.output) },
   },

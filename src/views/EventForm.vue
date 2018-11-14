@@ -54,6 +54,7 @@ export default {
     'base-layout': BaseLayout,
     'checkbox-input': CheckboxInput,
   },
+
   data: function () {
     return {
       name: '',

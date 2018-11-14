@@ -43,11 +43,13 @@ export default {
   components: {
     'base-layout': BaseLayout,
   },
+
   data: () => ({
     electron: window.process.versions.electron,
     chromium: window.process.versions.chrome,
     node: window.process.versions.node,
   }),
+
   computed: {
     system: () => window.process.platform + ' ' + window.process.arch,
   },

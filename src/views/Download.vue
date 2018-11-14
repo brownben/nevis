@@ -79,6 +79,7 @@ export default {
       this.$port.disconnect()
       this.$router.go(-1)
     },
+
     refreshPortList: function () {
       if (!this.connected) {
         this.$port.listPorts().then(ports => {
@@ -88,18 +89,22 @@ export default {
         })
       }
     },
+
     refreshBaudList: function () {
       if (!this.connected) this.baudOpen = !this.baudOpen
     },
+
     changeBaud: function (baud) {
       this.selectedBaud = baud
       this.baudOpen = !this.baudOpen
     },
+
     changePort: function (port) {
       if (port === 'No Ports Found') this.selectedPort = ''
       else this.selectedPort = port
       this.portOpen = !this.portOpen
     },
+
     connect: function () {
       if (this.selectedPort === '') {
         this.$messages.addMessage('Please Select a Port to Connect to', 'error')
@@ -129,6 +134,7 @@ export default {
         this.$port.connect(this.selectedPort, this.selectedBaud)
       }
     },
+
     saveCardData: function (data) {
       this.lastDownload = data
       this.$database.findCompetitorBySIID(data.siid)

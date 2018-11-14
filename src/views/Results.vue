@@ -81,6 +81,7 @@ export default {
         .then(data => data.map(course => course.doc.name))
         .catch(error => this.$messages.addMessage(error.message, 'error'))
     },
+
     downloads: function () {
       return this.$database.getDownloads()
         .catch(error => this.$messages.addMessage(error.message, 'error'))

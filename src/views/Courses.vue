@@ -30,6 +30,7 @@ export default {
   },
 
   data: () => ({}),
+
   created: function () {
     if (this.$database.database === null) {
       this.$router.push('/')

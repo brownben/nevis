@@ -16,21 +16,22 @@
     "sportident"
   ],
   "dependencies": {
+    "axios": "^0.18.0",
     "pouchdb": "^7.0.0",
     "serialport": "^7.0.2",
     "vue": "^2.5.17",
-    "vue-async-computed": "^3.4.1",
+    "vue-async-computed": "^3.5.0",
     "vue-router": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-service": "^3.0.5",
+    "@vue/cli-service": "^3.1.4",
     "concurrently": "^4.0.1",
-    "electron": "^3.0.4",
-    "electron-builder": "^20.28.4",
+    "electron": "^3.0.9",
+    "electron-builder": "^20.34.0",
     "electron-toolkit": "^1.0.24",
-    "eslint": "^5.5.0",
+    "eslint": "^5.9.0",
     "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-node": "^8.0.0",
     "eslint-plugin-promise": "^4.0.0",
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^4.7.1",

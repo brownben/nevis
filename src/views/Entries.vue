@@ -57,24 +57,29 @@ export default {
     sortByField: 'name',
     reverseSort: false,
   }),
+
   created: function () {
     if (this.$database.database === null) {
       this.$router.push('/')
       this.$messages.addMessage('Not Connected to the Database', 'error')
     }
   },
+
   methods: {
     dropdownChanged: function (value) { this.course = value },
+
     sortBy: function (field) {
       if (this.sortByField === field) this.reverseSort = !this.reverseSort
       this.sortByField = field
     },
   },
+
   asyncComputed: {
     competitors: function () {
       return this.$database.searchCompetitors(this.name, this.siid, this.course, this.sortByField, this.reverseSort)
         .catch(error => this.$messages.addMessage(error.message, 'error'))
     },
+
     courses: function () {
       return this.$database.getCourses()
         .then(data => {

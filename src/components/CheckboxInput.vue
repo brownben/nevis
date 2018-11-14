@@ -11,6 +11,7 @@
 <script>
 export default {
   name: 'CheckboxInput',
+
   props: {
     'state': {
       type: Boolean,
@@ -21,16 +22,19 @@ export default {
       default: '',
     },
   },
+
   data: function () {
     return {
       output: this.state,
     }
   },
+
   watch: {
     state (value) {
       this.output = value
     },
   },
+
   methods: {
     onChange: function () { this.$emit('changed', this.output) },
   },
