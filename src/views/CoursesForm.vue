@@ -33,6 +33,7 @@ export default {
   components: {
     'base-layout': BaseLayout,
   },
+
   data: () => ({
     _id: '',
     _rev: '',
@@ -43,6 +44,7 @@ export default {
       controls: '',
     },
   }),
+
   created: function () {
     if (this.$database.database === null) {
       this.$router.push('/')
@@ -59,8 +61,8 @@ export default {
         .catch(error => this.$messages.addMessage(error.message, 'error'))
     }
   },
-  methods: {
 
+  methods: {
     clearCourse: function () {
       this._id = ''
       this._rev = ''

@@ -59,16 +59,13 @@ export default {
 
   asyncComputed: {
     listEvents: function () {
-      this.$node.http.get('http://' + this.hostname + ':5984/_all_dbs', response => {
-        let data = ''
-        response.on('data', chunk => { data += chunk })
-        response.on('end', () => {
-          const events = JSON.parse(data).filter(event => event !== '_users' && event !== '_replicator')
+      this.$node.axios.get('http://' + this.hostname + ':5984/_all_dbs')
+        .then(response => {
+          const events = response.data.filter(event => event !== '_users' && event !== '_replicator')
           if (events.length === 0) this.events = ['No Events Found']
           else this.events = events
         })
-      })
-        .on('error', () => { this.events = ['No Events Found'] })
+        .catch(() => { this.events = ['No Events Found'] })
     },
   },
 }

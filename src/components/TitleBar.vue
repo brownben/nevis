@@ -29,12 +29,15 @@
 <script>
 export default {
   name: 'TitleBar',
+
   data: () => ({
     maximized: false,
   }),
+
   mounted: function () {
     this.$electron.ipcRenderer.on('window', (event, data) => { this.maximized = data === 'maximized' })
   },
+
   methods: {
     close: () => window.close(),
     maximize: function () { this.$electron.ipcRenderer.send('window', 'maximize') },

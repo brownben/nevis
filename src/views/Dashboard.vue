@@ -24,14 +24,17 @@ export default {
   components: {
     'base-layout': BaseLayout,
   },
+
   data: () => ({
     eventData: { database: {} },
   }),
+
   created: function () {
     if (this.$database.database === null) {
       this.$router.push('/')
       this.$messages.addMessage('Not Connected to the Database', 'error')
     }
+
     this.$database.getOverview()
       .then(data => { this.eventData = data })
       .catch(error => {
