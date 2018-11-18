@@ -32,7 +32,7 @@ Get the Windows installer from the Releases page
 
 OR To build from source:
 ````
-git clone https://github.com/bonalybob/wod-maze.git
+git clone https://github.com/brownben/wod-maze.git
 npm run go
 ````
 
@@ -41,7 +41,7 @@ To create your own executable then run:
 npm run dist
 ````
 
-To download from Sportident Stations you will also need their driver and drivers for any printers you wish to print from.
+To download from SportIdent Stations you will also need their driver and drivers for any printers you wish to print from.
 To get the safety data from stations you will have to use Si Config+.
 
 ## Help
