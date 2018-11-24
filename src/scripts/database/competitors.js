@@ -1,8 +1,8 @@
 export default {
   addCompetitor: async function (competitor) {
     if (await this.checkDuplicateSIID(competitor.siid)) {
-      const size = await this.size()
-      competitor._id = 'competitor-' + size
+      const lastID = await this.greatestCompetitorID()
+      competitor._id = 'competitor-' + (lastID + 1)
       return this.database.put(competitor)
     }
     else throw Error('A Competitor with this SI Card already exists')
@@ -72,5 +72,14 @@ export default {
   checkDuplicateSIID: function (siid) {
     return this.getCompetitors()
       .then(competitors => competitors.filter(competitor => competitor.doc.siid === siid).length === 0)
+  },
+
+  greatestCompetitorID: function () {
+    return this.getCompetitors()
+      .then(competitors => {
+        if (competitors[competitors.length - 1]) {
+          return parseInt(competitors[competitors.length - 1].id.split('-')[1])
+        }
+      })
   },
 }

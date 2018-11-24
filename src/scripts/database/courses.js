@@ -2,8 +2,8 @@ export default {
 
   addCourse: async function (course) {
     if (await this.checkDuplicateName(course.name)) {
-      const size = await this.size()
-      course._id = 'course-' + size
+      const lastID = await this.greatestCourseID()
+      course._id = 'course-' + (lastID + 1)
       course.controls = course.controls.split(',').map(control => parseInt(control))
       return this.database.put(course)
     }
@@ -56,5 +56,14 @@ export default {
   competitorsOnCourse: function (course) {
     return this.getCompetitors()
       .then(competitors => competitors.filter(competitor => competitor.doc.course === course).length)
+  },
+
+  greatestCourseID: function () {
+    return this.getCourses()
+      .then(courses => {
+        if (courses[courses.length - 1]) {
+          return parseInt(courses[courses.length - 1].id.split('-')[1])
+        }
+      })
   },
 }
