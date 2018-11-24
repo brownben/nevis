@@ -25,7 +25,7 @@
               <td>{{ competitor.position }}</td>
               <td>{{ competitor.name }}</td>
               <td>{{ competitor.ageClass }}</td>
-              <td>{{ $time.elapsed(competitor.time) }}</td>
+              <td>{{ displayTime(competitor.result) }}</td>
             </tr>
           </tbody>
         </table>
@@ -55,12 +55,11 @@ export default {
         let downloads = this.downloads
         let currentPosition = 1
         downloads = downloads.filter(competitor => competitor.course === course)
-        downloads.forEach(competitor => { competitor.time = this.$time.calculateTime(competitor.download) })
         downloads = downloads.sort((a, b) => {
-          if (typeof a.time === 'string' && typeof b.time === 'string') return a.time.length > b.time.length
-          else if (typeof a.time === 'string') return true
-          else if (typeof b.time === 'string') return false
-          else return a.time > b.time
+          if (typeof a.result === 'string' && typeof b.result === 'string') return a.result.length > b.result.length
+          else if (typeof a.result === 'string') return true
+          else if (typeof b.result === 'string') return false
+          else return a.result > b.result
         })
         downloads.forEach(competitor => {
           if (competitor.nonCompetitive) competitor.position = 'n/c'
@@ -72,6 +71,11 @@ export default {
         return downloads
       }
       else return []
+    },
+
+    displayTime: function (result) {
+      if (typeof result !== 'number') return result
+      else return this.$time.elapsed(result)
     },
   },
 

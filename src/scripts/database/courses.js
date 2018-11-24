@@ -43,9 +43,25 @@ export default {
     })
       .then(data => data.rows)
   },
+  getCoursesData: function () {
+    return this.database.allDocs({
+      include_docs: true,
+      startkey: 'course-',
+      endkey: 'course-\ufff0',
+    })
+      .then(data => data.rows)
+      .then(courses => courses.map(course => course.doc))
+  },
 
   findCourse: function (id) {
     return this.database.get(id)
+  },
+
+  findCourseByName: function (name) {
+    return this.getCourses()
+      .then(courses => courses.filter(course => course.doc && course.doc.name))
+      .then(courses => courses.filter(course => course.doc.name === name))
+      .then(courses => { if (courses.length > 0) return courses[0].doc })
   },
 
   checkDuplicateName: function (name) {

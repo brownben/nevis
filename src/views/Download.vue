@@ -27,13 +27,12 @@
       <button class="back" @click="back">Back</button>
     </div>
     <div slot="main" class="main">
-      <div v-show="lastDownload" class="card">
+      <div v-show="lastDownload !== false" class="card">
         <h1>Last Download</h1>
         <p v-if="lastDownload.name">Name: {{ lastDownload.name }}</p>
         <p>SI Card: {{ lastDownload.siid }}</p>
-        <p>Start: {{ $time.actual(lastDownload.start) || '-' }}</p>
-        <p>Finish: {{ $time.actual(lastDownload.finish) || '-' }}</p>
-        <p>Time: {{ $time.elapsed(time) }}</p>
+        <p>Course: {{ lastDownload.course || 'Unknown' }}</p>
+        <p>Time: {{ result || '-' }}</p>
       </div>
     </div>
   </base-layout>
@@ -62,8 +61,9 @@ export default {
   }),
 
   computed: {
-    time: function () {
-      if (this.lastDownload) return this.lastDownload.finish - this.lastDownload.start
+    result: function () {
+      if (typeof this.lastDownload.result !== 'number') return this.lastDownload.result
+      else return this.$time.elapsed(this.lastDownload.result)
     },
   },
 
@@ -135,17 +135,28 @@ export default {
       }
     },
 
+    calculateResult: function (competitor, courseList) {
+      const match = this.$courseMatching.linear(competitor.download.controls, courseList)
+      if (competitor.download.other) match.errors = (competitor.download.other + ' ' + match.errors).trim()
+      if (match.errors.length > 0) competitor.result = match.errors
+      else competitor.result = this.$time.calculateTime(competitor.download)
+      competitor.matchedControls = match.links
+      return competitor
+    },
+
     saveCardData: function (data) {
-      this.lastDownload = data
       this.$database.findCompetitorBySIID(data.siid)
-        .then(competitor => {
+        .then(async competitor => {
           if (competitor) {
-            this.lastDownload.name = competitor.name
             competitor.download = data
+            const course = await this.$database.findCourseByName(competitor.course)
+            if (course && course.controls) competitor = this.calculateResult(competitor, course.controls)
+            else this.calculateResult(competitor, [])
+            this.lastDownload = competitor
             this.$database.updateCompetitor(competitor)
           }
           else {
-            const competitor = {
+            competitor = {
               name: data.name || 'Unknown',
               siid: data.siid.toString(),
               ageClass: '',
@@ -155,6 +166,15 @@ export default {
               nonCompetitive: false,
               download: data,
             }
+            const allCourses = await this.$database.getCoursesData()
+            const matchedCourse = this.$courseMatching.findBestCourse(data.controls, allCourses)
+            if (matchedCourse) {
+              competitor.course = matchedCourse.name
+              if (matchedCourse.controls) competitor = this.calculateResult(competitor, matchedCourse.controls)
+              else competitor = this.calculateResult(competitor, [])
+            }
+            else competitor.result = this.$time.calculateTime(data)
+            this.lastDownload = competitor
             this.$database.addCompetitor(competitor)
           }
         })
