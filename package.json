@@ -67,13 +67,17 @@
     "serialport": "^7.0.2",
     "vue": "^2.5.17",
     "vue-async-computed": "^3.5.0",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.2"
   },
   "devDependencies": {
     "@vue/cli-service": "^3.1.4",
-    "concurrently": "^4.0.1",
-    "electron": "^3.0.9",
-    "electron-builder": "^20.34.0",
+    "babel-core": "^6.26.3",
+    "babel-jest": "^23.6.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es2015": "^6.24.1",
+    "concurrently": "^4.1.0",
+    "electron": "^3.0.10",
+    "electron-builder": "^20.36.2",
     "electron-toolkit": "^1.0.24",
     "eslint": "^5.9.0",
     "eslint-plugin-import": "^2.14.0",
@@ -81,13 +85,14 @@
     "eslint-plugin-promise": "^4.0.0",
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^4.7.1",
+    "jest": "^23.6.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "stylus-supremacy": "^2.12.7",
     "vue-template-compiler": "^2.5.17"
   },
   "scripts": {
-    "dev": "concurrently -n vue,electron \"vue-cli-service serve\" \"electron . --NODE_ENV=development\"",
+    "dev": "concurrently -k -n vue,electron \"vue-cli-service serve\" \"electron . --NODE_ENV=development\"",
     "build": "vue-cli-service build",
     "rebuild": "electron-builder install-app-deps",
     "postinstall": "npm run rebuild",
@@ -96,6 +101,8 @@
     "lint": "npm run lint-styles && npm run lint-js",
     "lint-js": "eslint main.js ./src/ --ext .vue,.js --fix",
     "lint-styles": "stylus-supremacy format ./src/assets/styles/*.styl --options stylusSupremacy.json --replace",
+    "test": "jest",
+    "test-coverage": "jest --coverage",
     "electron-toolkit": "electron ./node_modules/electron-toolkit"
   },
   "vue": {
@@ -110,8 +117,12 @@
     }
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> Add Linters
 }
 =======
 }
 >>>>>>> Feature - Read SI Cards
+=======
+}
+>>>>>>> Update - Add Jest Testing
