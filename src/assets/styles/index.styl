@@ -1,0 +1,52 @@
+@import 'helpers.styl'
+@import 'inputs.styl'
+@import 'scrollbars.styl'
+@import 'tables.styl'
+
+html, body, #app
+  overflow: hidden
+  box-sizing: border-box
+  margin: 0
+  padding: 0
+  height: 100%
+
+.main
+  display: grid
+  box-sizing: border-box
+  padding: 15px
+  width: 100%
+  grid-gap: 15px
+
+.card
+  padding: 7px 14px
+  box-shadow()
+
+h1, h2, h3, h4, h5, h6
+  margin: 0
+  padding: 5px 0
+  color: main-color
+  user-select: none
+  -webkit-user-select: none
+  default-font()
+
+p
+  margin: 5px 0
+  user-select: none
+  -webkit-user-select: none
+  default-font()
+
+a
+  color: main-color
+  user-select: none
+  -webkit-user-select: none
+  default-font()
+
+img
+  user-select: none
+  -webkit-user-select: none
+
+.fade-item
+  transition: all 0.5s ease-out
+
+.fade-enter, .fade-leave-to
+  opacity: 0

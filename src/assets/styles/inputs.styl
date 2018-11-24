@@ -1,0 +1,29 @@
+@import 'helpers.styl'
+
+input
+  display: inline-block
+  box-sizing: border-box
+  margin: 3px 0 5px
+  padding: 4px
+  width: 100%
+  outline: 0
+  border: 1px solid alpha(main-color, 0.35)
+  color: black
+  font-size: 16px
+  transition: 0.3s ease-out
+  default-font()
+
+  &:focus
+    border: 1px solid main-color
+
+label
+  margin-bottom: 3px
+  color: black
+  font-size: 11px
+  user-select: none
+  -webkit-user-select: none
+  default-font()
+
+input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button
+  margin: 0
+  -webkit-appearance: none
