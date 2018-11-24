@@ -1,50 +1,4 @@
 {
-<<<<<<< HEAD
-    "name": "nevis",
-    "productName": "Nevis",
-    "version": "4.0.0",
-    "scripts": {
-        "dev": "concurrently \"vue-cli-service serve\" \"electron . --NODE_ENV=development\"",
-        "build": "vue-cli-service build",
-        "lint": "vue-cli-service lint"
-    },
-    "dependencies": {
-        "concurrently": "^4.0.1",
-        "vue": "^2.5.17",
-        "vue-router": "^3.0.1"
-    },
-    "devDependencies": {
-        "@vue/cli-plugin-eslint": "^3.0.3",
-        "@vue/cli-service": "^3.0.3",
-        "@vue/eslint-config-standard": "^3.0.3",
-        "electron": "^3.0.0",
-        "electron-builder": "^20.28.4",
-        "stylus": "^0.54.5",
-        "stylus-loader": "^3.0.2",
-        "vue-template-compiler": "^2.5.17"
-    },
-    "description": "Fast and Easy Results for Orienteering",
-    "main": "main.js",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/bonalybob/nevis.git"
-    },
-    "keywords": [
-        "timing",
-        "orienteering",
-        "results",
-        "sportident"
-    ],
-    "author": "Bonalybob",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/bonalybob/nevis/issues"
-    },
-    "homepage": "https://github.com/bonalybob/nevis#readme",
-    "vue": {
-        "baseUrl": "./"
-    }
-=======
   "name": "nevis",
   "productName": "Nevis",
   "version": "4.0.0-beta",
@@ -116,13 +70,4 @@
       "icon": "./assets/nevis.ico"
     }
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> Add Linters
 }
-=======
-}
->>>>>>> Feature - Read SI Cards
-=======
-}
->>>>>>> Update - Add Jest Testing
