@@ -41,8 +41,7 @@ export default {
   asyncComputed: {
     courses () {
       const database = this.$database
-      return database.getCourses()
-        .then(data => data.map(course => course.doc))
+      return database.getCoursesData()
         .then(data => data.map(async course => {
           course.noOfEntrants = await database.competitorsOnCourse(course.name)
           return course

@@ -33,7 +33,7 @@
       </div>
       <div v-if="_id && competitor.download" class="card">
         <h2>Download</h2>
-        <p>Time: {{ $time.elapsed(time) }}</p>
+        <p>Time: {{ time }}</p>
         <p>Start: {{ $time.actual(competitor.download.start) || '-' }}</p>
         <p>Finish: {{ $time.actual(competitor.download.finish) || '-' }}</p>
         <p>Controls: {{ competitor.download.controls.map(control => control.code).toString() }}</p>
@@ -72,7 +72,8 @@ export default {
 
   computed: {
     time: function () {
-      if (this._id && this.competitor.download) return this.competitor.download.finish - this.competitor.download.start
+      if (this._id && this.competitor.download && typeof this.competitor.result !== 'number') return this.competitor.result
+      else if (this._id && this.competitor.download) return this.$time.elapsed(this.competitor.result)
     },
   },
 
