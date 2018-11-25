@@ -8,10 +8,15 @@ export default {
     else throw Error('A Competitor with this SI Card already exists')
   },
 
-  updateCompetitor: function (competitor, id, rev) {
+  updateCompetitor: async function (competitor, id, rev) {
     competitor._id = id || competitor._id
     competitor._rev = rev || competitor._rev
-    return this.database.put(competitor)
+    const oldCompetitor = await this.findCompetitor(competitor._id)
+    if (competitor.course !== oldCompetitor.course) {
+      competitor = await this.recalculateResultforCompetitor(competitor, competitor.course)
+      return this.database.put(competitor)
+    }
+    else return this.database.put(competitor)
   },
 
   deleteCompetitor: function (id) {

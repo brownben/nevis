@@ -4,7 +4,11 @@ export default {
     if (await this.checkDuplicateName(course.name)) {
       const lastID = await this.greatestCourseID()
       course._id = 'course-' + (lastID + 1)
-      course.controls = course.controls.split(',').map(control => parseInt(control))
+
+      const controls = course.controls.split(',').map(control => parseInt(control))
+      if (course.controls[0] != null) course.controls = controls
+      else course.controls = []
+
       return this.database.put(course)
     }
     else throw Error('A Course with this Name already exists')
@@ -13,10 +17,19 @@ export default {
   updateCourse: function (course, id, rev) {
     course._id = id
     course._rev = rev
-    course.controls = course.controls.split(',').map(control => parseInt(control))
+
+    const controls = course.controls.split(',').map(control => parseInt(control))
+    if (course.controls[0] != null) course.controls = controls
+    else course.controls = []
 
     this.database.get(id).then(originalCourse => {
-      if (originalCourse.name !== course.name) {
+      if (originalCourse.name !== course.name && originalCourse.controls !== course.controls) {
+        this.changeCourseOfCompetitorsAndRecalculateResults(originalCourse.name, course.name, course.controls)
+      }
+      else if (originalCourse.controls !== course.controls) {
+        this.recalculateResultforCourse(originalCourse.name, course.controls)
+      }
+      else if (originalCourse.name !== course.name) {
         this.changeCourseOfCompetitors(originalCourse.name, course.name)
       }
     })
@@ -43,6 +56,7 @@ export default {
     })
       .then(data => data.rows)
   },
+
   getCoursesData: function () {
     return this.database.allDocs({
       include_docs: true,
