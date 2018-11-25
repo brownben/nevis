@@ -82,9 +82,9 @@ export default {
   greatestCompetitorID: function () {
     return this.getCompetitors()
       .then(competitors => {
-        if (competitors[competitors.length - 1]) {
-          return parseInt(competitors[competitors.length - 1].id.split('-')[1])
-        }
+        competitors.sort((a, b) => parseInt(a.id.split('-')[1]) > parseInt(b.id.split('-')[1]))
+        if (competitors[competitors.length - 1] && competitors.length > 0) return parseInt(competitors[competitors.length - 1].id.split('-')[1])
+        else return 0
       })
   },
 }

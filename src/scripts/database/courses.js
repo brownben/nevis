@@ -91,9 +91,9 @@ export default {
   greatestCourseID: function () {
     return this.getCourses()
       .then(courses => {
-        if (courses[courses.length - 1]) {
-          return parseInt(courses[courses.length - 1].id.split('-')[1])
-        }
+        courses.sort((a, b) => parseInt(a.id.split('-')[1]) > parseInt(b.id.split('-')[1]))
+        if (courses[courses.length - 1] && courses.length > 0) return parseInt(courses[courses.length - 1].id.split('-')[1])
+        else return 0
       })
   },
 }
