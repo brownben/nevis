@@ -159,7 +159,7 @@ export default {
       const { app, dialog } = this.$electron.remote
       dialog.showOpenDialog(
         {
-          title: 'Nevis- Select File',
+          title: 'Nevis - Select File',
           buttonLabel: 'Select',
           defaultPath: app.getPath('documents'),
           properties: ['openFile'],

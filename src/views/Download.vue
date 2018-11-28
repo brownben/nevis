@@ -129,7 +129,7 @@ export default {
             })
             .catch(error => this.$messages.addMessage(error.message, 'error'))
         }
-        this.$port.error = error => this.$messages.addMessage(error, 'error')
+        this.$port.error = error => this.$messages.addMessage(error.message, 'error')
 
         this.$port.connect(this.selectedPort, this.selectedBaud)
       }

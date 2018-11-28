@@ -63,10 +63,11 @@ export default {
         })
         downloads.forEach(competitor => {
           if (competitor.nonCompetitive) competitor.position = 'n/c'
-          else {
+          else if (typeof competitor.result !== 'string') {
             competitor.position = currentPosition
             currentPosition += 1
           }
+          else competitor.position = ''
         })
         return downloads
       }
