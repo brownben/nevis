@@ -69,7 +69,7 @@ export default {
 
   methods: {
     dropdownChanged: function (value) { this.course = value },
-    refreshView: function () { this.refresh = this.refresh + 1 },
+    refreshView: function () { this.refresh += 1 },
 
     sortBy: function (field) {
       if (this.sortByField === field) this.reverseSort = !this.reverseSort

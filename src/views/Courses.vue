@@ -2,6 +2,7 @@
   <base-layout>
     <div slot="menu">
       <router-link to="/courses/add">Add Course</router-link>
+      <button @click="importCoursesFromXML()">Import XML Courses</button>
       <router-link to="/dashboard" class="back">Back</router-link>
     </div>
     <div is="transition-group" slot="main" class="main" name="fade">
@@ -29,7 +30,9 @@ export default {
     'base-layout': BaseLayout,
   },
 
-  data: () => ({}),
+  data: () => ({
+    refresh: 0,
+  }),
 
   created: function () {
     if (this.$database.database === null) {
@@ -38,8 +41,41 @@ export default {
     }
   },
 
+  methods: {
+    refreshView: function () { this.refresh += 1 },
+
+    importCoursesFromXML: function () {
+      const { app, dialog } = this.$electron.remote
+      dialog.showOpenDialog(
+        {
+          title: 'Nevis - Import Courses',
+          buttonLabel: 'Import',
+          defaultPath: app.getPath('documents'),
+          properties: ['openFile'],
+          filters: [
+            { name: 'IOF XML 3.0', extensions: ['xml'] },
+            { name: 'All Files', extensions: ['*'] },
+          ],
+        },
+        filePath => {
+          if (filePath && filePath[0]) {
+            this.$node.fs.promises.readFile(filePath[0], { encoding: 'UTF8', flag: 'r' })
+              .catch(() => this.$messages.addMessage('Problem Reading File', 'error'))
+              .then(data => this.$database.importCoursesFromXML(data))
+              .then(result => {
+                this.refreshView()
+                this.$messages.addMessage(result.length + ' Courses Imported')
+              })
+              .catch(error => this.$messages.addMessage(error.message, 'error'))
+          }
+        }
+      )
+    },
+  },
+
   asyncComputed: {
     courses () {
+      const refresh = this.refresh
       const database = this.$database
       return database.getCoursesData()
         .then(data => data.map(async course => {

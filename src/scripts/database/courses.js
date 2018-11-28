@@ -1,5 +1,15 @@
-export default {
+import { parseString } from 'xml2js'
 
+const xml2json = async (xml) => {
+  return new Promise((resolve, reject) => {
+    parseString(xml, (err, json) => {
+      if (err) reject(err)
+      else resolve(json)
+    })
+  })
+}
+
+export default {
   addCourse: async function (course) {
     if (await this.checkDuplicateName(course.name)) {
       const lastID = await this.greatestCourseID()
@@ -102,5 +112,34 @@ export default {
     const coursesFromdatabasesNames = coursesFromDatabase.map(course => course.name)
     const courses = coursesList.filter(course => !coursesFromdatabasesNames.includes(course))
     return courses.filter((course, index) => courses.indexOf(course) === index)
+  },
+
+  importCoursesFromXML: function (string) {
+    return xml2json(string).then(async result => {
+      if (result.CourseData && result.CourseData.RaceCourseData) {
+        let courses = result.CourseData.RaceCourseData[0].Course
+        courses = courses.map(course => {
+          const toReturn = { name: '', length: '', climb: '', controls: [] }
+          if (course.Name) toReturn.name = course.Name[0]
+          if (course.Length) toReturn.length = (parseInt(course.Length[0]) / 1000).toString()
+          if (course.Climb) toReturn.climb = course.Climb[0]
+          if (course.CourseControl) {
+            toReturn.controls = course.CourseControl
+              .filter(control => control.$.type !== 'Start' && control.$.type !== 'Finish')
+              .map(control => parseInt(control.Control[0]))
+          }
+          return toReturn
+        })
+
+        let lastID = await this.greatestCourseID()
+        courses.forEach(course => {
+          course._id = 'course-' + (lastID + 1)
+          lastID += 1
+        })
+
+        return this.database.bulkDocs(courses)
+      }
+      else throw Error('Incorrect File Format')
+    })
   },
 }

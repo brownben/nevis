@@ -15,6 +15,7 @@ A Open Source, Easy to Use, Fast Download and Results program for the SportIdent
 With Nevis you can:
 
 - Add + Edit Entries
+- Import Entries from IOF XML 3.0
 - View of Entries Live with Searching and Sorting
 - Download SI Cards
   - Tested with SI Card 5, 8, 10, 11 + SIAC
@@ -22,6 +23,7 @@ With Nevis you can:
   - SI Card 6 - Support to Come Later
 - Use Automatic Course Checking and matching if course is unknown
 - Add + Edit Courses
+- Import Courses from IOF XML 3.0
 - View Results
 
 
