@@ -1,3 +1,14 @@
+import { parseString } from 'xml2js'
+
+const xml2json = async (xml) => {
+  return new Promise((resolve, reject) => {
+    parseString(xml, (err, json) => {
+      if (err) reject(err)
+      else resolve(json)
+    })
+  })
+}
+
 export default {
   addCompetitor: async function (competitor) {
     if (await this.checkDuplicateSIID(competitor.siid)) {
@@ -86,5 +97,44 @@ export default {
         if (competitors[competitors.length - 1] && competitors.length > 0) return parseInt(competitors[competitors.length - 1].id.split('-')[1])
         else return 0
       })
+  },
+
+  importCompetitorsFromXML: function (string) {
+    return xml2json(string).then(async result => {
+      if (result.EntryList) {
+        const lastCompID = await this.greatestCompetitorID()
+        let noOfCompetitors = 0
+        let coursesList = []
+        result.EntryList.PersonEntry.forEach(person => {
+          const competitor = {}
+
+          if (person.Person[0].Name) competitor.name = person.Person[0].Name[0].Given[0] + ' ' + person.Person[0].Name[0].Family[0]
+          else competitor.name = ''
+
+          if (person.ControlCard) competitor.siid = person.ControlCard[0]
+          else competitor.siid = 'Hire - ' + (lastCompID + noOfCompetitors)
+
+          if (person.Person[0].Id) competitor.membershipNumber = person.Person[0].Id[0]
+          else competitor.membershipNumber = ''
+
+          if (person.Class) {
+            competitor.course = person.Class[0].Name[0]
+            coursesList.push(person.Class[0].Name[0])
+          }
+          else competitor.course = 'Unknown'
+
+          if (person.Organisation) competitor.club = person.Organisation[0].Name[0]
+          else competitor.club = ''
+
+          noOfCompetitors += 1
+          competitor._id = 'competitor-' + (lastCompID + noOfCompetitors)
+          this.database.put(competitor)
+        })
+        return {
+          noOfCompetitors: noOfCompetitors,
+          courses: coursesList,
+        }
+      }
+    })
   },
 }

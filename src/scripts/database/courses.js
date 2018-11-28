@@ -96,4 +96,11 @@ export default {
         else return 0
       })
   },
+
+  checkCoursesExist: async function (coursesList) {
+    const coursesFromDatabase = await this.getCoursesData()
+    const coursesFromdatabasesNames = coursesFromDatabase.map(course => course.name)
+    const courses = coursesList.filter(course => !coursesFromdatabasesNames.includes(course))
+    return courses.filter((course, index) => courses.indexOf(course) === index)
+  },
 }

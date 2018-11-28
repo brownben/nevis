@@ -2,6 +2,7 @@
   <base-layout>
     <div slot="menu">
       <router-link to="/entries/add">Add Entry</router-link>
+      <button @click="importEntriesFromXML()">Import IOF XML</button>
       <router-link to="/dashboard" class="back">Back</router-link>
     </div>
     <div slot="main" class="main">
@@ -56,6 +57,7 @@ export default {
     course: '',
     sortByField: 'name',
     reverseSort: false,
+    refresh: 0,
   }),
 
   created: function () {
@@ -67,20 +69,53 @@ export default {
 
   methods: {
     dropdownChanged: function (value) { this.course = value },
+    refreshView: function () { this.refresh = this.refresh + 1 },
 
     sortBy: function (field) {
       if (this.sortByField === field) this.reverseSort = !this.reverseSort
       this.sortByField = field
     },
+
+    importEntriesFromXML: function () {
+      const { app, dialog } = this.$electron.remote
+      dialog.showOpenDialog(
+        {
+          title: 'Nevis - Import Entries',
+          buttonLabel: 'Import',
+          defaultPath: app.getPath('documents'),
+          properties: ['openFile'],
+          filters: [
+            { name: 'IOF XML 3.0', extensions: ['xml'] },
+            { name: 'All Files', extensions: ['*'] },
+          ],
+        },
+        filePath => {
+          if (filePath && filePath[0]) {
+            this.$node.fs.promises.readFile(filePath[0], { encoding: 'UTF8', flag: 'r' })
+              .catch(() => this.$messages.addMessage('Problem Reading File', 'error'))
+              .then(data => this.$database.importCompetitorsFromXML(data))
+              .then(async result => {
+                this.$messages.addMessage(result.noOfCompetitors + ' Competitors Imported')
+                const nonExistantCourses = await this.$database.checkCoursesExist(result.courses)
+                nonExistantCourses.forEach(course => this.$messages.addMessage('No Course called ' + course + ' Exists', 'warning'))
+                this.refreshView()
+              })
+              .catch(error => this.$messages.addMessage(error.message, 'error'))
+          }
+        }
+      )
+    },
   },
 
   asyncComputed: {
     competitors: function () {
+      const refresh = this.refresh
       return this.$database.searchCompetitors(this.name, this.siid, this.course, this.sortByField, this.reverseSort)
         .catch(error => this.$messages.addMessage(error.message, 'error'))
     },
 
     courses: function () {
+      const refresh = this.refresh
       return this.$database.getCourses()
         .then(data => {
           let courses = data.map(course => course.doc.name)
