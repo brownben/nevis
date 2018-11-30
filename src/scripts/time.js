@@ -21,4 +21,9 @@ export default {
     if (download.other !== '') return download.other
     return download.finish - download.start
   },
+
+  displayTime: function (result) {
+    if (typeof result !== 'number') return result
+    else return this.elapsed(result)
+  },
 }

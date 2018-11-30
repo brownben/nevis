@@ -1,16 +1,17 @@
 <template>
   <base-layout>
     <div slot="menu">
+      <button @click="exportHTMLResults()">Export HTML</button>
       <router-link to="/dashboard" class="back">Back</router-link>
     </div>
     <div slot="main" class="main">
       <div
         v-for="course in courses"
-        v-if="downloadsForCourse(course).length > 0"
-        :key="course"
+        v-if="downloadsForCourse(course.name).length > 0"
+        :key="course.name"
         class="card"
       >
-        <h1>{{ course }}</h1>
+        <h1>{{ course.name }}</h1>
         <table>
           <tbody>
             <tr>
@@ -21,11 +22,11 @@
             </tr>
           </tbody>
           <tbody is="transition-group" name="fade">
-            <tr v-for="competitor of downloadsForCourse(course)" :key="competitor._id">
+            <tr v-for="competitor of downloadsForCourse(course.name)" :key="competitor._id">
               <td>{{ competitor.position }}</td>
               <td>{{ competitor.name }}</td>
               <td>{{ competitor.ageClass }}</td>
-              <td>{{ displayTime(competitor.result) }}</td>
+              <td>{{ $time.displayTime(competitor.result) }}</td>
             </tr>
           </tbody>
         </table>
@@ -36,6 +37,7 @@
 
 <script>
 import BaseLayout from '@/components/BaseLayout'
+import htmlResults from '@/scripts/htmlResults'
 
 export default {
   components: {
@@ -74,16 +76,41 @@ export default {
       else return []
     },
 
-    displayTime: function (result) {
-      if (typeof result !== 'number') return result
-      else return this.$time.elapsed(result)
+    exportHTMLResults: async function () {
+      const eventData = await this.$database.getOverview()
+      let html = ''
+      html += htmlResults.head(eventData.name)
+      this.courses.forEach(course => {
+        const courseResults = this.downloadsForCourse(course.name).map(competitor => htmlResults.tableRow(competitor))
+        if (courseResults.length > 0) html += htmlResults.course(course, courseResults.join(''))
+      })
+      html += htmlResults.footer()
+      const { app, dialog } = this.$electron.remote
+      dialog.showSaveDialog(
+        {
+          title: 'Nevis - Export HTML Results',
+          buttonLabel: 'Export',
+          defaultPath: app.getPath('documents'),
+          filters: [
+            { name: 'HTML', extensions: ['html'] },
+            { name: 'All Files', extensions: ['*'] },
+          ],
+        },
+        filePath => {
+          if (filePath) {
+            this.$node.fs.writeFile(filePath, html, error => {
+              if (error) this.$messages.addMessage('Problem Exporting HTML', 'error')
+              else this.$messages.addMessage('HTML Results saved to: ' + filePath)
+            })
+          }
+        }
+      )
     },
   },
 
   asyncComputed: {
     courses: function () {
-      return this.$database.getCourses()
-        .then(data => data.map(course => course.doc.name))
+      return this.$database.getCoursesData()
         .catch(error => this.$messages.addMessage(error.message, 'error'))
     },
 

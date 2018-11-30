@@ -25,7 +25,7 @@ With Nevis you can:
 - Add + Edit Courses
 - Import Courses from IOF XML 3.0
 - View Results
-
+- Export HTML Results
 
 ## License
 Released under a MIT License.
