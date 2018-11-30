@@ -4,7 +4,6 @@ export default {
   linear: linear,
 
   findBestCourse: (cardList, coursesList) => {
-
     if (coursesList.length > 0) {
       coursesList.map(course => {
         course.percentageMatch = linear(cardList, course.controls).percentageCorrect

@@ -135,13 +135,15 @@ export default {
           ],
         },
         filePath => {
-          this.$database.fullDatabase().then(data => {
-            data.forEach(doc => { doc._rev = null })
-            this.$node.fs.writeFile(filePath, JSON.stringify(data), error => {
-              if (error) this.$messages.addMessage('Problem Saving Backup', 'error')
-              else this.$messages.addMessage('Event Backed Up to: ' + filePath)
+          if (filePath) {
+            this.$database.fullDatabase().then(data => {
+              data.forEach(doc => { doc._rev = null })
+              this.$node.fs.writeFile(filePath, JSON.stringify(data), error => {
+                if (error) this.$messages.addMessage('Problem Saving Backup', 'error')
+                else this.$messages.addMessage('Event Backed Up to: ' + filePath)
+              })
             })
-          })
+          }
         }
       )
     },

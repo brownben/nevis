@@ -74,16 +74,18 @@ export default {
   },
 
   asyncComputed: {
-    courses () {
-      const refresh = this.refresh
-      const database = this.$database
-      return database.getCoursesData()
-        .then(data => data.map(async course => {
-          course.noOfEntrants = await database.competitorsOnCourse(course.name)
-          return course
-        }))
-        .then(data => Promise.all(data))
-        .catch(error => this.$messages.addMessage(error.message, 'error'))
+    courses: {
+      get () {
+        const database = this.$database
+        return database.getCoursesData()
+          .then(data => data.map(async course => {
+            course.noOfEntrants = await database.competitorsOnCourse(course.name)
+            return course
+          }))
+          .then(data => Promise.all(data))
+          .catch(error => this.$messages.addMessage(error.message, 'error'))
+      },
+      watch () { this.refresh },
     },
   },
 }

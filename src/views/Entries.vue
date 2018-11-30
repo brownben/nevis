@@ -108,21 +108,26 @@ export default {
   },
 
   asyncComputed: {
-    competitors: function () {
-      const refresh = this.refresh
-      return this.$database.searchCompetitors(this.name, this.siid, this.course, this.sortByField, this.reverseSort)
-        .catch(error => this.$messages.addMessage(error.message, 'error'))
+    competitors: {
+      get () {
+        const refresh = this.refresh
+        return this.$database.searchCompetitors(this.name, this.siid, this.course, this.sortByField, this.reverseSort)
+          .catch(error => this.$messages.addMessage(error.message, 'error'))
+      },
+      watch () { this.refresh },
     },
 
-    courses: function () {
-      const refresh = this.refresh
-      return this.$database.getCourses()
-        .then(data => {
-          let courses = data.map(course => course.doc.name)
-          courses.unshift('')
-          return courses
-        })
-        .catch(error => this.$messages.addMessage(error.message, 'error'))
+    courses: {
+      get () {
+        return this.$database.getCourses()
+          .then(data => {
+            let courses = data.map(course => course.doc.name)
+            courses.unshift('')
+            return courses
+          })
+          .catch(error => this.$messages.addMessage(error.message, 'error'))
+      },
+      watch () { this.refresh },
     },
   },
 }
