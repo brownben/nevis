@@ -6,9 +6,6 @@ import router from './scripts/router'
 import databaseConnection from './scripts/database/connection'
 import messageStore from './scripts/messageStore'
 import port from './scripts/port'
-import si from './scripts/si/si'
-import time from './scripts/time'
-import courseMatching from './scripts/courseMatching/courseMatching'
 
 const electron = window.require('electron')
 const fs = window.require('fs')
@@ -22,9 +19,6 @@ Vue.prototype.$node = {
 Vue.prototype.$database = databaseConnection
 Vue.prototype.$messages = messageStore
 Vue.prototype.$port = port
-Vue.prototype.$si = si
-Vue.prototype.$time = time
-Vue.prototype.$courseMatching = courseMatching
 
 Vue.use(AsyncComputed)
 

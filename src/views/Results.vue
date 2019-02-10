@@ -5,31 +5,28 @@
       <router-link to="/dashboard" class="back">Back</router-link>
     </div>
     <div slot="main" class="main">
-      <div
-        v-for="course in courses"
-        v-if="downloadsForCourse(course.name).length > 0"
-        :key="course.name"
-        class="card"
-      >
-        <h1>{{ course.name }}</h1>
-        <table>
-          <tbody>
-            <tr>
-              <th>Pos.</th>
-              <th>Name</th>
-              <th>Age Class</th>
-              <th>Time</th>
-            </tr>
-          </tbody>
-          <tbody is="transition-group" name="fade">
-            <tr v-for="competitor of downloadsForCourse(course.name)" :key="competitor._id">
-              <td>{{ competitor.position }}</td>
-              <td>{{ competitor.name }}</td>
-              <td>{{ competitor.ageClass }}</td>
-              <td>{{ $time.displayTime(competitor.result) }}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div v-for="course in courses" :key="course.name">
+        <div v-if="downloadsForCourse(course.name).length > 0" class="card">
+          <h1>{{ course.name }}</h1>
+          <table>
+            <tbody>
+              <tr>
+                <th>Pos.</th>
+                <th>Name</th>
+                <th>Age Class</th>
+                <th>Time</th>
+              </tr>
+            </tbody>
+            <tbody is="transition-group" name="fade">
+              <tr v-for="competitor of downloadsForCourse(course.name)" :key="competitor._id">
+                <td>{{ competitor.position }}</td>
+                <td>{{ competitor.name }}</td>
+                <td>{{ competitor.ageClass }}</td>
+                <td>{{ displayTime(competitor.result) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   </base-layout>
@@ -38,6 +35,7 @@
 <script>
 import BaseLayout from '@/components/BaseLayout'
 import htmlResults from '@/scripts/htmlResults'
+import time from '@/scripts/time'
 
 export default {
   components: {
@@ -52,6 +50,8 @@ export default {
   },
 
   methods: {
+    displayTime: timeToDisplay => time.displayTime(timeToDisplay),
+
     downloadsForCourse: function (course) {
       if (this.downloads) {
         let downloads = this.downloads

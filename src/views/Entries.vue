@@ -110,7 +110,6 @@ export default {
   asyncComputed: {
     competitors: {
       get () {
-        const refresh = this.refresh
         return this.$database.searchCompetitors(this.name, this.siid, this.course, this.sortByField, this.reverseSort)
           .catch(error => this.$messages.addMessage(error.message, 'error'))
       },

@@ -34,8 +34,8 @@
       <div v-if="_id && competitor.download" class="card">
         <h2>Download</h2>
         <p>Time: {{ time }}</p>
-        <p>Start: {{ $time.actual(competitor.download.start) || '-' }}</p>
-        <p>Finish: {{ $time.actual(competitor.download.finish) || '-' }}</p>
+        <p>Start: {{ timeActual(competitor.download.start) || '-' }}</p>
+        <p>Finish: {{ timeActual(competitor.download.finish) || '-' }}</p>
         <p>Controls: {{ competitor.download.controls.map(control => control.code).toString() }}</p>
       </div>
     </div>
@@ -46,6 +46,7 @@
 import BaseLayout from '@/components/BaseLayout'
 import DropdownInput from '@/components/DropdownInput'
 import CheckboxInput from '@/components/CheckboxInput'
+import time from '@/scripts/time'
 
 export default {
   components: {
@@ -73,7 +74,7 @@ export default {
   computed: {
     time: function () {
       if (this._id && this.competitor.download && typeof this.competitor.result !== 'number') return this.competitor.result
-      else if (this._id && this.competitor.download) return this.$time.elapsed(this.competitor.result)
+      else if (this._id && this.competitor.download) return time.elapsed(this.competitor.result)
     },
   },
 
@@ -96,6 +97,7 @@ export default {
   methods: {
     dropdownChanged: function (value) { this.competitor.course = value },
     checkboxChanged: function (value) { this.competitor.nonCompetitive = value },
+    timeActual: time => time.actual(time),
 
     clearEntry: function () {
       this._id = ''

@@ -256,7 +256,7 @@
     "no-unsafe-finally": "error",
     "no-unsafe-negation": "error",
     "no-unused-expressions": [
-      "error",
+      "off",
       {
         "allowShortCircuit": true,
         "allowTernary": true,

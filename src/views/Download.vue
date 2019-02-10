@@ -41,6 +41,9 @@
 <script>
 import BaseLayout from '@/components/BaseLayout'
 import DropdownInput from '@/components/DropdownInput'
+import si from '@/scripts/si/si'
+import courseMatching from '@/scripts/courseMatching/courseMatching'
+import time from '@/scripts/time'
 
 export default {
   components: {
@@ -63,7 +66,7 @@ export default {
   computed: {
     result: function () {
       if (typeof this.lastDownload.result !== 'number') return this.lastDownload.result
-      else return this.$time.elapsed(this.lastDownload.result)
+      else return time.elapsed(this.lastDownload.result)
     },
   },
 
@@ -123,7 +126,7 @@ export default {
           this.connected = false
         }
         this.$port.data = data => {
-          this.$si.getInfo(data, this.$port.port)
+          si.getInfo(data, this.$port.port)
             .then(data => {
               if (data) this.saveCardData(data)
             })
@@ -136,10 +139,10 @@ export default {
     },
 
     calculateResult: function (competitor, courseList) {
-      const match = this.$courseMatching.linear(competitor.download.controls, courseList)
+      const match = courseMatching.linear(competitor.download.controls, courseList)
       if (competitor.download.other) match.errors = (competitor.download.other + ' ' + match.errors).trim()
       if (match.errors.length > 0) competitor.result = match.errors
-      else competitor.result = this.$time.calculateTime(competitor.download)
+      else competitor.result = time.calculateTime(competitor.download)
       competitor.matchedControls = match.links
       return competitor
     },
@@ -167,13 +170,13 @@ export default {
               download: data,
             }
             const allCourses = await this.$database.getCoursesData()
-            const matchedCourse = this.$courseMatching.findBestCourse(data.controls, allCourses)
+            const matchedCourse = courseMatching.findBestCourse(data.controls, allCourses)
             if (matchedCourse) {
               competitor.course = matchedCourse.name
               if (matchedCourse.controls) competitor = this.calculateResult(competitor, matchedCourse.controls)
               else competitor = this.calculateResult(competitor, [])
             }
-            else competitor.result = this.$time.calculateTime(data)
+            else competitor.result = time.calculateTime(data)
             this.lastDownload = competitor
             this.$database.addCompetitor(competitor)
           }
