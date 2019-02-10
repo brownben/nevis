@@ -13,9 +13,13 @@
         <p>Electron Version: {{ electron }}</p>
       </div>
       <div class="card">
+        <h2>More Information</h2>
+        <p>For help and more information about Nevis visit: https://brownben.github.io/nevis</p>
+      </div>
+      <div class="card">
         <h2>License</h2>
         <h3>MIT License</h3>
-        <p>Copyright (c) 2018 Ben Brown</p>
+        <p>Copyright (c) 2019 Ben Brown</p>
         <p>
           Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation
           files (the" Software"), to deal in the Software without restriction, including without limitation the
