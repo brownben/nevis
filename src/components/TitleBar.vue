@@ -10,7 +10,7 @@
     </button>
     <button @click="maximize()">
       <svg v-if="!maximized" color="white" width="10" height="10">
-        <path d="M 0,0 0,10 10,10 10,0 Z M 1,1 9,1 9,9 1,9 Z"/>
+        <path d="M 0,0 0,10 10,10 10,0 Z M 1,1 9,1 9,9 1,9 Z" />
       </svg>
       <svg v-if="maximized" color="white" width="10" height="10">
         <path
@@ -20,7 +20,7 @@
     </button>
     <button @click="minimize()">
       <svg color="white" width="10" height="10">
-        <path d="M 0,5 10,5 10,6 0,6 Z"/>
+        <path d="M 0,5 10,5 10,6 0,6 Z" />
       </svg>
     </button>
   </div>

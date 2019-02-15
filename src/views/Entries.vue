@@ -12,7 +12,7 @@
         <label>SI Card Number:</label>
         <input v-model="siid">
         <label>Course:</label>
-        <dropdown-input :list="courses" @changed="dropdownChanged"/>
+        <dropdown-input :list="courses" @changed="dropdownChanged" />
       </div>
       <div v-if="competitors && competitors.length > 0" class="card">
         <table>
@@ -26,8 +26,8 @@
           <tbody is="transition-group" name="fade">
             <router-link
               v-for="competitor of competitors"
-              :to="'/entries/update/' + competitor._id"
               :key="competitor._id"
+              :to="'/entries/update/' + competitor._id"
               tag="tr"
             >
               <td>{{ competitor.name }}</td>

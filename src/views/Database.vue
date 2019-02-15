@@ -16,7 +16,7 @@
         <label>Server:</label>
         <input v-model="hostname" type="text">
         <label>Event ID:</label>
-        <dropdown-input :list="events" :initial="event" @changed="dropdownChanged"/>
+        <dropdown-input :list="events" :initial="event" @changed="dropdownChanged" />
       </div>
     </div>
   </base-layout>

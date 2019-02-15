@@ -24,7 +24,7 @@
         <label>Club:</label>
         <input v-model="competitor.club">
         <label>Course:</label>
-        <dropdown-input :list="courses" :initial="competitor.course" @changed="dropdownChanged"/>
+        <dropdown-input :list="courses" :initial="competitor.course" @changed="dropdownChanged" />
         <checkbox-input
           :state="competitor.nonCompetitive"
           label="Non-Competitive?"
@@ -75,6 +75,7 @@ export default {
     time: function () {
       if (this._id && this.competitor.download && typeof this.competitor.result !== 'number') return this.competitor.result
       else if (this._id && this.competitor.download) return time.elapsed(this.competitor.result)
+      return ''
     },
   },
 
@@ -97,7 +98,7 @@ export default {
   methods: {
     dropdownChanged: function (value) { this.competitor.course = value },
     checkboxChanged: function (value) { this.competitor.nonCompetitive = value },
-    timeActual: time => time.actual(time),
+    timeActual: timeValue => time.actual(timeValue),
 
     clearEntry: function () {
       this._id = ''

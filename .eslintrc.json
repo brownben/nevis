@@ -16,7 +16,7 @@
     "standard"
   ],
   "parserOptions": {
-    "ecmaVersion": 2017,
+    "ecmaVersion": 2018,
     "sourceType": "module"
   },
   "globals": {
@@ -443,6 +443,25 @@
     "no-plusplus": "error",
     "no-ternary": "error",
     "vue/max-attributes-per-line": "off",
-    "vue/script-indent": "off"
+    "vue/array-bracket-spacing": "never",
+    "vue/arrow-spacing": {
+      "before": true,
+      "after": true
+    },
+    "vue/block-spacing": "always",
+    "vue/camelcase": "always",
+    "vue/component-name-in-template-casing": "kebab-case",
+    "vue/eqeqeq": "always",
+    "vue/no-boolean-default": "off",
+    "vue/script-indent": "off",
+    "vue/v-on-function-call": "always",
+    "vue/html-closing-bracket-spacing": [
+      "error",
+      {
+        "startTag": "never",
+        "endTag": "never",
+        "selfClosingTag": "always"
+      }
+    ]
   }
 }

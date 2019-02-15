@@ -1,11 +1,11 @@
 <template>
   <div id="main-content">
     <app-menu>
-      <slot name="menu"/>
+      <slot name="menu" />
     </app-menu>
     <div id="main-container">
-      <messages/>
-      <slot name="main"/>
+      <messages />
+      <slot name="main" />
     </div>
   </div>
 </template>

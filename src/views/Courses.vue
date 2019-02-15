@@ -8,8 +8,8 @@
     <div is="transition-group" slot="main" class="main" name="fade">
       <router-link
         v-for="course of courses"
-        :to="'/courses/update/' + course._id"
         :key="course._id"
+        :to="'/courses/update/' + course._id"
         class="card"
         tag="div"
       >

@@ -3,7 +3,7 @@
     <label>
       {{ label }}
       <input v-model="output" :onchange="onChange()" type="checkbox">
-      <span/>
+      <span />
     </label>
   </div>
 </template>
