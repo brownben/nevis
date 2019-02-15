@@ -5,31 +5,45 @@
       <button :class="{ dropdown: true, nohover: connected }" @click="refreshPortList()">
         <p>{{ selectedPort }}</p>
         <svg v-if="!connected" viewBox="0 0 24 24">
-          <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z"/>
-          <path d="M0-.75h24v24H0z" fill="none"/>
+          <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z" />
+          <path d="M0-.75h24v24H0z" fill="none" />
         </svg>
       </button>
-      <ul v-if="portOpen">
-        <li v-for="port of portList" :key="port" @click="changePort(port)">{{ port }}</li>
-      </ul>
+      <transition name="open">
+        <ul v-if="portOpen">
+          <li v-for="port of portList" :key="port" @click="changePort(port)">
+            {{ port }}
+          </li>
+        </ul>
+      </transition>
       <label>Baud:</label>
       <button :class="{ dropdown: true, nohover: connected }" @click="refreshBaudList()">
         <p>{{ selectedBaud }}</p>
         <svg v-if="!connected" viewBox="0 0 24 24">
-          <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z"/>
-          <path d="M0-.75h24v24H0z" fill="none"/>
+          <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z" />
+          <path d="M0-.75h24v24H0z" fill="none" />
         </svg>
       </button>
-      <ul v-show="baudOpen">
-        <li v-for="baud of baudList" :key="baud" @click="changeBaud(baud)">{{ baud }}</li>
-      </ul>
-      <button @click="connect()">{{ connectButtonText }}</button>
-      <button class="back" @click="back">Back</button>
+      <transition name="open">
+        <ul v-show="baudOpen">
+          <li v-for="baud of baudList" :key="baud" @click="changeBaud(baud)">
+            {{ baud }}
+          </li>
+        </ul>
+      </transition>
+      <button @click="connect()">
+        {{ connectButtonText }}
+      </button>
+      <button class="back" @click="back">
+        Back
+      </button>
     </div>
     <div slot="main" class="main">
       <div v-show="lastDownload !== false" class="card">
         <h1>Last Download</h1>
-        <p v-if="lastDownload.name">Name: {{ lastDownload.name }}</p>
+        <p v-if="lastDownload.name">
+          Name: {{ lastDownload.name }}
+        </p>
         <p>SI Card: {{ lastDownload.siid }}</p>
         <p>Course: {{ lastDownload.course || 'Unknown' }}</p>
         <p>Time: {{ result || '-' }}</p>
@@ -40,7 +54,6 @@
 
 <script>
 import BaseLayout from '@/components/BaseLayout'
-import DropdownInput from '@/components/DropdownInput'
 import si from '@/scripts/si/si'
 import courseMatching from '@/scripts/courseMatching/courseMatching'
 import time from '@/scripts/time'
@@ -48,7 +61,6 @@ import time from '@/scripts/time'
 export default {
   components: {
     'base-layout': BaseLayout,
-    'dropdown-input': DropdownInput,
   },
 
   data: () => ({
@@ -88,6 +100,7 @@ export default {
         this.$port.listPorts().then(ports => {
           if (typeof ports === 'string') this.$messages.addMessage(ports, 'error')
           else this.portList = ports
+          if (ports.includes('No Ports Found')) this.selectedPort = ''
           this.portOpen = !this.portOpen
         })
       }
@@ -133,7 +146,6 @@ export default {
             .catch(error => this.$messages.addMessage(error.message, 'error'))
         }
         this.$port.error = error => this.$messages.addMessage(error.message, 'error')
-
         this.$port.connect(this.selectedPort, this.selectedBaud)
       }
     },
@@ -143,8 +155,38 @@ export default {
       if (competitor.download.other) match.errors = (competitor.download.other + ' ' + match.errors).trim()
       if (match.errors.length > 0) competitor.result = match.errors
       else competitor.result = time.calculateTime(competitor.download)
-      competitor.matchedControls = match.links
+      competitor.download.matchedControls = match.links
+      competitor.splits = this.generateSplits(competitor.download, courseList)
       return competitor
+    },
+
+    generateSplits: function (download, course) {
+      let splits = []
+      const startTime = download.start
+      let lastTime = download.start
+      for (const control in course) {
+        if (download.matchedControls[control]) {
+          splits.push({
+            control: course[control],
+            splitTime: download.matchedControls[control] - lastTime,
+            elapsedTime: download.matchedControls[control] - startTime,
+          })
+          lastTime = download.matchedControls[control]
+        }
+        else {
+          splits.push({
+            control: course[control],
+            splitTime: null,
+            elapsedTime: null,
+          })
+        }
+      }
+      splits.push({
+        control: 'F',
+        splitTime: download.finish - lastTime,
+        elapsedTime: download.finish - startTime,
+      })
+      return splits
     },
 
     saveCardData: function (data) {
@@ -154,7 +196,7 @@ export default {
             competitor.download = data
             const course = await this.$database.findCourseByName(competitor.course)
             if (course && course.controls) competitor = this.calculateResult(competitor, course.controls)
-            else this.calculateResult(competitor, [])
+            else competitor = this.calculateResult(competitor, [])
             this.lastDownload = competitor
             this.$database.updateCompetitor(competitor)
           }
@@ -190,6 +232,7 @@ export default {
 
 label
   display: block
+  padding-top:3px
   margin: 3px 0
   width: 100%
   color: main-color
@@ -257,4 +300,14 @@ ul
   &:hover
     background-color: white !important
     color: main-color !important
+
+.open-enter-active, .open-leave-active
+  transition:.5s
+  transform: scaleY(1)
+  transform-origin: top center
+
+.open-enter, .open-leave-to
+  transform: scaleY(0)
+  transform-origin: top center
+
 </style>

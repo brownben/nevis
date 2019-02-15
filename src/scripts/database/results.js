@@ -41,7 +41,7 @@ export default {
             if (toInsert.download.other) match.errors = (toInsert.download.other + ' ' + match.errors).trim()
             if (match.errors.length > 0) toInsert.result = match.errors
             else toInsert.result = time.calculateTime(toInsert.download)
-            toInsert.matchedControls = match.links
+            toInsert.download.matchedControls = match.links
             this.database.put(toInsert)
           }
         })
@@ -61,7 +61,7 @@ export default {
             if (toInsert.download.other) match.errors = (toInsert.download.other + ' ' + match.errors).trim()
             if (match.errors.length > 0) toInsert.result = match.errors
             else toInsert.result = time.calculateTime(toInsert.download)
-            toInsert.matchedControls = match.links
+            toInsert.download.matchedControls = match.links
           }
           this.database.put(toInsert)
         })
@@ -72,12 +72,16 @@ export default {
     let courses = await this.getCoursesData()
     courses = courses.filter(course => course.name === courseName)
     const course = courses[0]
-    if (competitor.download) {
+    if (!course && competitor.download) {
+      competitor.result = time.calculateTime(competitor.download)
+      competitor.download.matchedControls = []
+    }
+    else if (competitor.download) {
       const match = courseMatching.linear(competitor.download.controls, course.controls)
       if (competitor.download.other) match.errors = (competitor.download.other + ' ' + match.errors).trim()
       if (match.errors.length > 0) competitor.result = match.errors
       else competitor.result = time.calculateTime(competitor.download)
-      competitor.matchedControls = match.links
+      competitor.download.matchedControls = match.links
     }
     return competitor
   },

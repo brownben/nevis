@@ -61,7 +61,7 @@
     "electron-toolkit": "electron ./node_modules/electron-toolkit"
   },
   "vue": {
-    "baseUrl": "./"
+    "publicPath": "./"
   },
   "build": {
     "appId": "Nevis",

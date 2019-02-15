@@ -12,6 +12,9 @@ function createWindow () {
     frame: false,
     icon: './public/Nevis Logo.png',
     show: false,
+    webPreferences: {
+      nodeIntegration: true,
+    },
   }
   let pathname = ''
   if (process.env.NODE_ENV !== 'production') pathname = 'http://localhost:8080/'
