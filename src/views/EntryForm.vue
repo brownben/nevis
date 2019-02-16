@@ -24,12 +24,8 @@
         <label>Club:</label>
         <input v-model="competitor.club">
         <label>Course:</label>
-        <dropdown-input :list="courses" :initial="competitor.course" @changed="dropdownChanged" />
-        <checkbox-input
-          :state="competitor.nonCompetitive"
-          label="Non-Competitive?"
-          @changed="checkboxChanged"
-        />
+        <dropdown-input v-model="competitor.course" :list="courses"/>
+        <checkbox-input v-model="competitor.nonCompetitive" label="Non-Competitive?"/>
       </div>
       <div v-if="_id && competitor.download" class="card">
         <h2>Download</h2>
@@ -39,6 +35,18 @@
         <p>Controls: {{ competitor.download.controls.map(control => control.code).toString() }}</p>
       </div>
     </div>
+      <transition name="open">
+        <confirmation-dialog
+          v-if="showConfirmationDialog"
+          v-model="confirmationDecision"
+          heading="Delete Entry"
+          message="Are You Sure You Want to Delete This Entry and any Attahced Downloads? This Action can't be Recovered."
+          confirm="Delete"
+          cancel="Cancel"
+          :showing="showConfirmationDialog"
+          @close="confirmationOfDeleteEntry()"
+        />
+      </transition>
     </template>
   </base-layout>
 </template>
@@ -47,6 +55,7 @@
 import BaseLayout from '@/components/BaseLayout'
 import DropdownInput from '@/components/DropdownInput'
 import CheckboxInput from '@/components/CheckboxInput'
+import Dialog from '@/components/Dialog'
 import time from '@/scripts/time'
 
 export default {
@@ -54,6 +63,7 @@ export default {
     'base-layout': BaseLayout,
     'dropdown-input': DropdownInput,
     'checkbox-input': CheckboxInput,
+    'confirmation-dialog': Dialog,
   },
 
   data: () => ({
@@ -69,7 +79,8 @@ export default {
     _id: '',
     _rev: '',
     courses: [],
-
+    showConfirmationDialog: false,
+    confirmationDecision: false,
   }),
 
   computed: {
@@ -97,8 +108,6 @@ export default {
   },
 
   methods: {
-    dropdownChanged: function (value) { this.competitor.course = value },
-    checkboxChanged: function (value) { this.competitor.nonCompetitive = value },
     timeActual: timeValue => time.actual(timeValue),
 
     clearEntry: function () {
@@ -126,17 +135,25 @@ export default {
 
     updateEntry: function () {
       this.$database.updateCompetitor(this.competitor, this._id, this._rev)
-        .then(() => this.$router.go(-1))
+        .then(() => {
+          this.$router.go(-1)
+          this.$messages.addMessage('Entry Updated', 'info')
+        })
         .catch(error => this.$messages.addMessage(error.message, 'error'))
     },
 
-    deleteEntry: function () {
-      this.$database.deleteCompetitor(this._id)
-        .then(() => {
-          this.$router.go(-1)
-          this.$messages.addMessage('Entry Deleted', 'info')
-        })
-        .catch(error => this.$messages.addMessage(error.message, 'error'))
+    deleteEntry: function () { this.showConfirmationDialog = true },
+
+    confirmationOfDeleteEntry: function () {
+      this.showConfirmationDialog = false
+      if (this.confirmationDecision) {
+        this.$database.deleteCompetitor(this._id)
+          .then(() => {
+            this.$router.go(-1)
+            this.$messages.addMessage('Entry Deleted', 'info')
+          })
+          .catch(error => this.$messages.addMessage(error.message, 'error'))
+      }
     },
   },
 

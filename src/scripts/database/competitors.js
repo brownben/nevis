@@ -36,6 +36,17 @@ export default {
       .then(data => db.remove(data))
   },
 
+  deleteAllCompetitors: function () {
+    return this.getCompetitors()
+      .then(competitors => {
+        let deletedCompetitors = competitors.map(competitor => {
+          competitor.doc._deleted = true
+          return competitor.doc
+        })
+        return this.database.bulkDocs(deletedCompetitors)
+      })
+  },
+
   getCompetitors: function () {
     return this.database.allDocs({
       include_docs: true,

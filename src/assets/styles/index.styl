@@ -10,7 +10,7 @@ html, body, #app
   padding: 0
   height: 100%
 
-.main
+main
   display: grid
   box-sizing: border-box
   padding: 15px
@@ -19,6 +19,7 @@ html, body, #app
 
 .card
   padding: 7px 14px
+  background-color: white
   box-shadow()
 
 h1, h2, h3, h4, h5, h6
@@ -50,3 +51,12 @@ img
 
 .fade-enter, .fade-leave-to
   opacity: 0
+
+.open-enter-active, .open-leave-active
+  transition: 0.5s transform
+  transform: scaleY(1)
+  transform-origin: top
+
+.open-enter, .open-leave-to
+  transform: scaleY(0)
+  transform-origin: top

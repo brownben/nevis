@@ -58,6 +58,17 @@ export default {
       })
   },
 
+  deleteAllCourses: function () {
+    return this.getCourses()
+      .then(courses => {
+        let deletedCourses = courses.map(course => {
+          course.doc._deleted = true
+          return course.doc
+        })
+        return this.database.bulkDocs(deletedCourses)
+      })
+  },
+
   getCourses: function () {
     return this.database.allDocs({
       include_docs: true,

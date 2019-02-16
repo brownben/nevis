@@ -34,14 +34,21 @@
           <label>File Location:</label>
           <input v-model="backupLocation">
           <button @click="selectBackupLocation">Select File Location</button>
-          <checkbox-input
-            :state="override"
-            label="Override Event if it Already Exists?"
-            @changed="checkboxChanged"
-          />
+          <checkbox-input v-model="override" label="Override Event if it Already Exists?"/>
         </div>
       </div>
-    </div>
+      <transition name="open">
+        <confirmation-dialog
+          v-if="showConfirmationDialog"
+          v-model="confirmationDecision"
+          heading="Delete Event"
+          message="Are You Sure You Want to Delete This Event? This Action can't be Recovered."
+          confirm="Delete"
+          cancel="Cancel"
+          :showing="showConfirmationDialog"
+          @close="confirmationOfDeleteEvent()"
+        />
+      </transition>
     </template>
   </base-layout>
 </template>
@@ -49,10 +56,12 @@
 <script>
 import BaseLayout from '@/components/BaseLayout'
 import CheckboxInput from '@/components/CheckboxInput'
+import Dialog from '@/components/Dialog'
 
 export default {
   components: {
     'base-layout': BaseLayout,
+    'confirmation-dialog': Dialog,
     'checkbox-input': CheckboxInput,
   },
 
@@ -65,6 +74,8 @@ export default {
       override: false,
       backupLocation: '',
       currentRoute: this.$router.currentRoute.path,
+      showConfirmationDialog: false,
+      confirmationDecision: false,
     }
   },
 
@@ -83,8 +94,6 @@ export default {
   },
 
   methods: {
-    checkboxChanged: function (value) { this.override = value },
-
     createEvent: function () {
       if (this.eventID === '') this.$messages.addMessage('No Event ID Specified', 'error')
       else {
@@ -149,13 +158,18 @@ export default {
       )
     },
 
-    deleteEvent: function () {
-      this.$database.deleteDatabase()
-        .then(() => {
-          this.$router.push('/')
-          this.$messages.addMessage('Event Deleted')
-        })
-        .catch(() => this.$messages.addMessage('Problem Deleting Event', 'error'))
+    deleteEvent: function () { this.showConfirmationDialog = true },
+
+    confirmationOfDeleteEvent: function () {
+      this.showConfirmationDialog = false
+      if (this.confirmationDecision) {
+        this.$database.deleteDatabase()
+          .then(() => {
+            this.$router.push('/')
+            this.$messages.addMessage('Event Deleted')
+          })
+          .catch(() => this.$messages.addMessage('Problem Deleting Event', 'error'))
+      }
     },
 
     selectBackupLocation: function () {

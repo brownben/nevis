@@ -22,16 +22,30 @@
         <label>Control Codes: (Comma Separated)</label>
         <input v-model="course.controls">
       </div>
+      <transition name="open">
+        <confirmation-dialog
+          v-if="showConfirmationDialog"
+          v-model="confirmationDecision"
+          heading="Delete Course"
+          message="Are You Sure You Want to Delete This Course? This Action can't be Recovered."
+          confirm="Delete"
+          cancel="Cancel"
+          :showing="showConfirmationDialog"
+          @close="confirmationOfDeleteCourse()"
+        />
+      </transition>
     </template>
   </base-layout>
 </template>
 
 <script>
 import BaseLayout from '@/components/BaseLayout'
+import Dialog from '@/components/Dialog'
 
 export default {
   components: {
     'base-layout': BaseLayout,
+    'confirmation-dialog': Dialog,
   },
 
   data: () => ({
@@ -43,6 +57,8 @@ export default {
       climb: 0,
       controls: '',
     },
+    showConfirmationDialog: false,
+    confirmationDecision: false,
   }),
 
   created: function () {
@@ -89,14 +105,19 @@ export default {
         .catch(error => this.$messages.addMessage(error.message, 'error'))
     },
 
-    deleteCourse: function () {
-      this.$database.deleteCourse(this._id)
-        .then(message => {
-          if (typeof message === 'string' && message.includes('Warning:')) this.$messages.addMessage(message, 'warning')
-          this.$router.go(-1)
-          this.$messages.addMessage('Course Deleted', 'info')
-        })
-        .catch(error => this.$messages.addMessage(error.message, 'error'))
+    deleteCourse: function () { this.showConfirmationDialog = true },
+
+    confirmationOfDeleteCourse: function () {
+      this.showConfirmationDialog = false
+      if (this.confirmationDecision) {
+        this.$database.deleteCourse(this._id)
+          .then(message => {
+            if (typeof message === 'string' && message.includes('Warning:')) this.$messages.addMessage(message, 'warning')
+            this.$router.go(-1)
+            this.$messages.addMessage('Course Deleted', 'info')
+          })
+          .catch(error => this.$messages.addMessage(error.message, 'error'))
+      }
     },
   },
 }
