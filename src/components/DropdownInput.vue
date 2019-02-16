@@ -1,7 +1,9 @@
 <template>
   <div class="dropdown-input">
-    <select v-model="output" :onchange="onChange()">
-      <option v-for="item in list" :key="item">{{ item }}</option>
+    <select :value="value" @input="$emit('input', $event.target.value)">
+      <option v-for="item in list" :key="item">
+        {{ item }}
+      </option>
     </select>
     <label>
       <svg fill="#9E9E9E" height="24" viewBox="0 0 24 24" width="24">
@@ -17,7 +19,7 @@ export default {
   name: 'DropdownInput',
 
   props: {
-    'initial': {
+    'value': {
       type: String,
       default: '',
     },
@@ -26,20 +28,6 @@ export default {
       default: () => [],
     },
   },
-
-  data: () => ({
-    output: '',
-  }),
-
-  watch: {
-    initial (value) {
-      this.output = value
-    },
-  },
-
-  methods: {
-    onChange: function () { this.$emit('changed', this.output) },
-  },
 }
 </script>
 
@@ -47,11 +35,11 @@ export default {
 @import '../assets/styles/helpers.styl'
 
 .dropdown-input
-  margin-bottom: -20px
+  margin-bottom: -25px
 
   select
-    margin: 3px 0 5px
-    padding: 4px
+    margin: 3px 0
+    padding: 3px
     width: 100%
     outline: 0
     border: 1px solid alpha(main-color, 0.5)
@@ -69,7 +57,7 @@ export default {
 
   svg
     position: relative
-    top: -30px
+    top: -28px
     right: calc(-100% + 25px)
     transition: 0.3s ease-out
 </style>

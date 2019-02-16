@@ -2,7 +2,11 @@
   <div class="checkbox-input">
     <label>
       {{ label }}
-      <input v-model="output" :onchange="onChange()" type="checkbox">
+      <input
+        :checked="value"
+        type="checkbox"
+        @change="$emit('input', $event.target.checked)"
+      >
       <span />
     </label>
   </div>
@@ -13,7 +17,7 @@ export default {
   name: 'CheckboxInput',
 
   props: {
-    'state': {
+    'value': {
       type: Boolean,
       default: false,
     },
@@ -21,22 +25,6 @@ export default {
       type: String,
       default: '',
     },
-  },
-
-  data: function () {
-    return {
-      output: this.state,
-    }
-  },
-
-  watch: {
-    state (value) {
-      this.output = value
-    },
-  },
-
-  methods: {
-    onChange: function () { this.$emit('changed', this.output) },
   },
 }
 </script>

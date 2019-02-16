@@ -1,7 +1,7 @@
 <template>
   <base-layout>
-    <div slot="menu">
-      <button @click="connect">Connect</button>
+    <template v-slot:menu>
+      <button @click="connect">Open Event</button>
       <router-link to="/event/add">Add Event</router-link>
       <router-link to="/event/restore">Restore Event</router-link>
       <router-link to="/about">About</router-link>
@@ -16,7 +16,7 @@
         <label>Server:</label>
         <input v-model="hostname" type="text">
         <label>Event ID:</label>
-        <dropdown-input :list="events" :initial="event" @changed="dropdownChanged" />
+        <dropdown-input v-model="event" :list="events"/>
       </div>
     </template>
   </base-layout>
@@ -34,13 +34,11 @@ export default {
 
   data: () => ({
     hostname: 'localhost',
-    event: 'test',
+    event: '',
     events: [],
   }),
 
   methods: {
-    dropdownChanged: function (value) { this.event = value },
-
     connect: function () {
       if (this.event === '' || this.event === 'No Events Found') this.$messages.addMessage('No Event Specified', 'error')
       else {
@@ -62,8 +60,13 @@ export default {
       this.$node.axios.get('http://' + this.hostname + ':5984/_all_dbs')
         .then(response => {
           const events = response.data.filter(event => event !== '_users' && event !== '_replicator')
-          if (events.length === 0) this.events = ['No Events Found']
-          else this.events = events
+          if (events.length === 0) {
+            this.events = ['No Events Found']
+          }
+          else {
+            this.events = events
+            events.unshift('')
+          }
         })
         .catch(() => { this.events = ['No Events Found'] })
     },
