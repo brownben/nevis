@@ -5,8 +5,8 @@
       <router-link to="/event/add">Add Event</router-link>
       <router-link to="/event/restore">Restore Event</router-link>
       <router-link to="/about">About</router-link>
-    </div>
-    <div slot="main" class="main">
+    </template>
+    <template v-slot:main>
       <div class="card welcome">
         <img alt="Nevis Logo" src="../assets/images/NevisWhiteBorder.png">
         <h1>Welcome to Nevis</h1>
@@ -18,7 +18,7 @@
         <label>Event ID:</label>
         <dropdown-input :list="events" :initial="event" @changed="dropdownChanged" />
       </div>
-    </div>
+    </template>
   </base-layout>
 </template>
 

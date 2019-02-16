@@ -1,11 +1,11 @@
 <template>
   <base-layout>
-    <div slot="menu">
+    <template v-slot:menu>
       <router-link to="/entries/add">Add Entry</router-link>
       <button @click="importEntriesFromXML()">Import IOF XML</button>
       <router-link to="/dashboard" class="back">Back</router-link>
-    </div>
-    <div slot="main" class="main">
+    </template>
+    <template v-slot:main>
       <div class="card">
         <label>Name:</label>
         <input v-model="name">
@@ -37,7 +37,7 @@
           </tbody>
         </table>
       </div>
-    </div>
+    </template>
   </base-layout>
 </template>
 

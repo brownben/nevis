@@ -1,19 +1,19 @@
 <template>
   <base-layout>
-    <div slot="menu">
+    <template v-slot:menu>
       <router-link to="/event/edit">Edit Event</router-link>
       <router-link to="/entries">Entries</router-link>
       <router-link to="/courses">Courses</router-link>
       <router-link to="/download">Download</router-link>
       <router-link to="/results">Results</router-link>
       <router-link to="/" class="back">Change Event</router-link>
-    </div>
-    <div slot="main" class="main">
+    </template>
+    <template v-slot:main>
       <div class="card">
         <h1>{{ eventData.name }} on {{ eventData.date }}</h1>
         <p>On {{ eventData.database.host }} as {{ eventData.database.db_name }}</p>
       </div>
-    </div>
+    </template>
   </base-layout>
 </template>
 

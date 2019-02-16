@@ -1,6 +1,6 @@
 <template>
   <base-layout>
-    <div slot="menu">
+    <template v-slot:menu>
       <div v-if="$route.params.id">
         <button @click="updateEntry">Update Entry</button>
         <button @click="deleteEntry">Delete Entry</button>
@@ -10,8 +10,8 @@
         <button @click="clearEntry">Clear Entry</button>
       </div>
       <a class="back" @click="$router.go(-1)">Back</a>
-    </div>
-    <div slot="main" class="main">
+    </template>
+    <template v-slot:main>
       <div class="card">
         <label>Name:</label>
         <input v-model="competitor.name">
@@ -39,6 +39,7 @@
         <p>Controls: {{ competitor.download.controls.map(control => control.code).toString() }}</p>
       </div>
     </div>
+    </template>
   </base-layout>
 </template>
 

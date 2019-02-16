@@ -1,6 +1,6 @@
 <template>
   <base-layout>
-    <div slot="menu">
+    <template v-slot:menu>
       <label>Port:</label>
       <button :class="{ dropdown: true, nohover: connected }" @click="refreshPortList()">
         <p>{{ selectedPort }}</p>
@@ -37,8 +37,8 @@
       <button class="back" @click="back">
         Back
       </button>
-    </div>
-    <div slot="main" class="main">
+    </template>
+    <template v-slot:main>
       <div v-show="lastDownload !== false" class="card">
         <h1>Last Download</h1>
         <p v-if="lastDownload.name">
@@ -48,7 +48,7 @@
         <p>Course: {{ lastDownload.course || 'Unknown' }}</p>
         <p>Time: {{ result || '-' }}</p>
       </div>
-    </div>
+    </template>
   </base-layout>
 </template>
 

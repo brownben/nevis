@@ -5,7 +5,9 @@
     </app-menu>
     <div id="main-container">
       <messages />
-      <slot name="main" />
+      <main>
+        <slot name="main" />
+      </main>
     </div>
   </div>
 </template>

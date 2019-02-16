@@ -1,11 +1,11 @@
 <template>
   <base-layout>
-    <div slot="menu">
+    <template v-slot:menu>
       <router-link to="/courses/add">Add Course</router-link>
       <button @click="importCoursesFromXML()">Import XML Courses</button>
       <router-link to="/dashboard" class="back">Back</router-link>
-    </div>
-    <div is="transition-group" slot="main" class="main" name="fade">
+    </template>
+    <template is="transition-group" v-slot:main name="fade">
       <router-link
         v-for="course of courses"
         :key="course._id"
@@ -18,7 +18,7 @@
         <p>Number of Entrants: {{ course.noOfEntrants }}</p>
         <p>Controls: {{ course.controls.toString() }}</p>
       </router-link>
-    </div>
+    </template>
   </base-layout>
 </template>
 

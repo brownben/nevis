@@ -17,6 +17,7 @@ export default {
   position: fixed
   top: 35px
   left: 0
+  padding-top: 5px
   width: 180px
   height: 100%
   background-color: white
@@ -31,9 +32,6 @@ export default {
 
   div
     height: calc(100% - 75px)
-
-    &:first-child
-      margin-top: 5px
 
 a, button
   display: block

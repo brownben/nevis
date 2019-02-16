@@ -1,6 +1,6 @@
 <template>
   <base-layout>
-    <div slot="menu">
+    <template v-slot:menu>
       <div v-if="currentRoute === '/event/add'">
         <button @click="createEvent">Create Event</button>
         <a class="back" @click="$router.push('/')">Back</a>
@@ -15,8 +15,8 @@
         <button @click="restoreEvent">Restore Event</button>
         <a class="back" @click="$router.push('/')">Back</a>
       </div>
-    </div>
-    <div slot="main" class="main">
+    </template>
+    <template v-slot:main>
       <div class="card">
         <div v-if="currentRoute === '/event/add' || currentRoute === '/event/edit'">
           <label>Name:</label>
@@ -42,6 +42,7 @@
         </div>
       </div>
     </div>
+    </template>
   </base-layout>
 </template>
 
@@ -200,7 +201,7 @@ export default {
 <style lang="stylus" scoped>
 @import '../assets/styles/helpers.styl'
 
-.main
+main
   button
     margin: 5px 0 10px
     padding: 5px

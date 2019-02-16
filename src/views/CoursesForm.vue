@@ -1,6 +1,6 @@
 <template>
   <base-layout>
-    <div slot="menu">
+    <template v-slot:menu>
       <div v-if="$route.params.id">
         <button @click="updateCourse">Update Course</button>
         <button @click="deleteCourse">Delete Course</button>
@@ -10,8 +10,8 @@
         <button @click="clearCourse">Clear Course</button>
       </div>
       <a class="back" @click="$router.go(-1)">Back</a>
-    </div>
-    <div slot="main" class="main">
+    </template>
+    <template v-slot:main>
       <div class="card">
         <label>Name:</label>
         <input v-model="course.name">
@@ -22,7 +22,7 @@
         <label>Control Codes: (Comma Separated)</label>
         <input v-model="course.controls">
       </div>
-    </div>
+    </template>
   </base-layout>
 </template>
 

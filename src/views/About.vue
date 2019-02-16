@@ -1,9 +1,9 @@
 <template>
   <base-layout>
-    <div slot="menu">
+    <template v-slot:menu>
       <a class="back" @click="$router.go(-1)">Back</a>
-    </div>
-    <div slot="main" class="main">
+    </template>
+    <template v-slot:main class="main">
       <div class="card">
         <h2>System</h2>
         <p>Nevis Version: 4.0.0-beta</p>
@@ -36,7 +36,7 @@
           IN THE SOFTWARE.
         </p>
       </div>
-    </div>
+    </template>
   </base-layout>
 </template>
 
@@ -61,7 +61,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.main
+main
   p, h1, h2, h3, h4, h5, h6, a
     user-select: text
 </style>

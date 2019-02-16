@@ -1,22 +1,22 @@
 <template>
   <base-layout>
-    <div slot="menu">
+    <template v-slot:menu>
       <button @click="exportHTMLResults()">Export HTML</button>
       <router-link to="/dashboard" class="back">Back</router-link>
-    </div>
-    <div slot="main" class="main">
-      <div v-for="course in courses" :key="course.name">
-        <div v-if="downloadsForCourse(course.name).length > 0" class="card">
+    </template>
+    <template v-slot:main>
+      <template v-for="course in courses">
+        <div v-if="downloadsForCourse(course.name).length > 0" :key="course.name" class="card">
           <h1>{{ course.name }}</h1>
           <table>
-            <tbody>
+            <thead>
               <tr>
                 <th>Pos.</th>
                 <th>Name</th>
                 <th>Age Class</th>
                 <th>Time</th>
               </tr>
-            </tbody>
+            </thead>
             <tbody is="transition-group" name="fade">
               <tr v-for="competitor of downloadsForCourse(course.name)" :key="competitor._id">
                 <td>{{ competitor.position }}</td>
@@ -27,8 +27,8 @@
             </tbody>
           </table>
         </div>
-      </div>
-    </div>
+      </template>
+    </template>
   </base-layout>
 </template>
 
