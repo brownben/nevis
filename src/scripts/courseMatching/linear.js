@@ -14,13 +14,13 @@ export default (cardList, courseList) => {
 
     if (cardList[cardCounter] && cardList[cardCounter].code === courseList[courseCounter]) {
       match = true
-      controlLinks.push(cardList[cardCounter].time)
+      controlLinks.push(cardList[cardCounter])
     }
 
     else if (cardList[cardCounter + 1] && cardList[cardCounter + 1].code === courseList[courseCounter]) {
       cardCounter += 1
       match = true
-      controlLinks.push(cardList[cardCounter].time)
+      controlLinks.push(cardList[cardCounter])
     }
 
     else if (cardList[cardCounter + 1] && cardList[cardCounter + 1].code === courseList[courseCounter + 1]) {
@@ -45,7 +45,7 @@ export default (cardList, courseList) => {
         if (cardList[tempCardCounter] && cardList[tempCardCounter].code === courseList[courseCounter]) {
           cardCounter = tempCardCounter
           match = true
-          controlLinks.push(cardList[cardCounter].time)
+          controlLinks.push(cardList[cardCounter])
         }
       }
     }

@@ -32,9 +32,37 @@
         <p>Time: {{ time }}</p>
         <p>Start: {{ timeActual(competitor.download.start) || '-' }}</p>
         <p>Finish: {{ timeActual(competitor.download.finish) || '-' }}</p>
-        <p>Controls: {{ competitor.download.controls.map(control => control.code).toString() }}</p>
       </div>
-    </div>
+      <div v-if="_id && competitor.splits" class="card">
+        <h2>Splits</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Control Code</th>
+              <th>Leg Split</th>
+              <th>Elapsed Time</th>
+              <th>Punch Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>S</td>
+              <td/>
+              <td>00:00</td>
+              <td>00:00</td>
+              <td>{{ timeActualSplit(competitor.download.start) }}</td>
+            </tr>
+            <tr v-for="split of competitor.splits" :key="competitor.splits.indexOf(split)">
+              <td>{{ split.number }}</td>
+              <td>{{ split.control }}</td>
+              <td>{{ timeElapsedSplit(split.splitTime) }}</td>
+              <td>{{ timeElapsedSplit(split.elapsedTime) }}</td>
+              <td>{{ timeActualSplit(split.punchTime) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <transition name="open">
         <confirmation-dialog
           v-if="showConfirmationDialog"
@@ -85,9 +113,8 @@ export default {
 
   computed: {
     time: function () {
-      if (this._id && this.competitor.download && typeof this.competitor.result !== 'number') return this.competitor.result
-      else if (this._id && this.competitor.download) return time.elapsed(this.competitor.result)
-      return ''
+      if (this._id && this.competitor.download) return this.timeElapsed(this.competitor.result)
+      else return ''
     },
   },
 
@@ -109,6 +136,15 @@ export default {
 
   methods: {
     timeActual: timeValue => time.actual(timeValue),
+    timeActualSplit: timeValue => {
+      if (timeValue) return time.actual(timeValue)
+      else return '--:--'
+    },
+    timeElapsed: timeValue => time.displayTime(timeValue),
+    timeElapsedSplit: timeValue => {
+      if (timeValue) return time.displayTime(timeValue)
+      else return '--:--'
+    },
 
     clearEntry: function () {
       this._id = ''

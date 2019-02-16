@@ -57,6 +57,7 @@ import BaseLayout from '@/components/BaseLayout'
 import si from '@/scripts/si/si'
 import courseMatching from '@/scripts/courseMatching/courseMatching'
 import time from '@/scripts/time'
+import splits from '@/scripts/splits'
 
 export default {
   components: {
@@ -155,38 +156,8 @@ export default {
       if (competitor.download.other) match.errors = (competitor.download.other + ' ' + match.errors).trim()
       if (match.errors.length > 0) competitor.result = match.errors
       else competitor.result = time.calculateTime(competitor.download)
-      competitor.download.matchedControls = match.links
-      competitor.splits = this.generateSplits(competitor.download, courseList)
+      competitor.splits = splits.generateSplits(competitor.download, match.links, courseList)
       return competitor
-    },
-
-    generateSplits: function (download, course) {
-      let splits = []
-      const startTime = download.start
-      let lastTime = download.start
-      for (const control in course) {
-        if (download.matchedControls[control]) {
-          splits.push({
-            control: course[control],
-            splitTime: download.matchedControls[control] - lastTime,
-            elapsedTime: download.matchedControls[control] - startTime,
-          })
-          lastTime = download.matchedControls[control]
-        }
-        else {
-          splits.push({
-            control: course[control],
-            splitTime: null,
-            elapsedTime: null,
-          })
-        }
-      }
-      splits.push({
-        control: 'F',
-        splitTime: download.finish - lastTime,
-        elapsedTime: download.finish - startTime,
-      })
-      return splits
     },
 
     saveCardData: function (data) {
@@ -232,8 +203,8 @@ export default {
 
 label
   display: block
-  padding-top:3px
   margin: 3px 0
+  padding-top: 3px
   width: 100%
   color: main-color
   text-align: center
@@ -302,12 +273,11 @@ ul
     color: main-color !important
 
 .open-enter-active, .open-leave-active
-  transition:.5s
+  transition: 0.3s
   transform: scaleY(1)
   transform-origin: top center
 
 .open-enter, .open-leave-to
   transform: scaleY(0)
   transform-origin: top center
-
 </style>
