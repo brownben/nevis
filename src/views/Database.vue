@@ -75,7 +75,10 @@ export default {
 @import '../assets/styles/helpers.styl'
 
 .welcome
+  background: url('../assets/images/largeBackground.svg')
   background-color: #0D47A1
+  background-size: cover
+  background-repeat: no-repeat
 
   img
     display: block
