@@ -462,6 +462,7 @@
         "endTag": "never",
         "selfClosingTag": "always"
       }
-    ]
+    ],
+    "vue/singleline-html-element-content-newline": "off"
   }
 }

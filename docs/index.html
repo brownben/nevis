@@ -38,7 +38,8 @@
       <h2 id="about">About</h2>
       <p>Nevis is a lightweight Event Management Software for Orienteering which aims to make the timing as easy as possible and has all features needed for a small to medium sized event. It is designed to be as simple
         and easy to use as possible as to reduce the barrier for use, allowing as many people as possible to run the timing system at events.</p>
-      <p>Version 4 of Nevis moves from a single file database to a hosted PouchDB database allowing multiple computers to run Nevis for the same event. Version 3 of Nevis is avaliable <a href="https://github.com/brownben/nevis/tree/84cdd43f5b913dd59acc62225878bb541a3249a7">on
+      <p>Version 4 of Nevis moves from a single file database to a hosted PouchDB database allowing multiple computers to run Nevis for the same event. Version 3 of Nevis (which directly accesses a file) is avaliable <a
+          href="https://github.com/brownben/nevis/tree/84cdd43f5b913dd59acc62225878bb541a3249a7">on
           Github</a></p>
       <p>Nevis is created using Electron and uses Vue to create the live display of data, such as the interactive Entries view which has live Searching and Sorting. Nevis reads the SI Cards over the Serial port and then
         extracts the relevant details before matching the course against it and creating results or finding the best course if they are not entered. </p>
@@ -59,7 +60,14 @@
         <li>Add + Edit Courses</li>
         <li>Import Courses from IOF XML 3.0</li>
         <li>View Results</li>
+        <li>View Splits for each Competitor</li>
+        <li>View Outstanding Competitors
+          <ul>
+            <li>Import Safety Check Data from Unit via SIConfig+</li>
+          </ul>
+        </li>
         <li>Export HTML Results</li>
+        <li>Backup Event</li>
       </ul>
 
       <h2 id="screenshots">Screenshots</h2>
@@ -68,9 +76,11 @@
         <img src="./assets/screenshot-entry-overview.PNG" alt="Entries Overview">
         <img src="./assets/screenshot-entries-search+sort.PNG" alt="Entries Search and Sort">
         <img src="./assets/screenshot-add-entry.PNG" alt="Add Entry">
+        <img src="./assets/screenshot-entry-splits.PNG" alt="Edit Entry - Showing Splits (As Competitor has Downloaded)">
         <img src="./assets/screenshot-courses.PNG" alt="Courses">
         <img src="./assets/screenshot-download.PNG" alt="Download">
         <img src="./assets/screenshot-results.PNG" alt="Results">
+        <img src="./assets/screenshot-safety-check.PNG" alt="Safety Check/ Outstanding Competitors">
       </div>
 
       <h2 id="license">License</h2>

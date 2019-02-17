@@ -4,11 +4,12 @@ import Router from 'vue-router'
 import Database from '../views/Database'
 import EventForm from '../views/EventForm'
 import Dashboard from '../views/Dashboard'
-import Download from '../views/Download'
 import Entries from '../views/Entries'
 import EntryForm from '../views/EntryForm'
 import Courses from '../views/Courses'
 import CoursesForm from '../views/CoursesForm'
+import Download from '../views/Download'
+import SafetyCheck from '../views/SafetyCheck'
 import Results from '../views/Results'
 import About from '../views/About'
 
@@ -21,12 +22,20 @@ export default new Router({
       component: Database,
     },
     {
-      path: '/dashboard',
-      component: Dashboard,
+      path: '/event/add',
+      component: EventForm,
     },
     {
-      path: '/download',
-      component: Download,
+      path: '/event/edit',
+      component: EventForm,
+    },
+    {
+      path: '/event/restore',
+      component: EventForm,
+    },
+    {
+      path: '/dashboard',
+      component: Dashboard,
     },
     {
       path: '/entries',
@@ -57,20 +66,17 @@ export default new Router({
       component: Results,
     },
     {
+      path: '/safety-check',
+      component: SafetyCheck,
+    },
+    {
+      path: '/download',
+      component: Download,
+    },
+    {
       path: '/about',
       component: About,
     },
-    {
-      path: '/event/add',
-      component: EventForm,
-    },
-    {
-      path: '/event/edit',
-      component: EventForm,
-    },
-    {
-      path: '/event/restore',
-      component: EventForm,
-    },
+
   ],
 })

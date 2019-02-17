@@ -5,6 +5,7 @@
       <router-link to="/entries">Entries</router-link>
       <router-link to="/courses">Courses</router-link>
       <router-link to="/download">Download</router-link>
+      <router-link to="/safety-check">Safety Check</router-link>
       <router-link to="/results">Results</router-link>
       <router-link to="/" class="back">Change Event</router-link>
     </template>

@@ -31,4 +31,15 @@ export default {
     if (typeof result !== 'number') return false
     else return this.actual(result)
   },
+
+  timeToSeconds: function (string) {
+    const parts = string.split(':')
+    if (parts.length === 3) {
+      let time = 0
+      time += 3600 * parseInt(parts[0])
+      time += 60 * parseInt(parts[1])
+      time += parseInt(parts[2])
+      return Math.round(time)
+    }
+  },
 }
