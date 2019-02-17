@@ -22,10 +22,10 @@ export default {
     let other = ''
     const siid = this.calculateSIID(data[30], data[31], data[32], data[33])
 
-    const start = this.getStartFinish(data.slice(20, 22))
+    const start = this.getStartFinishCard10(data.slice(18, 22))
     if (start === undefined) other = other + 'MS'
 
-    const finish = this.getStartFinish(data.slice(24, 26))
+    const finish = this.getStartFinishCard10(data.slice(22, 26))
     if (finish === undefined) other = other + 'MF'
 
     const type = this.cardType(siid)
@@ -69,7 +69,7 @@ export default {
       else if (type === 'p') controls = this.card10GetPunchData(data.slice(54, 134))
       else controls = this.card10GetPunchData(data.slice(6, 134))
 
-      if (controls) this.currentCompetitor.controls.push(controls)
+      if (controls) this.currentCompetitor.controls.push(...controls)
       else this.currentCompetitor.controls = controls
 
       if (controls.length < 32 || blockNumber === 1 || blockNumber === 7) {
@@ -86,16 +86,25 @@ export default {
 
   card10GetPunchData: function (data) {
     const endOfPunches = data.length - 1
+
     let currentPosition = 0
     let currentControls = []
     while (currentPosition !== endOfPunches && this.card10PunchNotEmpty(data, currentPosition)) {
+      const timeOfDay = parseInt((data[currentPosition] >>> 0).toString(2).substr(-1))
       const control = {
         code: this.combineBytes([data[currentPosition + 1]]),
-        time: this.combineBytes([data[currentPosition + 2], data[currentPosition + 3]]),
+        time: this.combineBytes([data[currentPosition + 2], data[currentPosition + 3]]) + timeOfDay * this.SECONDS_IN_12_HOURS,
       }
       currentControls.push(control)
       currentPosition = currentPosition + 4
     }
     return currentControls
+  },
+
+  getStartFinishCard10 (data) {
+    const time = this.combineBytes(data.slice(2))
+    const timeOfDay = parseInt((data[0] >>> 0).toString(2).substr(-1))
+    if (time === 61166) return undefined
+    else return time + timeOfDay * this.SECONDS_IN_12_HOURS
   },
 }

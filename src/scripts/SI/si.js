@@ -6,6 +6,7 @@ export default {
   port: false,
   currentBuffer: false,
   currentCompetitor: false,
+  SECONDS_IN_12_HOURS: 12 * 60 * 60,
 
   getInfo (data, port) {
     this.port = port
@@ -107,12 +108,6 @@ export default {
       }
       else return name
     }
-  },
-
-  getStartFinish (data) {
-    const time = this.combineBytes(data)
-    if (time === 61166) return undefined
-    else return time
   },
 
   // Import Card Processing Functions

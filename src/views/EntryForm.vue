@@ -30,8 +30,8 @@
       <div v-if="_id && competitor.download" class="card">
         <h2>Download</h2>
         <p>Time: {{ time }}</p>
-        <p>Start: {{ timeActual(competitor.download.start) || '-' }}</p>
-        <p>Finish: {{ timeActual(competitor.download.finish) || '-' }}</p>
+        <p>Start: {{ timeActual(competitor.download.start) || 'MS' }}</p>
+        <p>Finish: {{ timeActual(competitor.download.finish) || 'MF' }}</p>
       </div>
       <div v-if="_id && competitor.splits" class="card">
         <h2>Splits</h2>
@@ -135,16 +135,10 @@ export default {
   },
 
   methods: {
-    timeActual: timeValue => time.actual(timeValue),
-    timeActualSplit: timeValue => {
-      if (timeValue) return time.actual(timeValue)
-      else return '--:--'
-    },
+    timeActual: timeValue => time.displayActualTime(timeValue),
+    timeActualSplit: timeValue => time.displayActualTime(timeValue) || '--:--',
     timeElapsed: timeValue => time.displayTime(timeValue),
-    timeElapsedSplit: timeValue => {
-      if (timeValue) return time.displayTime(timeValue)
-      else return '--:--'
-    },
+    timeElapsedSplit: timeValue => time.displayTime(timeValue) || '--:--',
 
     clearEntry: function () {
       this._id = ''

@@ -10,13 +10,14 @@ export default {
     let other = ''
     const siid = this.calculateSIID(0x00, data[11], data[9], data[10])
 
-    const start = this.getStartFinish(data.slice(24, 26))
+    const start = this.getStartFinishCard5(data.slice(24, 26))
     if (start === undefined) other = other + 'MS'
 
-    const finish = this.getStartFinish(data.slice(26, 28))
+    let finish = this.getStartFinishCard5(data.slice(26, 28))
     if (finish === undefined) other = other + 'MF'
+    else if (finish < start) finish += this.SECONDS_IN_12_HOURS
 
-    const controls = this.card5GetPunchData(data)
+    const controls = this.card5GetPunchData(data, start)
 
     this.beep()
     return Promise.resolve({
@@ -30,22 +31,21 @@ export default {
 
   card5PunchNotEmpty: (data, position) => data[position] !== 0x00 && data[position + 1] !== 0xEE && data[position + 2] !== 0xEE,
 
-  card5SavePunch: function (data, position, controls) {
+  card5SavePunch: function (data, position) {
     const currentControlCode = parseInt(data[position])
     const currentControlTime = this.combineBytes([data[position + 1], data[position + 2]])
-    controls.push({
+    return {
       code: currentControlCode,
       time: currentControlTime,
-    })
-    return controls
+    }
   },
 
-  card5GetPunchData: function (data) {
+  card5GetPunchData: function (data, startTime) {
     let currentPosition = 38
     let currentPositionInBlock = 0
     let controls = []
     while (this.card5PunchNotEmpty(data, currentPosition) && currentPosition < 133) {
-      controls = this.card5SavePunch(data, currentPosition, controls)
+      controls.push(this.card5SavePunch(data, currentPosition))
       if (currentPositionInBlock < 4) {
         currentPosition += 3
         currentPositionInBlock += 1
@@ -58,11 +58,23 @@ export default {
     if (currentPosition === 131) {
       currentPosition = 32
       while (this.card5PunchNotEmpty(data, currentPosition) && currentPosition < 133) {
-        controls = this.card5SavePunch(data, currentPosition, controls)
+        controls.push(this.card5SavePunch(data, currentPosition))
         currentPosition += 16
       }
     }
+
+    let lastPunchTime = startTime
+    for (const control of controls) {
+      if (control.time < lastPunchTime) control.time += this.SECONDS_IN_12_HOURS
+      lastPunchTime = control.time
+    }
+
     return controls
   },
 
+  getStartFinishCard5 (data) {
+    const time = this.combineBytes(data)
+    if (time === 61166) return undefined
+    else return time
+  },
 }

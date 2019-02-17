@@ -30,14 +30,14 @@ export default {
           number: '*',
           control: control.code,
           splitTime: null,
-          elapsedTime: null,
+          elapsedTime: control.time - startTime,
           punchTime: control.time,
           type: 'extra',
         })
       }
     }
 
-    const sortedSplits = splits.sort((a, b) => a.punchTime > b.punchTime)
+    const sortedSplits = splits.sort((a, b) => parseInt(a.punchTime) - parseInt(b.punchTime))
     sortedSplits.push({
       number: 'F',
       control: '',

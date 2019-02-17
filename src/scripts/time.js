@@ -6,7 +6,7 @@ const twoDigits = number => {
 export default {
   elapsed: totalTimeInSeconds => {
     const timeInMinutes = Math.floor(totalTimeInSeconds / 60)
-    const timeInSeconds = totalTimeInSeconds % 60
+    const timeInSeconds = Math.abs(totalTimeInSeconds % 60)
     return twoDigits(timeInMinutes) + ':' + twoDigits(timeInSeconds)
   },
 
@@ -25,5 +25,10 @@ export default {
   displayTime: function (result) {
     if (typeof result !== 'number') return result
     else return this.elapsed(result)
+  },
+
+  displayActualTime: function (result) {
+    if (typeof result !== 'number') return false
+    else return this.actual(result)
   },
 }
