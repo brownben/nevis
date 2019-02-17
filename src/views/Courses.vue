@@ -22,13 +22,11 @@
       <transition name="open">
         <confirmation-dialog
           v-if="showConfirmationDialog"
-          v-model="confirmationDecision"
           heading="Delete All Courses"
           message="Are You Sure You Want to Delete All Courses? This Action can't be Recovered."
           confirm="Delete All"
           cancel="Cancel"
-          :showing="showConfirmationDialog"
-          @close="confirmationOfDeleteAllCourses()"
+          @close="confirmationOfDeleteAllCourses"
         />
       </transition>
     </template>
@@ -48,7 +46,6 @@ export default {
   data: () => ({
     refresh: 0,
     showConfirmationDialog: false,
-    confirmationDecision: false,
   }),
 
   created: function () {
@@ -91,9 +88,9 @@ export default {
 
     deleteAllCourses: function () { this.showConfirmationDialog = true },
 
-    confirmationOfDeleteAllCourses: function () {
+    confirmationOfDeleteAllCourses: function (decision) {
       this.showConfirmationDialog = false
-      if (this.confirmationDecision) {
+      if (decision) {
         this.$database.deleteAllCourses()
           .then(() => {
             this.refresh += 1

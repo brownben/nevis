@@ -4,12 +4,8 @@
       <h2>{{ heading }}</h2>
       <p>{{ message }}</p>
       <div class="buttons">
-        <button @click="confirmAction(true)">
-          {{ confirm }}
-        </button>
-        <button @click="confirmAction(false)">
-          {{ cancel }}
-        </button>
+        <button @click="confirmAction(true)">{{ confirm }}</button>
+        <button @click="confirmAction(false)">{{ cancel }}</button>
       </div>
     </div>
   </div>
@@ -43,10 +39,7 @@ export default {
   },
 
   methods: {
-    confirmAction: function (value) {
-      this.$emit('input', value)
-      this.$emit('close')
-    },
+    confirmAction: function (value) { this.$emit('close', value) },
   },
 }
 </script>

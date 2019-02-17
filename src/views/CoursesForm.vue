@@ -25,13 +25,11 @@
       <transition name="open">
         <confirmation-dialog
           v-if="showConfirmationDialog"
-          v-model="confirmationDecision"
           heading="Delete Course"
           message="Are You Sure You Want to Delete This Course? This Action can't be Recovered."
           confirm="Delete"
           cancel="Cancel"
-          :showing="showConfirmationDialog"
-          @close="confirmationOfDeleteCourse()"
+          @close="confirmationOfDeleteCourse"
         />
       </transition>
     </template>
@@ -58,7 +56,6 @@ export default {
       controls: '',
     },
     showConfirmationDialog: false,
-    confirmationDecision: false,
   }),
 
   created: function () {
@@ -107,9 +104,9 @@ export default {
 
     deleteCourse: function () { this.showConfirmationDialog = true },
 
-    confirmationOfDeleteCourse: function () {
+    confirmationOfDeleteCourse: function (decision) {
       this.showConfirmationDialog = false
-      if (this.confirmationDecision) {
+      if (decision) {
         this.$database.deleteCourse(this._id)
           .then(message => {
             if (typeof message === 'string' && message.includes('Warning:')) this.$messages.addMessage(message, 'warning')

@@ -34,19 +34,17 @@
           <label>File Location:</label>
           <input v-model="backupLocation">
           <button @click="selectBackupLocation">Select File Location</button>
-          <checkbox-input v-model="override" label="Override Event if it Already Exists?"/>
+          <checkbox-input v-model="override" label="Override Event if it Already Exists?" />
         </div>
       </div>
       <transition name="open">
         <confirmation-dialog
           v-if="showConfirmationDialog"
-          v-model="confirmationDecision"
           heading="Delete Event"
           message="Are You Sure You Want to Delete This Event? This Action can't be Recovered."
           confirm="Delete"
           cancel="Cancel"
-          :showing="showConfirmationDialog"
-          @close="confirmationOfDeleteEvent()"
+          @close="confirmationOfDeleteEvent"
         />
       </transition>
     </template>
@@ -75,7 +73,6 @@ export default {
       backupLocation: '',
       currentRoute: this.$router.currentRoute.path,
       showConfirmationDialog: false,
-      confirmationDecision: false,
     }
   },
 
@@ -160,9 +157,9 @@ export default {
 
     deleteEvent: function () { this.showConfirmationDialog = true },
 
-    confirmationOfDeleteEvent: function () {
+    confirmationOfDeleteEvent: function (decision) {
       this.showConfirmationDialog = false
-      if (this.confirmationDecision) {
+      if (decision) {
         this.$database.deleteDatabase()
           .then(() => {
             this.$router.push('/')

@@ -9,11 +9,9 @@
           <path d="M0-.75h24v24H0z" fill="none" />
         </svg>
       </button>
-      <transition name="open">
+      <transition name="openMenu">
         <ul v-if="portOpen">
-          <li v-for="port of portList" :key="port" @click="changePort(port)">
-            {{ port }}
-          </li>
+          <li v-for="port of portList" :key="port" @click="changePort(port)">{{ port }}</li>
         </ul>
       </transition>
       <label>Baud:</label>
@@ -24,36 +22,39 @@
           <path d="M0-.75h24v24H0z" fill="none" />
         </svg>
       </button>
-      <transition name="open">
+      <transition name="openMenu">
         <ul v-show="baudOpen">
-          <li v-for="baud of baudList" :key="baud" @click="changeBaud(baud)">
-            {{ baud }}
-          </li>
+          <li v-for="baud of baudList" :key="baud" @click="changeBaud(baud)">{{ baud }}</li>
         </ul>
       </transition>
-      <button @click="connect()">
-        {{ connectButtonText }}
-      </button>
-      <button class="back" @click="back">
-        Back
-      </button>
+      <button @click="connect()">{{ connectButtonText }}</button>
+      <button class="back" @click="back">Back</button>
     </template>
     <template v-slot:main>
       <div v-show="lastDownload !== false" class="card">
         <h1>Last Download</h1>
-        <p v-if="lastDownload.name">
-          Name: {{ lastDownload.name }}
-        </p>
+        <p v-if="lastDownload.name">Name: {{ lastDownload.name }}</p>
         <p>SI Card: {{ lastDownload.siid }}</p>
         <p>Course: {{ lastDownload.course || 'Unknown' }}</p>
         <p>Time: {{ result || '-' }}</p>
       </div>
+      <transition name="open">
+        <confirmation-dialog
+          v-if="showConfirmationDialog"
+          heading="Leave Download"
+          message="Are You Sure You Want to Stop Downloading SI Cards?"
+          confirm="Continue"
+          cancel="Cancel"
+          @close="leavePage"
+        />
+      </transition>
     </template>
   </base-layout>
 </template>
 
 <script>
 import BaseLayout from '@/components/BaseLayout'
+import Dialog from '@/components/Dialog'
 import si from '@/scripts/si/si'
 import courseMatching from '@/scripts/courseMatching/courseMatching'
 import time from '@/scripts/time'
@@ -62,6 +63,7 @@ import splits from '@/scripts/splits'
 export default {
   components: {
     'base-layout': BaseLayout,
+    'confirmation-dialog': Dialog,
   },
 
   data: () => ({
@@ -74,6 +76,7 @@ export default {
     connected: false,
     connectButtonText: 'Connect',
     lastDownload: false,
+    showConfirmationDialog: false,
   }),
 
   computed: {
@@ -92,8 +95,16 @@ export default {
 
   methods: {
     back: function () {
-      this.$port.disconnect()
-      this.$router.go(-1)
+      if (this.connected) this.showConfirmationDialog = true
+      else this.$router.go(-1)
+    },
+
+    leavePage: function (decision) {
+      this.showConfirmationDialog = false
+      if (decision) {
+        this.$port.disconnect()
+        this.$router.go(-1)
+      }
     },
 
     refreshPortList: function () {
@@ -272,12 +283,12 @@ ul
     background-color: white !important
     color: main-color !important
 
-.open-enter-active, .open-leave-active
+.openMenu-enter-active, .openMenu-leave-active
   transition: 0.3s
   transform: scaleY(1)
   transform-origin: top center
 
-.open-enter, .open-leave-to
+.openMenu-enter, .openMenu-leave-to
   transform: scaleY(0)
   transform-origin: top center
 </style>

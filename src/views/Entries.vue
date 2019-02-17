@@ -13,20 +13,23 @@
         <label>SI Card Number:</label>
         <input v-model="siid">
         <label>Course:</label>
-        <dropdown-input v-model="course" :list="courses"/>
+        <dropdown-input v-model="course" :list="courses" />
       </div>
       <div v-if="competitors && competitors.length > 0" class="card">
         <table>
           <thead>
             <tr>
-              <th @click="sortBy('name')">Name
-                <up-down-arrows :active=" sortByField == 'name'" :ascending="!reverseSort"/>
+              <th @click="sortBy('name')">
+                Name
+                <up-down-arrows :active=" sortByField == 'name'" :ascending="!reverseSort" />
               </th>
-              <th @click="sortBy('siid')">SI Card
-                <up-down-arrows :active=" sortByField == 'siid'" :ascending="!reverseSort"/>
+              <th @click="sortBy('siid')">
+                SI Card
+                <up-down-arrows :active=" sortByField == 'siid'" :ascending="!reverseSort" />
               </th>
-              <th @click="sortBy('course')">Course
-                <up-down-arrows :active=" sortByField == 'course'" :ascending="!reverseSort"/>
+              <th @click="sortBy('course')">
+                Course
+                <up-down-arrows :active=" sortByField == 'course'" :ascending="!reverseSort" />
               </th>
             </tr>
           </thead>
@@ -47,13 +50,11 @@
       <transition name="open">
         <confirmation-dialog
           v-if="showConfirmationDialog"
-          v-model="confirmationDecision"
           heading="Delete All Entries"
           message="Are You Sure You Want to Delete All Entries and Attatched Downloads? This Action can't be Recovered."
           confirm="Delete All"
           cancel="Cancel"
-          :showing="showConfirmationDialog"
-          @close="confirmationOfDeleteAllEntries()"
+          @close="confirmationOfDeleteAllEntries"
         />
       </transition>
     </template>
@@ -82,7 +83,6 @@ export default {
     reverseSort: false,
     refresh: 0,
     showConfirmationDialog: false,
-    confirmationDecision: false,
   }),
 
   created: function () {
@@ -132,9 +132,9 @@ export default {
 
     deleteAllEntries: function () { this.showConfirmationDialog = true },
 
-    confirmationOfDeleteAllEntries: function () {
+    confirmationOfDeleteAllEntries: function (decision) {
       this.showConfirmationDialog = false
-      if (this.confirmationDecision) {
+      if (decision) {
         this.$database.deleteAllCompetitors()
           .then(() => {
             this.refresh += 1

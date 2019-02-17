@@ -24,8 +24,8 @@
         <label>Club:</label>
         <input v-model="competitor.club">
         <label>Course:</label>
-        <dropdown-input v-model="competitor.course" :list="courses"/>
-        <checkbox-input v-model="competitor.nonCompetitive" label="Non-Competitive?"/>
+        <dropdown-input v-model="competitor.course" :list="courses" />
+        <checkbox-input v-model="competitor.nonCompetitive" label="Non-Competitive?" />
       </div>
       <div v-if="_id && competitor.download" class="card">
         <h2>Download</h2>
@@ -48,7 +48,7 @@
           <tbody>
             <tr>
               <td>S</td>
-              <td/>
+              <td />
               <td>00:00</td>
               <td>00:00</td>
               <td>{{ timeActualSplit(competitor.download.start) }}</td>
@@ -66,13 +66,11 @@
       <transition name="open">
         <confirmation-dialog
           v-if="showConfirmationDialog"
-          v-model="confirmationDecision"
           heading="Delete Entry"
           message="Are You Sure You Want to Delete This Entry and any Attahced Downloads? This Action can't be Recovered."
           confirm="Delete"
           cancel="Cancel"
-          :showing="showConfirmationDialog"
-          @close="confirmationOfDeleteEntry()"
+          @close="confirmationOfDeleteEntry"
         />
       </transition>
     </template>
@@ -108,7 +106,6 @@ export default {
     _rev: '',
     courses: [],
     showConfirmationDialog: false,
-    confirmationDecision: false,
   }),
 
   computed: {
@@ -174,9 +171,9 @@ export default {
 
     deleteEntry: function () { this.showConfirmationDialog = true },
 
-    confirmationOfDeleteEntry: function () {
+    confirmationOfDeleteEntry: function (decision) {
       this.showConfirmationDialog = false
-      if (this.confirmationDecision) {
+      if (decision) {
         this.$database.deleteCompetitor(this._id)
           .then(() => {
             this.$router.go(-1)
