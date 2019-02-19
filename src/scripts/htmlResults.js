@@ -20,22 +20,45 @@ export default {
     <main>
   `,
 
-  course: (course, results) => `
-  <div class="course">
-      <h2>${course.name}</h2>
-      <p>Length: ${course.length}km Climb: ${course.climb}m</p>
-      <table>
-        <tr>
-          <th>Pos.</th>
-          <th>Name</th>
-          <th class="club">Club</th>
-          <th class="class">Age Class</th>
-          <th>Time</th>
-        </tr>
-        ${results}
-      </table>
-    </div>
-    `,
+  course: (course, results, multiPage = false) => {
+    if (multiPage) {
+      return `
+      <div class="course">
+        <h2>${course.name}</h2>
+        <p>Length: ${course.length}km Climb: ${course.climb}m</p>
+        <a href="./index.html">Return to Index</a>
+        <table>
+          <tr>
+            <th>Pos.</th>
+            <th>Name</th>
+            <th class="club">Club</th>
+            <th class="class">Age Class</th>
+            <th>Time</th>
+          </tr>
+          ${results}
+        </table>
+      </div>
+    `
+    }
+    else {
+      return `
+      <div class="course">
+        <h2>${course.name}</h2>
+        <p>Length: ${course.length}km Climb: ${course.climb}m</p>
+        <table>
+          <tr>
+            <th>Pos.</th>
+            <th>Name</th>
+            <th class="club">Club</th>
+            <th class="class">Age Class</th>
+            <th>Time</th>
+          </tr>
+          ${results}
+        </table>
+      </div>
+    `
+    }
+  },
 
   tableRow: (competitor) => `
   <tr>

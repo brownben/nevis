@@ -4,8 +4,10 @@
       <h2>{{ heading }}</h2>
       <p>{{ message }}</p>
       <div class="buttons">
-        <button @click="confirmAction(true)">{{ confirm }}</button>
-        <button @click="confirmAction(false)">{{ cancel }}</button>
+        <slot :confirmAction="confirmAction">
+          <button @click="confirmAction(true)">{{ confirm }}</button>
+          <button @click="confirmAction(false)">{{ cancel }}</button>
+        </slot>
       </div>
     </div>
   </div>

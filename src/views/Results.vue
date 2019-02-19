@@ -1,7 +1,7 @@
 <template>
   <base-layout>
     <template v-slot:menu>
-      <button @click="exportHTMLResults()">Export HTML</button>
+      <button @click="showHTMLTypeDialog = true">Export HTML</button>
       <router-link to="/dashboard" class="back">Back</router-link>
     </template>
     <template v-slot:main>
@@ -28,19 +28,38 @@
           </table>
         </div>
       </template>
+      <transition name="open">
+        <choice-dialog
+          v-if="showHTMLTypeDialog"
+          v-slot="slot"
+          heading="Export HTML Results"
+          message="What Format Do You Want To Export The HTML Results?"
+          @close="exportHTMLResults"
+        >
+          <button @click="slot.confirmAction('single-page')">Single Page</button>
+          <button @click="slot.confirmAction('multiple-pages')">Multiple Pages</button>
+          <button @click="slot.confirmAction(false)">Cancel</button>
+        </choice-dialog>
+      </transition>
     </template>
   </base-layout>
 </template>
 
 <script>
 import BaseLayout from '@/components/BaseLayout'
+import Dialog from '@/components/Dialog'
 import htmlResults from '@/scripts/htmlResults'
 import time from '@/scripts/time'
 
 export default {
   components: {
     'base-layout': BaseLayout,
+    'choice-dialog': Dialog,
   },
+
+  data: () => ({
+    showHTMLTypeDialog: false,
+  }),
 
   created: function () {
     if (this.$database.database === null) {
@@ -76,7 +95,13 @@ export default {
       else return []
     },
 
-    exportHTMLResults: async function () {
+    exportHTMLResults: function (type) {
+      this.showHTMLTypeDialog = false
+      if (type === 'single-page') this.generateSinglePageHTMLResults()
+      else if (type === 'multiple-pages') this.generateMultiPageHTMLResults()
+    },
+
+    generateSinglePageHTMLResults: async function () {
       const eventData = await this.$database.getOverview()
       let html = ''
       html += htmlResults.head(eventData.name)
@@ -85,6 +110,46 @@ export default {
         if (courseResults.length > 0) html += htmlResults.course(course, courseResults.join(''))
       })
       html += htmlResults.footer()
+      this.exportSingleHTMLPage(html)
+    },
+
+    generateMultiPageHTMLResults: async function () {
+      const eventData = await this.$database.getOverview()
+
+      let indexHtml = ''
+      indexHtml += htmlResults.head(eventData.name)
+      indexHtml += '<table><tr><th>Event</th><th>Results</th></tr>'
+
+      const pages = this.courses.map(course => {
+        let html = ''
+        html += htmlResults.head(eventData.name)
+        const courseResults = this.downloadsForCourse(course.name).map(competitor => htmlResults.tableRow(competitor))
+        html += htmlResults.course(course, courseResults.join(''), true)
+        html += htmlResults.footer()
+
+        indexHtml += `
+        <tr>
+          <td>${course.name}</td>
+          <td><a href="./${course.name}.html">Results</a></td>
+        </tr>`
+
+        return {
+          name: course.name + '.html',
+          content: html,
+        }
+      })
+
+      indexHtml += '</table>'
+      indexHtml += htmlResults.footer()
+      pages.push({
+        name: 'index.html',
+        content: indexHtml,
+      })
+
+      this.exportMultipleHTMLPages(pages)
+    },
+
+    exportSingleHTMLPage: function (html) {
       const { app, dialog } = this.$electron.remote
       dialog.showSaveDialog(
         {
@@ -102,6 +167,26 @@ export default {
               if (error) this.$messages.addMessage('Problem Exporting HTML', 'error')
               else this.$messages.addMessage('HTML Results saved to: ' + filePath)
             })
+          }
+        }
+      )
+    },
+
+    exportMultipleHTMLPages: function (pages) {
+      const { app, dialog } = this.$electron.remote
+      dialog.showOpenDialog(
+        {
+          title: 'Nevis - Export HTML Results',
+          buttonLabel: 'Export',
+          properties: ['openDirectory'],
+          defaultPath: app.getPath('documents'),
+        },
+        filePaths => {
+          if (filePaths) {
+            pages.map(page => this.$node.fs.promises.writeFile(filePaths[0] + '\\' + page.name, page.content))
+            Promise.all(pages)
+              .then(() => this.$messages.addMessage('Results Exported to: ' + filePaths[0]))
+              .catch(() => this.$messages.addMessage('Problem Exporting Results', 'error'))
           }
         }
       )
