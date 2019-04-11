@@ -38,6 +38,11 @@
         >
           <button @click="slot.confirmAction('single-page')">Single Page</button>
           <button @click="slot.confirmAction('multiple-pages')">Multiple Pages</button>
+          <button
+            @click="slot.confirmAction('multiple-pages-with-splits')"
+          >
+            Multiple Pages with Splits
+          </button>
           <button @click="slot.confirmAction(false)">Cancel</button>
         </choice-dialog>
       </transition>
@@ -99,6 +104,7 @@ export default {
       this.showHTMLTypeDialog = false
       if (type === 'single-page') this.generateSinglePageHTMLResults()
       else if (type === 'multiple-pages') this.generateMultiPageHTMLResults()
+      else if (type === 'multiple-pages-with-splits') this.generateMultiPageHTMLResults(true)
     },
 
     generateSinglePageHTMLResults: async function () {
@@ -113,30 +119,46 @@ export default {
       this.exportSingleHTMLPage(html)
     },
 
-    generateMultiPageHTMLResults: async function () {
+    generateMultiPageHTMLResults: async function (withSplits = false) {
       const eventData = await this.$database.getOverview()
 
       let indexHtml = ''
       indexHtml += htmlResults.head(eventData.name)
-      indexHtml += '<table><tr><th>Event</th><th>Results</th></tr>'
+      if (withSplits) indexHtml += '<table><tr><th>Event</th><th>Results</th><th>Splits</th></tr>'
+      else indexHtml += '<table><tr><th>Event</th><th>Results</th></tr>'
 
-      const pages = this.courses.map(course => {
+      const pages = []
+      this.courses.forEach(course => {
         let html = ''
         html += htmlResults.head(eventData.name)
         const courseResults = this.downloadsForCourse(course.name).map(competitor => htmlResults.tableRow(competitor))
         html += htmlResults.course(course, courseResults.join(''), true)
         html += htmlResults.footer()
 
-        indexHtml += `
-        <tr>
-          <td>${course.name}</td>
-          <td><a href="./${course.name}.html">Results</a></td>
-        </tr>`
+        if (withSplits) {
+          pages.push({
+            name: course.name + '-splits.html',
+            content: this.generateHTMLSplits(course, eventData),
+          })
+          indexHtml += `
+          <tr>
+            <td>${course.name}</td>
+            <td><a href="./${course.name}.html">Results</a></td>
+            <td><a href="./${course.name}-splits.html">Splits</a></td>
+          </tr>`
+        }
+        else {
+          indexHtml += `
+          <tr>
+            <td>${course.name}</td>
+            <td><a href="./${course.name}.html">Results</a></td>
+          </tr>`
+        }
 
-        return {
+        pages.push({
           name: course.name + '.html',
           content: html,
-        }
+        })
       })
 
       indexHtml += '</table>'
@@ -147,6 +169,29 @@ export default {
       })
 
       this.exportMultipleHTMLPages(pages)
+    },
+
+    generateHTMLSplits: function (course, eventData) {
+      let html = ''
+      html += htmlResults.head(eventData.name)
+
+      let headerRow = `
+        <tr>
+          <th>Pos.</th>
+          <th>Name</th>
+          <th>Club</th>
+          <th>Age Class</th>
+          <th>Time</th>
+        `
+
+      for (const control of course.controls) {
+        headerRow += `<th>${course.controls.indexOf(control) + 1} (${control})</th>`
+      }
+      headerRow += '<th>F</th>'
+      const courseResults = this.downloadsForCourse(course.name).map(competitor => htmlResults.splitsTableRow(competitor, course.controls.length))
+      html += htmlResults.splitsCourse(course, headerRow + courseResults.join(''))
+      html += htmlResults.footer()
+      return html
     },
 
     exportSingleHTMLPage: function (html) {

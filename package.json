@@ -19,6 +19,8 @@
     "axios": "^0.18.0",
     "pouchdb": "^7.0.0",
     "serialport": "^7.1.4",
+    "node-thermal-printer": "git+https://github.com/brownben/node-thermal-printer.git",
+    "printer": "^0.2.2",
     "vue": "^2.6.6",
     "vue-async-computed": "^3.5.2",
     "vue-router": "^3.0.2",

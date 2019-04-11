@@ -25,10 +25,11 @@ With Nevis you can:
 - Add + Edit Courses
 - Import Courses from IOF XML 3.0
 - View Results
+- Print Splits to Epson Printers
 - View Splits for Competitors
 - View Outstanding Competitors
   - Import Safety Check Data from Unit via SIConfig+</li>
-- Export HTML Results
+- Export HTML Results + Splits
 - Backup Events
 
 ## License
