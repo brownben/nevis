@@ -47,10 +47,14 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-@import '../assets/styles/helpers.styl'
+@import '../assets/styles/helpers'
 
 div
-  width: 100%
+  position: fixed
+  top: 0
+  left: 0
+  z-index: 5
+  width: 100vw
   height: 35px
   background: main-color
   color: white
@@ -78,7 +82,7 @@ div
     -webkit-app-region: no-drag
 
     &:hover
-      background-color: hover-color
+      background-color: accent-color
 
   #close
     &:hover

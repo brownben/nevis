@@ -1,69 +1,67 @@
 <template>
-  <base-layout>
-    <template v-slot:menu>
-      <button @click="showHTMLTypeDialog = true">Export HTML</button>
-      <router-link to="/dashboard" class="back">Back</router-link>
+  <main>
+    <back-arrow />
+    <h1 class="title">Results</h1>
+    <div>
+      <button class="button" @click="showHTMLTypeDialog = true">Export HTML Results</button>
+      <button class="button" @click="refresh()">Refresh</button>
+    </div>
+    <template v-for="course in courses">
+      <div v-if="downloadsForCourse(course.name).length > 0" :key="course.name" class="card">
+        <h2>{{ course.name }}</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Pos.</th>
+              <th>Name</th>
+              <th>Age Class</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody is="transition-group" name="fade">
+            <tr v-for="competitor of downloadsForCourse(course.name)" :key="competitor._id">
+              <td>{{ competitor.position }}</td>
+              <td>{{ competitor.name }}</td>
+              <td>{{ competitor.ageClass }}</td>
+              <td>{{ displayTime(competitor.result) }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </template>
-    <template v-slot:main>
-      <template v-for="course in courses">
-        <div v-if="downloadsForCourse(course.name).length > 0" :key="course.name" class="card">
-          <h1>{{ course.name }}</h1>
-          <table>
-            <thead>
-              <tr>
-                <th>Pos.</th>
-                <th>Name</th>
-                <th>Age Class</th>
-                <th>Time</th>
-              </tr>
-            </thead>
-            <tbody is="transition-group" name="fade">
-              <tr v-for="competitor of downloadsForCourse(course.name)" :key="competitor._id">
-                <td>{{ competitor.position }}</td>
-                <td>{{ competitor.name }}</td>
-                <td>{{ competitor.ageClass }}</td>
-                <td>{{ displayTime(competitor.result) }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </template>
-      <transition name="open">
-        <choice-dialog
-          v-if="showHTMLTypeDialog"
-          v-slot="slot"
-          heading="Export HTML Results"
-          message="What Format Do You Want To Export The HTML Results?"
-          @close="exportHTMLResults"
-        >
-          <button @click="slot.confirmAction('single-page')">Single Page</button>
-          <button @click="slot.confirmAction('multiple-pages')">Multiple Pages</button>
-          <button
-            @click="slot.confirmAction('multiple-pages-with-splits')"
-          >
-            Multiple Pages with Splits
-          </button>
-          <button @click="slot.confirmAction(false)">Cancel</button>
-        </choice-dialog>
-      </transition>
-    </template>
-  </base-layout>
+    <transition name="fade">
+      <choice-dialog
+        v-if="showHTMLTypeDialog"
+        v-slot="slot"
+        heading="Export HTML Results"
+        message="What Format Do You Want To Export The HTML Results?"
+        @close="exportHTMLResults"
+      >
+        <button class="cancel" @click="slot.confirmAction(false)">Cancel</button>
+        <button @click="slot.confirmAction('single-page')">Single Page</button>
+        <button @click="slot.confirmAction('multiple-pages')">Multiple Pages</button>
+        <button @click="slot.confirmAction('multiple-pages-with-splits')">Multiple Pages with Splits</button>
+      </choice-dialog>
+    </transition>
+  </main>
 </template>
 
 <script>
-import BaseLayout from '@/components/BaseLayout'
 import Dialog from '@/components/Dialog'
+import BackArrow from '@/components/BackArrow'
 import htmlResults from '@/scripts/htmlResults'
 import time from '@/scripts/time'
 
 export default {
   components: {
-    'base-layout': BaseLayout,
     'choice-dialog': Dialog,
+    'back-arrow': BackArrow,
   },
 
   data: () => ({
     showHTMLTypeDialog: false,
+    courses: [],
+    downloads: [],
   }),
 
   created: function () {
@@ -71,9 +69,28 @@ export default {
       this.$router.push('/')
       this.$messages.addMessage('Not Connected to the Database', 'error')
     }
+    this.getCourses()
+    this.getDownloads()
   },
 
   methods: {
+    refresh: function () {
+      this.getCourses()
+      this.getDownloads()
+    },
+
+    getCourses: function () {
+      this.$database.getCoursesData()
+        .then(result => { this.courses = result })
+        .catch(error => this.$messages.addMessage(error.message, 'error'))
+    },
+
+    getDownloads: function () {
+      this.$database.getDownloads()
+        .then(result => { this.downloads = result })
+        .catch(error => this.$messages.addMessage(error.message, 'error'))
+    },
+
     displayTime: timeToDisplay => time.displayTime(timeToDisplay),
 
     downloadsForCourse: function (course) {
@@ -238,16 +255,10 @@ export default {
     },
   },
 
-  asyncComputed: {
-    courses: function () {
-      return this.$database.getCoursesData()
-        .catch(error => this.$messages.addMessage(error.message, 'error'))
-    },
-
-    downloads: function () {
-      return this.$database.getDownloads()
-        .catch(error => this.$messages.addMessage(error.message, 'error'))
-    },
-  },
 }
 </script>
+<style lang="stylus" scoped>
+.card h2
+  padding-bottom: 0.5rem
+  font-size: 1.8rem
+</style>

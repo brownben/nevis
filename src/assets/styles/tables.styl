@@ -1,14 +1,18 @@
-@import 'helpers.styl'
+@import 'helpers'
 
 table
   width: 100%
   border-collapse: collapse
+  font-weight: 300
+  font-family: Montserrat
   user-select: none
   -webkit-user-select: none
-  default-font()
 
   tr
     transition: 0.3s ease-out
+
+    &:nth-child(odd)
+      background-color: very-light-color
 
     &:hover
       background-color: light-color
@@ -18,8 +22,10 @@ table
       text-align: center
 
     th
-      font-weight: bold
+      font-weight: 500
 
-  .striped
-    tr:nth-child(even)
-      background-color: very-light-color
+  thead tr:nth-child(odd)
+    background-color: white
+
+    &:hover
+      background-color: light-color

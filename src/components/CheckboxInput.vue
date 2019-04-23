@@ -1,12 +1,8 @@
 <template>
   <div class="checkbox-input">
     <label>
-      {{ label }}
-      <input
-        :checked="value"
-        type="checkbox"
-        @change="$emit('input', $event.target.checked)"
-      >
+      <p>{{ label }}</p>
+      <input :checked="value" type="checkbox" @change="$emit('input', $event.target.checked)">
       <span />
     </label>
   </div>
@@ -25,49 +21,42 @@ export default {
       type: String,
       default: '',
     },
+    'size': {
+      type: String,
+      default: '',
+    },
   },
 }
 </script>
 
 <style scoped lang="stylus">
-@import '../assets/styles/helpers.styl'
+@import '../assets/styles/helpers'
 
 .checkbox-input
-  margin-bottom: 20px
-  padding: 0
-  padding-top: 2px
-  height: 0
+  padding: 0.75rem 1rem
+  width: 100%
 
-  input
+  p
+    display: inline-block
+    margin-right: 1rem
+    width: auto
+    color: main-color
+
+  [type='checkbox']
     display: none
-
-  label
-    position: relative
-    margin: 0
-    width: 50px
-    color: black
-    font-size: 16px
-    font-family: Montserrat
-    transition: 0.45s ease-out
-    user-select: none
-    -webkit-user-select: none
-
-    &:not(:first-child)
-      margin-left: 20px
 
   span
     position: relative
     display: inline-block
-    margin-left: 10px
     width: 10px
     height: 10px
-    border: 1px solid alpha(main-color, 0.5)
+    border: 1px solid alpha(#bdbdbd, 0.5)
     transition: 0.3s ease-out
 
   [type='checkbox']:checked+span
     position: relative
     display: inline-block
-    margin-left: 13px
+    margin-left: 3px
     width: 6px
     height: 12px
     border: 1.5px solid main-color

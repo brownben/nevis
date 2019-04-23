@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import axios from 'axios'
-import AsyncComputed from 'vue-async-computed'
 import App from './App.vue'
 import router from './scripts/router'
 import databaseConnection from './scripts/database/connection'
@@ -23,8 +22,6 @@ Vue.prototype.$node = {
 Vue.prototype.$database = databaseConnection
 Vue.prototype.$messages = messageStore
 Vue.prototype.$port = port
-
-Vue.use(AsyncComputed)
 
 new Vue({
   router,

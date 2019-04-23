@@ -1,34 +1,35 @@
 <template>
-  <base-layout>
-    <template v-slot:menu>
-      <button @click="connect">Open Event</button>
-      <router-link to="/event/add">Add Event</router-link>
-      <router-link to="/event/restore">Restore Event</router-link>
-      <router-link to="/about">About</router-link>
-    </template>
-    <template v-slot:main>
-      <div class="card welcome">
-        <img alt="Nevis Logo" src="../assets/images/NevisWhiteBorder.png">
-        <h1>Welcome to Nevis</h1>
+  <div>
+    <div class="header">
+      <img src="@/assets/images/Nevis Logo.svg" alt="Nevis Logo">
+      <h1>Welcome to Nevis</h1>
+    </div>
+    <main>
+      <div>
+        <router-link class="button" to="/event/add">Create Event</router-link>
+        <router-link class="button" to="/event/restore">Restore Event</router-link>
+        <button class="button" @click="refreshEvents">Refresh Events List</button>
+        <router-link class="button" to="/about">About</router-link>
       </div>
-      <div class="card">
+      <div class="card input">
         <h2>Database Settings</h2>
-        <label>Server:</label>
-        <input v-model="hostname" type="text">
-        <label>Event ID:</label>
-        <dropdown-input v-model="event" :list="events" />
+        <text-input v-model="hostname" label="Server:" @input="refreshEvents" />
+        <dropdown-input v-model="event" :list="events" label="Event ID:" />
       </div>
-    </template>
-  </base-layout>
+      <div>
+        <button v-if="hostname && event" class="button" @click="connect">Open Event</button>
+      </div>
+    </main>
+  </div>
 </template>
 
 <script>
-import BaseLayout from '@/components/BaseLayout'
+import TextInput from '@/components/TextInput'
 import DropdownInput from '@/components/DropdownInput'
 
 export default {
   components: {
-    'base-layout': BaseLayout,
+    'text-input': TextInput,
     'dropdown-input': DropdownInput,
   },
 
@@ -37,6 +38,10 @@ export default {
     event: '',
     events: [],
   }),
+
+  mounted: function () {
+    this.refreshEvents()
+  },
 
   methods: {
     connect: function () {
@@ -53,10 +58,8 @@ export default {
           })
       }
     },
-  },
 
-  asyncComputed: {
-    listEvents: function () {
+    refreshEvents: function () {
       this.$node.axios.get('http://' + this.hostname + ':5984/_all_dbs')
         .then(response => {
           const events = response.data.filter(event => event !== '_users' && event !== '_replicator')
@@ -65,7 +68,6 @@ export default {
           }
           else {
             this.events = events
-            events.unshift('')
           }
         })
         .catch(() => { this.events = ['No Events Found'] })
@@ -75,23 +77,37 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import '../assets/styles/helpers.styl'
+@import '../assets/styles/helpers'
 
-.welcome
-  background: url('../assets/images/largeBackground.svg')
-  background-color: #0D47A1
-  background-size: cover
-  background-repeat: no-repeat
+h2
+  padding: 0.75rem 0.75rem 0
+  color: black
+
+.header
+  position: relative
+  left: -10vw
+  width: 100vw
+  background: linear-gradient(main-color, #2196F3)
+  background-color: main-color
+  color: white
+  text-align: center
+  box-shadow(1)
+
+  @media (max-width: 1250px)
+    left: -7.5vw
+
+  @media (max-width: 1000px)
+    left: -5vw
+
+  @media (max-width: 700px)
+    left: -2.5rem
 
   img
-    display: block
-    margin: auto
-    padding-top: 5px
-    height: 100px
+    padding: 0.5rem
+    height: 200px
 
   h1
-    margin: 0
-    padding: 5px 0
-    color: white
-    text-align: center
+    padding: 0 0 1.5rem
+    font-weight: 500
+    font-size: 2.35rem
 </style>

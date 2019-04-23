@@ -54,4 +54,16 @@ export default {
       })
       .then(competitors => this.database.bulkDocs(competitors))
   },
+
+  getOutstandingCompetitorsLength: function () {
+    return this.getCompetitors()
+      .then(competitors => competitors.filter(competitor => !competitor.doc.download && competitor.doc.safetyCheck))
+      .then(competitors => competitors.length)
+  },
+
+  getOutstandingCompetitors: function () {
+    return this.getCompetitors()
+      .then(competitors => competitors.filter(competitor => !competitor.doc.download && competitor.doc.safetyCheck))
+      .then(competitors => competitors.map(competitor => competitor.doc))
+  },
 }

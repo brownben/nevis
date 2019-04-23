@@ -1,78 +1,64 @@
 <template>
-  <base-layout>
-    <template v-slot:menu>
-      <label>Port:</label>
-      <button :class="{ dropdown: true, nohover: connected }" @click="refreshPortList()">
-        <p>{{ selectedPort }}</p>
-        <svg v-if="!connected" viewBox="0 0 24 24">
-          <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z"></path>
-          <path d="M0-.75h24v24H0z" fill="none"></path>
-        </svg>
-      </button>
-      <transition name="openMenu">
-        <ul v-if="portOpen">
-          <li v-for="port of portList" :key="port" @click="changePort(port)">{{ port }}</li>
-        </ul>
-      </transition>
-      <label>Baud:</label>
-      <button :class="{ dropdown: true, nohover: connected }" @click="refreshBaudList()">
-        <p>{{ selectedBaud }}</p>
-        <svg v-if="!connected" viewBox="0 0 24 24">
-          <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z"></path>
-          <path d="M0-.75h24v24H0z" fill="none"></path>
-        </svg>
-      </button>
-      <transition name="openMenu">
-        <ul v-show="baudOpen">
-          <li v-for="baud of baudList" :key="baud" @click="changeBaud(baud)">{{ baud }}</li>
-        </ul>
-      </transition>
-      <label>Printer:</label>
-      <button :class="{ dropdown: true, nohover: connected }" @click="refreshPrinterList()">
-        <p class="smaller">{{ selectedPrinter }}</p>
-        <svg v-if="!connected" viewBox="0 0 24 24">
-          <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z"></path>
-          <path d="M0-.75h24v24H0z" fill="none"></path>
-        </svg>
-      </button>
-      <transition name="openMenu">
-        <ul v-if="printerOpen">
-          <li
-            v-for="printer of printerList"
-            :key="printer"
-            class="smaller"
-            @click="changePrinter(printer)"
-          >{{ printer }}</li>
-        </ul>
-      </transition>
-      <button @click="connect()">{{ connectButtonText }}</button>
-      <button class="back" @click="back">Back</button>
-    </template>
-    <template v-slot:main>
-      <div v-show="lastDownload !== false" class="card">
-        <h1>Last Download</h1>
-        <p v-if="lastDownload.name">Name: {{ lastDownload.name }}</p>
-        <p>SI Card: {{ lastDownload.siid }}</p>
-        <p>Course: {{ lastDownload.course || 'Unknown' }}</p>
-        <p>Time: {{ time.displayTime(lastDownload.result) || '-' }}</p>
-      </div>
-      <transition name="open">
-        <confirmation-dialog
-          v-if="showConfirmationDialog"
-          heading="Leave Download"
-          message="Are You Sure You Want to Stop Downloading SI Cards?"
-          confirm="Continue"
-          cancel="Cancel"
-          @close="leavePage"
-        />
-      </transition>
-    </template>
-  </base-layout>
+  <main>
+    <back-arrow :disable="true" @clicked="back()" />
+    <h1 class="title">Download</h1>
+    <div class="card input">
+      <dropdown-input
+        v-model="selectedPort"
+        :hide="connected"
+        :list="portList"
+        label="Port:"
+        @opened="refreshPortList"
+      />
+      <dropdown-input v-model="selectedBaud" :hide="connected" :list="baudList" label="Baud:" />
+      <dropdown-input
+        v-model="selectedPrinter"
+        :hide="connected"
+        :list="printerList"
+        label="Printer:"
+        @opened="refreshPrinterList"
+      />
+    </div>
+    <div>
+      <button class="button" @click="connect()">{{ connectButtonText }}</button>
+    </div>
+    <div v-show="lastDownload !== false" class="card">
+      <h1>Last Download</h1>
+      <p v-if="lastDownload.name">
+        <b>Name:</b>
+        {{ lastDownload.name }}
+      </p>
+      <p>
+        <b>SI Card:</b>
+        {{ lastDownload.siid }}
+      </p>
+      <p>
+        <b>Course:</b>
+        {{ lastDownload.course || 'Unknown' }}
+      </p>
+      <p>
+        <b>Time:</b>
+        {{ time.displayTime(lastDownload.result) || '-' }}
+      </p>
+    </div>
+    <transition name="fade">
+      <confirmation-dialog
+        v-if="showConfirmationDialog"
+        heading="Leave Download"
+        message="Are You Sure You Want to Stop Downloading SI Cards?"
+        confirm="Continue"
+        cancel="Cancel"
+        @close="leavePage"
+      />
+    </transition>
+  </main>
 </template>
 
 <script>
-import BaseLayout from '@/components/BaseLayout'
+import DropdownInput from '@/components/DropdownInput'
+import BackArrow from '@/components/BackArrow'
 import Dialog from '@/components/Dialog'
+
 import si from '@/scripts/si/si'
 import courseMatching from '@/scripts/courseMatching/courseMatching'
 import time from '@/scripts/time'
@@ -80,20 +66,18 @@ import splits from '@/scripts/splits'
 
 export default {
   components: {
-    'base-layout': BaseLayout,
     'confirmation-dialog': Dialog,
+    'dropdown-input': DropdownInput,
+    'back-arrow': BackArrow,
   },
 
   data: () => ({
     selectedPort: '',
-    selectedBaud: 38400,
+    selectedBaud: '38400',
     selectedPrinter: '',
     portList: [],
-    baudList: [4800, 38400],
+    baudList: ['4800', '38400'],
     printerList: ['No Printing'],
-    portOpen: false,
-    baudOpen: false,
-    printerOpen: false,
     connected: false,
     connectButtonText: 'Connect',
     lastDownload: false,
@@ -128,13 +112,8 @@ export default {
           if (typeof ports === 'string') this.$messages.addMessage(ports, 'error')
           else this.portList = ports
           if (ports.includes('No Ports Found')) this.selectedPort = ''
-          this.portOpen = !this.portOpen
         })
       }
-    },
-
-    refreshBaudList: function () {
-      if (!this.connected) this.baudOpen = !this.baudOpen
     },
 
     refreshPrinterList: function () {
@@ -145,30 +124,11 @@ export default {
           .filter(eachPrinter => !eachPrinter.status.includes('NOT-AVAILABLE'))
           .map(eachPrinter => eachPrinter.name)
         this.printerList.push('No Printing')
-
-        this.printerOpen = !this.printerOpen
       }
     },
 
-    changeBaud: function (baud) {
-      this.selectedBaud = baud
-      this.baudOpen = !this.baudOpen
-    },
-
-    changePort: function (port) {
-      if (port === 'No Ports Found') this.selectedPort = ''
-      else this.selectedPort = port
-      this.portOpen = !this.portOpen
-    },
-
-    changePrinter: function (printer) {
-      if (printer === 'No Printing') this.selectedPrinter = ''
-      else this.selectedPrinter = printer
-      this.printerOpen = !this.printerOpen
-    },
-
     connect: function () {
-      if (this.selectedPort === '') {
+      if (this.selectedPort === '' || this.selectedPort === 'No Ports Found') {
         this.$messages.addMessage('No Port Selected To Connect To', 'error')
       }
       else if (this.connectButtonText === 'Disconnect') {
@@ -192,7 +152,7 @@ export default {
             .catch(error => this.$messages.addMessage(error.message, 'error'))
         }
         this.$port.error = error => this.$messages.addMessage(error.message, 'error')
-        this.$port.connect(this.selectedPort, this.selectedBaud)
+        this.$port.connect(this.selectedPort, parseInt(this.selectedBaud))
       }
     },
 
@@ -309,88 +269,10 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-@import '../assets/styles/helpers.styl'
+.card
+  h1
+    padding-bottom: 0.5rem
 
-label
-  display: block
-  margin: 3px 0
-  padding-top: 3px
-  width: 100%
-  color: main-color
-  text-align: center
-  font-size: 14px
-  default-font()
-
-  &:first-child:not()
-    margin-top: 8px
-
-button
-  margin-top: 8px
-
-  &.dropdown
-    display: flex
-    justify-content: space-between
-    margin-top: 0
-    padding: 0
-    height: 33px
-    vertical-align: middle
-    text-align: center
-
-    svg
-      margin: 0 4.5px
-      width: 24px
-      height: 33px
-      vertical-align: middle
-      transition: 0.3s ease-out
-      fill: main-color
-
-    p
-      margin: auto
-      width: calc(100% - 33px)
-      vertical-align: middle
-      text-align: center
-
-    &:hover
-      background-color: main-color
-
-      svg
-        fill: white
-
-ul
-  margin: 0
-  padding: 0
-  list-style: none
-
-  li
-    padding: 5px 0
-    height: 20px
-    color: main-color
-    vertical-align: middle
-    text-align: center
-    transition: 0.3s ease-out
-    default-font()
-
-    &:hover
-      background-color: main-color
-      color: white
-
-.smaller
-  font-size: 0.8rem
-
-.nohover
-  background-color: white
-  color: main-color
-
-  &:hover
-    background-color: white !important
-    color: main-color !important
-
-.openMenu-enter-active, .openMenu-leave-active
-  transition: 0.3s
-  transform: scaleY(1)
-  transform-origin: top center
-
-.openMenu-enter, .openMenu-leave-to
-  transform: scaleY(0)
-  transform-origin: top center
+  p
+    padding: 0.1rem 0
 </style>

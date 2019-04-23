@@ -1,16 +1,18 @@
 <template>
   <div class="dropdown-input">
-    <select :value="value" @input="$emit('input', $event.target.value)">
-      <option v-for="item in list" :key="item">
-        {{ item }}
-      </option>
-    </select>
-    <label>
-      <svg fill="#9E9E9E" height="24" viewBox="0 0 24 24" width="24">
+    <div class="visible" @click="toggle">
+      <label>{{ label }}</label>
+      <p>{{ currentValue }}</p>
+      <svg :class="{ active: open }" fill="#9E9E9E" height="24" viewBox="0 0 24 24" width="24">
         <path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z" />
         <path d="M0-.75h24v24H0z" fill="none" />
       </svg>
-    </label>
+    </div>
+    <transition name="open">
+      <div v-show="open" class="dropdown">
+        <p v-for="item in list" :key="item" @click="changeSelection(item)">{{ item }}</p>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -19,6 +21,10 @@ export default {
   name: 'DropdownInput',
 
   props: {
+    'label': {
+      type: String,
+      default: '',
+    },
     'value': {
       type: String,
       default: '',
@@ -27,37 +33,98 @@ export default {
       type: Array,
       default: () => [],
     },
+    'hide': {
+      type: Boolean,
+      default: false,
+    },
+  },
+
+  data: function () {
+    return {
+      open: false,
+      currentValue: this.value,
+    }
+  },
+
+  watch: {
+    value: function (value) {
+      this.currentValue = value
+    },
+  },
+
+  methods: {
+    changeSelection: function (value) {
+      this.open = false
+      this.currentValue = value
+      this.$emit('input', value)
+    },
+
+    toggle: function () {
+      if (!this.hide) {
+        this.open = !this.open
+        if (this.open) this.$emit('opened')
+      }
+    },
   },
 }
 </script>
 
 <style scoped lang="stylus">
-@import '../assets/styles/helpers.styl'
+@import '../assets/styles/helpers'
 
 .dropdown-input
-  margin-bottom: -25px
+  display: block
+  box-sizing: border-box
+  padding: 0.75rem 1rem
+  width: 100%
+  height: 2.75rem
+  border-bottom: 1px solid alpha(main-color, 0.4)
+  user-select: none
 
-  select
-    margin: 3px 0
-    padding: 3px
-    width: 100%
-    outline: 0
-    border: 1px solid alpha(main-color, 0.5)
+  &:last-child
+    border-bottom: 0
+
+.visible
+  position: relative
+  height: 2rem
+
+  p
+    display: inline-block
     color: black
-    font-size: 16px
-    font-family: Montserrat
-    -webkit-appearance: none
+    font-size: 1rem
 
-    &:focus
-      border: 1px solid main-color
-
-  select:focus+label
-    svg
-      fill: main-color
+  label
+    display: inline-block
+    margin-right: 1rem
+    width: auto
+    color: main-color
+    font-size: 1rem
 
   svg
-    position: relative
-    top: -28px
-    right: calc(-100% + 25px)
-    transition: 0.3s ease-out
+    position: absolute
+    top: -0.1rem
+    right: 0
+
+    .active
+      fill: main-color
+
+.dropdown
+  position: relative
+  top: -1px
+  left: -1rem
+  z-index: 2
+  box-sizing: border-box
+  width: calc(100% + 2rem)
+  border: 1px solid alpha(main-color, 0.4)
+  background-color: white
+  color: black
+  font-size: 1rem
+
+  p
+    display: block
+    padding: 0.5rem 1rem
+    height: 1rem
+
+    &:hover
+      background-color: #BBDEFB
 </style>

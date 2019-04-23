@@ -1,236 +1,170 @@
-color-main = #0D47A1
+main-color = #1976D2
+accent-color = #1E88E5
+light-color = #BBDEFB
+very-light-color = #E3F2FD
+
+box-shadow(level = 1)
+  if (level == 1)
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2)
+
+  else if (level == 1.5)
+    box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2)
+
+  else if (level == 2)
+    box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.3)
+
+  else if (level == 3)
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3)
+
+  else if (level == 4)
+    box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.3)
+
+  else if (level == 5)
+    box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.3)
+
+no-user-select()
+  user-select: none
 
 html, body
+  overflow-x: hidden
   margin: 0
-  padding: 0
-  min-height: 100%
-  width: 100%
+  width: 100vw
 
-header
-  position: fixed
-  width: 100%
-  height: 50px
-  background-color: alpha(color-main, 0.86)
-  color: white
+h1, h2, h3, h4, h5, h6
+  color: main-color
+  font-weight: 500
+  font-family: Montserrat
 
-  h1
-    display: inline-flex
-    margin: 0
-    padding: 9px 1.5rem
-    font-weight: 400
-    font-weight: 400
-    font-size: 26px
-    font-family: Montserrat
+p, a
+  font-weight: 300
+  font-family: Montserrat
 
-  nav
-    position: absolute
-    right: 0
-    display: inline-flex
-    padding: 0 2rem
-    height: 100%
+ul, li
+  margin: 0.25rem 0
+  font-weight: 300
+  font-family: Montserrat
 
-    a
-      box-sizing: border-box
-      margin: auto 0
-      padding: 15px 1.2rem
-      height: 100%
-      height: 100%
-      color: white
-      text-decoration: none
-      font-weight: 300
-      font-family: Montserrat
-      transition: 0.3s
-
-      &:hover
-        background-color: alpha(white, 0.1)
+blockquote
+  margin: 0
+  padding: 0.35rem 0.8rem
+  border-left: 3px solid main-color
+  font-weight: 300
+  font-family: Montserrat
 
 main
-  h1, h2, h3, h4, h5, h6
-    margin: 1rem 0
-    color: color-main
-    font-weight: 400
-    font-family: Montserrat
+  display: grid
+  margin-top: 1rem
+  margin-left: 5vw
+  width: 90vw
+  grid-gap: 0.5rem
+  grid-template-columns: 1fr
+
+  @media (min-width: 850px)
+    margin-left: 10vw
+    width: 80vw
 
   h2
-    font-size: 1.8rem
+    margin: 1rem 0
+    font-size: 1.75rem
 
-  h3
-    font-size: 1.3rem
-
-  p
-    margin: 0.5rem 0
-    font-weight: 300
-    font-size: 1rem
-    font-family: Montserrat
-
-  .header
-    display: inline-flex
-    flex: 1 0 10px
-    justify-content: center
-    align-items: center
-    box-sizing: border-box
-    padding: 3rem 1.5rem
-    padding-top: calc(2rem + 50px)
-    width: 100%
-    background: url('./assets/largeBackground.png')
-    background-color: #1565C0
-    background-size: cover
-    background-repeat: no-repeat
-    color: white
-
-    #text
-      padding-left: 7.5%
+  .grid
+    display: grid
+    max-width: 100%
+    grid-template-columns: 1fr 1fr 1fr
+    grid-gap: 1rem
 
     img
-      height: 12rem
+      width: 100%
+
+    @media (max-width: 700px)
+      grid-template-columns: 1fr 1fr
+
+    @media (max-width: 500px)
+      grid-template-columns: 1fr
+
+header
+  display: flex
+  justify-content: space-evenly
+  align-items: center
+  box-sizing: border-box
+  padding: 2.5rem
+  width: 100%
+  box-shadow(1.5)
+  background: linear-gradient(main-color, #2196F3)
+
+  @media (min-width: 1000px)
+    padding-right: 10vw
+    padding-left: 10vw
+    width: 100vw
+
+  @media (min-width: 1400px)
+    padding-right: 20vw
+    padding-left: 20vw
+    width: 100vw
+
+  img
+    height: 20rem
+
+  div
+    padding: 2rem
 
     h1
-      margin: 0.8rem 0
+      display: block
+      margin: 0
       color: white
-      font-weight: 400
-      font-size: 3rem
+      font-size: 2.75rem
 
     h3
-      margin: 0.5rem 0
+      margin: 0
+      padding: 0.75rem 0
       color: white
-      font-weight: 300
-      font-size: 1.5rem
+      font-size: 1.35rem
 
     #buttons
-      display: inline-flex
-      box-sizing: border-box
-      margin: 0.5rem 0
+      padding: 0
+      padding-top: 0.5rem
 
       a
-        padding: 0.5rem
+        display: inline-block
+        margin-left: 0.35rem
+        padding: 0.45rem 0.75rem
         border: 1px solid white
         color: white
         text-decoration: none
-        font-weight: 300
-        font-size: 1rem
-        font-family: Montserrat
         transition: 0.3s
 
-        &:not(:first-child)
-          margin-left: 1rem
+        &:first-child
+          margin: 0
 
         &:hover
-          background-color: alpha(white, 0.4)
+          background-color: alpha(white, 0.3)
 
-  .content
-    margin-left: 5%
-    width: 90%
+  @media (max-width: 800px)
+    display: block
+    padding: 1.5rem
+    text-align: center
+
+    img
+      height: 15rem
+
+    a
+      box-sizing: border-box
+      margin: 0
+      width: 100%
 
     div
-      padding: 0 0.5rem
+      padding: 0
 
-    blockquote
-      margin: 0
-      padding: 0.5rem
-      border-left: 3px solid color-main
-      font-weight: 300
-      font-size: 1.25rem
-      font-family: Montserrat
+      #buttons
+        a
+          display: block
+          margin-top: 0.5rem
+          margin-left: 0
+          width: 100%
 
-    ul, li
-      list-style: none
-      font-weight: 300
-      font-size: 1rem
-      font-family: Montserrat
-
-    ul li::before
-      display: inline-block
-      margin-left: -1em
-      width: 1em
-      color: color-main
-      content: '\2022'
-      font-weight: bold
-
-    .screenshots
-      display: inline-flex
-      overflow-x: auto
-      padding-bottom: 10px
-      width: 100%
-      scrollbar-color: alpha(color-main, 0.5) alpha(color-main, 0)
-      scrollbar-width: thin
-
-      img
-        margin: 10px
-        height: 300px
-        user-select: none
-        -moz-user-focus: none
-        -moz-user-select: none
-        -ms-user-select: none
-        -webkit-user-select: none
+          &:not(:first-child)
+            margin-top: 0.5rem
+            margin-left: 0
 
 footer
-  margin-top: 1.75rem
-  border-top: 1px solid color-main
-  color: color-main
   text-align: center
-  font-weight: 300
-  font-size: 1rem
-  font-family: Montserrat
-
-  p
-    margin: 0
-    padding: 0.5rem
-
-@media (max-width: 650px)
-  header
-    nav
-      display: none
-
-    h1
-      display: block
-      box-sizing: border-box
-      width: 100%
-      text-align: center
-
-  main
-    .header
-      display: block
-      padding: 1rem 1.5rem
-      padding-top: calc(1rem + 50px)
-      background: url('./assets/smallBackground.svg')
-      background-color: #1565C0
-      background-size: cover
-      background-repeat: no-repeat
-      text-align: center
-
-      img
-        height: 10rem
-
-      #text
-        box-sizing: border-box
-        padding: 0
-        width: 100%
-
-        h3
-          margin: 14px
-
-        #buttons
-          display: block
-
-          a
-            display: block
-            box-sizing: border-box
-            margin: 0.75rem 0
-            padding: 0.5rem
-            width: 100%
-
-            &:last-child
-              margin-bottom: 0
-
-::-webkit-scrollbar
-  width: 8px
-  height: 8px
-  background-color: #0000
-  color: alpha(color-main, 0.5)
-
-::-webkit-scrollbar-track
-  background-color: #0000
-  color: alpha(color-main, 0.5)
-
-::-webkit-scrollbar-thumb
-  background-color: alpha(color-main, 0.5)

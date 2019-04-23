@@ -6,45 +6,40 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400" rel="stylesheet">
-  <link rel="shortcut icon" href="./assets/NevisWhiteBorder.png" type="image/png">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:300,500" rel="stylesheet">
+  <link rel="shortcut icon" href="./assets/Nevis Square.png" type="image/png">
   <title>Nevis</title>
+  <meta name="theme-color" content="#1976D2">
   <meta name="description" content="Fast and Easy Results for Orienteering">
 </head>
 
 <body>
   <header>
-    <h1>Nevis</h1>
-    <nav>
-      <a href="#about">About</a>
-      <a href="#features">Features</a>
-      <a href="#screenshots">Screenshots</a>
-    </nav>
-  </header>
-  <main>
-    <section class="header">
-      <img src="./assets/NevisWhiteBorder.png" alt="Nevis Logo">
-      <div id="text">
-        <h1>Nevis</h1>
-        <h3>Fast and Easy Results for Orienteering</h3>
-        <div id="buttons">
-          <a href="https://github.com/brownben/nevis">Check out on Github</a>
-          <a href="https://github.com/brownben/nevis/releases">Download Now</a>
-        </div>
+    <img src="./assets/Nevis Logo.png" alt="Nevis Logo">
+    <div>
+      <h1>Nevis</h1>
+      <h3>Fast and Easy Results for Orienteering</h3>
+      <div id="buttons">
+        <a href="https://github.com/brownben/nevis/releases">Download Now</a>
+        <a href="https://github.com/brownben/nevis">Check out on Github</a>
       </div>
-    </section>
+    </div>
+  </header>
 
-    <section class="content">
+  <main>
+    <div>
       <h2 id="about">About</h2>
       <p>Nevis is a lightweight Event Management Software for Orienteering which aims to make the timing as easy as possible and has all features needed for a small to medium sized event. It is designed to be as simple
-        and easy to use as possible as to reduce the barrier for use, allowing as many people as possible to run the timing system at events.</p>
+        and easy to use as possible as to reduce the barrier for use, allowing as many people as possible to run the timing system at events whilst offering advanced features.</p>
       <p>Version 4 of Nevis moves from a single file database to a hosted PouchDB database allowing multiple computers to run Nevis for the same event. Version 3 of Nevis (which directly accesses a file) is avaliable <a
           href="https://github.com/brownben/nevis/tree/84cdd43f5b913dd59acc62225878bb541a3249a7">on
           Github</a></p>
       <p>Nevis is created using Electron and uses Vue to create the live display of data, such as the interactive Entries view which has live Searching and Sorting. Nevis reads the SI Cards over the Serial port and then
         extracts the relevant details before matching the course against it and creating results or finding the best course if they are not entered. </p>
+    </div>
+    <div>
       <h2 id="features">Features</h2>
-      <p>With Nevis you can:</p>
+      <p> With Nevis You Can Easily:</p>
       <ul>
         <li>Add + Edit Entries</li>
         <li>Import Entries from IOF XML 3.0</li>
@@ -70,44 +65,46 @@
         <li>Export HTML Results + Splits</li>
         <li>Backup Event</li>
       </ul>
-
+    </div>
+    <div>
       <h2 id="screenshots">Screenshots</h2>
-      <div class="screenshots">
-        <img src="./assets/screenshot-home.PNG" alt="Welcome Screen">
-        <img src="./assets/screenshot-entry-overview.PNG" alt="Entries Overview">
-        <img src="./assets/screenshot-entries-search+sort.PNG" alt="Entries Search and Sort">
-        <img src="./assets/screenshot-add-entry.PNG" alt="Add Entry">
-        <img src="./assets/screenshot-entry-splits.PNG" alt="Edit Entry - Showing Splits (As Competitor has Downloaded)">
-        <img src="./assets/screenshot-courses.PNG" alt="Courses">
-        <img src="./assets/screenshot-download.PNG" alt="Download">
-        <img src="./assets/screenshot-results.PNG" alt="Results">
-        <img src="./assets/screenshot-safety-check.PNG" alt="Safety Check/ Outstanding Competitors">
+      <div class="grid">
+        <img src="./assets/Screenshot - Welcome.PNG" alt="Screenshot - Welcome Screen">
+        <img src="./assets/Screenshot - Home Screen.PNG" alt="Screenshot - Home Screen">
+        <img src="./assets/Screenshot - Entries.PNG" alt="Screenshot - Entries">
+        <img src="./assets/Screenshot - Entries Search.PNG" alt="Screenshot - Searching + Sorting Entries">
+        <img src="./assets/Screenshot - Create Entry.PNG" alt="Screenshot - Create Entry">
+        <img src="./assets/Screenshot - Update Entry.PNG" alt="Screenshot - Update Entry">
+        <img src="./assets/Screenshot - Courses.PNG" alt="Screenshot - Courses">
+        <img src="./assets/Screenshot - Download.PNG" alt="Screenshot - Download">
+        <img src="./assets/Screenshot - Safety Check.PNG" alt="Screenshot - Safety Check">
+        <img src="./assets/Screenshot - Results.PNG" alt="Screenshot - Results">
       </div>
-
+    </div>
+    <div>
       <h2 id="license">License</h2>
-      <div>
-        <blockquote>
-          Released under an MIT License - Copyright (c) 2018 Ben Brown
-        </blockquote>
-        <p>
-          Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the" Software"), to deal in the Software without restriction,
-          including
-          without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
-          subject
-          to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-        </p>
-        <p>
-          THE SOFTWARE IS PROVIDED"AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-          NONINFRINGEMENT. IN
-          NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-          THE
-          SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-        </p>
-      </div>
-      <h3>Nevis is not supported, associated or endorsed by SportIdent in any way</h3>
-
-    </section>
+      <blockquote>
+        Released under an MIT License - Copyright (c) 2018 Ben Brown
+      </blockquote>
+      <p>
+        Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the" Software"), to deal in the Software without restriction,
+        including
+        without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so,
+        subject
+        to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+      </p>
+      <p>
+        THE SOFTWARE IS PROVIDED"AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+        NONINFRINGEMENT. IN
+        NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+        THE
+        SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+      </p>
+    </div>
+    <h3>Nevis is not supported, associated or endorsed by SportIdent in any way</h3>
   </main>
+
+
   <footer>
     <p>Made by Ben Brown 2018 </p>
   </footer>

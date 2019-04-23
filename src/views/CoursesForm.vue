@@ -1,49 +1,55 @@
 <template>
-  <base-layout>
-    <template v-slot:menu>
-      <div v-if="$route.params.id">
-        <button @click="updateCourse">Update Course</button>
-        <button @click="deleteCourse">Delete Course</button>
-      </div>
-      <div v-else>
-        <button @click="addCourse">Submit Course</button>
-        <button @click="clearCourse">Clear Course</button>
-      </div>
-      <a class="back" @click="$router.go(-1)">Back</a>
-    </template>
-    <template v-slot:main>
-      <div class="card">
-        <label>Name:</label>
-        <input v-model="course.name">
-        <label>Length (km):</label>
-        <input v-model="course.length" type="number" step="0.01" min="0">
-        <label>Climb (m):</label>
-        <input v-model="course.climb" type="number" step="0.01" min="0">
-        <label>Control Codes: (Comma Separated)</label>
-        <input v-model="course.controls">
-      </div>
-      <transition name="open">
-        <confirmation-dialog
-          v-if="showConfirmationDialog"
-          heading="Delete Course"
-          message="Are You Sure You Want to Delete This Course? This Action can't be Recovered."
-          confirm="Delete"
-          cancel="Cancel"
-          @close="confirmationOfDeleteCourse"
-        />
-      </transition>
-    </template>
-  </base-layout>
+  <main>
+    <back-arrow />
+    <h1 v-if="$route.params.id" class="title">Update Course</h1>
+    <h1 v-else class="title">Create Course</h1>
+    <div v-if="$route.params.id">
+      <button class="button" @click="updateCourse">Update Course</button>
+      <button class="button" @click="deleteCourse">Delete Course</button>
+    </div>
+    <div v-else>
+      <button class="button" @click="addCourse">Submit Course</button>
+      <button class="button" @click="clearCourse">Clear Course</button>
+    </div>
+    <div class="card input">
+      <text-input v-model="course.name" label="Name:" />
+      <number-input v-model.number="course.length" label="Length (km):" type="number" />
+      <number-input v-model.number="course.climb" label="Climb (m):" type="number" />
+      <text-input v-model="course.controls" label="Control Codes (Comma Separated):" />
+    </div>
+    <transition name="fade">
+      <confirmation-dialog
+        v-if="showConfirmationDialog"
+        heading="Delete Course"
+        message="Are You Sure You Want to Delete This Course? This Action can't be Recovered."
+        confirm="Delete"
+        cancel="Cancel"
+        @close="confirmationOfDeleteCourse"
+      />
+    </transition>
+  </main>
 </template>
+<style lang="stylus" scoped>
+label
+  width: 150px
+  font-weight: 500
+
+input
+  width: calc(100% - 150px)
+</style>
 
 <script>
-import BaseLayout from '@/components/BaseLayout'
 import Dialog from '@/components/Dialog'
+import TextInput from '@/components/TextInput'
+import NumberInput from '@/components/NumberInput'
+import BackArrow from '@/components/BackArrow'
 
 export default {
   components: {
-    'base-layout': BaseLayout,
     'confirmation-dialog': Dialog,
+    'text-input': TextInput,
+    'number-input': NumberInput,
+    'back-arrow': BackArrow,
   },
 
   data: () => ({
@@ -67,8 +73,10 @@ export default {
     if (this._id) {
       this.$database.findCourse(this._id)
         .then(data => {
-          this.course = data
-          this.course.controls = this.course.controls.toString()
+          this.course.name = data.name
+          this.course.length = parseInt(data.length)
+          this.course.climb = parseInt(data.climb)
+          this.course.controls = data.controls.toString()
           this._rev = data._rev
         })
         .catch(error => this.$messages.addMessage(error.message, 'error'))
@@ -90,15 +98,21 @@ export default {
     addCourse: function () {
       if (this.course.name !== '') {
         this.$database.addCourse(this.course)
-          .then(() => this.clearCourse())
+          .then(() => {
+            this.$messages.addMessage('Course - ' + this.course.name + 'Created')
+            this.clearCourse()
+          })
           .catch(error => this.$messages.addMessage(error.message, 'error'))
       }
-      else this.$messages.addMessage('Please give the Course a Name', 'error')
+      else this.$messages.addMessage('Please Provide a Name for the Course', 'error')
     },
 
     updateCourse: function () {
       this.$database.updateCourse(this.course, this._id, this._rev)
-        .then(() => this.$router.go(-1))
+        .then(() => {
+          this.$messages.addMessage('Course - ' + this.course.name + 'Update')
+          this.$router.go(-1)
+        })
         .catch(error => this.$messages.addMessage(error.message, 'error'))
     },
 
@@ -111,7 +125,7 @@ export default {
           .then(message => {
             if (typeof message === 'string' && message.includes('Warning:')) this.$messages.addMessage(message, 'warning')
             this.$router.go(-1)
-            this.$messages.addMessage('Course Deleted', 'info')
+            this.$messages.addMessage('Course - ' + this.course.name + 'Deleted')
           })
           .catch(error => this.$messages.addMessage(error.message, 'error'))
       }

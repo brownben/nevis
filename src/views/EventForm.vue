@@ -1,66 +1,64 @@
 <template>
-  <base-layout>
-    <template v-slot:menu>
-      <div v-if="currentRoute === '/event/add'">
-        <button @click="createEvent">Create Event</button>
-        <a class="back" @click="$router.push('/')">Back</a>
-      </div>
-      <div v-if="currentRoute === '/event/edit'">
-        <button @click="updateEvent">Update Event</button>
-        <button @click="backupEvent">Backup Event</button>
-        <button @click="deleteEvent">Delete Event</button>
-        <a class="back" @click="$router.push('/dashboard')">Back</a>
-      </div>
-      <div v-if="currentRoute === '/event/restore'">
-        <button @click="restoreEvent">Restore Event</button>
-        <a class="back" @click="$router.push('/')">Back</a>
-      </div>
-    </template>
-    <template v-slot:main>
-      <div class="card">
-        <div v-if="currentRoute === '/event/add' || currentRoute === '/event/edit'">
-          <label>Name:</label>
-          <input v-model="name">
-          <label>Date:</label>
-          <input v-model="date">
-        </div>
-        <div v-if="currentRoute === '/event/add' || currentRoute === '/event/restore'">
-          <label>Server Hostname:</label>
-          <input v-model="server">
-          <label>Event ID:</label>
-          <input v-model="eventID">
-        </div>
-        <div v-if="currentRoute === '/event/restore'">
-          <label>File Location:</label>
-          <input v-model="backupLocation">
-          <button @click="selectBackupLocation">Select File Location</button>
-          <checkbox-input v-model="override" label="Override Event if it Already Exists?" />
-        </div>
-      </div>
-      <transition name="open">
-        <confirmation-dialog
-          v-if="showConfirmationDialog"
-          heading="Delete Event"
-          message="Are You Sure You Want to Delete This Event? This Action can't be Recovered."
-          confirm="Delete"
-          cancel="Cancel"
-          @close="confirmationOfDeleteEvent"
-        />
-      </transition>
-    </template>
-  </base-layout>
+  <main>
+    <back-arrow />
+    <h1 v-if="currentRoute === '/event/add'" class="title">Create Event</h1>
+    <h1 v-if="currentRoute === '/event/edit'" class="title">Edit Event</h1>
+    <h1 v-if="currentRoute === '/event/restore'" class="title">Restore Event</h1>
+    <div v-if="currentRoute === '/event/add' ||currentRoute === '/event/edit'">
+      <button v-if="currentRoute === '/event/add'" class="button" @click="createEvent">Create Event</button>
+      <button v-if="currentRoute === '/event/edit'" class="button" @click="updateEvent">Update Event</button>
+      <button v-if="currentRoute === '/event/edit'" class="button" @click="backupEvent">Backup Event</button>
+      <button v-if="currentRoute === '/event/edit'" class="button" @click="deleteEvent">Delete Event</button>
+    </div>
+    <div class="card input">
+      <template v-if="currentRoute === '/event/add' || currentRoute === '/event/edit'">
+        <text-input v-model="name" label="Name:" />
+        <text-input v-model="date" label="Date:" />
+      </template>
+      <template v-if="currentRoute === '/event/add' || currentRoute === '/event/restore'">
+        <text-input v-model="server" label="Server Hostname:" />
+        <text-input v-model="eventID" label="Event ID:" />
+      </template>
+      <template v-if="currentRoute === '/event/restore'">
+        <button class="file-select" @click="selectBackupLocation">Select File Location</button>
+        <text-input v-model="backupLocation" label="File Location:" />
+        <checkbox-input v-model="override" label="Override Event if it Already Exists?" />
+      </template>
+    </div>
+    <div>
+      <button
+        v-if="currentRoute === '/event/restore'"
+        class="button"
+        @click="restoreEvent"
+      >
+        Restore Event
+      </button>
+    </div>
+    <transition name="fade">
+      <confirmation-dialog
+        v-if="showConfirmationDialog"
+        heading="Delete Event"
+        message="Are You Sure You Want to Delete This Event? This Action can't be Recovered."
+        confirm="Delete"
+        cancel="Cancel"
+        @close="confirmationOfDeleteEvent"
+      />
+    </transition>
+  </main>
 </template>
 
 <script>
-import BaseLayout from '@/components/BaseLayout'
+import TextInput from '@/components/TextInput'
 import CheckboxInput from '@/components/CheckboxInput'
+import BackArrow from '@/components/BackArrow'
 import Dialog from '@/components/Dialog'
 
 export default {
   components: {
-    'base-layout': BaseLayout,
     'confirmation-dialog': Dialog,
+    'text-input': TextInput,
     'checkbox-input': CheckboxInput,
+    'back-arrow': BackArrow,
   },
 
   data: function () {
@@ -210,22 +208,25 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-@import '../assets/styles/helpers.styl'
+@import '../assets/styles/helpers'
 
-main
-  button
-    margin: 5px 0 10px
-    padding: 5px
-    width: 100%
-    outline: 0
-    border: 1px solid alpha(main-color, 0.35)
-    background-color: white
-    color: main-color
-    font-size: 14px
-    transition: 0.3s
-    default-font()
+.card.input
+  display: relative
 
-    &:hover
-      background-color: hover-color
-      color: white
+.file-select
+  position: absolute
+  top: -2.75rem
+  right: 0
+  padding: 0 0.5rem
+  height: 2.7rem
+  outline: 0
+  border: 0
+  background: white
+  font-size: 1rem
+  transition: 0.3s
+
+  &:hover
+    background-color: main-color
+    color: white
 </style>
+

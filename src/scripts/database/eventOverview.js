@@ -34,10 +34,11 @@ export default {
     const coursesLength = this.getCoursesLength()
     const competitorsLength = this.getCompetitorsLength()
     const downloadLength = this.getDownloadsLength()
+    const outstandingCompetitorsLength = this.getOutstandingCompetitorsLength()
     const eventData = this.getEventInformation()
     const databaseInfo = this.database.info()
 
-    return Promise.all([coursesLength, competitorsLength, eventData, databaseInfo, downloadLength])
+    return Promise.all([coursesLength, competitorsLength, eventData, databaseInfo, downloadLength, outstandingCompetitorsLength])
       .then(values => {
         return {
           name: values[2].name,
@@ -46,6 +47,7 @@ export default {
           noOfCompetitors: values[1],
           database: values[3],
           noOfDownloads: values[4],
+          noOfOutstandingCompetitors: values[5],
         }
       })
   },

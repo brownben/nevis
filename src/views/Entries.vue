@@ -1,87 +1,87 @@
 <template>
-  <base-layout>
-    <template v-slot:menu>
-      <router-link to="/entries/add">Add Entry</router-link>
-      <button @click="importEntriesFromXML()">Import IOF XML</button>
-      <button @click="deleteAllEntries()">Delete All Entries</button>
-      <router-link to="/dashboard" class="back">Back</router-link>
-    </template>
-    <template v-slot:main>
-      <div class="card">
-        <label>Name:</label>
-        <input v-model="name">
-        <label>SI Card Number:</label>
-        <input v-model="siid">
-        <label>Course:</label>
-        <dropdown-input v-model="course" :list="courses" />
-      </div>
-      <div v-if="competitors && competitors.length > 0" class="card">
-        <table>
-          <thead>
-            <tr>
-              <th @click="sortBy('name')">
-                Name
-                <up-down-arrows :active=" sortByField == 'name'" :ascending="!reverseSort" />
-              </th>
-              <th @click="sortBy('siid')">
-                SI Card
-                <up-down-arrows :active=" sortByField == 'siid'" :ascending="!reverseSort" />
-              </th>
-              <th @click="sortBy('course')">
-                Course
-                <up-down-arrows :active=" sortByField == 'course'" :ascending="!reverseSort" />
-              </th>
-            </tr>
-          </thead>
-          <tbody is="transition-group" name="fade">
-            <router-link
-              v-for="competitor of competitors"
-              :key="competitor._id"
-              :to="'/entries/update/' + competitor._id"
-              tag="tr"
-            >
-              <td>{{ competitor.name }}</td>
-              <td>{{ competitor.siid }}</td>
-              <td>{{ competitor.course }}</td>
-            </router-link>
-          </tbody>
-        </table>
-      </div>
-      <transition name="open">
-        <confirmation-dialog
-          v-if="showConfirmationDialog"
-          heading="Delete All Entries"
-          message="Are You Sure You Want to Delete All Entries and Attatched Downloads? This Action can't be Recovered."
-          confirm="Delete All"
-          cancel="Cancel"
-          @close="confirmationOfDeleteAllEntries"
-        />
-      </transition>
-    </template>
-  </base-layout>
+  <main>
+    <back-arrow />
+    <h1 class="title">Entries</h1>
+    <div>
+      <router-link to="/entries/add" class="button">Add Entry</router-link>
+      <button class="button" @click="importEntriesFromXML()">Import Entries from IOF XML</button>
+      <button class="button" @click="deleteAllEntries()">Delete All Entries</button>
+    </div>
+    <div class="card input">
+      <h2 id="search-title">Search</h2>
+      <text-input v-model="name" label="Name:" @input="getEntries()" />
+      <text-input v-model="siid" label="SI Card:" @input="getEntries()" />
+      <dropdown-input v-model="course" :list="courses" label="Course:" @input="getEntries()" />
+    </div>
+    <div v-if="competitors && competitors.length > 0" class="card">
+      <table>
+        <thead>
+          <tr>
+            <th @click="sortBy('name')">
+              Name
+              <up-down-arrows :active=" sortByField == 'name'" :ascending="!reverseSort" />
+            </th>
+            <th @click="sortBy('siid')">
+              SI Card
+              <up-down-arrows :active=" sortByField == 'siid'" :ascending="!reverseSort" />
+            </th>
+            <th @click="sortBy('course')">
+              Course
+              <up-down-arrows :active=" sortByField == 'course'" :ascending="!reverseSort" />
+            </th>
+          </tr>
+        </thead>
+        <tbody is="transition-group" name="fade">
+          <router-link
+            v-for="competitor of competitors"
+            :key="competitor._id"
+            :to="'/entries/update/' + competitor._id"
+            tag="tr"
+          >
+            <td>{{ competitor.name }}</td>
+            <td>{{ competitor.siid }}</td>
+            <td>{{ competitor.course }}</td>
+          </router-link>
+        </tbody>
+      </table>
+    </div>
+    <transition name="fade">
+      <confirmation-dialog
+        v-if="showConfirmationDialog"
+        heading="Delete All Entries"
+        message="Are You Sure You Want to Delete All Entries and Attatched Downloads? This Action can't be Recovered."
+        confirm="Delete All"
+        cancel="Cancel"
+        @close="confirmationOfDeleteAllEntries"
+      />
+    </transition>
+  </main>
 </template>
 
 <script>
-import BaseLayout from '@/components/BaseLayout'
+import TextInput from '@/components/TextInput'
 import DropdownInput from '@/components/DropdownInput'
 import UpDownArrows from '@/components/UpDownArrows'
 import Dialog from '@/components/Dialog'
+import BackArrow from '@/components/BackArrow'
 
 export default {
   components: {
-    'base-layout': BaseLayout,
     'dropdown-input': DropdownInput,
     'confirmation-dialog': Dialog,
     'up-down-arrows': UpDownArrows,
+    'text-input': TextInput,
+    'back-arrow': BackArrow,
   },
 
   data: () => ({
     name: '',
     siid: '',
     course: '',
+    competitors: [],
+    courses: [],
     sortByField: 'name',
-    reverseSort: false,
-    refresh: 0,
+    reverseSort: true,
     showConfirmationDialog: false,
   }),
 
@@ -90,14 +90,15 @@ export default {
       this.$router.push('/')
       this.$messages.addMessage('Not Connected to the Database', 'error')
     }
+    this.getEntries()
+    this.getCourses()
   },
 
   methods: {
-    refreshView: function () { this.refresh += 1 },
-
     sortBy: function (field) {
       if (this.sortByField === field) this.reverseSort = !this.reverseSort
       this.sortByField = field
+      this.getEntries()
     },
 
     importEntriesFromXML: function () {
@@ -122,7 +123,7 @@ export default {
                 this.$messages.addMessage(result.noOfCompetitors + ' Competitors Imported')
                 const nonExistantCourses = await this.$database.checkCoursesExist(result.courses)
                 nonExistantCourses.forEach(course => this.$messages.addMessage('No Course called ' + course + ' Exists', 'warning'))
-                this.refreshView()
+                this.getEntries()
               })
               .catch(error => this.$messages.addMessage(error.message, 'error'))
           }
@@ -137,35 +138,48 @@ export default {
       if (decision) {
         this.$database.deleteAllCompetitors()
           .then(() => {
-            this.refresh += 1
+            this.getEntries()
             this.$messages.addMessage('All Entries Deleted')
           })
           .catch(error => this.$messages.addMessage(error.message, 'error'))
       }
     },
-  },
 
-  asyncComputed: {
-    competitors: {
-      get () {
-        return this.$database.searchCompetitors(this.name, this.siid, this.course, this.sortByField, this.reverseSort)
-          .catch(error => this.$messages.addMessage(error.message, 'error'))
-      },
-      watch () { this.refresh },
+    getEntries: function () {
+      this.$database.searchCompetitors(this.name, this.siid, this.course, this.sortByField, this.reverseSort)
+        .then(result => { this.competitors = result })
+        .catch(error => this.$messages.addMessage(error.message, 'error'))
     },
 
-    courses: {
-      get () {
-        return this.$database.getCourses()
-          .then(data => {
-            let courses = data.map(course => course.doc.name)
-            courses.unshift('')
-            return courses
-          })
-          .catch(error => this.$messages.addMessage(error.message, 'error'))
-      },
-      watch () { this.refresh },
+    getCourses: function () {
+      this.$database.getCourses()
+        .then(data => {
+          let courses = data.map(course => course.doc.name)
+          courses.unshift('')
+          return courses
+        })
+        .then(result => { this.courses = result })
+        .catch(error => this.$messages.addMessage(error.message, 'error'))
     },
   },
 }
 </script>
+<style lang="stylus" scoped>
+@import '../assets/styles/helpers'
+
+#search-title
+  padding: 0.75rem 0.75rem 0
+  color: main-color
+
+.fade-item
+  transition: all 0.3s ease-out
+
+.fade-move
+  transition: all 0.3s ease-out
+
+.fade-enter, .fade-leave-to
+  opacity: 0
+
+.fade-enter-active, .fade-leave-to-active
+  opacity: 0
+</style>

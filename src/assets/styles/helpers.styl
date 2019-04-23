@@ -1,25 +1,19 @@
-main-color = #0D47A1
-hover-color = #1565C0
+main-color = #1976D2
+accent-color = #1E88E5
 light-color = #BBDEFB
 very-light-color = #E3F2FD
 
 @font-face
   font-weight: 300
   font-style: normal
-  font-family: 'Montserrat Light'
+  font-family: 'Montserrat'
   src: url('~@/assets/fonts/MontserratLight.woff2') format('woff2')
 
 @font-face
-  font-weight: 400
+  font-weight: 500
   font-style: normal
   font-family: 'Montserrat'
   src: url('~@/assets/fonts/Montserrat.woff2') format('woff2')
-
-default-font()
-  font-weight: 300
-  font-style: normal
-  font-family: 'Montserrat'
-  line-height: normal
 
 box-shadow(level = 1)
   if (level == 1)
@@ -39,3 +33,6 @@ box-shadow(level = 1)
 
   else if (level == 5)
     box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.3)
+
+no-user-select()
+  user-select: none

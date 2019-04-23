@@ -1,12 +1,12 @@
 <template>
   <div class="dialog">
     <div class="card">
-      <h2>{{ heading }}</h2>
+      <h1>{{ heading }}</h1>
       <p>{{ message }}</p>
       <div class="buttons">
         <slot :confirmAction="confirmAction">
+          <button class="cancel" @click="confirmAction(false)">{{ cancel }}</button>
           <button @click="confirmAction(true)">{{ confirm }}</button>
-          <button @click="confirmAction(false)">{{ cancel }}</button>
         </slot>
       </div>
     </div>
@@ -47,41 +47,61 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-@import '../assets/styles/helpers.styl'
+@import '../assets/styles/helpers'
 
 .dialog
   position: fixed
   top: 35px
   left: 0
-  z-index: 10
-  display: inline-block
+  z-index: 25
+  display: flex
+  justify-content: center
+  align-items: center
   width: 100vw
-  height: 100vh
-  background-color: alpha(main-color, 0)
-  vertical-align: middle
+  height: calc(100vh - 35px)
+  background-color: alpha(black, 0.3)
+  transition: 0.3s
 
   .card
-    box-sizing: border-box
-    padding: 0.5rem 15%
-    width: 100%
+    padding: 1.5rem
+    min-width: 35rem
+    max-width: 55%
+    height: auto
+    background-color: white
     box-shadow(2)
 
-  button
-    margin: 0.3rem
-    padding: 0.3rem 0.6rem
-    outline: 0
-    border: 1px main-color solid
-    background-color: white
-    color: main-color
-    transition: 0.3s
-    user-select: none
-    -webkit-user-select: none
-    default-font()
+    @media (max-width: 39rem)
+      min-width: 80vw
+      max-width: 80vw
 
-    &:first-child
-      margin-left: 0
+    h1
+      padding: 0.25rem 0
+      color: main-color
 
-    &:hover
-      background-color: main-color
-      color: white
+    p
+      padding: 0.5rem 0 1rem
+
+    .buttons
+      float: right
+
+      button
+        margin-left: 0.75rem
+        padding: 0.35rem 0.75rem
+        border: 1px solid main-color
+        background-color: white
+        color: main-color
+        font-weight: 500
+        font-size: 1rem
+        transition: 0.5s
+
+        &:hover
+          background-color: main-color
+          color: white
+
+        &.cancel
+          border: none
+          color: #A0A0A0
+
+          &:hover
+            background-color: #f4f4f4
 </style>

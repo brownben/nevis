@@ -38,7 +38,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import '../assets/styles/helpers.styl'
+@import '../assets/styles/helpers'
 
 #up-down-arrows
   display: inline-block

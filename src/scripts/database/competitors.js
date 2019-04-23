@@ -31,7 +31,7 @@ export default {
   },
 
   deleteCompetitor: function (id) {
-    let db = this.database
+    const db = this.database
     return db.get(id)
       .then(data => db.remove(data))
   },
@@ -77,7 +77,13 @@ export default {
           data.siid.includes(siid) &&
           data.course.includes(course)
         )
-        competitors.sort((a, b) => a[sortBy] > b[sortBy])
+        competitors.sort((a, b) => {
+          if (a[sortBy] === b[sortBy]) return 0
+          else if (a[sortBy] === null || a[sortBy] === undefined) return 1
+          else if (b[sortBy] === null || b[sortBy] === undefined) return -1
+          else if (a[sortBy] < b[sortBy]) return 1
+          else return -1
+        })
         if (invert) competitors.reverse()
         return competitors
       })

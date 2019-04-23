@@ -5,8 +5,8 @@ let win
 
 function createWindow () {
   let options = {
-    width: 720,
-    height: 550,
+    width: 775,
+    height: 650,
     minWidth: 220,
     minHeight: 90,
     frame: false,
