@@ -52,9 +52,10 @@ export default {
             this.$messages.clearMessages()
             this.$router.push('dashboard')
           })
+          .then(() => this.$archive.connect(this.hostname))
           .catch(() => {
             this.$messages.clearMessages()
-            this.$messages.addMessage('Not Connected to the Database', 'error')
+            this.$messages.addMessage('Problem Connecting to the Database', 'error')
           })
       }
     },
@@ -62,7 +63,7 @@ export default {
     refreshEvents: function () {
       this.$node.axios.get('http://' + this.hostname + ':5984/_all_dbs')
         .then(response => {
-          const events = response.data.filter(event => event !== '_users' && event !== '_replicator')
+          const events = response.data.filter(event => event !== '_users' && event !== '_replicator' && event !== 'archive')
           if (events.length === 0) {
             this.events = ['No Events Found']
           }

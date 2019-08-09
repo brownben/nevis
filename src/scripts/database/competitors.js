@@ -122,6 +122,7 @@ export default {
         const lastCompID = await this.greatestCompetitorID()
         let noOfCompetitors = 0
         let coursesList = []
+        let competitors = []
         result.EntryList.PersonEntry.forEach(person => {
           const competitor = {}
 
@@ -145,8 +146,9 @@ export default {
 
           noOfCompetitors += 1
           competitor._id = 'competitor-' + (lastCompID + noOfCompetitors)
-          this.database.put(competitor)
+          competitors.push(competitor)
         })
+        this.database.bulkDocs(competitors)
         return {
           noOfCompetitors: noOfCompetitors,
           courses: coursesList,

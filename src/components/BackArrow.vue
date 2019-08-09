@@ -44,5 +44,5 @@ svg
     left: calc(5vw - 1.5rem)
 
   @media (max-width: 700px)
-    left: 1rem
+    left: 0.5rem
 </style>

@@ -3,7 +3,7 @@
     <back-arrow />
     <h1 class="title">Courses</h1>
     <div>
-      <router-link to="/courses/add" class="button">Add Course</router-link>
+      <router-link to="/courses/add" class="button">Create Course</router-link>
       <button class="button" @click="importCoursesFromXML()">Import XML Courses</button>
       <button class="button" @click="deleteAllCourses()">Delete All Courses</button>
     </div>

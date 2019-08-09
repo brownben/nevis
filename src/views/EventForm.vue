@@ -91,6 +91,7 @@ export default {
   methods: {
     createEvent: function () {
       if (this.eventID === '') this.$messages.addMessage('No Event ID Specified', 'error')
+      if (this.eventID.toLowerCase() === 'archive') this.$messages.addMessage('Event ID can\'t be "archive"', 'error')
       else {
         this.$database.connect(this.server, this.eventID)
           .then(() => this.$database.eventInformationExists())

@@ -2,9 +2,11 @@ import Vue from 'vue'
 import axios from 'axios'
 import App from './App.vue'
 import router from './scripts/router'
-import databaseConnection from './scripts/database/connection'
-import messageStore from './scripts/messageStore'
-import port from './scripts/port'
+
+import databaseConnection from '@/scripts/database/connection'
+import archive from '@/scripts/archive'
+import messageStore from '@/scripts/messageStore'
+import port from '@/scripts/port'
 
 const electron = window.require('electron')
 const fs = window.require('fs')
@@ -20,6 +22,7 @@ Vue.prototype.$node = {
   'thermalPrinter': thermalPrinter,
 }
 Vue.prototype.$database = databaseConnection
+Vue.prototype.$archive = archive
 Vue.prototype.$messages = messageStore
 Vue.prototype.$port = port
 

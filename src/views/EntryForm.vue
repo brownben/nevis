@@ -5,10 +5,12 @@
     <h1 v-else class="title">Create Entry</h1>
     <div v-if="$route.params.id">
       <button class="button" @click="updateEntry">Update Entry</button>
+      <button class="button" @click="searchArchive">Search Archive</button>
       <button class="button" @click="deleteEntry">Delete Entry</button>
     </div>
     <div v-else>
       <button class="button" @click="addEntry">Submit Entry</button>
+      <button class="button" @click="searchArchive">Search Archive</button>
       <button class="button" @click="clearEntry">Clear Entry</button>
     </div>
     <div class="card input">
@@ -63,8 +65,33 @@
         message="Are You Sure You Want to Delete This Entry and any Attahced Downloads? This Action can't be Recovered."
         confirm="Delete"
         cancel="Cancel"
-        @close="confirmationOfDeleteEntry"
+        @close="confirmationOfDeleteEntry()"
       />
+    </transition>
+    <transition name="fade">
+      <confirmation-dialog
+        v-if="showArchiveDialog"
+        v-slot="slot"
+        heading="Multiple Competitors Found"
+        messages
+        @close="insertArchiveCompetitor"
+      >
+        <div class="archive-competitors">
+          <div
+            v-for="competitor in archiveCompetitors"
+            :key="competitor.siid"
+            @click="slot.confirmAction(competitor)"
+          >
+            <h3>{{ competitor.name }}</h3>
+            <p>
+              <span v-if="competitor.siid">SI Card: {{ competitor.siid }}&nbsp;</span>
+              <span v-if="competitor.club">Club: {{ competitor.club }}&nbsp;</span>
+              <span v-if="competitor.ageClass">Age Class: {{ competitor.ageClass }}&nbsp;</span>
+            </p>
+          </div>
+        </div>
+        <button class="cancel" @click="slot.confirmAction(false)">Cancel</button>
+      </confirmation-dialog>
     </transition>
   </main>
 </template>
@@ -101,6 +128,7 @@ export default {
     _rev: '',
     courses: [],
     showConfirmationDialog: false,
+    showArchiveDialog: false,
   }),
 
   computed: {
@@ -192,6 +220,29 @@ export default {
         .then(result => { this.courses = result })
         .catch(error => this.$messages.addMessage(error.message, 'error'))
     },
+
+    searchArchive: async function () {
+      const archiveData = await this.$archive.data()
+      this.archiveCompetitors = archiveData.filter(competitor => competitor.name.match(new RegExp(this.competitor.name, 'i')) || this.competitor.name === '')
+        .filter(competitor => competitor.siid === this.competitor.siid || this.competitor.siid === '')
+        .filter(competitor => competitor.ageClass === this.competitor.ageClass || this.competitor.ageClass === '')
+        .filter(competitor => competitor.membershipNumber === this.competitor.membershipNumber || this.competitor.membershipNumber === '')
+        .filter(competitor => competitor.club === this.competitor.club || this.competitor.club === '')
+      if (this.archiveCompetitors.length > 25) this.$messages.addMessage('Too Many Matches Found - Please Narrow Your Search', 'error')
+      else if (this.archiveCompetitors.length > 0) this.showArchiveDialog = true
+      else this.$messages.addMessage('No Matching Records Found')
+    },
+
+    insertArchiveCompetitor: function (archiveCompetitor) {
+      this.showArchiveDialog = false
+      if (archiveCompetitor) {
+        if (this.competitor.name === '') this.competitor.name = archiveCompetitor.name || ''
+        if (this.competitor.ageClass === '') this.competitor.ageClass = archiveCompetitor.ageClass || ''
+        if (this.competitor.club === '') this.competitor.club = archiveCompetitor.club || ''
+        if (this.competitor.membershipNumber === '') this.competitor.membershipNumber = archiveCompetitor.membershipNumber || ''
+        if (this.competitor.siid === '') this.competitor.siid = archiveCompetitor.siid || ''
+      }
+    },
   },
 }
 </script>
@@ -201,4 +252,9 @@ h2
 
 p
   padding: 0.2rem 0
+
+.archive-competitors
+  display: block
+  overflow-y: auto
+  width: 100%
 </style>

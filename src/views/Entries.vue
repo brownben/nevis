@@ -3,9 +3,10 @@
     <back-arrow />
     <h1 class="title">Entries</h1>
     <div>
-      <router-link to="/entries/add" class="button">Add Entry</router-link>
+      <router-link to="/entries/add" class="button">Create Entry</router-link>
       <button class="button" @click="importEntriesFromXML()">Import Entries from IOF XML</button>
       <button class="button" @click="deleteAllEntries()">Delete All Entries</button>
+      <button class="button" @click="importArchive()">Import Archive</button>
     </div>
     <div class="card input">
       <h2 id="search-title">Search</h2>
@@ -160,6 +161,31 @@ export default {
         })
         .then(result => { this.courses = result })
         .catch(error => this.$messages.addMessage(error.message, 'error'))
+    },
+
+    importArchive: function () {
+      const { app, dialog } = this.$electron.remote
+      dialog.showOpenDialog(
+        {
+          title: 'Nevis - Import Archive',
+          buttonLabel: 'Import',
+          defaultPath: app.getPath('documents'),
+          properties: ['openFile'],
+          filters: [
+            { name: 'CSV', extensions: ['csv'] },
+            { name: 'All Files', extensions: ['*'] },
+          ],
+        },
+        filePath => {
+          if (filePath && filePath[0]) {
+            this.$node.fs.promises.readFile(filePath[0], { encoding: 'UTF8', flag: 'r' })
+              .catch(() => this.$messages.addMessage('Problem Reading File', 'error'))
+              .then(data => this.$archive.importFromCSV(data))
+              .then(async result => this.$messages.addMessage(result + ' Cards Imported Into Archive'))
+              .catch(error => this.$messages.addMessage(error.message, 'error'))
+          }
+        }
+      )
     },
   },
 }
