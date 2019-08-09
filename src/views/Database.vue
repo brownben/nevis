@@ -54,7 +54,7 @@ export default {
           })
           .catch(() => {
             this.$messages.clearMessages()
-            this.$messages.addMessage('Not Connected to the Database', 'error')
+            this.$messages.addMessage('Problem Connecting to the Database', 'error')
           })
       }
     },

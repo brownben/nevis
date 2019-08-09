@@ -16,7 +16,7 @@
     "sportident"
   ],
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "node-thermal-printer": "git+https://github.com/brownben/node-thermal-printer.git",
     "pouchdb": "^7.0.0",
     "printer": "^0.2.2",

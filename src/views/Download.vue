@@ -59,7 +59,7 @@ import DropdownInput from '@/components/DropdownInput'
 import BackArrow from '@/components/BackArrow'
 import Dialog from '@/components/Dialog'
 
-import si from '@/scripts/si/si'
+import si from '@/scripts/SI/si'
 import courseMatching from '@/scripts/courseMatching/courseMatching'
 import time from '@/scripts/time'
 import splits from '@/scripts/splits'

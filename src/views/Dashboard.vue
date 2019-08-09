@@ -85,7 +85,7 @@ export default {
 
   @media (max-width: 700px)
     left: -2.5rem
-    padding: 1rem calc(2.5vw + 1rem)
+    padding: 1rem 2.5rem
 
   svg
     fill: white

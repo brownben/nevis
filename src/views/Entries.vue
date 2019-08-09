@@ -3,7 +3,7 @@
     <back-arrow />
     <h1 class="title">Entries</h1>
     <div>
-      <router-link to="/entries/add" class="button">Add Entry</router-link>
+      <router-link to="/entries/add" class="button">Create Entry</router-link>
       <button class="button" @click="importEntriesFromXML()">Import Entries from IOF XML</button>
       <button class="button" @click="deleteAllEntries()">Delete All Entries</button>
     </div>

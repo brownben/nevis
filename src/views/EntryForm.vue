@@ -63,7 +63,7 @@
         message="Are You Sure You Want to Delete This Entry and any Attahced Downloads? This Action can't be Recovered."
         confirm="Delete"
         cancel="Cancel"
-        @close="confirmationOfDeleteEntry"
+        @close="confirmationOfDeleteEntry()"
       />
     </transition>
   </main>
