@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders Correctly 1`] = `
+<div>
+  <div
+    class="gradient text-center w-full shadow-md mb-3"
+  >
+    <img
+      alt="Nevis Logo"
+      class="h-40 py-5"
+      src="@/assets/images/Nevis Logo.png"
+    />
+     
+    <h1
+      class="pb-4 text-3xl text-white"
+    >
+      Welcome to Nevis
+    </h1>
+  </div>
+   
+  <div
+    class="mx-8"
+    id="nav"
+  >
+    <router-link-stub
+      class="button"
+      tag="button"
+      to="/about"
+    >
+      About
+    </router-link-stub>
+  </div>
+</div>
+`;

@@ -1,10 +1,11 @@
 <template>
   <main>
-    <back-arrow to="/" />
-    <h1 class="title">About</h1>
+    <h1 class="title">
+      <back-arrow />About
+    </h1>
     <div class="card">
       <h2>System</h2>
-      <p>Nevis Version: 4.0.0-beta</p>
+      <p>Nevis Version: 5.0.0-alpha</p>
       <p>System: {{ system }}</p>
       <p>Node Version: {{ node }}</p>
       <p>Chrome Version: {{ chromium }}</p>
@@ -53,8 +54,3 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
-.card
-  h1, h2, h3, h4, h5, h6, p
-    padding: 0.25rem 0
-</style>
