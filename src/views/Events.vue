@@ -1,0 +1,102 @@
+<template>
+  <main>
+    <h1 class="mx-10 mb-1">
+      <back-arrow to="/" />Events
+    </h1>
+    <div class="mx-12 mb-3">
+      <router-link tag="button" class="button" to="/events/create">Create Event</router-link>
+    </div>
+    <div v-if="events && events.length > 0" class="shadow mx-12 mb-3 p-2">
+      <table class="w-full font-body">
+        <tr class="font-heading text-center hover:bg-blue-light">
+          <th class="p-1">Event Name</th>
+          <th class="p-1">Event Date</th>
+        </tr>
+        <router-link
+          v-for="event of events"
+          :key="event.id"
+          :to="'/events/' + event.id"
+          class="text-center even:bg-blue-lightest hover:bg-blue-light"
+          tag="tr"
+        >
+          <td class="p-1">{{ event.name }}</td>
+          <td class="p-1">{{ event.date }}</td>
+        </router-link>
+      </table>
+    </div>
+  </main>
+</template>
+
+<script>
+import BackArrow from '@/components/BackArrow'
+
+export default {
+  components: {
+    'back-arrow': BackArrow,
+  },
+
+  data: function () {
+    return {
+      events: [],
+    }
+  },
+
+  mounted: function () {
+    if (this.$database.connection === null || !this.$database.connected) this.$router.push('/')
+    else {
+      this.createTables()
+      this.getEvents()
+    }
+  },
+
+  methods: {
+    getEvents: function () {
+      return this.$database.query('SELECT * FROM events')
+        .then(result => { this.events = result })
+        .catch(error => this.$messages.addMessage(error, 'error'))
+    },
+
+    createTables: function () {
+      const createDatabaseQueries = [
+        `CREATE TABLE IF NOT EXISTS events(
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          name TEXT,
+          date TEXT)`,
+        `CREATE TABLE IF NOT EXISTS courses(
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          name TEXT,
+          length INT,
+          climb INT,
+          type TEXT,
+          controls TEXT,
+          event INT,
+          FOREIGN KEY (event) REFERENCES events(id) ON UPDATE CASCADE ON DELETE CASCADE)`,
+        `CREATE TABLE IF NOT EXISTS competitors(
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          name TEXT, siid TEXT,
+          membershipNumber TEXT,
+          ageClass TEXT,
+          club TEXT,
+          downloaded BOOLEAN,
+          course INT,
+          event INT,
+          FOREIGN KEY (course) REFERENCES courses(id) ON UPDATE CASCADE ON DELETE SET NULL,
+          FOREIGN KEY (event) REFERENCES events(id) ON UPDATE CASCADE ON DELETE CASCADE)`,
+        `CREATE TABLE IF NOT EXISTS punches(
+          id INT AUTO_INCREMENT PRIMARY KEY,
+          time INT,
+          controlCode TEXT,
+          competitor INT,
+          event INT,
+          FOREIGN KEY (competitor) REFERENCES competitors(id) ON UPDATE CASCADE ON DELETE CASCADE,
+          FOREIGN KEY (event) REFERENCES events(id) ON UPDATE CASCADE ON DELETE CASCADE)`,
+      ]
+      for (const query of createDatabaseQueries) {
+        this.$database.query(query)
+          .catch(error => this.$messages.addMessage(error, 'error'))
+      }
+    },
+  },
+}
+</script>
+

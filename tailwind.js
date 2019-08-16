@@ -6,9 +6,11 @@ module.exports = {
         accent: '#1E88E5',
         light: '#BBDEFB',
         lightest: '#E3F2FD',
+        point4: '#1976d266',
       },
       white: '#fff',
       red: '#D32F2F',
+      orange: '#FFA500',
     },
     fontFamily: {
       'heading': 'Montserrat-Bold',
@@ -16,6 +18,8 @@ module.exports = {
     },
     extend: {},
   },
-  variants: {},
+  variants: {
+    backgroundColor: ['responsive', 'first', 'last', 'even', 'odd', 'hover', 'focus'],
+  },
   plugins: [],
 }

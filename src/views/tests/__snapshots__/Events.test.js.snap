@@ -1,0 +1,131 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders Correctly - Events 1`] = `
+<main>
+  <h1
+    class="mx-10 mb-1"
+  >
+    <back-arrow-stub
+      to="/"
+    />
+    Events
+  
+  </h1>
+   
+  <div
+    class="mx-12 mb-3"
+  >
+    <router-link-stub
+      class="button"
+      tag="button"
+      to="/events/create"
+    >
+      Create Event
+    </router-link-stub>
+  </div>
+   
+  <div
+    class="shadow mx-12 mb-3 p-2"
+  >
+    <table
+      class="w-full font-body"
+    >
+      <tr
+        class="font-heading text-center hover:bg-blue-light"
+      >
+        <th
+          class="p-1"
+        >
+          Event Name
+        </th>
+         
+        <th
+          class="p-1"
+        >
+          Event Date
+        </th>
+      </tr>
+       
+      <router-link-stub
+        class="text-center even:bg-blue-lightest hover:bg-blue-light"
+        tag="tr"
+        to="/events/1"
+      >
+        <td
+          class="p-1"
+        >
+          Test
+        </td>
+         
+        <td
+          class="p-1"
+        >
+          1/2/3
+        </td>
+      </router-link-stub>
+      <router-link-stub
+        class="text-center even:bg-blue-lightest hover:bg-blue-light"
+        tag="tr"
+        to="/events/2"
+      >
+        <td
+          class="p-1"
+        >
+          Testing
+        </td>
+         
+        <td
+          class="p-1"
+        >
+          36/22/11
+        </td>
+      </router-link-stub>
+      <router-link-stub
+        class="text-center even:bg-blue-lightest hover:bg-blue-light"
+        tag="tr"
+        to="/events/3"
+      >
+        <td
+          class="p-1"
+        >
+          Event
+        </td>
+         
+        <td
+          class="p-1"
+        >
+          5/6/9
+        </td>
+      </router-link-stub>
+    </table>
+  </div>
+</main>
+`;
+
+exports[`Renders Correctly - No Events 1`] = `
+<main>
+  <h1
+    class="mx-10 mb-1"
+  >
+    <back-arrow-stub
+      to="/"
+    />
+    Events
+  
+  </h1>
+   
+  <div
+    class="mx-12 mb-3"
+  >
+    <router-link-stub
+      class="button"
+      tag="button"
+      to="/events/create"
+    >
+      Create Event
+    </router-link-stub>
+  </div>
+   
+  <!---->
+</main>
+`;

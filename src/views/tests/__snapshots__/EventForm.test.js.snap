@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders Correctly - Create 1`] = `
+<main>
+  <h1
+    class="mx-10 mb-1"
+  >
+    <back-arrow-stub
+      to=""
+    />
+    Update Event
+    
+  </h1>
+   
+  <div
+    class="mx-12 mb-3"
+  >
+    <button
+      class="button"
+    >
+      Update Event
+    </button>
+     
+    <button
+      class="button"
+    >
+      Delete Event
+    </button>
+  </div>
+   
+  <div
+    class="shadow mx-12"
+  >
+    <text-input-stub
+      label="Name:"
+      type=""
+      value=""
+    />
+     
+    <text-input-stub
+      label="Date:"
+      type=""
+      value=""
+    />
+  </div>
+</main>
+`;
+
+exports[`Renders Correctly - Update 1`] = `
+<main>
+  <h1
+    class="mx-10 mb-1"
+  >
+    <back-arrow-stub
+      to=""
+    />
+    Update Event
+    
+  </h1>
+   
+  <div
+    class="mx-12 mb-3"
+  >
+    <button
+      class="button"
+    >
+      Update Event
+    </button>
+     
+    <button
+      class="button"
+    >
+      Delete Event
+    </button>
+  </div>
+   
+  <div
+    class="shadow mx-12"
+  >
+    <text-input-stub
+      label="Name:"
+      type=""
+      value="Test Event"
+    />
+     
+    <text-input-stub
+      label="Date:"
+      type=""
+      value="01/02/2003"
+    />
+  </div>
+</main>
+`;

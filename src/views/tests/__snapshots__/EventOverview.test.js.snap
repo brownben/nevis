@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders Correctly 1`] = `
+<main>
+  <h1
+    class="mx-10 mb-1"
+  >
+    <back-arrow-stub
+      to=""
+    />
+    
+    Test Event
+    on 11/22/33
+  </h1>
+   
+  <div
+    class="mx-12 mb-3"
+  >
+    <router-link-stub
+      class="button"
+      tag="button"
+      to="/events/edit/12"
+    >
+      Edit Event
+    </router-link-stub>
+  </div>
+</main>
+`;

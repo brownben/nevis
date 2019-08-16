@@ -15,5 +15,25 @@ export default new Router({
       name: 'about',
       component: () => import('./views/About.vue'),
     },
+    {
+      path: '/events',
+      name: 'events',
+      component: () => import('./views/Events.vue'),
+    },
+    {
+      path: '/events/create',
+      name: 'create-event',
+      component: () => import('./views/EventForm.vue'),
+    },
+    {
+      path: '/events/edit/:id',
+      name: 'edit-event',
+      component: () => import('./views/EventForm.vue'),
+    },
+    {
+      path: '/events/:id',
+      name: 'event-overview',
+      component: () => import('./views/EventOverview.vue'),
+    },
   ],
 })

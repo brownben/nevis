@@ -442,7 +442,7 @@ module.exports = {
     ],
     'dot-notation': 'error',
     'no-plusplus': 'error',
-    'no-ternary': 'error',
+
     'vue/max-attributes-per-line': 'off',
     'vue/array-bracket-spacing': 'never',
     'vue/arrow-spacing': {
@@ -465,5 +465,13 @@ module.exports = {
       },
     ],
     'vue/singleline-html-element-content-newline': 'off',
+    'vue/html-self-closing': ['error', {
+      'html': {
+        'void': 'always',
+        'normal': 'any',
+        'component': 'always',
+      },
+      'svg': 'always',
+    }],
   },
 }
