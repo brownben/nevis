@@ -1,6 +1,6 @@
 <template>
   <svg
-    class="text-blue fill-current hover:text-blue-accent h-8 -ml-8 p-1"
+    class="text-blue fill-current hover:text-blue-accent h-8 -ml-8 p-1 pt-0"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
     @click="go"

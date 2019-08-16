@@ -3,7 +3,7 @@
 exports[`Renders Correctly 1`] = `
 <div>
   <div
-    class="gradient text-center w-full shadow-md mb-3"
+    class="bg-gradient text-center w-full shadow-md mb-3"
   >
     <img
       alt="Nevis Logo"
@@ -19,9 +19,14 @@ exports[`Renders Correctly 1`] = `
   </div>
    
   <div
-    class="mx-8"
-    id="nav"
+    class="mx-10 mb-3"
   >
+    <button
+      class="button"
+    >
+      Connect
+    </button>
+     
     <router-link-stub
       class="button"
       tag="button"
@@ -29,6 +34,40 @@ exports[`Renders Correctly 1`] = `
     >
       About
     </router-link-stub>
+  </div>
+   
+  <div
+    class="shadow mx-10"
+  >
+    <text-input-stub
+      label="Server:"
+      type=""
+      value="localhost"
+    />
+     
+    <text-input-stub
+      label="Port:"
+      type=""
+      value="3306"
+    />
+     
+    <text-input-stub
+      label="Username:"
+      type=""
+      value="sa"
+    />
+     
+    <text-input-stub
+      label="Password:"
+      type="password"
+      value="orienteer"
+    />
+     
+    <text-input-stub
+      label="Database:"
+      type=""
+      value="nevis"
+    />
   </div>
 </div>
 `;

@@ -14,6 +14,10 @@
   src: url('~@/assets/fonts/Montserrat.woff2') format('woff2');
 }
 
+*{
+  transition: 0.3s ease-out
+}
+
 h1{
   @apply  font-heading text-4xl text-blue;
 }
@@ -32,7 +36,6 @@ h4{
 
 p, a, button, svg {
   @apply font-body outline-none;
-  transition: 0.3s ease-out
 }
 
 button:focus{
@@ -45,47 +48,33 @@ img, svg  {
 
 button, svg, img{
   @apply select-none;
-  -webkit-app-region: no-drag
-}
-
-.title {
-  @apply mx-8 mb-2;
-}
-
-.card {
-  @apply shadow mx-8 mb-4 px-3 pt-2 pb-1;
-}
-
-.card * {
-  @apply pb-1;
 }
 
 .button {
-  @apply bg-blue text-white font-body shadow px-4 py-1 mr-2 select-none text-base;
+  @apply bg-blue text-white font-body shadow px-4 py-1 mr-2 mt-1 select-none text-base;
 }
 
 .button:hover{
   @apply bg-blue-accent;
 }
 
-.gradient {
+.bg-gradient {
   background: linear-gradient(#1976d2, #2196F3);
-  background-color: #1976d2;
-}
-#titlebar{
-  user-select: none;
-  -webkit-app-region: drag;
+  @apply bg-blue;
 }
 
 html, body, #app{
-  height:100%;
-  overflow:hidden;
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .scroll{
   height: calc(100% - 2rem);
-  overflow-y:auto;
-  overflow-x:hidden;
+  width:100%;
+  margin:0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 ::-webkit-scrollbar{

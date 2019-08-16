@@ -45,3 +45,14 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+#titlebar {
+  user-select: none;
+  -webkit-app-region: drag;
+}
+
+button {
+  -webkit-app-region: no-drag;
+}
+</style>
