@@ -1,0 +1,142 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders Correctly - No Courses 1`] = `
+<main>
+  <h1
+    class="mx-10 mb-1"
+  >
+    <back-arrow-stub
+      to="/events/12"
+    />
+    Courses
+  
+  </h1>
+   
+  <div
+    class="mx-12 mb-3"
+  >
+    <router-link-stub
+      class="button"
+      tag="button"
+      to="/events/12/courses/create"
+    >
+      
+      Create Course
+    
+    </router-link-stub>
+     
+    <button
+      class="button"
+    >
+      Refresh
+    </button>
+  </div>
+   
+  <!---->
+</main>
+`;
+
+exports[`Renders Correctly - With Courses 1`] = `
+<main>
+  <h1
+    class="mx-10 mb-1"
+  >
+    <back-arrow-stub
+      to="/events/12"
+    />
+    Courses
+  
+  </h1>
+   
+  <div
+    class="mx-12 mb-3"
+  >
+    <router-link-stub
+      class="button"
+      tag="button"
+      to="/events/12/courses/create"
+    >
+      
+      Create Course
+    
+    </router-link-stub>
+     
+    <button
+      class="button"
+    >
+      Refresh
+    </button>
+  </div>
+   
+  <router-link-stub
+    class="shadow mx-12 mb-3 px-3 py-2"
+    tag="div"
+    to="/events/12/courses/0/edit"
+  >
+    <h2
+      class="pb-1"
+    >
+      Long
+    </h2>
+     
+    <p>
+      <b>
+        Length:
+      </b>
+      
+        0.00235 km
+        
+      <b>
+        Climb:
+      </b>
+      
+        150 m
+      
+    </p>
+     
+    <p>
+      <b>
+        Controls:
+      </b>
+      
+        101,102,103
+      
+    </p>
+  </router-link-stub>
+  <router-link-stub
+    class="shadow mx-12 mb-3 px-3 py-2"
+    tag="div"
+    to="/events/12/courses/77/edit"
+  >
+    <h2
+      class="pb-1"
+    >
+      Short
+    </h2>
+     
+    <p>
+      <b>
+        Length:
+      </b>
+      
+        0.00175 km
+        
+      <b>
+        Climb:
+      </b>
+      
+        15 m
+      
+    </p>
+     
+    <p>
+      <b>
+        Controls:
+      </b>
+      
+        100,108,103
+      
+    </p>
+  </router-link-stub>
+</main>
+`;

@@ -16,8 +16,8 @@
       <button class="button" @click="deleteEvent">Delete Event</button>
     </div>
     <div class="shadow mx-12">
-      <text-input v-model="name" label="Name:" />
-      <text-input v-model="date" label="Date:" />
+      <text-input v-model.trim="eventData.name" label="Name:" />
+      <text-input v-model.trim="eventData.date" label="Date:" />
     </div>
   </main>
 </template>
@@ -34,9 +34,11 @@ export default {
 
   data: function () {
     return {
-      name: '',
-      date: '',
-      id: 0,
+      eventData: {
+        name: '',
+        date: '',
+        id: undefined,
+      },
     }
   },
 
@@ -48,26 +50,26 @@ export default {
   methods: {
     getEventDetails: function () {
       return this.$database.query('SELECT * FROM events WHERE id=? LIMIT 1', this.$route.params.id)
-        .then(result => { this.event = result[0] })
+        .then(result => { this.eventData = result[0] })
         .catch(error => this.$messages.addMessage(error, 'error'))
     },
 
     createEvent: function () {
-      return this.$database.query('INSERT INTO events SET ?', { name: this.name, date: this.date })
-        .then(() => this.$router.push('/events/' + this.id))
+      return this.$database.query('INSERT INTO events SET ?', { name: this.eventData.name, date: this.eventData.date })
+        .then((result) => this.$router.push('/events/' + result.insertId))
         .catch(error => this.$messages.addMessage(error, 'error'))
     },
 
     updateEvent: function () {
-      return this.$database.query('UPDATE events SET name=?, date=? WHERE id=?', [this.name, this.date, this.id])
-        .then(() => this.$router.push('/events/' + this.id))
+      return this.$database.query('UPDATE events SET name=?, date=? WHERE id=?', [this.eventData.name, this.eventData.date, this.eventData.id])
+        .then(() => this.$router.push('/events/' + this.eventData.id))
         .catch(error => this.$messages.addMessage(error, 'error'))
     },
 
     deleteEvent: function () {
-      return this.$database.query('DELETE FROM events WHERE id=?', this.id)
+      return this.$database.query('DELETE FROM events WHERE id=?', this.eventData.id)
         .then(() => {
-          this.$messages.addMessage(`${this.name} - deleted`)
+          this.$messages.addMessage(`Event "${this.eventData.name}" Deleted`)
           this.$router.push('/events')
         })
         .catch(error => this.$messages.addMessage(error, 'error'))

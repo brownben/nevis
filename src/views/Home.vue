@@ -9,11 +9,11 @@
       <router-link tag="button" class="button" to="/about">About</router-link>
     </div>
     <div class="shadow mx-10">
-      <text-input v-model="server" label="Server:" />
-      <text-input v-model="port" label="Port:" />
-      <text-input v-model="username" label="Username:" />
-      <text-input v-model="password" label="Password:" type="password" />
-      <text-input v-model="database" label="Database:" />
+      <text-input v-model.trim="server" label="Server:" />
+      <text-input v-model.trim="port" label="Port:" />
+      <text-input v-model.trim="username" label="Username:" />
+      <text-input v-model.trim="password" label="Password:" type="password" />
+      <text-input v-model.trim="database" label="Database:" />
     </div>
   </div>
 </template>

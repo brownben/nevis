@@ -22,6 +22,12 @@ exports[`Renders Correctly - Events 1`] = `
     >
       Create Event
     </router-link-stub>
+     
+    <button
+      class="button"
+    >
+      Refresh
+    </button>
   </div>
    
   <div
@@ -124,6 +130,12 @@ exports[`Renders Correctly - No Events 1`] = `
     >
       Create Event
     </router-link-stub>
+     
+    <button
+      class="button"
+    >
+      Refresh
+    </button>
   </div>
    
   <!---->
