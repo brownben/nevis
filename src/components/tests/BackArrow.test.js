@@ -16,46 +16,39 @@ test('Renders Correctly', () => {
 })
 
 test('Click - Back to Previous', () => {
-  const mockRouterGo = jest.fn()
   const wrapper = mount(BackArrow, {
     stubs: ['router-link'],
     mocks: {
-      $router: { go: mockRouterGo },
+      $router: { go: jest.fn() },
     },
   })
   wrapper.find('svg').trigger('click')
-  expect(mockRouterGo).toHaveBeenCalledTimes(1)
-  expect(mockRouterGo).toHaveBeenLastCalledWith(-1)
+  expect(wrapper.vm.$router.go).toHaveBeenCalledTimes(1)
+  expect(wrapper.vm.$router.go).toHaveBeenLastCalledWith(-1)
 })
 
 test('Click - Disabled', () => {
-  const mockEmit = jest.fn()
   const wrapper = mount(BackArrow, {
     stubs: ['router-link'],
-    mocks: {
-      $emit: mockEmit,
-    },
     propsData: {
       disable: true,
     },
   })
   wrapper.find('svg').trigger('click')
-  expect(mockEmit).toHaveBeenCalledTimes(1)
-  expect(mockEmit).toHaveBeenLastCalledWith('clicked')
+  expect(wrapper.emitted().clicked).toBeTruthy()
 })
 
 test('Click - To Location', () => {
-  const mockRouterPush = jest.fn()
   const wrapper = mount(BackArrow, {
     stubs: ['router-link'],
     mocks: {
-      $router: { push: mockRouterPush },
+      $router: { push: jest.fn() },
     },
     propsData: {
       to: '/about',
     },
   })
   wrapper.find('svg').trigger('click')
-  expect(mockRouterPush).toHaveBeenCalledTimes(1)
-  expect(mockRouterPush).toHaveBeenLastCalledWith('/about')
+  expect(wrapper.vm.$router.push).toHaveBeenCalledTimes(1)
+  expect(wrapper.vm.$router.push).toHaveBeenLastCalledWith('/about')
 })

@@ -1,8 +1,8 @@
 import { mount, shallowMount } from '@vue/test-utils'
-import Courses from '@/views/Courses'
+import Competitors from '@/views/Competitors'
 
 test('Is a Vue Instance', () => {
-  const wrapper = shallowMount(Courses, {
+  const wrapper = shallowMount(Competitors, {
     stubs: ['router-link'],
     mocks: {
       $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue() },
@@ -14,8 +14,8 @@ test('Is a Vue Instance', () => {
   expect(wrapper.isVueInstance()).toBeTruthy()
 })
 
-test('Renders Correctly - No Courses', () => {
-  const wrapper = shallowMount(Courses, {
+test('Renders Correctly - No Competitors', () => {
+  const wrapper = shallowMount(Competitors, {
     stubs: ['router-link'],
     mocks: {
       $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue() },
@@ -27,8 +27,8 @@ test('Renders Correctly - No Courses', () => {
   expect(wrapper.element).toMatchSnapshot()
 })
 
-test('Renders Correctly - With Courses', () => {
-  const wrapper = shallowMount(Courses, {
+test('Renders Correctly - With Competitors', () => {
+  const wrapper = shallowMount(Competitors, {
     stubs: ['router-link'],
     mocks: {
       $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue() },
@@ -38,16 +38,17 @@ test('Renders Correctly - With Courses', () => {
     },
   })
   wrapper.setData({
-    courses: [
-      { id: 0, name: 'Long', length: 2.35, climb: 150, controls: '101,102,103' },
-      { id: 77, name: 'Short', length: 1.75, climb: 15, controls: '100,108,103' },
+    competitors: [
+      { id: 0, name: 'Bob', course: 1, siid: '154585' },
+      { id: 77, name: 'Shaun', course: 2, siid: '12345' },
     ],
+    courses: { 1: 'Long', 2: 'short' },
   })
   expect(wrapper.element).toMatchSnapshot()
 })
 
 test('Not Connected to the Database', () => {
-  const wrapper = shallowMount(Courses, {
+  const wrapper = shallowMount(Competitors, {
     stubs: ['router-link'],
     mocks: {
       $database: { connection: {}, connected: false, query: jest.fn().mockResolvedValue() },
@@ -60,8 +61,8 @@ test('Not Connected to the Database', () => {
   expect(wrapper.vm.$router.push).toHaveBeenLastCalledWith('/')
 })
 
-test('Get Courses - Success', async () => {
-  const wrapper = mount(Courses, {
+test('Get Competitors - Success', async () => {
+  const wrapper = mount(Competitors, {
     stubs: ['router-link'],
     mocks: {
       $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue(['hello']) },
@@ -70,12 +71,48 @@ test('Get Courses - Success', async () => {
       $messages: { addMessage: jest.fn() },
     },
   })
+  await wrapper.vm.getCompetitors()
+  expect(wrapper.vm.competitors).toEqual(['hello'])
+})
+
+test('Get Competitors - Error', async () => {
+  const wrapper = mount(Competitors, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
+      $route: { params: { id: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn() },
+    },
+  })
+  await wrapper.vm.getCompetitors()
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('error', 'error')
+  expect(wrapper.vm.competitors.length).toBe(0)
+})
+
+test('Get Courses - Success', async () => {
+  const wrapper = mount(Competitors, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockResolvedValue([
+          { id: 0, name: 'Long', length: 2.35, climb: 150, controls: '101,102,103' },
+          { id: 77, name: 'Short', length: 1.75, climb: 15, controls: '100,108,103' },
+        ]),
+      },
+      $route: { params: { id: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn() },
+    },
+  })
   await wrapper.vm.getCourses()
-  expect(wrapper.vm.courses).toEqual(['hello'])
+  expect(wrapper.vm.courses).toEqual({ 0: 'Long', 77: 'Short' })
 })
 
 test('Get Courses - Error', async () => {
-  const wrapper = mount(Courses, {
+  const wrapper = mount(Competitors, {
     stubs: ['router-link'],
     mocks: {
       $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
@@ -86,5 +123,5 @@ test('Get Courses - Error', async () => {
   })
   await wrapper.vm.getCourses()
   expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('error', 'error')
-  expect(wrapper.vm.courses.length).toBe(0)
+  expect(wrapper.vm.courses).toEqual({})
 })

@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Renders Correctly - Events 1`] = `
+exports[`Renders Correctly - No Competitors 1`] = `
 <main>
   <h1
     class="mx-10 mb-1"
   >
     <back-arrow-stub
-      to="/"
+      to="/events/12"
     />
-    Events
+    Entries
   
   </h1>
    
@@ -18,9 +18,47 @@ exports[`Renders Correctly - Events 1`] = `
     <router-link-stub
       class="button"
       tag="button"
-      to="/events/create"
+      to="/events/12/competitors/create"
     >
-      Create Event
+      
+      Create Entry
+    
+    </router-link-stub>
+     
+    <button
+      class="button"
+    >
+      Refresh
+    </button>
+  </div>
+   
+  <!---->
+</main>
+`;
+
+exports[`Renders Correctly - With Competitors 1`] = `
+<main>
+  <h1
+    class="mx-10 mb-1"
+  >
+    <back-arrow-stub
+      to="/events/12"
+    />
+    Entries
+  
+  </h1>
+   
+  <div
+    class="mx-12 mb-3"
+  >
+    <router-link-stub
+      class="button"
+      tag="button"
+      to="/events/12/competitors/create"
+    >
+      
+      Create Entry
+    
     </router-link-stub>
      
     <button
@@ -40,88 +78,53 @@ exports[`Renders Correctly - Events 1`] = `
         class="font-heading text-center hover:bg-blue-light"
       >
         <th>
-          Event Name
+          Name
         </th>
          
         <th>
-          Event Date
+          SI Card
+        </th>
+         
+        <th>
+          Course
         </th>
       </tr>
        
       <router-link-stub
         class="text-center even:bg-blue-lightest hover:bg-blue-light"
         tag="tr"
-        to="/events/1"
+        to="/events/12/competitors/0/edit"
       >
         <td>
-          Test
+          Bob
         </td>
          
         <td>
-          1/2/3
+          154585
+        </td>
+         
+        <td>
+          Long
         </td>
       </router-link-stub>
       <router-link-stub
         class="text-center even:bg-blue-lightest hover:bg-blue-light"
         tag="tr"
-        to="/events/2"
+        to="/events/12/competitors/77/edit"
       >
         <td>
-          Testing
+          Shaun
         </td>
          
         <td>
-          36/22/11
-        </td>
-      </router-link-stub>
-      <router-link-stub
-        class="text-center even:bg-blue-lightest hover:bg-blue-light"
-        tag="tr"
-        to="/events/3"
-      >
-        <td>
-          Event
+          12345
         </td>
          
         <td>
-          5/6/9
+          short
         </td>
       </router-link-stub>
     </table>
   </div>
-</main>
-`;
-
-exports[`Renders Correctly - No Events 1`] = `
-<main>
-  <h1
-    class="mx-10 mb-1"
-  >
-    <back-arrow-stub
-      to="/"
-    />
-    Events
-  
-  </h1>
-   
-  <div
-    class="mx-12 mb-3"
-  >
-    <router-link-stub
-      class="button"
-      tag="button"
-      to="/events/create"
-    >
-      Create Event
-    </router-link-stub>
-     
-    <button
-      class="button"
-    >
-      Refresh
-    </button>
-  </div>
-   
-  <!---->
 </main>
 `;

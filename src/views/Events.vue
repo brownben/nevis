@@ -10,8 +10,8 @@
     <div v-if="events && events.length > 0" class="shadow mx-12 mb-3 p-2">
       <table class="w-full font-body">
         <tr class="font-heading text-center hover:bg-blue-light">
-          <th class="p-1">Event Name</th>
-          <th class="p-1">Event Date</th>
+          <th>Event Name</th>
+          <th>Event Date</th>
         </tr>
         <router-link
           v-for="event of events"
@@ -20,8 +20,8 @@
           class="text-center even:bg-blue-lightest hover:bg-blue-light"
           tag="tr"
         >
-          <td class="p-1">{{ event.name }}</td>
-          <td class="p-1">{{ event.date }}</td>
+          <td>{{ event.name }}</td>
+          <td>{{ event.date }}</td>
         </router-link>
       </table>
     </div>

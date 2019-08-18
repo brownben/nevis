@@ -34,35 +34,33 @@ test('Close', () => {
 })
 
 test('Minimise/ Maximise', () => {
-  const mockSend = jest.fn()
   const wrapper = shallowMount(TitleBar, {
     stubs: ['router-link'],
     mocks: {
       $electron: {
         ipcRenderer: {
           on: jest.fn(),
-          send: mockSend,
+          send: jest.fn(),
         },
       },
     },
   })
   wrapper.vm.minimize()
-  expect(mockSend).toHaveBeenCalledTimes(1)
-  expect(mockSend).toHaveBeenLastCalledWith('window', 'minimize')
+  expect(wrapper.vm.$electron.ipcRenderer.send).toHaveBeenCalledTimes(1)
+  expect(wrapper.vm.$electron.ipcRenderer.send).toHaveBeenLastCalledWith('window', 'minimize')
   wrapper.vm.maximize()
-  expect(mockSend).toHaveBeenCalledTimes(2)
-  expect(mockSend).toHaveBeenLastCalledWith('window', 'maximize')
+  expect(wrapper.vm.$electron.ipcRenderer.send).toHaveBeenCalledTimes(2)
+  expect(wrapper.vm.$electron.ipcRenderer.send).toHaveBeenLastCalledWith('window', 'maximize')
 })
 
 test('Set Maximized', () => {
-  const mockSend = jest.fn()
   const wrapper = shallowMount(TitleBar, {
     stubs: ['router-link'],
     mocks: {
       $electron: {
         ipcRenderer: {
           on: jest.fn(),
-          send: mockSend,
+          send: jest.fn(),
         },
       },
     },

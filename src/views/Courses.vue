@@ -32,6 +32,10 @@
           <b>Controls:</b>
           {{ course.controls }}
         </p>
+        <p>
+          <b>Number of Entries:</b>
+          {{ course.numberOfCompetitors }}
+        </p>
       </router-link>
     </template>
   </main>
@@ -58,7 +62,13 @@ export default {
 
   methods: {
     getCourses: function () {
-      return this.$database.query('SELECT * FROM courses WHERE event=?', this.$route.params.id)
+      return this.$database.query(`
+      SELECT courses.*, IFNULL(COUNT(competitors.course),0) AS numberOfCompetitors
+      FROM courses
+      LEFT JOIN competitors ON courses.id=competitors.course
+      WHERE courses.event=?
+      GROUP BY courses.id
+      ORDER BY courses.name`, this.$route.params.id)
         .then(result => { this.courses = result })
         .catch(error => this.$messages.addMessage(error, 'error'))
     },

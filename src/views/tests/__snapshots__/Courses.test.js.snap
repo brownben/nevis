@@ -102,6 +102,15 @@ exports[`Renders Correctly - With Courses 1`] = `
         101,102,103
       
     </p>
+     
+    <p>
+      <b>
+        Number of Entries:
+      </b>
+      
+        
+      
+    </p>
   </router-link-stub>
   <router-link-stub
     class="shadow mx-12 mb-3 px-3 py-2"
@@ -135,6 +144,15 @@ exports[`Renders Correctly - With Courses 1`] = `
       </b>
       
         100,108,103
+      
+    </p>
+     
+    <p>
+      <b>
+        Number of Entries:
+      </b>
+      
+        
       
     </p>
   </router-link-stub>

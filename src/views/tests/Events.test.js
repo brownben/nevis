@@ -42,18 +42,17 @@ test('Renders Correctly - Events', () => {
 })
 
 test('Not Connected to the Database', () => {
-  const mockRouterPush = jest.fn()
-  shallowMount(Events, {
+  const wrapper = shallowMount(Events, {
     stubs: ['router-link'],
     mocks: {
       $database: { connection: {}, connected: false, query: jest.fn().mockResolvedValue() },
       $route: { params: { id: 12 }, path: '' },
-      $router: { push: mockRouterPush },
+      $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
     },
   })
-  expect(mockRouterPush).toHaveBeenCalledTimes(1)
-  expect(mockRouterPush).toHaveBeenLastCalledWith('/')
+  expect(wrapper.vm.$router.push).toHaveBeenCalledTimes(1)
+  expect(wrapper.vm.$router.push).toHaveBeenLastCalledWith('/')
 })
 
 test('Get Events - Success', async () => {
@@ -71,17 +70,16 @@ test('Get Events - Success', async () => {
 })
 
 test('Get Events - Error', async () => {
-  const mockAddMessage = jest.fn()
   const wrapper = mount(Events, {
     stubs: ['router-link'],
     mocks: {
       $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: mockAddMessage },
+      $messages: { addMessage: jest.fn() },
     },
   })
   await wrapper.vm.getEvents()
-  expect(mockAddMessage).toHaveBeenLastCalledWith('error', 'error')
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('error', 'error')
   expect(wrapper.vm.events.length).toBe(0)
 })
