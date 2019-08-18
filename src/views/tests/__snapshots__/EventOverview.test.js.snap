@@ -26,17 +26,43 @@ exports[`Renders Correctly 1`] = `
   </div>
    
   <div
-    class="mx-12 flex"
+    class="mx-12 flex flex-wrap"
   >
-    <router-link-stub
-      class="shadow w-full md:w-6/12 text-center p-2 md:mr-4"
-      tag="div"
-      to="/events/12/courses"
+    <div
+      class="w-full md:w-1/2 text-center mb-3"
     >
-      <h2>
-        Courses
-      </h2>
-    </router-link-stub>
+      <router-link-stub
+        class="shadow p-2 md:mr-3"
+        tag="div"
+        to="/events/12/competitors"
+      >
+        <h2>
+          Entries
+        </h2>
+         
+        <p>
+           Entries
+        </p>
+      </router-link-stub>
+    </div>
+     
+    <div
+      class="w-full md:w-1/2 text-center mb-3"
+    >
+      <router-link-stub
+        class="shadow p-2"
+        tag="div"
+        to="/events/12/courses"
+      >
+        <h2>
+          Courses
+        </h2>
+         
+        <p>
+           Courses
+        </p>
+      </router-link-stub>
+    </div>
   </div>
 </main>
 `;

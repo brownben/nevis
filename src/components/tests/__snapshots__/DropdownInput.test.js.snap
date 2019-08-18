@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders Correctly 1`] = `
+<div
+  includeblank="true"
+>
+  <div
+    class="flex w-full px-2 py-2 border-solid border-b border-blue-point4 last:border-b-0"
+    id="visible"
+  >
+    <label
+      class="font-body text-blue flex-none px-2 select-none"
+    >
+      
+    </label>
+     
+    <p
+      class="font-body outline-none flex-1 appearance-none"
+    >
+      
+    </p>
+     
+    <svg
+      class="relative right-0 fill-current text-blue"
+      fill="#9E9E9E"
+      height="24"
+      viewBox="0 0 24 24"
+      width="24"
+    >
+      <path
+        d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z"
+      />
+       
+      <path
+        d="M0-.75h24v24H0z"
+        fill="none"
+      />
+    </svg>
+  </div>
+   
+  <div
+    class="block select-none"
+    id="dropdown"
+    name="open"
+    style="display: none;"
+  >
+    <p
+      class="block text-body p-2 hover:bg-blue-point4 select-none"
+    >
+      
+        Item 1
+      
+    </p>
+    <p
+      class="block text-body p-2 hover:bg-blue-point4 select-none"
+    >
+      
+        Item 2
+      
+    </p>
+    <p
+      class="block text-body p-2 hover:bg-blue-point4 select-none"
+    >
+      
+        Item 3
+      
+    </p>
+  </div>
+</div>
+`;

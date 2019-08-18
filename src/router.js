@@ -31,6 +31,21 @@ export default new Router({
       component: () => import('./views/EventForm.vue'),
     },
     {
+      path: '/events/:id/competitors',
+      name: 'competitors',
+      component: () => import('./views/Competitors.vue'),
+    },
+    {
+      path: '/events/:eventId/competitors/create',
+      name: 'create-competitor',
+      component: () => import('./views/CompetitorForm.vue'),
+    },
+    {
+      path: '/events/:eventId/competitors/:competitorId/edit',
+      name: 'edit-competitor',
+      component: () => import('./views/CompetitorForm.vue'),
+    },
+    {
       path: '/events/:id/courses',
       name: 'courses',
       component: () => import('./views/Courses.vue'),

@@ -1,0 +1,141 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders Correctly - Create 1`] = `
+<main>
+  <h1
+    class="mx-10 mb-1"
+  >
+    <back-arrow-stub
+      to=""
+    />
+    Update Entry
+    
+  </h1>
+   
+  <div
+    class="mx-12 mb-3"
+  >
+    <button
+      class="button"
+    >
+      Update Entry
+    </button>
+     
+    <button
+      class="button"
+    >
+      Delete Entry
+    </button>
+  </div>
+   
+  <form
+    class="shadow mx-12"
+  >
+    <text-input-stub
+      label="Name:"
+      type=""
+      value=""
+    />
+     
+    <text-input-stub
+      label="SI Card: "
+      type=""
+      value=""
+    />
+     
+    <text-input-stub
+      label="Membership Number:"
+      type=""
+      value=""
+    />
+     
+    <text-input-stub
+      label="Age Class:"
+      type=""
+      value=""
+    />
+     
+    <text-input-stub
+      label="Club:"
+      type=""
+      value=""
+    />
+     
+    <dropdown-input-stub
+      label="Course:"
+      list=""
+      value=""
+    />
+  </form>
+</main>
+`;
+
+exports[`Renders Correctly - Update 1`] = `
+<main>
+  <h1
+    class="mx-10 mb-1"
+  >
+    <back-arrow-stub
+      to=""
+    />
+    Update Entry
+    
+  </h1>
+   
+  <div
+    class="mx-12 mb-3"
+  >
+    <button
+      class="button"
+    >
+      Update Entry
+    </button>
+     
+    <button
+      class="button"
+    >
+      Delete Entry
+    </button>
+  </div>
+   
+  <form
+    class="shadow mx-12"
+  >
+    <text-input-stub
+      label="Name:"
+      type=""
+      value="Bob"
+    />
+     
+    <text-input-stub
+      label="SI Card: "
+      type=""
+      value="12345"
+    />
+     
+    <text-input-stub
+      label="Membership Number:"
+      type=""
+      value=""
+    />
+     
+    <text-input-stub
+      label="Age Class:"
+      type=""
+      value="M16"
+    />
+     
+    <text-input-stub
+      label="Club:"
+      type=""
+      value="HAT"
+    />
+     
+    <dropdown-input-stub
+      label="Course:"
+      list=""
+      value="Long"
+    />
+  </form>
+</main>
+`;

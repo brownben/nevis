@@ -16,48 +16,37 @@ test('Renders Correctly', () => {
 })
 
 test('Connect to Database - Success', async () => {
-  const mockCreateConnection = jest.fn()
-  const mockConnect = jest.fn()
-  const mockAddMessage = jest.fn()
-  const mockRouterPush = jest.fn()
-  mockConnect.mockResolvedValue()
-
   const wrapper = mount(Home, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connect: mockConnect, connected: false },
-      $mysql: { createConnection: mockCreateConnection },
-      $messages: { addMessage: mockAddMessage },
-      $router: { push: mockRouterPush },
+      $database: { connection: {}, connect: jest.fn().mockResolvedValue(), connected: false },
+      $mysql: { createConnection: jest.fn() },
+      $messages: { addMessage: jest.fn() },
+      $router: { push: jest.fn() },
     },
   })
   await wrapper.vm.connect()
-  expect(mockCreateConnection).toHaveBeenCalledTimes(1)
-  expect(mockConnect).toHaveBeenCalledTimes(1)
-  expect(mockAddMessage).toHaveBeenCalledTimes(0)
+  expect(wrapper.vm.$mysql.createConnection).toHaveBeenCalledTimes(1)
+  expect(wrapper.vm.$database.connect).toHaveBeenCalledTimes(1)
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenCalledTimes(0)
   expect(wrapper.vm.$database.connected).toBeTruthy()
-  expect(mockRouterPush).toHaveBeenCalledTimes(1)
-  expect(mockRouterPush).toHaveBeenLastCalledWith('/events')
+  expect(wrapper.vm.$router.push).toHaveBeenCalledTimes(1)
+  expect(wrapper.vm.$router.push).toHaveBeenLastCalledWith('/events')
 })
 
 test('Connect to Database - Error', async () => {
-  const mockCreateConnection = jest.fn()
-  const mockConnect = jest.fn()
-  const mockAddMessage = jest.fn()
-  mockConnect.mockRejectedValue('Error')
-
   const wrapper = mount(Home, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connect: mockConnect, connected: false },
-      $mysql: { createConnection: mockCreateConnection },
-      $messages: { addMessage: mockAddMessage },
+      $database: { connection: {}, connect: jest.fn().mockRejectedValue('Error'), connected: false },
+      $mysql: { createConnection: jest.fn() },
+      $messages: { addMessage: jest.fn() },
     },
   })
   await wrapper.vm.connect()
-  expect(mockCreateConnection).toHaveBeenCalledTimes(1)
-  expect(mockConnect).toHaveBeenCalledTimes(1)
-  expect(mockAddMessage).toHaveBeenCalledTimes(1)
-  expect(mockAddMessage).toHaveBeenLastCalledWith('Error', 'error')
+  expect(wrapper.vm.$mysql.createConnection).toHaveBeenCalledTimes(1)
+  expect(wrapper.vm.$database.connect).toHaveBeenCalledTimes(1)
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenCalledTimes(1)
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Error', 'error')
   expect(wrapper.vm.$database.connected).toBeFalsy()
 })

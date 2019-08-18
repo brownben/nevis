@@ -50,6 +50,10 @@ button, svg, img{
   @apply select-none;
 }
 
+th,td {
+  @apply p-1;
+}
+
 .button {
   @apply bg-blue text-white font-body shadow px-4 py-1 mr-2 mt-1 select-none text-base;
 }
@@ -61,6 +65,11 @@ button, svg, img{
 .bg-gradient {
   background: linear-gradient(#1976d2, #2196F3);
   @apply bg-blue;
+}
+
+.active {
+  @apply  text-blue;
+  transition:none;
 }
 
 html, body, #app{
