@@ -12,7 +12,7 @@ export default {
       text: value,
     })
 
-    if (type === 'info') setTimeout((id) => { this.removeMessage(id) }, 20000, id)
+    if (type === 'info') setTimeout((id) => { this.removeMessage(id) }, 30000, id)
   },
 
   clearMessages: function () {

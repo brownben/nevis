@@ -53,3 +53,22 @@ test('Minimise/ Maximise', () => {
   expect(mockSend).toHaveBeenCalledTimes(2)
   expect(mockSend).toHaveBeenLastCalledWith('window', 'maximize')
 })
+
+test('Set Maximized', () => {
+  const mockSend = jest.fn()
+  const wrapper = shallowMount(TitleBar, {
+    stubs: ['router-link'],
+    mocks: {
+      $electron: {
+        ipcRenderer: {
+          on: jest.fn(),
+          send: mockSend,
+        },
+      },
+    },
+  })
+  wrapper.vm.setMaximized('', 'maximized')
+  expect(wrapper.vm.maximized).toBeTruthy()
+  wrapper.vm.setMaximized('', 'minimise')
+  expect(wrapper.vm.maximized).toBeFalsy()
+})

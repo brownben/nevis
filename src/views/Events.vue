@@ -5,6 +5,7 @@
     </h1>
     <div class="mx-12 mb-3">
       <router-link tag="button" class="button" to="/events/create">Create Event</router-link>
+      <button class="button" @click="getEvents">Refresh</button>
     </div>
     <div v-if="events && events.length > 0" class="shadow mx-12 mb-3 p-2">
       <table class="w-full font-body">
@@ -51,7 +52,7 @@ export default {
 
   methods: {
     getEvents: function () {
-      return this.$database.query('SELECT * FROM events')
+      return this.$database.query('SELECT * FROM events ORDER BY date DESC')
         .then(result => { this.events = result })
         .catch(error => this.$messages.addMessage(error, 'error'))
     },

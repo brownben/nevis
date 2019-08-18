@@ -9,10 +9,11 @@ const electron = window.require('electron')
 const mysql = window.require('mysql')
 
 Vue.config.productionTip = false
+
 Vue.prototype.$electron = electron
 Vue.prototype.$mysql = mysql
-Vue.prototype.$messages = messageStore
 Vue.prototype.$database = database
+Vue.prototype.$messages = messageStore
 
 new Vue({
   router,

@@ -473,5 +473,7 @@ module.exports = {
       },
       'svg': 'always',
     }],
+    'vue/require-prop-types': 'off',
+    'vue/require-default-type': 'off',
   },
 }

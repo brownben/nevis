@@ -31,6 +31,21 @@ export default new Router({
       component: () => import('./views/EventForm.vue'),
     },
     {
+      path: '/events/:id/courses',
+      name: 'courses',
+      component: () => import('./views/Courses.vue'),
+    },
+    {
+      path: '/events/:eventId/courses/create',
+      name: 'create-course',
+      component: () => import('./views/CourseForm.vue'),
+    },
+    {
+      path: '/events/:eventId/courses/:courseId/edit',
+      name: 'edit-course',
+      component: () => import('./views/CourseForm.vue'),
+    },
+    {
       path: '/events/:id',
       name: 'event-overview',
       component: () => import('./views/EventOverview.vue'),

@@ -7,7 +7,7 @@ function createWindow () {
   let options = {
     width: 775,
     height: 650,
-    minWidth: 220,
+    minWidth: 300,
     minHeight: 90,
     frame: false,
     icon: './public/Nevis Logo.png',

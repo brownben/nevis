@@ -8,7 +8,7 @@ exports[`Renders Correctly - Create 1`] = `
     <back-arrow-stub
       to=""
     />
-    Update Event
+    Update Course
     
   </h1>
    
@@ -18,17 +18,17 @@ exports[`Renders Correctly - Create 1`] = `
     <button
       class="button"
     >
-      Update Event
+      Update Course
     </button>
      
     <button
       class="button"
     >
-      Delete Event
+      Delete Course
     </button>
   </div>
    
-  <div
+  <form
     class="shadow mx-12"
   >
     <text-input-stub
@@ -38,11 +38,23 @@ exports[`Renders Correctly - Create 1`] = `
     />
      
     <text-input-stub
-      label="Date:"
+      label="Length (km): "
+      type=""
+      value="0"
+    />
+     
+    <text-input-stub
+      label="Climb (m):"
+      type=""
+      value="0"
+    />
+     
+    <text-input-stub
+      label="Controls:"
       type=""
       value=""
     />
-  </div>
+  </form>
 </main>
 `;
 
@@ -54,7 +66,7 @@ exports[`Renders Correctly - Update 1`] = `
     <back-arrow-stub
       to=""
     />
-    Update Event
+    Update Course
     
   </h1>
    
@@ -64,30 +76,42 @@ exports[`Renders Correctly - Update 1`] = `
     <button
       class="button"
     >
-      Update Event
+      Update Course
     </button>
      
     <button
       class="button"
     >
-      Delete Event
+      Delete Course
     </button>
   </div>
    
-  <div
+  <form
     class="shadow mx-12"
   >
     <text-input-stub
       label="Name:"
       type=""
-      value=""
+      value="Test"
     />
      
     <text-input-stub
-      label="Date:"
+      label="Length (km): "
+      type=""
+      value="1000"
+    />
+     
+    <text-input-stub
+      label="Climb (m):"
+      type=""
+      value="2"
+    />
+     
+    <text-input-stub
+      label="Controls:"
       type=""
       value=""
     />
-  </div>
+  </form>
 </main>
 `;

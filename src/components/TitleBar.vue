@@ -35,13 +35,14 @@ export default {
   }),
 
   mounted: function () {
-    this.$electron.ipcRenderer.on('window', (event, data) => { this.maximized = data === 'maximized' })
+    this.$electron.ipcRenderer.on('window', this.setMaximized)
   },
 
   methods: {
     close: () => window.close(),
     maximize: function () { this.$electron.ipcRenderer.send('window', 'maximize') },
     minimize: function () { this.$electron.ipcRenderer.send('window', 'minimize') },
+    setMaximized: function (event, data) { this.maximized = data === 'maximized' },
   },
 }
 </script>

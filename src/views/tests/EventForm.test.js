@@ -31,13 +31,12 @@ test('Renders Correctly - Update', () => {
   const wrapper = shallowMount(EventForm, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
+      $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue([{ name: 'Test', id: 12, date: '' }]) },
       $route: { params: { id: 12 }, path: '/events/edit/12' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
     },
   })
-  wrapper.setData({ id: 12, name: 'Test Event', date: '01/02/2003' })
   expect(wrapper.element).toMatchSnapshot()
 })
 
@@ -60,17 +59,17 @@ test('Get Event Details - Success', async () => {
   const wrapper = mount(EventForm, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue(['hello']) },
+      $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue([{ id: 0, name: 'Test', date: '1/2/3' }]) },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
     },
   })
   await wrapper.vm.getEventDetails()
-  expect(wrapper.vm.event).toBe('hello')
+  expect(wrapper.vm.eventData).toEqual({ id: 0, name: 'Test', date: '1/2/3' })
 })
 
-test('Get Event Details - Error', async () => {
+test('Get Courses - Error', async () => {
   const mockAddMessage = jest.fn()
   const wrapper = mount(EventForm, {
     stubs: ['router-link'],
@@ -83,23 +82,22 @@ test('Get Event Details - Error', async () => {
   })
   await wrapper.vm.getEventDetails()
   expect(mockAddMessage).toHaveBeenLastCalledWith('error', 'error')
-  expect(wrapper.vm.name).toBe('')
-  expect(wrapper.vm.id).toBe(0)
+  expect(wrapper.vm.eventData.name).toBe('')
 })
 
-test('Update Event - Success', async () => {
+test('Create Event - Success', async () => {
   const mockRouterPush = jest.fn()
   const wrapper = mount(EventForm, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue(['hello']) },
-      $route: { params: { id: 12 }, path: '' },
+      $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue({ insertId: 12 }) },
+      $route: { path: '' },
       $router: { push: mockRouterPush },
       $messages: { addMessage: jest.fn() },
     },
   })
-  wrapper.setData({ name: 'Test', id: 12, date: '' })
-  await wrapper.vm.updateEvent()
+  wrapper.setData({ eventData: { name: 'Test', date: '' } })
+  await wrapper.vm.createEvent()
   expect(mockRouterPush).toHaveBeenLastCalledWith('/events/12')
 })
 
@@ -109,7 +107,7 @@ test('Create Event - Error', async () => {
     stubs: ['router-link'],
     mocks: {
       $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
-      $route: { params: { id: 12 }, path: '' },
+      $route: { path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: mockAddMessage },
     },
@@ -123,13 +121,12 @@ test('Update Event - Success', async () => {
   const wrapper = mount(EventForm, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue(['hello']) },
+      $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue([{ name: 'Test', id: 12, date: '' }]) },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: mockRouterPush },
       $messages: { addMessage: jest.fn() },
     },
   })
-  wrapper.setData({ name: 'Test', id: 12, date: '' })
   await wrapper.vm.updateEvent()
   expect(mockRouterPush).toHaveBeenLastCalledWith('/events/12')
 })
@@ -155,18 +152,17 @@ test('Delete Event - Success', async () => {
   const wrapper = mount(EventForm, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue('error') },
+      $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue([{ name: 'Test', id: 12, date: '' }]) },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: mockRouterPush },
       $messages: { addMessage: mockAddMessage },
     },
   })
-  wrapper.setData({ name: 'Test', id: 12, date: '' })
   await wrapper.vm.deleteEvent()
   expect(mockRouterPush).toHaveBeenCalledTimes(1)
   expect(mockRouterPush).toHaveBeenLastCalledWith('/events')
   expect(mockAddMessage).toHaveBeenCalledTimes(1)
-  expect(mockAddMessage).toHaveBeenLastCalledWith('Test - deleted')
+  expect(mockAddMessage).toHaveBeenLastCalledWith('Event "Test" Deleted')
 })
 
 test('Delete Event - Error', async () => {

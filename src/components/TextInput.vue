@@ -1,6 +1,6 @@
 <template>
   <div class="flex w-full px-2 py-2 border-solid border-b border-blue-point4 last:border-b-0">
-    <label :for="label" class="font-body text-blue flex-none px-2">{{ label }}</label>
+    <label :for="label" class="font-body text-blue flex-none px-2 select-none">{{ label }}</label>
     <input
       :name="label"
       :value="value"
@@ -17,7 +17,6 @@ export default {
 
   props: {
     value: {
-      type: String,
       default: '',
     },
     label: {

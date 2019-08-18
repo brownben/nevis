@@ -6,7 +6,7 @@ exports[`Renders Correctly 1`] = `
     class="mx-10 mb-1"
   >
     <back-arrow-stub
-      to=""
+      to="/events"
     />
     
     Test Event
@@ -22,6 +22,20 @@ exports[`Renders Correctly 1`] = `
       to="/events/edit/12"
     >
       Edit Event
+    </router-link-stub>
+  </div>
+   
+  <div
+    class="mx-12 flex"
+  >
+    <router-link-stub
+      class="shadow w-full md:w-6/12 text-center p-2 md:mr-4"
+      tag="div"
+      to="/events/12/courses"
+    >
+      <h2>
+        Courses
+      </h2>
     </router-link-stub>
   </div>
 </main>
