@@ -5,7 +5,7 @@ test('Is a Vue Instance', () => {
   const wrapper = shallowMount(CompetitorForm, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { eventId: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
@@ -18,7 +18,7 @@ test('Renders Correctly - Create', () => {
   const wrapper = shallowMount(CompetitorForm, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { eventId: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
@@ -126,7 +126,7 @@ test('Get Competitor Details - Error', async () => {
   const wrapper = shallowMount(CompetitorForm, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { eventId: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
@@ -134,7 +134,7 @@ test('Get Competitor Details - Error', async () => {
   })
   wrapper.setMethods({ getCourseNameFromId: jest.fn(), getCourseIdFromName: jest.fn() })
   await wrapper.vm.getCompetitorDetails()
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('error', 'error')
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Fetching Entry Data', 'error')
   expect(wrapper.vm.competitor.name).toBe('')
 })
 
@@ -158,7 +158,7 @@ test('Create Competitor - Error', async () => {
   const wrapper = shallowMount(CompetitorForm, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { eventId: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
@@ -166,7 +166,7 @@ test('Create Competitor - Error', async () => {
   })
   wrapper.setMethods({ getCourseNameFromId: jest.fn(), getCourseIdFromName: jest.fn() })
   await wrapper.vm.createCompetitor()
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('error', 'error')
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Creating Entry', 'error')
 })
 
 test('Update Competitor - Success', async () => {
@@ -188,7 +188,7 @@ test('Update Competitor - Error', async () => {
   const wrapper = shallowMount(CompetitorForm, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { eventId: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
@@ -196,7 +196,7 @@ test('Update Competitor - Error', async () => {
   })
   wrapper.setMethods({ getCourseNameFromId: jest.fn(), getCourseIdFromName: jest.fn() })
   await wrapper.vm.updateCompetitor()
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('error', 'error')
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Updating Entry', 'error')
 })
 
 test('Delete Competitor - Success', async () => {
@@ -222,7 +222,7 @@ test('Delete Competitor - Error', async () => {
   const wrapper = shallowMount(CompetitorForm, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { eventId: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
@@ -230,7 +230,7 @@ test('Delete Competitor - Error', async () => {
   })
   wrapper.setMethods({ getCourseNameFromId: jest.fn(), getCourseIdFromName: jest.fn() })
   await wrapper.vm.deleteCompetitor()
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('error', 'error')
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Deleting Entry', 'error')
 })
 
 test('Submit', async () => {
@@ -304,11 +304,14 @@ test('Get Course Name From Id', async () => {
     },
   })
   wrapper.setMethods({ getCourses: jest.fn() })
-  wrapper.setData({ courses: [{ id: 0, name: 'A' }, { id: 1, name: 'B' }, { id: 4, name: 'C' }] })
-  expect(wrapper.vm.courses).toEqual([{ id: 0, name: 'A' }, { id: 1, name: 'B' }, { id: 4, name: 'C' }])
+  wrapper.setData({ competitor: { course: 7 }, courses: [{ id: 0, name: 'A' }, { id: 1, name: 'B' }, { id: 4, name: 'C' }] })
   expect(await wrapper.vm.getCourseNameFromId(0)).toBe('A')
   expect(await wrapper.vm.getCourseNameFromId(4)).toBe('C')
   expect(wrapper.vm.getCourses).toHaveBeenCalledTimes(2)
+  wrapper.setData({ competitor: { course: null } })
+  expect(await wrapper.vm.getCourseNameFromId(0)).toBe('')
+  expect(await wrapper.vm.getCourseNameFromId(4)).toBe('')
+  expect(wrapper.vm.getCourses).toHaveBeenCalledTimes(4)
 })
 
 test('Check Duplicate SIID', async () => {
@@ -321,11 +324,33 @@ test('Check Duplicate SIID', async () => {
       $messages: { addMessage: jest.fn() },
     },
   })
+  wrapper.setData({ competitor: { id: 2 } })
   expect(await wrapper.vm.checkForDuplicateSIID()).toBeFalsy()
-  wrapper.vm.$database.query.mockResolvedValue([{ downloaded: true }, { downloaded: true }, { downloaded: true }])
+  wrapper.vm.$database.query.mockResolvedValue([{ downloaded: true, id: 1 }, { downloaded: true, id: 1 }, { downloaded: true, id: 1 }])
   expect(await wrapper.vm.checkForDuplicateSIID()).toBeFalsy()
-  wrapper.vm.$database.query.mockResolvedValue([{ downloaded: true }, { downloaded: false }, { downloaded: true }])
+  wrapper.vm.$database.query.mockResolvedValue([{ downloaded: true, id: 1 }, { downloaded: false, id: 1 }, { downloaded: true, id: 1 }])
   expect(await wrapper.vm.checkForDuplicateSIID()).toBeTruthy()
-  wrapper.vm.$database.query.mockResolvedValue([{ downloaded: false }])
+  wrapper.vm.$database.query.mockResolvedValue([{ downloaded: false, id: 1 }])
   expect(await wrapper.vm.checkForDuplicateSIID()).toBeTruthy()
+  wrapper.vm.$database.query.mockResolvedValue([{ downloaded: false, id: 2 }])
+  expect(await wrapper.vm.checkForDuplicateSIID()).toBeFalsy()
+  wrapper.vm.$database.query.mockResolvedValue([{ downloaded: true, id: 1 }, { downloaded: false, id: 2 }, { downloaded: true, id: 1 }])
+  expect(await wrapper.vm.checkForDuplicateSIID()).toBeFalsy()
+})
+
+test('On Confirm', () => {
+  const wrapper = shallowMount(CompetitorForm, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
+      $route: { params: { id: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn() },
+    },
+  })
+  wrapper.setMethods({ deleteCompetitor: jest.fn() })
+  wrapper.vm.onConfirm(false)
+  expect(wrapper.vm.deleteCompetitor).toHaveBeenCalledTimes(0)
+  wrapper.vm.onConfirm(true)
+  expect(wrapper.vm.deleteCompetitor).toHaveBeenCalledTimes(1)
 })

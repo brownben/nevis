@@ -13,7 +13,7 @@
     </div>
     <div v-else class="mx-12 mb-3">
       <button class="button" @click="submit">Update Entry</button>
-      <button class="button" @click="deleteCompetitor">Delete Entry</button>
+      <button class="button" @click="showConfirmationDialog = true">Delete Entry</button>
     </div>
     <form class="shadow mx-12" @submit.prevent="submit">
       <text-input v-model.trim="competitor.name" label="Name:" />
@@ -23,6 +23,16 @@
       <text-input v-model.trim="competitor.club" label="Club:" />
       <dropdown-input v-model="competitor.course" :list="listOfCourses" label="Course:" />
     </form>
+    <transition name="fade">
+      <confirmation-dialog
+        v-if="showConfirmationDialog"
+        heading="Delete Entry"
+        message="Are You Sure You Want to Delete This Entry and Any Attatched Punches + Downloads? This Action Can't Be Recovered."
+        confirm="Delete"
+        cancel="Cancel"
+        @close="onConfirm"
+      />
+    </transition>
   </main>
 </template>
 
@@ -30,16 +40,19 @@
 import BackArrow from '@/components/BackArrow'
 import TextInput from '@/components/TextInput'
 import DropdownInput from '@/components/DropdownInput'
+import ConfirmationDialog from '@/components/ConfirmationDialog'
 
 export default {
   components: {
     'back-arrow': BackArrow,
     'text-input': TextInput,
     'dropdown-input': DropdownInput,
+    'confirmation-dialog': ConfirmationDialog,
   },
 
   data: function () {
     return {
+      showConfirmationDialog: false,
       competitor: {
         name: '',
         id: undefined,
@@ -62,7 +75,10 @@ export default {
   },
 
   mounted: function () {
-    if (this.$database.connection === null || !this.$database.connected) this.$router.push('/')
+    if (this.$database.connection === null || !this.$database.connected) {
+      this.$router.push('/')
+      this.$messages.addMessage('Problem Connecting To Database', 'error')
+    }
     else if (this.$route.params && this.$route.params.competitorId) this.getCompetitorDetails()
     else this.getCourses()
   },
@@ -84,21 +100,22 @@ export default {
     getCompetitorDetails: function () {
       return this.$database.query('SELECT * FROM competitors WHERE id=? LIMIT 1', this.$route.params.competitorId)
         .then(async result => {
-          if (result && result[0] && result[0].course) {
+          if (result && result[0]) {
             this.competitor = result[0]
             this.competitor.course = await this.getCourseNameFromId(result[0].course)
           }
-          else {
-            this.$messages.addMessage('Problem Fetching Entry Data', 'error')
-          }
+          else this.$messages.addMessage('Problem Fetching Entry Data', 'error')
         })
-        .catch(error => this.$messages.addMessage(error, 'error'))
+        .catch(() => this.$messages.addMessage('Problem Fetching Entry Data', 'error'))
     },
 
     getCourses: function () {
       return this.$database.query('SELECT * FROM courses WHERE event=?', this.$route.params.eventId)
-        .then(result => { this.courses = result })
-        .catch(error => this.$messages.addMessage(error, 'error'))
+        .then(result => {
+          this.courses = result
+          if (this.courses.length === 0) this.$messages.addMessage('No Courses Exist', 'warning')
+        })
+        .catch(() => this.$messages.addMessage('Problem Fetching Courses', 'error'))
     },
 
     createCompetitor: function () {
@@ -113,7 +130,7 @@ export default {
         downloaded: false,
       })
         .then(() => this.$router.push(`/events/${this.$route.params.eventId}/competitors`))
-        .catch(error => this.$messages.addMessage(error, 'error'))
+        .catch(() => this.$messages.addMessage('Problem Creating Entry', 'error'))
     },
 
     updateCompetitor: function () {
@@ -128,7 +145,7 @@ export default {
         downloaded: this.competitor.downloaded,
       }, this.competitor.id])
         .then(() => this.$router.push(`/events/${this.$route.params.eventId}/competitors`))
-        .catch(error => this.$messages.addMessage(error, 'error'))
+        .catch(() => this.$messages.addMessage('Problem Updating Entry', 'error'))
     },
 
     deleteCompetitor: function () {
@@ -137,7 +154,7 @@ export default {
           this.$messages.addMessage(`Entry for "${this.competitor.name}" Deleted`)
           this.$router.push(`/events/${this.$route.params.eventId}/competitors`)
         })
-        .catch(error => this.$messages.addMessage(error, 'error'))
+        .catch(() => this.$messages.addMessage('Problem Deleting Entry', 'error'))
     },
 
     getCourseIdFromName: function (name) {
@@ -146,12 +163,18 @@ export default {
 
     getCourseNameFromId: async function (id) {
       await this.getCourses()
-      return this.courses.filter(course => course.id === id)[0].name
+      if (this.competitor.course === null || this.competitor.course === '') return ''
+      else return this.courses.filter(course => course.id === id)[0].name
     },
 
     checkForDuplicateSIID: async function () {
-      const queryResult = await this.$database.query('SELECT downloaded FROM competitors WHERE siid=? AND event=?', [this.competitor.siid, parseInt(this.$route.params.eventId)])
-      return queryResult.filter(competitor => !competitor.downloaded).length > 0
+      const queryResult = await this.$database.query('SELECT id, downloaded FROM competitors WHERE siid=? AND event=?', [this.competitor.siid, parseInt(this.$route.params.eventId)])
+      return queryResult.filter(competitor => !competitor.downloaded && competitor.id !== this.competitor.id).length > 0
+    },
+
+    onConfirm: function (decision) {
+      this.showConfirmationDialog = false
+      if (decision) this.deleteCompetitor()
     },
   },
 }

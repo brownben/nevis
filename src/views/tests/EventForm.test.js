@@ -5,7 +5,7 @@ test('Is a Vue Instance', () => {
   const wrapper = shallowMount(EventForm, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
@@ -18,7 +18,7 @@ test('Renders Correctly - Create', () => {
   const wrapper = shallowMount(EventForm, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
@@ -68,18 +68,18 @@ test('Get Event Details - Success', async () => {
   expect(wrapper.vm.eventData).toEqual({ id: 0, name: 'Test', date: '1/2/3' })
 })
 
-test('Get Courses - Error', async () => {
+test('Get Event Details - Error', async () => {
   const wrapper = mount(EventForm, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
     },
   })
   await wrapper.vm.getEventDetails()
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('error', 'error')
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Fetching Event Data', 'error')
   expect(wrapper.vm.eventData.name).toBe('')
 })
 
@@ -102,14 +102,14 @@ test('Create Event - Error', async () => {
   const wrapper = mount(EventForm, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
     },
   })
   await wrapper.vm.createEvent()
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('error', 'error')
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Creating Event', 'error')
 })
 
 test('Update Event - Success', async () => {
@@ -130,14 +130,14 @@ test('Update Event - Error', async () => {
   const wrapper = mount(EventForm, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
     },
   })
   await wrapper.vm.updateEvent()
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('error', 'error')
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Updating Event', 'error')
 })
 
 test('Delete Event - Success', async () => {
@@ -161,12 +161,29 @@ test('Delete Event - Error', async () => {
   const wrapper = mount(EventForm, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
     },
   })
   await wrapper.vm.deleteEvent()
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('error', 'error')
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Deleting Event', 'error')
+})
+
+test('On Confirm', () => {
+  const wrapper = mount(EventForm, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
+      $route: { params: { id: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn() },
+    },
+  })
+  wrapper.setMethods({ deleteEvent: jest.fn() })
+  wrapper.vm.onConfirm(false)
+  expect(wrapper.vm.deleteEvent).toHaveBeenCalledTimes(0)
+  wrapper.vm.onConfirm(true)
+  expect(wrapper.vm.deleteEvent).toHaveBeenCalledTimes(1)
 })

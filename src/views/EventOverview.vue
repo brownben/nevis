@@ -40,7 +40,10 @@ export default {
   },
 
   mounted: function () {
-    if (this.$database.connection === null || !this.$database.connected) this.$router.push('/')
+    if (this.$database.connection === null || !this.$database.connected) {
+      this.$router.push('/')
+      this.$messages.addMessage('Problem Connecting To Database', 'error')
+    }
     else this.getEventDetails()
   },
 
@@ -54,7 +57,7 @@ export default {
       WHERE events.id = ?
 `, this.$route.params.id)
         .then(result => { this.event = result[0] })
-        .catch(error => this.$messages.addMessage(error, 'error'))
+        .catch(() => this.$messages.addMessage('Problem Fetching Event Data', 'error'))
     },
   },
 }

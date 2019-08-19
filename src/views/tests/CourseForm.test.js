@@ -5,7 +5,7 @@ test('Is a Vue Instance', () => {
   const wrapper = shallowMount(CourseForm, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { eventId: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
@@ -18,7 +18,7 @@ test('Renders Correctly - Create', () => {
   const wrapper = shallowMount(CourseForm, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { eventId: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
@@ -69,6 +69,20 @@ test('Get Course Details - Success', async () => {
   expect(wrapper.vm.course).toEqual({ id: 0, name: 'Test', length: 1, climb: 2 })
 })
 
+test('Get Course Details - No Length', async () => {
+  const wrapper = mount(CourseForm, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue([{ id: 0, name: 'Test', climb: 2 }]) },
+      $route: { params: { eventId: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn() },
+    },
+  })
+  await wrapper.vm.getCourseDetails()
+  expect(wrapper.vm.course).toEqual({ id: 0, name: 'Test', climb: 2 })
+})
+
 test('Get Course Details - No Data', async () => {
   const wrapper = mount(CourseForm, {
     stubs: ['router-link'],
@@ -88,14 +102,14 @@ test('Get Course Details - Error', async () => {
   const wrapper = mount(CourseForm, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { eventId: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
     },
   })
   await wrapper.vm.getCourseDetails()
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('error', 'error')
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Fetching Course Data', 'error')
   expect(wrapper.vm.course.name).toBe('')
 })
 
@@ -118,14 +132,14 @@ test('Create Course - Error', async () => {
   const wrapper = mount(CourseForm, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { eventId: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
     },
   })
   await wrapper.vm.createCourse()
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('error', 'error')
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Creating Course', 'error')
 })
 
 test('Update Course - Success', async () => {
@@ -146,14 +160,14 @@ test('Update Course - Error', async () => {
   const wrapper = mount(CourseForm, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { eventId: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
     },
   })
   await wrapper.vm.updateCourse()
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('error', 'error')
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Updating Course', 'error')
 })
 
 test('Delete Course - Success', async () => {
@@ -178,14 +192,14 @@ test('Delete Course - Error', async () => {
   const wrapper = mount(CourseForm, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { eventId: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
     },
   })
   await wrapper.vm.deleteCourse()
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('error', 'error')
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Deleting Course', 'error')
 })
 
 test('Check for Duplicates', async () => {
@@ -266,4 +280,21 @@ test('Submit', async () => {
   wrapper.setData({ course: { id: undefined } })
   await wrapper.vm.submit()
   expect(wrapper.vm.createCourse).toHaveBeenCalledTimes(1)
+})
+
+test('On Confirm', () => {
+  const wrapper = mount(CourseForm, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
+      $route: { params: { id: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn() },
+    },
+  })
+  wrapper.setMethods({ deleteCourse: jest.fn() })
+  wrapper.vm.onConfirm(false)
+  expect(wrapper.vm.deleteCourse).toHaveBeenCalledTimes(0)
+  wrapper.vm.onConfirm(true)
+  expect(wrapper.vm.deleteCourse).toHaveBeenCalledTimes(1)
 })

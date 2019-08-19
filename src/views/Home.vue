@@ -51,7 +51,7 @@ export default {
           this.$database.connected = true
           this.$router.push('/events')
         })
-        .catch(error => this.$messages.addMessage(error, 'error'))
+        .catch(() => this.$messages.addMessage('Problem Connecting To The Database', 'error'))
     },
   },
 }

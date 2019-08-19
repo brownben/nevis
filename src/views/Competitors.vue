@@ -52,7 +52,10 @@ export default {
   },
 
   mounted: function () {
-    if (this.$database.connection === null || !this.$database.connected) this.$router.push('/')
+    if (this.$database.connection === null || !this.$database.connected) {
+      this.$router.push('/')
+      this.$messages.addMessage('Problem Connecting To Database', 'error')
+    }
     else {
       this.getCourses()
       this.getCompetitors()
@@ -63,7 +66,7 @@ export default {
     getCompetitors: function () {
       return this.$database.query('SELECT * FROM competitors WHERE event=?', this.$route.params.id)
         .then(result => { this.competitors = result })
-        .catch(error => this.$messages.addMessage(error, 'error'))
+        .catch(() => this.$messages.addMessage('Problem Fetching Entries', 'error'))
     },
 
     getCourses: function () {
@@ -73,7 +76,7 @@ export default {
             this.courses[course.id] = course.name
           }
         })
-        .catch(error => this.$messages.addMessage(error, 'error'))
+        .catch(() => this.$messages.addMessage('Problem Fetching Courses', 'error'))
     },
   },
 }
