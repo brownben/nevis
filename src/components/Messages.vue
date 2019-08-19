@@ -6,18 +6,18 @@
     id="messages"
     name="list"
     mode="out-in"
-    class="fixed bottom-0 right-0 w-auto p-3"
+    class="fixed bottom-0 right-0 w-auto p-3 min-w-1/4"
   >
     <p
       v-for="message of messages"
       :key="message.id"
       :class="message.type"
-      class="bg-white text-center shadow mt-3 p-2 px-3 w-full"
+      class="text-center font-heading shadow mt-3 p-2 px-3 w-full"
       @click="clear(message.id)"
     >
-      <span v-if="message.type === 'error'" class="text-red">Error: {{ message.text }}</span>
-      <span v-else-if="message.type === 'warning'" class="text-orange">Warning: {{ message.text }}</span>
-      <span v-else class="text-blue">{{ message.text }}</span>
+      <span v-if="message.type === 'error'">Error:</span>
+      <span v-else-if="message.type === 'warning'">Warning:</span>
+      {{ message.text }}
     </p>
   </div>
 </template>
@@ -39,7 +39,7 @@ export default {
 }
 </script>
 
-<style scoped >
+<style>
 .list-enter-active,
 .list-leave-active {
   transition: all 0.5s ease-out;
@@ -49,15 +49,5 @@ export default {
 .list-leave-to {
   opacity: 0;
   transform: translateX(10px);
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
 }
 </style>

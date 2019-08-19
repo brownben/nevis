@@ -44,7 +44,7 @@ test('Get Event Details - Success', async () => {
   const wrapper = mount(EventOverview, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: false, query: jest.fn().mockResolvedValue(['hello']) },
+      $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue(['hello']) },
       $route: { params: { id: 12 } },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
@@ -58,14 +58,13 @@ test('Get Event Details - Error', async () => {
   const wrapper = mount(EventOverview, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: false, query: jest.fn().mockRejectedValue('error') },
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { id: 12 } },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
     },
   })
   await wrapper.vm.getEventDetails()
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenCalledTimes(1)
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('error', 'error')
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Fetching Event Data', 'error')
   expect(wrapper.vm.event).toEqual({})
 })

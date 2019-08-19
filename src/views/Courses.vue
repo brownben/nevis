@@ -56,7 +56,10 @@ export default {
   },
 
   mounted: function () {
-    if (this.$database.connection === null || !this.$database.connected) this.$router.push('/')
+    if (this.$database.connection === null || !this.$database.connected) {
+      this.$router.push('/')
+      this.$messages.addMessage('Problem Connecting To Database', 'error')
+    }
     else this.getCourses()
   },
 
@@ -70,7 +73,7 @@ export default {
       GROUP BY courses.id
       ORDER BY courses.name`, this.$route.params.id)
         .then(result => { this.courses = result })
-        .catch(error => this.$messages.addMessage(error, 'error'))
+        .catch(() => this.$messages.addMessage('Problem Fetching Courses', 'error'))
     },
   },
 }

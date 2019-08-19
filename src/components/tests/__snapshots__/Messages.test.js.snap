@@ -2,37 +2,34 @@
 
 exports[`Renders Correctly 1`] = `
 <div
-  class="fixed bottom-0 right-0 w-auto p-3"
+  class="fixed bottom-0 right-0 w-auto p-3 min-w-1/4"
   id="messages"
   mode="out-in"
   name="list"
 >
   <p
-    class="bg-white text-center shadow mt-3 p-2 px-3 w-full"
+    class="text-center font-heading shadow mt-3 p-2 px-3 w-full"
   >
-    <span
-      class="text-blue"
-    >
-      Message 0
-    </span>
+    <!---->
+    
+    Message 0
+  
   </p>
   <p
-    class="bg-white text-center shadow mt-3 p-2 px-3 w-full"
+    class="text-center font-heading shadow mt-3 p-2 px-3 w-full"
   >
-    <span
-      class="text-blue"
-    >
-      Message 1
-    </span>
+    <!---->
+    
+    Message 1
+  
   </p>
   <p
-    class="bg-white text-center shadow mt-3 p-2 px-3 w-full"
+    class="text-center font-heading shadow mt-3 p-2 px-3 w-full"
   >
-    <span
-      class="text-blue"
-    >
-      Message 2
-    </span>
+    <!---->
+    
+    Message 2
+  
   </p>
 </div>
 `;

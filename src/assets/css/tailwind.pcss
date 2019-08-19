@@ -72,13 +72,34 @@ th,td {
   transition:none;
 }
 
-html, body, #app{
+
+.error {
+  @apply bg-red text-white;
+}
+.warning {
+  @apply bg-orange text-white;
+}
+.info {
+  @apply bg-blue text-white;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+
+html, body, #app {
   height: 100%;
   overflow: hidden;
   box-sizing: border-box;
 }
 
-.scroll{
+.scroll {
   height: calc(100% - 2rem);
   width:100%;
   margin:0;

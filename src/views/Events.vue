@@ -43,7 +43,10 @@ export default {
   },
 
   mounted: function () {
-    if (this.$database.connection === null || !this.$database.connected) this.$router.push('/')
+    if (this.$database.connection === null || !this.$database.connected) {
+      this.$router.push('/')
+      this.$messages.addMessage('Problem Connecting To Database', 'error')
+    }
     else {
       this.createTables()
       this.getEvents()
@@ -54,7 +57,7 @@ export default {
     getEvents: function () {
       return this.$database.query('SELECT * FROM events ORDER BY date DESC')
         .then(result => { this.events = result })
-        .catch(error => this.$messages.addMessage(error, 'error'))
+        .catch(() => this.$messages.addMessage('Problem Fetching Events', 'error'))
     },
 
     createTables: function () {
@@ -94,7 +97,7 @@ export default {
       ]
       for (const query of createDatabaseQueries) {
         this.$database.query(query)
-          .catch(error => this.$messages.addMessage(error, 'error'))
+          .catch(() => this.$messages.addMessage('Problem Setting Up Database', 'error'))
       }
     },
   },

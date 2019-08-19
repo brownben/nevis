@@ -47,6 +47,6 @@ test('Connect to Database - Error', async () => {
   expect(wrapper.vm.$mysql.createConnection).toHaveBeenCalledTimes(1)
   expect(wrapper.vm.$database.connect).toHaveBeenCalledTimes(1)
   expect(wrapper.vm.$messages.addMessage).toHaveBeenCalledTimes(1)
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Error', 'error')
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Connecting To The Database', 'error')
   expect(wrapper.vm.$database.connected).toBeFalsy()
 })

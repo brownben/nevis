@@ -2,12 +2,13 @@
   <div id="app">
     <title-bar />
     <messages />
+
     <router-view class="scroll pb-3" />
   </div>
 </template>
 <script>
-import TitleBar from '@/components/TitleBar.vue'
-import Messages from '@/components/Messages.vue'
+import TitleBar from '@/components/TitleBar'
+import Messages from '@/components/Messages'
 
 export default {
   components: {

@@ -13,7 +13,7 @@
     </div>
     <div v-else class="mx-12 mb-3">
       <button class="button" @click="submit">Update Course</button>
-      <button class="button" @click="deleteCourse">Delete Course</button>
+      <button class="button" @click="showConfirmationDialog = true">Delete Course</button>
     </div>
     <form class="shadow mx-12" @submit.prevent="submit">
       <text-input v-model.trim="course.name" label="Name:" />
@@ -21,21 +21,34 @@
       <text-input v-model="course.climb" label="Climb (m):" />
       <text-input v-model.trim="course.controls" label="Controls:" />
     </form>
+    <transition name="fade">
+      <confirmation-dialog
+        v-if="showConfirmationDialog"
+        heading="Delete Course"
+        message="Are You Sure You Want to Delete This Course? This Action Can't Be Recovered."
+        confirm="Delete"
+        cancel="Cancel"
+        @close="onConfirm"
+      />
+    </transition>
   </main>
 </template>
 
 <script>
 import BackArrow from '@/components/BackArrow'
 import TextInput from '@/components/TextInput'
+import ConfirmationDialog from '@/components/ConfirmationDialog'
 
 export default {
   components: {
     'back-arrow': BackArrow,
     'text-input': TextInput,
+    'confirmation-dialog': ConfirmationDialog,
   },
 
   data: function () {
     return {
+      showConfirmationDialog: false,
       course: {
         name: '',
         length: 0,
@@ -47,7 +60,10 @@ export default {
   },
 
   mounted: function () {
-    if (this.$database.connection === null || !this.$database.connected) this.$router.push('/')
+    if (this.$database.connection === null || !this.$database.connected) {
+      this.$router.push('/')
+      this.$messages.addMessage('Problem Connecting To Database', 'error')
+    }
     else if (this.$route.params && this.$route.params.courseId) this.getCourseDetails()
   },
 
@@ -73,15 +89,15 @@ export default {
     getCourseDetails: function () {
       return this.$database.query('SELECT * FROM courses WHERE id=? LIMIT 1', this.$route.params.courseId)
         .then(result => {
-          if (result && result[0] && result[0].length) {
+          if (result && result[0]) {
             this.course = result[0]
-            this.course.length = this.course.length / 1000
+            if (result[0].length) this.course.length = this.course.length / 1000
           }
           else {
             this.$messages.addMessage('Problem Fetching Course Data', 'error')
           }
         })
-        .catch(error => this.$messages.addMessage(error, 'error'))
+        .catch(() => this.$messages.addMessage('Problem Fetching Course Data', 'error'))
     },
 
     createCourse: function () {
@@ -94,7 +110,7 @@ export default {
         type: 'linear',
       })
         .then(() => this.$router.push(`/events/${this.$route.params.eventId}/courses`))
-        .catch(error => this.$messages.addMessage(error, 'error'))
+        .catch(() => this.$messages.addMessage('Problem Creating Course', 'error'))
     },
 
     updateCourse: function () {
@@ -108,7 +124,7 @@ export default {
         type: 'linear',
       }, this.course.id])
         .then(() => this.$router.push(`/events/${this.$route.params.eventId}/courses`))
-        .catch(error => this.$messages.addMessage(error, 'error'))
+        .catch(() => this.$messages.addMessage('Problem Updating Course', 'error'))
     },
 
     deleteCourse: function () {
@@ -117,13 +133,18 @@ export default {
           this.$messages.addMessage(`Course "${this.course.name}" Deleted`)
           this.$router.push(`/events/${this.$route.params.eventId}/courses`)
         })
-        .catch(error => this.$messages.addMessage(error, 'error'))
+        .catch(() => this.$messages.addMessage('Problem Deleting Course', 'error'))
     },
 
     checkForDuplicateCourse: async function () {
       const queryResult = await this.$database.query('SELECT * FROM courses WHERE name=? AND event=?', [this.course.name, parseInt(this.$route.params.eventId)])
       if (this.course.id && queryResult[0] && queryResult[0].id === this.course.id) return false
       else return queryResult.length > 0
+    },
+
+    onConfirm: function (decision) {
+      this.showConfirmationDialog = false
+      if (decision) this.deleteCourse()
     },
   },
 }

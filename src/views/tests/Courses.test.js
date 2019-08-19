@@ -78,13 +78,13 @@ test('Get Courses - Error', async () => {
   const wrapper = mount(Courses, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue('error') },
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn() },
     },
   })
   await wrapper.vm.getCourses()
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('error', 'error')
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Fetching Courses', 'error')
   expect(wrapper.vm.courses.length).toBe(0)
 })
