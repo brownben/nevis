@@ -32,6 +32,28 @@ exports[`Renders Correctly - No Competitors 1`] = `
     </button>
   </div>
    
+  <div
+    class="shadow mx-12 mb-3"
+  >
+    <text-input-stub
+      label="Name:"
+      type=""
+      value=""
+    />
+     
+    <text-input-stub
+      label="SI Card:"
+      type=""
+      value=""
+    />
+     
+    <dropdown-input-stub
+      label="Course:"
+      list=""
+      value=""
+    />
+  </div>
+   
   <!---->
 </main>
 `;
@@ -69,6 +91,28 @@ exports[`Renders Correctly - With Competitors 1`] = `
   </div>
    
   <div
+    class="shadow mx-12 mb-3"
+  >
+    <text-input-stub
+      label="Name:"
+      type=""
+      value=""
+    />
+     
+    <text-input-stub
+      label="SI Card:"
+      type=""
+      value=""
+    />
+     
+    <dropdown-input-stub
+      label="Course:"
+      list=""
+      value=""
+    />
+  </div>
+   
+  <div
     class="shadow mx-12 mb-3 p-2"
   >
     <table
@@ -78,52 +122,107 @@ exports[`Renders Correctly - With Competitors 1`] = `
         class="font-heading text-center hover:bg-blue-light"
       >
         <th>
+          
           Name
+          
+          <up-down-arrows-stub />
         </th>
          
         <th>
+          
           SI Card
+          
+          <up-down-arrows-stub />
+        </th>
+         
+        <th
+          class="hidden md:block"
+        >
+          
+          Age Class
+          
+          <up-down-arrows-stub />
         </th>
          
         <th>
+          
           Course
+          
+          <up-down-arrows-stub />
+        </th>
+         
+        <th
+          class="hidden lg:block"
+        >
+          
+          Club
+          
+          <up-down-arrows-stub />
         </th>
       </tr>
        
-      <router-link-stub
-        class="text-center even:bg-blue-lightest hover:bg-blue-light"
-        tag="tr"
-        to="/events/12/competitors/0/edit"
+      <tbody
+        name="fade"
       >
-        <td>
-          Bob
-        </td>
-         
-        <td>
-          154585
-        </td>
-         
-        <td>
-          Long
-        </td>
-      </router-link-stub>
-      <router-link-stub
-        class="text-center even:bg-blue-lightest hover:bg-blue-light"
-        tag="tr"
-        to="/events/12/competitors/77/edit"
-      >
-        <td>
-          Shaun
-        </td>
-         
-        <td>
-          12345
-        </td>
-         
-        <td>
-          short
-        </td>
-      </router-link-stub>
+        <router-link-stub
+          class="text-center odd:bg-blue-lightest hover:bg-blue-light"
+          tag="tr"
+          to="/events/12/competitors/0/edit"
+        >
+          <td>
+            Bob
+          </td>
+           
+          <td>
+            154585
+          </td>
+           
+          <td
+            class="hidden md:block"
+          >
+            
+          </td>
+           
+          <td>
+            
+          </td>
+           
+          <td
+            class="hidden lg:block"
+          >
+            
+          </td>
+        </router-link-stub>
+        <router-link-stub
+          class="text-center odd:bg-blue-lightest hover:bg-blue-light"
+          tag="tr"
+          to="/events/12/competitors/77/edit"
+        >
+          <td>
+            Shaun
+          </td>
+           
+          <td>
+            12345
+          </td>
+           
+          <td
+            class="hidden md:block"
+          >
+            
+          </td>
+           
+          <td>
+            
+          </td>
+           
+          <td
+            class="hidden lg:block"
+          >
+            
+          </td>
+        </router-link-stub>
+      </tbody>
     </table>
   </div>
 </main>

@@ -13,24 +13,50 @@
       </router-link>
       <button class="button" @click="getCompetitors">Refresh</button>
     </div>
+    <div class="shadow mx-12 mb-3">
+      <text-input v-model="filterName" label="Name:" />
+      <text-input v-model="filterSIID" label="SI Card:" />
+      <dropdown-input v-model="filterCourse" :list="listOfCourseNames" label="Course:" />
+    </div>
     <div v-if="competitors && competitors.length > 0" class="shadow mx-12 mb-3 p-2">
       <table class="w-full font-body">
         <tr class="font-heading text-center hover:bg-blue-light">
-          <th>Name</th>
-          <th>SI Card</th>
-          <th>Course</th>
+          <th @click="changeSortBy('name')">
+            Name
+            <up-down-arrows :active="sortBy === 'name'" :ascending="sortDirection === 'ASC'" />
+          </th>
+          <th @click="changeSortBy('siid')">
+            SI Card
+            <up-down-arrows :active="sortBy === 'siid'" :ascending="sortDirection === 'ASC'" />
+          </th>
+          <th class="hidden md:block" @click="changeSortBy('ageClass')">
+            Age Class
+            <up-down-arrows :active="sortBy === 'ageClass'" :ascending="sortDirection === 'ASC'" />
+          </th>
+          <th @click="changeSortBy('course')">
+            Course
+            <up-down-arrows :active="sortBy === 'course'" :ascending="sortDirection === 'ASC'" />
+          </th>
+          <th class="hidden lg:block" @click="changeSortBy('club')">
+            Club
+            <up-down-arrows :active="sortBy === 'club'" :ascending="sortDirection === 'ASC'" />
+          </th>
         </tr>
-        <router-link
-          v-for="competitor of competitors"
-          :key="competitor.id"
-          :to="`/events/${$route.params.id}/competitors/${competitor.id}/edit`"
-          tag="tr"
-          class="text-center even:bg-blue-lightest hover:bg-blue-light"
-        >
-          <td>{{ competitor.name }}</td>
-          <td>{{ competitor.siid }}</td>
-          <td>{{ courses[competitor.course] }}</td>
-        </router-link>
+        <tbody is="transition-group" name="fade">
+          <router-link
+            v-for="competitor of competitors"
+            :key="competitor.id"
+            :to="`/events/${$route.params.id}/competitors/${competitor.id}/edit`"
+            tag="tr"
+            class="text-center odd:bg-blue-lightest hover:bg-blue-light"
+          >
+            <td>{{ competitor.name }}</td>
+            <td>{{ competitor.siid }}</td>
+            <td class="hidden md:block">{{ competitor.ageClass }}</td>
+            <td>{{ competitor.courseName }}</td>
+            <td class="hidden lg:block">{{ competitor.club }}</td>
+          </router-link>
+        </tbody>
       </table>
     </div>
   </main>
@@ -38,17 +64,34 @@
 
 <script>
 import BackArrow from '@/components/BackArrow'
+import TextInput from '@/components/TextInput'
+import DropdownInput from '@/components/DropdownInput'
+import UpDownArrows from '@/components/UpDownArrows'
 
 export default {
   components: {
     'back-arrow': BackArrow,
+    'text-input': TextInput,
+    'dropdown-input': DropdownInput,
+    'up-down-arrows': UpDownArrows,
   },
 
   data: function () {
     return {
       competitors: [],
-      courses: {},
+      listOfCourseNames: [],
+      filterName: '',
+      filterSIID: '',
+      filterCourse: '',
+      sortBy: 'id',
+      sortDirection: 'DESC',
     }
+  },
+
+  watch: {
+    filterName: function () { this.getCompetitors() },
+    filterSIID: function () { this.getCompetitors() },
+    filterCourse: function () { this.getCompetitors() },
   },
 
   mounted: function () {
@@ -63,8 +106,28 @@ export default {
   },
 
   methods: {
+    changeSortBy: function (field) {
+      if (this.sortBy === field && this.sortDirection === 'ASC') this.sortDirection = 'DESC'
+      else if (this.sortBy === field) this.sortDirection = 'ASC'
+      this.sortBy = field
+      this.getCompetitors()
+    },
+
     getCompetitors: function () {
-      return this.$database.query('SELECT * FROM competitors WHERE event=?', this.$route.params.id)
+      return this.$database.query(`
+      SELECT competitors.*, courses.name AS courseName
+      FROM competitors
+      LEFT JOIN courses ON  courses.id=competitors.course
+      WHERE courses.event=? AND competitors.event=?
+        AND competitors.name LIKE '%${this.filterName}%'
+        AND competitors.siid LIKE '%${this.filterSIID}%'
+        AND courses.name LIKE '%${this.filterCourse}%'
+      UNION
+      SELECT competitors.*, '' AS courseName from competitors
+      WHERE ISNULL(competitors.course)
+        AND competitors.name LIKE '%${this.filterName}%'
+        AND competitors.siid LIKE '%${this.filterSIID}%'
+      ORDER BY ${this.sortBy} ${this.sortDirection}`, [this.$route.params.id, this.$route.params.id])
         .then(result => { this.competitors = result })
         .catch(() => this.$messages.addMessage('Problem Fetching Entries', 'error'))
     },
@@ -72,13 +135,13 @@ export default {
     getCourses: function () {
       return this.$database.query('SELECT * FROM courses WHERE event=?', this.$route.params.id)
         .then(result => {
-          for (const course of result) {
-            this.courses[course.id] = course.name
-          }
+          this.listOfCourseNames = result.map(course => course.name)
+          this.listOfCourseNames.unshift('')
         })
         .catch(() => this.$messages.addMessage('Problem Fetching Courses', 'error'))
     },
   },
+
 }
 </script>
 

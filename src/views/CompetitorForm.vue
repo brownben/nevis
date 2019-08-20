@@ -86,10 +86,10 @@ export default {
   methods: {
     submit: async function () {
       if (this.competitor.name === '') this.$messages.addMessage('Please Enter a Name', 'error')
-      else if (await this.checkForDuplicateSIID()) {
+      else if (await this.checkForDuplicateSIID() && this.competitor.siid !== '') {
         this.$messages.addMessage('An Entry with that SI Card Already Exists', 'error')
       }
-      else if (!this.competitor.siid.match(/^[0-9]{1,7}$/)) {
+      else if (!this.competitor.siid.match(/^[0-9]{1,7}$/) && this.competitor.siid !== '') {
         this.$messages.addMessage('Please Enter a Valid SI Card Number', 'error')
       }
       else if (this.competitor.course === '') this.$messages.addMessage('Please Select a Course', 'error')

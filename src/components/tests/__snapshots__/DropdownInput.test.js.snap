@@ -45,21 +45,21 @@ exports[`Renders Correctly 1`] = `
     style="display: none;"
   >
     <p
-      class="block text-body p-2 hover:bg-blue-point4 select-none"
+      class="block text-body h-8 p-1 hover:bg-blue-point2 select-none"
     >
       
         Item 1
       
     </p>
     <p
-      class="block text-body p-2 hover:bg-blue-point4 select-none"
+      class="block text-body h-8 p-1 hover:bg-blue-point2 select-none"
     >
       
         Item 2
       
     </p>
     <p
-      class="block text-body p-2 hover:bg-blue-point4 select-none"
+      class="block text-body h-8 p-1 hover:bg-blue-point2 select-none"
     >
       
         Item 3

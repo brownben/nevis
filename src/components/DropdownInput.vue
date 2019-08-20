@@ -24,7 +24,7 @@
         <p
           v-for="item in list"
           :key="item"
-          class="block text-body p-2 hover:bg-blue-point4 select-none"
+          class="block text-body h-8 p-1 hover:bg-blue-point2 select-none"
           @click="changeSelection(item)"
         >
           {{ item }}
