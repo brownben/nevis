@@ -184,7 +184,7 @@ test('Delete Course - Success', async () => {
   await wrapper.vm.deleteCourse()
   expect(wrapper.vm.$router.push).toHaveBeenCalledTimes(1)
   expect(wrapper.vm.$router.push).toHaveBeenLastCalledWith('/events/12/courses')
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenCalledTimes(1)
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenCalledTimes(2)
   expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Course "Test" Deleted')
 })
 

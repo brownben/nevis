@@ -42,7 +42,6 @@ test('Renders Correctly - With Competitors', () => {
       { id: 0, name: 'Bob', course: 1, siid: '154585' },
       { id: 77, name: 'Shaun', course: 2, siid: '12345' },
     ],
-    courses: { 1: 'Long', 2: 'short' },
   })
   expect(wrapper.element).toMatchSnapshot()
 })
@@ -108,7 +107,7 @@ test('Get Courses - Success', async () => {
     },
   })
   await wrapper.vm.getCourses()
-  expect(wrapper.vm.courses).toEqual({ 0: 'Long', 77: 'Short' })
+  expect(wrapper.vm.listOfCourseNames).toEqual(['', 'Long', 'Short'])
 })
 
 test('Get Courses - Error', async () => {
@@ -123,5 +122,59 @@ test('Get Courses - Error', async () => {
   })
   await wrapper.vm.getCourses()
   expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Fetching Courses', 'error')
-  expect(wrapper.vm.courses).toEqual({})
+  expect(wrapper.vm.listOfCourseNames).toEqual([])
+})
+
+test('Watchers', () => {
+  const wrapper = mount(Competitors, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
+      $route: { params: { id: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn() },
+    },
+  })
+  wrapper.setMethods({
+    getCompetitors: jest.fn(),
+  })
+  wrapper.setData({ filterName: 'A' })
+  expect(wrapper.vm.getCompetitors).toHaveBeenCalledTimes(1)
+  wrapper.setData({ filterName: 'B' })
+  expect(wrapper.vm.getCompetitors).toHaveBeenCalledTimes(2)
+  wrapper.setData({ filterCourse: 'A' })
+  expect(wrapper.vm.getCompetitors).toHaveBeenCalledTimes(3)
+  wrapper.setData({ filterSIID: 'A' })
+  expect(wrapper.vm.getCompetitors).toHaveBeenCalledTimes(4)
+})
+
+test('Change Sort By', () => {
+  const wrapper = mount(Competitors, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
+      $route: { params: { id: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn() },
+    },
+  })
+  wrapper.setMethods({
+    getCompetitors: jest.fn(),
+  })
+  wrapper.vm.changeSortBy('name')
+  expect(wrapper.vm.sortBy).toBe('name')
+  expect(wrapper.vm.sortDirection).toBe('DESC')
+  expect(wrapper.vm.getCompetitors).toHaveBeenCalledTimes(1)
+  wrapper.vm.changeSortBy('name')
+  expect(wrapper.vm.sortBy).toBe('name')
+  expect(wrapper.vm.sortDirection).toBe('ASC')
+  expect(wrapper.vm.getCompetitors).toHaveBeenCalledTimes(2)
+  wrapper.vm.changeSortBy('siid')
+  expect(wrapper.vm.sortBy).toBe('siid')
+  expect(wrapper.vm.sortDirection).toBe('ASC')
+  expect(wrapper.vm.getCompetitors).toHaveBeenCalledTimes(3)
+  wrapper.vm.changeSortBy('siid')
+  expect(wrapper.vm.sortBy).toBe('siid')
+  expect(wrapper.vm.sortDirection).toBe('DESC')
+  expect(wrapper.vm.getCompetitors).toHaveBeenCalledTimes(4)
 })

@@ -1,36 +1,36 @@
 @tailwind base;
 
-@font-face{
+@font-face {
   font-weight: 300;
   font-style: normal;
   font-family: 'Montserrat-Light';
   src: url('~@/assets/fonts/MontserratLight.woff2') format('woff2');
 }
 
-@font-face{
+@font-face {
   font-weight: 500;
   font-style: normal;
   font-family: 'Montserrat-Bold';
   src: url('~@/assets/fonts/Montserrat.woff2') format('woff2');
 }
 
-*{
+* {
   transition: 0.3s ease-out
 }
 
-h1{
+h1 {
   @apply  font-heading text-4xl text-blue select-none;
 }
 
-h2{
+h2 {
   @apply font-heading text-2xl select-none;
 }
 
-h3{
+h3 {
   @apply font-heading text-xl select-none;
 }
 
-h4{
+h4 {
   @apply font-heading text-lg select-none;
 }
 
@@ -38,11 +38,11 @@ p, a, button, svg {
   @apply font-body outline-none;
 }
 
-button:focus{
+button:focus {
   @apply outline-none;
 }
 
-img, svg  {
+img, svg {
   display:inline-block
 }
 
@@ -50,7 +50,11 @@ button, svg, img{
   @apply select-none;
 }
 
-th,td {
+th {
+  @apply p-1 select-none;
+}
+
+td {
   @apply p-1;
 }
 
@@ -58,7 +62,7 @@ th,td {
   @apply bg-blue text-white font-body shadow px-4 py-1 mr-2 mt-1 select-none text-base;
 }
 
-.button:hover{
+.button:hover {
   @apply bg-blue-accent;
 }
 
@@ -68,7 +72,7 @@ th,td {
 }
 
 .active {
-  @apply  text-blue;
+  @apply text-blue;
   transition:none;
 }
 
@@ -107,24 +111,24 @@ html, body, #app {
   overflow-x: hidden;
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
   width: 10px
 }
 
-::-webkit-scrollbar-thumb{
+::-webkit-scrollbar-thumb {
   background: #ECEFF1;
   transition: 0.3s ease-out
 }
 
-::-webkit-scrollbar-thumb:hover{
+::-webkit-scrollbar-thumb:hover {
   background: #CFD8DC
 }
 
-::-webkit-scrollbar-thumb:active{
+::-webkit-scrollbar-thumb:active {
   background: #B0BEC5
 }
 
-::selection{
+::selection {
   background: #1976d2;
   color: white
 }

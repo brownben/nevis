@@ -253,7 +253,7 @@ test('Submit', async () => {
   expect(wrapper.vm.$messages.addMessage).toHaveBeenCalledTimes(1)
   expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Please Enter a Name', 'error')
 
-  wrapper.setData({ competitor: { name: 'A' } })
+  wrapper.setData({ competitor: { name: 'A', siid: 'A' } })
   wrapper.vm.checkForDuplicateSIID.mockResolvedValue(true)
   await wrapper.vm.submit()
   expect(wrapper.vm.$messages.addMessage).toHaveBeenCalledTimes(2)
