@@ -4,15 +4,19 @@ import router from './router'
 
 import '@/assets/css/tailwind.pcss'
 import database from '@/scripts/database'
+import archive from '@/scripts/archive'
 import messageStore from '@/scripts/messageStore'
 const electron = window.require('electron')
 const mysql = window.require('mysql')
+const fs = window.require('fs').promises
 
 Vue.config.productionTip = false
 
 Vue.prototype.$electron = electron
 Vue.prototype.$mysql = mysql
+Vue.prototype.$fs = fs
 Vue.prototype.$database = database
+Vue.prototype.$archive = archive
 Vue.prototype.$messages = messageStore
 
 new Vue({

@@ -1,0 +1,32 @@
+import ageClass from '@/scripts/ageClass'
+
+var MockDate = require('mockdate')
+
+MockDate.set('2019-01-01')
+
+test('Age Class Returns Correct Values', () => {
+  expect(ageClass('m', 2009)).toBe('M10')
+  expect(ageClass('f', 2008)).toBe('W12')
+  expect(ageClass('m', 2006)).toBe('M14')
+  expect(ageClass('f', 2004)).toBe('W16')
+  expect(ageClass('m', 2002)).toBe('M18')
+  expect(ageClass('f', 2000)).toBe('W20')
+  expect(ageClass('m', 1997)).toBe('M21')
+  expect(ageClass('m', 1998)).toBe('M21')
+  expect(ageClass('f', 1990)).toBe('W21')
+  expect(ageClass('f', 1984)).toBe('W35')
+  expect(ageClass('m', 1979)).toBe('M40')
+  expect(ageClass('f', 1974)).toBe('W45')
+  expect(ageClass('m', 1969)).toBe('M50')
+  expect(ageClass('f', 1964)).toBe('W55')
+  expect(ageClass('m', 1959)).toBe('M60')
+  expect(ageClass('f', 1954)).toBe('W65')
+  expect(ageClass('m', 1949)).toBe('M70')
+  expect(ageClass('f', 1944)).toBe('W75')
+  expect(ageClass('m', 1939)).toBe('M80')
+  expect(ageClass('f', 1934)).toBe('W85')
+  expect(ageClass('m', 1929)).toBe('M90')
+  expect(ageClass('f', 1924)).toBe('W95')
+  expect(ageClass('m', 1919)).toBe('M100')
+  expect(ageClass('m', 0)).toBe('')
+})

@@ -8,7 +8,7 @@ test('Is a Vue Instance', () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   expect(wrapper.isVueInstance()).toBeTruthy()
@@ -21,7 +21,7 @@ test('Renders Correctly - Create', () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   expect(wrapper.element).toMatchSnapshot()
@@ -34,7 +34,7 @@ test('Renders Correctly - Update', () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue([{ name: 'Test', id: 12, date: '' }]) },
       $route: { params: { id: 12 }, path: '/events/edit/12' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   expect(wrapper.element).toMatchSnapshot()
@@ -47,7 +47,7 @@ test('Not Connected to the Database', () => {
       $database: { connection: {}, connected: false, query: jest.fn().mockResolvedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   expect(wrapper.vm.$router.push).toHaveBeenCalledTimes(1)
@@ -61,7 +61,7 @@ test('Get Event Details - Success', async () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue([{ id: 0, name: 'Test', date: '1/2/3' }]) },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   await wrapper.vm.getEventDetails()
@@ -75,7 +75,7 @@ test('Get Event Details - Error', async () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   await wrapper.vm.getEventDetails()
@@ -90,7 +90,7 @@ test('Create Event - Success', async () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue({ insertId: 12 }) },
       $route: { path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   wrapper.setData({ eventData: { name: 'Test', date: '' } })
@@ -105,7 +105,7 @@ test('Create Event - Error', async () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   await wrapper.vm.createEvent()
@@ -119,7 +119,7 @@ test('Update Event - Success', async () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue([{ name: 'Test', id: 12, date: '' }]) },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   await wrapper.vm.updateEvent()
@@ -133,7 +133,7 @@ test('Update Event - Error', async () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   await wrapper.vm.updateEvent()
@@ -147,7 +147,7 @@ test('Delete Event - Success', async () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue([{ name: 'Test', id: 12, date: '' }]) },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   await wrapper.vm.deleteEvent()
@@ -164,7 +164,7 @@ test('Delete Event - Error', async () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   await wrapper.vm.deleteEvent()
@@ -178,7 +178,7 @@ test('On Confirm', () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   wrapper.setMethods({ deleteEvent: jest.fn() })

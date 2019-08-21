@@ -8,7 +8,7 @@ test('Is a Vue Instance', () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   expect(wrapper.isVueInstance()).toBeTruthy()
@@ -21,7 +21,7 @@ test('Renders Correctly - No Courses', () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   expect(wrapper.element).toMatchSnapshot()
@@ -34,7 +34,7 @@ test('Renders Correctly - With Courses', () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   wrapper.setData({
@@ -53,7 +53,7 @@ test('Not Connected to the Database', () => {
       $database: { connection: {}, connected: false, query: jest.fn().mockResolvedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   expect(wrapper.vm.$router.push).toHaveBeenCalledTimes(1)
@@ -67,7 +67,7 @@ test('Get Courses - Success', async () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue(['hello']) },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   await wrapper.vm.getCourses()
@@ -81,7 +81,7 @@ test('Get Courses - Error', async () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   await wrapper.vm.getCourses()

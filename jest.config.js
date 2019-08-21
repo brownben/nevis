@@ -28,6 +28,6 @@ module.exports = {
     'jest-watch-typeahead/testname',
   ],
   collectCoverage: true,
-  coverageReporters: ['text'],
+  coverageReporters: ['text', 'html'],
   verbose: true,
 }

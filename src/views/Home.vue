@@ -39,7 +39,6 @@ export default {
   methods: {
     connect: function () {
       this.$database.connection = this.$mysql.createConnection({
-        connectionLimit: 10,
         host: this.server,
         port: this.port,
         user: this.username,
@@ -51,6 +50,7 @@ export default {
           this.$database.connected = true
           this.$router.push('/events')
         })
+        .then(() => this.$messages.clearMessages())
         .catch(() => this.$messages.addMessage('Problem Connecting To The Database', 'error'))
     },
   },

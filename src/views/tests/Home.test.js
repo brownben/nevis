@@ -21,7 +21,7 @@ test('Connect to Database - Success', async () => {
     mocks: {
       $database: { connection: {}, connect: jest.fn().mockResolvedValue(), connected: false },
       $mysql: { createConnection: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
       $router: { push: jest.fn() },
     },
   })
@@ -40,7 +40,7 @@ test('Connect to Database - Error', async () => {
     mocks: {
       $database: { connection: {}, connect: jest.fn().mockRejectedValue('Error'), connected: false },
       $mysql: { createConnection: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   await wrapper.vm.connect()

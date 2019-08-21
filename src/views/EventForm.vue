@@ -73,11 +73,13 @@ export default {
     createEvent: function () {
       return this.$database.query('INSERT INTO events SET ?', { name: this.eventData.name, date: this.eventData.date })
         .then((result) => this.$router.push('/events/' + result.insertId))
+        .then(() => this.$messages.clearMessages())
         .catch(() => this.$messages.addMessage('Problem Creating Event', 'error'))
     },
 
     updateEvent: function () {
       return this.$database.query('UPDATE events SET name=?, date=? WHERE id=?', [this.eventData.name, this.eventData.date, this.eventData.id])
+        .then(() => this.$messages.clearMessages())
         .then(() => this.$router.push('/events/' + this.eventData.id))
         .catch(() => this.$messages.addMessage('Problem Updating Event', 'error'))
     },

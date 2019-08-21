@@ -1,0 +1,257 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders Correctly 1`] = `
+<div
+  class="fixed top-0 pt-8 flex w-full h-full bg-blue-point4 flex-col justify-around content-center select-none"
+>
+  <div
+    class="-mt-16 relative bg-white justify-around content-center text-center flex-none shadow-md mx-12 sm:mx-16 md:mx-20 px-3 pt-2 pb-3 select-none"
+  >
+    <h1>
+      Multiple Records Found
+    </h1>
+     
+    <!---->
+     
+    <table
+      class="w-full font-body mt-1"
+    >
+      <tr
+        class="font-heading text-center hover:bg-blue-light"
+      >
+        <th>
+          Name
+        </th>
+         
+        <th>
+          SIID
+        </th>
+         
+        <th>
+          Club
+        </th>
+         
+        <th>
+          Age Class
+        </th>
+      </tr>
+       
+      <tr
+        class="text-center even:bg-blue-lightest hover:bg-blue-light"
+      >
+        <td>
+          A
+        </td>
+         
+        <td>
+          1
+        </td>
+         
+        <td>
+          
+        </td>
+         
+        <td>
+          M20
+        </td>
+      </tr>
+      <tr
+        class="text-center even:bg-blue-lightest hover:bg-blue-light"
+      >
+        <td>
+          B
+        </td>
+         
+        <td>
+          2
+        </td>
+         
+        <td>
+          
+        </td>
+         
+        <td>
+          W18
+        </td>
+      </tr>
+      <tr
+        class="text-center even:bg-blue-lightest hover:bg-blue-light"
+      >
+        <td>
+          C
+        </td>
+         
+        <td>
+          3
+        </td>
+         
+        <td>
+          
+        </td>
+         
+        <td>
+          M21
+        </td>
+      </tr>
+    </table>
+     
+    <button
+      class="bg-white text-blue border border-blue font-heading px-4 py-1 mr-2 mt-3 select-none hover:bg-blue-point2"
+    >
+      
+      Cancel
+    
+    </button>
+  </div>
+</div>
+`;
+
+exports[`Renders Correctly 2`] = `
+<div
+  class="fixed top-0 pt-8 flex w-full h-full bg-blue-point4 flex-col justify-around content-center select-none"
+>
+  <div
+    class="-mt-16 relative bg-white justify-around content-center text-center flex-none shadow-md mx-12 sm:mx-16 md:mx-20 px-3 pt-2 pb-3 select-none"
+  >
+    <h1>
+      Multiple Records Found
+    </h1>
+     
+    <p
+      class="select-none"
+    >
+      
+      More Than 5 Records Were Found - Only the First 5 Are Displayed. Please Try Narrowing Your Criteria
+    
+    </p>
+     
+    <table
+      class="w-full font-body mt-1"
+    >
+      <tr
+        class="font-heading text-center hover:bg-blue-light"
+      >
+        <th>
+          Name
+        </th>
+         
+        <th>
+          SIID
+        </th>
+         
+        <th>
+          Club
+        </th>
+         
+        <th>
+          Age Class
+        </th>
+      </tr>
+       
+      <tr
+        class="text-center even:bg-blue-lightest hover:bg-blue-light"
+      >
+        <td>
+          A
+        </td>
+         
+        <td>
+          1
+        </td>
+         
+        <td>
+          
+        </td>
+         
+        <td>
+          M20
+        </td>
+      </tr>
+      <tr
+        class="text-center even:bg-blue-lightest hover:bg-blue-light"
+      >
+        <td>
+          B
+        </td>
+         
+        <td>
+          2
+        </td>
+         
+        <td>
+          
+        </td>
+         
+        <td>
+          W18
+        </td>
+      </tr>
+      <tr
+        class="text-center even:bg-blue-lightest hover:bg-blue-light"
+      >
+        <td>
+          C
+        </td>
+         
+        <td>
+          3
+        </td>
+         
+        <td>
+          
+        </td>
+         
+        <td>
+          M21
+        </td>
+      </tr>
+      <tr
+        class="text-center even:bg-blue-lightest hover:bg-blue-light"
+      >
+        <td>
+          A
+        </td>
+         
+        <td>
+          1
+        </td>
+         
+        <td>
+          
+        </td>
+         
+        <td>
+          M20
+        </td>
+      </tr>
+      <tr
+        class="text-center even:bg-blue-lightest hover:bg-blue-light"
+      >
+        <td>
+          B
+        </td>
+         
+        <td>
+          2
+        </td>
+         
+        <td>
+          
+        </td>
+         
+        <td>
+          W18
+        </td>
+      </tr>
+    </table>
+     
+    <button
+      class="bg-white text-blue border border-blue font-heading px-4 py-1 mr-2 mt-3 select-none hover:bg-blue-point2"
+    >
+      
+      Cancel
+    
+    </button>
+  </div>
+</div>
+`;

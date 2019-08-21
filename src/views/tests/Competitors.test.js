@@ -8,7 +8,7 @@ test('Is a Vue Instance', () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   expect(wrapper.isVueInstance()).toBeTruthy()
@@ -21,7 +21,7 @@ test('Renders Correctly - No Competitors', () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   expect(wrapper.element).toMatchSnapshot()
@@ -34,7 +34,7 @@ test('Renders Correctly - With Competitors', () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   wrapper.setData({
@@ -53,7 +53,7 @@ test('Not Connected to the Database', () => {
       $database: { connection: {}, connected: false, query: jest.fn().mockResolvedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   expect(wrapper.vm.$router.push).toHaveBeenCalledTimes(1)
@@ -67,7 +67,7 @@ test('Get Competitors - Success', async () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue(['hello']) },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   await wrapper.vm.getCompetitors()
@@ -81,7 +81,7 @@ test('Get Competitors - Error', async () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   await wrapper.vm.getCompetitors()
@@ -103,7 +103,7 @@ test('Get Courses - Success', async () => {
       },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   await wrapper.vm.getCourses()
@@ -117,7 +117,7 @@ test('Get Courses - Error', async () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   await wrapper.vm.getCourses()
@@ -132,7 +132,7 @@ test('Watchers', () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   wrapper.setMethods({
@@ -155,7 +155,7 @@ test('Change Sort By', () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   wrapper.setMethods({
