@@ -10,6 +10,8 @@
     </h1>
     <div v-if="$route.path.includes('create')" class="mx-12 mb-3">
       <button class="button" @click="submit">Create Entry</button>
+      <button v-if="$archive.connected" class="button" @click="searchArchive">Search Archive</button>
+      <button class="button" @click="clearForm">Clear Form</button>
     </div>
     <div v-else class="mx-12 mb-3">
       <button class="button" @click="submit">Update Entry</button>
@@ -30,7 +32,14 @@
         message="Are You Sure You Want to Delete This Entry and Any Attatched Punches + Downloads? This Action Can't Be Recovered."
         confirm="Delete"
         cancel="Cancel"
-        @close="onConfirm"
+        @close="onDeleteConfirm"
+      />
+    </transition>
+    <transition name="fade">
+      <archive-dialog
+        v-if="showArchiveDialog"
+        :list-of-records="archiveData"
+        @close="onArchiveSelect"
       />
     </transition>
   </main>
@@ -41,6 +50,9 @@ import BackArrow from '@/components/BackArrow'
 import TextInput from '@/components/TextInput'
 import DropdownInput from '@/components/DropdownInput'
 import ConfirmationDialog from '@/components/ConfirmationDialog'
+import ArchiveDialog from '@/components/ArchiveDialog'
+
+import ageClassFunctions from '@/scripts/ageClass.js'
 
 export default {
   components: {
@@ -48,11 +60,13 @@ export default {
     'text-input': TextInput,
     'dropdown-input': DropdownInput,
     'confirmation-dialog': ConfirmationDialog,
+    'archive-dialog': ArchiveDialog,
   },
 
   data: function () {
     return {
       showConfirmationDialog: false,
+      showArchiveDialog: false,
       competitor: {
         name: '',
         id: undefined,
@@ -64,6 +78,7 @@ export default {
         downloaded: false,
       },
       courses: [],
+      archiveData: [],
     }
   },
 
@@ -129,6 +144,7 @@ export default {
         course: this.getCourseIdFromName(this.competitor.course),
         downloaded: false,
       })
+        .then(() => this.$messages.clearMessages())
         .then(() => this.$router.push(`/events/${this.$route.params.eventId}/competitors`))
         .catch(() => this.$messages.addMessage('Problem Creating Entry', 'error'))
     },
@@ -144,6 +160,7 @@ export default {
         course: this.getCourseIdFromName(this.competitor.course),
         downloaded: this.competitor.downloaded,
       }, this.competitor.id])
+        .then(() => this.$messages.clearMessages())
         .then(() => this.$router.push(`/events/${this.$route.params.eventId}/competitors`))
         .catch(() => this.$messages.addMessage('Problem Updating Entry', 'error'))
     },
@@ -172,10 +189,60 @@ export default {
       return queryResult.filter(competitor => !competitor.downloaded && competitor.id !== this.competitor.id).length > 0
     },
 
-    onConfirm: function (decision) {
+    onDeleteConfirm: function (decision) {
       this.showConfirmationDialog = false
       if (decision) this.deleteCompetitor()
     },
+
+    clearForm: function () {
+      this.competitor = {
+        name: '',
+        id: undefined,
+        siid: '',
+        membershipNumber: '',
+        ageClass: '',
+        club: '',
+        course: '',
+        downloaded: false,
+      }
+    },
+
+    searchArchive: function () {
+      return this.$archive.query(`
+      SELECT *
+      FROM people
+      WHERE name LIKE '%${this.competitor.name}%'
+        AND siid LIKE '%${this.competitor.siid}%'
+        AND membershipNumber LIKE '%${this.competitor.membershipNumber}%'
+        AND status != 'Hire'
+     `)
+        .then(result => {
+          if (result.length === 1) {
+            this.competitor = result[0]
+            this.competitor.id = null
+            this.competitor.ageClass = ageClassFunctions(this.competitor.gender, this.competitor.yearOfBirth)
+            if (this.competitor.status === 'Lost') this.$messages.addMessage('This SI Card is Marked as Lost', 'warning')
+          }
+          else {
+            this.showArchiveDialog = true
+            this.archiveData = result
+          }
+        })
+        .catch(() => this.$messages.addMessage('Problem Fetching Data From Archive', 'error'))
+    },
+
+    onArchiveSelect: function (decision) {
+      this.showArchiveDialog = false
+      this.archiveData = []
+      if (decision) {
+        this.competitor = decision
+        this.competitor.id = null
+        this.competitor.ageClass = ageClassFunctions(this.competitor.gender, this.competitor.yearOfBirth)
+        if (this.competitor.status === 'Lost') this.$messages.addMessage('This SI Card is Marked as Lost', 'warning')
+      }
+    },
+
+    calculateAgeClass: (gender, yearOfBirth) => ageClassFunctions(gender, yearOfBirth),
   },
 }
 

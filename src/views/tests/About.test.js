@@ -4,6 +4,9 @@ import About from '@/views/About'
 test('Is a Vue Instance', () => {
   const wrapper = shallowMount(About, {
     stubs: ['router-link'],
+    mocks: {
+      $electron: { remote: { app: { getVersion: jest.fn(() => '5') } } },
+    },
   })
   expect(wrapper.isVueInstance()).toBeTruthy()
 })
@@ -11,6 +14,9 @@ test('Is a Vue Instance', () => {
 test('Renders Correctly', () => {
   const wrapper = shallowMount(About, {
     stubs: ['router-link'],
+    mocks: {
+      $electron: { remote: { app: { getVersion: jest.fn(() => '5') } } },
+    },
   })
   expect(wrapper.element).toMatchSnapshot()
 })

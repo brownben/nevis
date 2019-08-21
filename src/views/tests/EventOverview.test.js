@@ -7,7 +7,7 @@ test('Is a Vue Instance', () => {
     mocks: {
       $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue() },
       $route: { params: { id: 12 } },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   expect(wrapper.isVueInstance()).toBeTruthy()
@@ -19,7 +19,7 @@ test('Renders Correctly', () => {
     mocks: {
       $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue() },
       $route: { params: { id: 12 } },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   wrapper.setData({ event: { id: 12, name: 'Test Event', date: '11/22/33' } })
@@ -33,7 +33,7 @@ test('Not Connected to the Database', () => {
       $database: { connection: {}, connected: false, query: jest.fn().mockResolvedValue() },
       $route: { params: { id: 12 } },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   expect(wrapper.vm.$router.push).toHaveBeenCalledTimes(1)
@@ -47,7 +47,7 @@ test('Get Event Details - Success', async () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue(['hello']) },
       $route: { params: { id: 12 } },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   await wrapper.vm.getEventDetails()
@@ -61,7 +61,7 @@ test('Get Event Details - Error', async () => {
       $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
       $route: { params: { id: 12 } },
       $router: { push: jest.fn() },
-      $messages: { addMessage: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   await wrapper.vm.getEventDetails()

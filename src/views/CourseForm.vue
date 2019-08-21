@@ -109,6 +109,7 @@ export default {
         controls: this.course.controls,
         type: 'linear',
       })
+        .then(() => this.$messages.clearMessages())
         .then(() => this.$router.push(`/events/${this.$route.params.eventId}/courses`))
         .catch(() => this.$messages.addMessage('Problem Creating Course', 'error'))
     },
@@ -123,6 +124,7 @@ export default {
         controls: this.course.controls,
         type: 'linear',
       }, this.course.id])
+        .then(() => this.$messages.clearMessages())
         .then(() => this.$router.push(`/events/${this.$route.params.eventId}/courses`))
         .catch(() => this.$messages.addMessage('Problem Updating Course', 'error'))
     },

@@ -5,7 +5,7 @@
     </h1>
     <div class="shadow mx-12 mb-3 px-3 pt-2 pb-1">
       <h2 class="pb-1">System</h2>
-      <p>Nevis Version: 5.0.0-alpha</p>
+      <p>Nevis Version: {{ $electron.remote.app.getVersion() }}</p>
       <p>System: {{ system }}</p>
       <p>Node Version: {{ node }}</p>
       <p>Chrome Version: {{ chromium }}</p>
