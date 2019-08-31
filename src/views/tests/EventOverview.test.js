@@ -22,7 +22,7 @@ test('Renders Correctly', () => {
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
-  wrapper.setData({ event: { id: 12, name: 'Test Event', date: '11/22/33' } })
+  wrapper.setData({ event: { id: 12, name: 'Test Event', date: '11/22/33', numberOfCourses: 2 } })
   expect(wrapper.element).toMatchSnapshot()
 })
 

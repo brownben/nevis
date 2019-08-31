@@ -9,11 +9,12 @@ import messageStore from '@/scripts/messageStore'
 const electron = window.require('electron')
 const mysql = window.require('mysql')
 const fs = window.require('fs').promises
-
+const SerialPort = window.require('serialport')
 Vue.config.productionTip = false
 
 Vue.prototype.$electron = electron
 Vue.prototype.$mysql = mysql
+Vue.prototype.$serialPort = SerialPort
 Vue.prototype.$fs = fs
 Vue.prototype.$database = database
 Vue.prototype.$archive = archive

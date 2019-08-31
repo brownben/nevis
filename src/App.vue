@@ -2,7 +2,6 @@
   <div id="app">
     <title-bar />
     <messages />
-
     <router-view class="scroll pb-3" />
   </div>
 </template>

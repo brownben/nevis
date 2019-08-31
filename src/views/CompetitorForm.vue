@@ -17,7 +17,7 @@
       <button class="button" @click="submit">Update Entry</button>
       <button class="button" @click="showConfirmationDialog = true">Delete Entry</button>
     </div>
-    <form class="shadow mx-12" @submit.prevent="submit">
+    <form class="shadow mx-12 mb-3" @submit.prevent="submit">
       <text-input v-model.trim="competitor.name" label="Name:" />
       <text-input v-model.trim="competitor.siid" label="SI Card: " />
       <text-input v-model.trim="competitor.membershipNumber" label="Membership Number:" />
@@ -25,11 +25,28 @@
       <text-input v-model.trim="competitor.club" label="Club:" />
       <dropdown-input v-model="competitor.course" :list="listOfCourses" label="Course:" />
     </form>
+    <div v-if="punches.length > 0" class="mx-12 mb-3 shadow px-3 pt-2 pb-2">
+      <h2>Punches</h2>
+      <table class="w-full font-body">
+        <tr class="font-heading text-center hover:bg-blue-light">
+          <th>Control Code</th>
+          <th>Time</th>
+        </tr>
+        <tr
+          v-for="punch of punches"
+          :key="punch.id"
+          class="text-center even:bg-blue-lightest hover:bg-blue-light"
+        >
+          <td>{{ punch.controlCode }}</td>
+          <td>{{ time.displayActualTime(punch.time) }}</td>
+        </tr>
+      </table>
+    </div>
     <transition name="fade">
       <confirmation-dialog
         v-if="showConfirmationDialog"
         heading="Delete Entry"
-        message="Are You Sure You Want to Delete This Entry and Any Attatched Punches + Downloads? This Action Can't Be Recovered."
+        message="Are You Sure You Want to Delete This Entry and Any Attatched Downloads? This Action Can't Be Recovered."
         confirm="Delete"
         cancel="Cancel"
         @close="onDeleteConfirm"
@@ -52,7 +69,8 @@ import DropdownInput from '@/components/DropdownInput'
 import ConfirmationDialog from '@/components/ConfirmationDialog'
 import ArchiveDialog from '@/components/ArchiveDialog'
 
-import ageClassFunctions from '@/scripts/ageClass.js'
+import ageClassFunctions from '@/scripts/ageClass'
+import timeFunctions from '@/scripts/time'
 
 export default {
   components: {
@@ -78,7 +96,9 @@ export default {
         downloaded: false,
       },
       courses: [],
+      punches: [],
       archiveData: [],
+      time: timeFunctions,
     }
   },
 
@@ -118,6 +138,7 @@ export default {
           if (result && result[0]) {
             this.competitor = result[0]
             this.competitor.course = await this.getCourseNameFromId(result[0].course)
+            if (this.competitor.downloaded) this.getCompetitorPunches()
           }
           else this.$messages.addMessage('Problem Fetching Entry Data', 'error')
         })
@@ -131,6 +152,12 @@ export default {
           if (this.courses.length === 0) this.$messages.addMessage('No Courses Exist', 'warning')
         })
         .catch(() => this.$messages.addMessage('Problem Fetching Courses', 'error'))
+    },
+
+    getCompetitorPunches: function () {
+      return this.$database.query('SELECT * FROM punches WHERE competitor=? ORDER BY time', this.competitor.id)
+        .then(result => { this.punches = result })
+        .catch(() => this.$messages.addMessage('Problem Fetching Competitors Punches', 'error'))
     },
 
     createCompetitor: function () {

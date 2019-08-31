@@ -110,7 +110,7 @@ export default {
         .then(result => result.filter(row => !row[0].includes('CardNumber')))
         .then(result => result.map(row => [row[0], row[2].replace(/"/g, ''), row[3].replace(/"/g, ''), row[4].replace(/"/g, ''), this.getYearOfBirth(row[5]), row[6], row[7].replace(/"/g, '')]))
         .then(result => Promise.all([this.$archive.query('DELETE FROM people'), result]))
-        .then(result => this.$archive.query('INSERT INTO people (siid, status, name, gender, yearOfBirth, membershipNumber,club) VALUES ?', [result[1]]))
+        .then(result => this.$archive.query('INSERT INTO people (siid, status, name, gender, yearOfBirth, membershipNumber, club) VALUES ?', [result[1]]))
         .then(result => this.$messages.addMessage(`${result.affectedRows} Archive Records Imported`))
         .catch(() => this.$messages.addMessage('Problem Importing the Archive', 'error'))
     },

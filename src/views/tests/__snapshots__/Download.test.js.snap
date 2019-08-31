@@ -1,0 +1,90 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders Correctly 1`] = `
+<main>
+  <h1
+    class="mx-10 mb-1"
+  >
+    <back-arrow-stub
+      disable="true"
+      to=""
+    />
+    Download
+  
+  </h1>
+   
+  <div
+    class="mx-12 mb-3 shadow"
+  >
+    <dropdown-input-stub
+      label="Port:"
+      list="No Ports Found"
+      value=""
+    />
+     
+    <dropdown-input-stub
+      label="Baud:"
+      list="Serial (4800),USB (38400)"
+      value="USB (38400)"
+    />
+  </div>
+   
+  <div
+    class="mx-12 mb-3"
+  >
+    <button
+      class="button"
+    >
+      Connect
+    </button>
+  </div>
+   
+  <div
+    class="mx-12 mb-3 shadow px-3 pt-2 pb-1"
+  >
+    <h2
+      class="mb-1"
+    >
+      Last Download
+    </h2>
+     
+    <p>
+      <b>
+        Name:
+      </b>
+      
+      Bob
+    
+    </p>
+     
+    <p>
+      <b>
+        SI Card:
+      </b>
+      
+      12345
+    
+    </p>
+     
+    <p>
+      <b>
+        Course:
+      </b>
+      
+      Long
+    
+    </p>
+     
+    <p>
+      <b>
+        Time:
+      </b>
+      
+      M3
+    
+    </p>
+  </div>
+   
+  <!---->
+</main>
+`;

@@ -194,7 +194,7 @@ CardNumber,CardLabel,CardStatus,Name,Sex,DateOfBirth,MemberNo,Club,Country
   expect(wrapper.vm.$fs.readFile).toHaveBeenCalledTimes(1)
   expect(wrapper.vm.$fs.readFile).toHaveBeenLastCalledWith('/test', { encoding: 'utf8' })
 
-  expect(wrapper.vm.$archive.query).toHaveBeenLastCalledWith('INSERT INTO people (siid, status, name, gender, yearOfBirth, membershipNumber,club) VALUES ?', [[
+  expect(wrapper.vm.$archive.query).toHaveBeenLastCalledWith('INSERT INTO people (siid, status, name, gender, yearOfBirth, membershipNumber, club) VALUES ?', [[
     ['', '', 'Bob Eves', 'm', 2000, 'TARP1001', 'St Lukes'],
     ['', '', 'Jo Smith', 'f', 2000, 'TARP1002', 'St Janes'],
   ]])

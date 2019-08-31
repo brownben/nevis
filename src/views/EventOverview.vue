@@ -21,6 +21,12 @@
           <p>{{ event.numberOfCourses }} Courses</p>
         </router-link>
       </div>
+      <div v-if="event.numberOfCourses > 0" class="w-full md:w-1/2 text-center mb-3">
+        <router-link tag="div" :to="`/events/${event.id}/download`" class="shadow p-2 md:mr-3">
+          <h2>Download</h2>
+          <p>Download SI Cards</p>
+        </router-link>
+      </div>
     </div>
   </main>
 </template>

@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import ageClassFunctions from '@/scripts/ageClass.js'
+import ageClassFunctions from '@/scripts/ageClass'
 
 export default {
   name: 'ConfirmationDialog',

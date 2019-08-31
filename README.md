@@ -8,7 +8,7 @@
 A Open Source, Easy to Use, Fast Download and Results program for the SportIdent Timing system
 
 ### Version 5 is Currently in Development (Uses MySQL Database)
-### Version 4 is Avaliable [Here](https://github.com/brownben/nevis/v4) (Uses PouchDB to allow multiple machines/users/windows)
+### Version 4 is Avaliable [Here](https://github.com/brownben/nevis/tree/v4) (Uses PouchDB to allow multiple machines/users/windows)
 ### Version 3 is Avaliable [Here](https://github.com/brownben/nevis/tree/84cdd43f5b913dd59acc62225878bb541a3249a7) (Uses a single local file as database, restricted to one window on one machine)
 
 ## Features

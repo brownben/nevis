@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="dropdown-input w-full relative">
     <div
       id="visible"
-      class="flex w-full px-2 py-2 border-solid border-b border-blue-point4 last:border-b-0"
+      class="relative flex w-full px-2 py-2 border-solid border-b border-blue-point4 last:border-b-0"
       @click="toggle"
     >
       <label class="font-body text-blue flex-none px-2 select-none">{{ label }}</label>
@@ -20,7 +20,11 @@
       </svg>
     </div>
     <transition name="open">
-      <div v-show="open" id="dropdown" class="block select-none">
+      <div
+        v-show="open"
+        id="dropdown"
+        class="absolute w-full bg-white block select-none shadow z-10 text-center"
+      >
         <p
           v-for="item in list"
           :key="item"

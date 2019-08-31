@@ -6,13 +6,13 @@
     id="messages"
     name="list"
     mode="out-in"
-    class="fixed bottom-0 right-0 w-auto p-3 min-w-1/4"
+    class="fixed bottom-0 right-0 w-auto p-3 min-w-1/4 z-30"
   >
     <p
       v-for="message of messages"
       :key="message.id"
       :class="message.type"
-      class="text-center font-heading shadow mt-3 p-2 px-3 w-full"
+      class="text-center font-heading shadow mt-3 p-2 px-3 w-full select-none z-30"
       @click="clear(message.id)"
     >
       <span v-if="message.type === 'error'">Error:</span>

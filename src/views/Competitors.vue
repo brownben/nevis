@@ -123,7 +123,8 @@ export default {
         AND competitors.siid LIKE '%${this.filterSIID}%'
         AND courses.name LIKE '%${this.filterCourse}%'
       UNION
-      SELECT competitors.*, '' AS courseName from competitors
+      SELECT competitors.*, '' AS courseName
+      FROM competitors
       WHERE ISNULL(competitors.course)
         AND competitors.name LIKE '%${this.filterName}%'
         AND competitors.siid LIKE '%${this.filterSIID}%'

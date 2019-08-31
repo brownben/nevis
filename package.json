@@ -21,12 +21,14 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "test": "vue-cli-service test:unit -i"
+    "test": "vue-cli-service test:unit -i",
+    "postinstall": "electron-rebuild"
   },
   "dependencies": {
     "core-js": "^2.6.5",
     "electron": "^6.0.2",
     "mysql": "^2.17.1",
+    "serialport": "^7.1.5",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3"
   },
@@ -40,6 +42,7 @@
     "babel-eslint": "^10.0.1",
     "babel-jest": "^23.6.0",
     "concurrently": "^4.1.1",
+    "electron-rebuild": "^1.8.6",
     "eslint": "^5.16.0",
     "eslint-plugin-import": "^2.17.2",
     "eslint-plugin-node": "^8.0.1",
