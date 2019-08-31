@@ -65,5 +65,10 @@ export default new Router({
       name: 'event-overview',
       component: () => import('./views/EventOverview.vue'),
     },
+    {
+      path: '/events/:id/download',
+      name: 'download',
+      component: () => import('./views/Download.vue'),
+    },
   ],
 })

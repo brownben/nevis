@@ -59,7 +59,25 @@ exports[`Renders Correctly 1`] = `
         </h2>
          
         <p>
-           Courses
+          2 Courses
+        </p>
+      </router-link-stub>
+    </div>
+     
+    <div
+      class="w-full md:w-1/2 text-center mb-3"
+    >
+      <router-link-stub
+        class="shadow p-2 md:mr-3"
+        tag="div"
+        to="/events/12/download"
+      >
+        <h2>
+          Download
+        </h2>
+         
+        <p>
+          Download SI Cards
         </p>
       </router-link-stub>
     </div>

@@ -139,6 +139,21 @@ test('Get Competitor Details - Error', async () => {
   expect(wrapper.vm.competitor.name).toBe('')
 })
 
+test('Get Competitor Details - Call Get Punches', async () => {
+  const wrapper = shallowMount(CompetitorForm, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue([{ downloaded: true }]) },
+      $route: { params: { eventId: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
+    },
+  })
+  wrapper.setMethods({ getCompetitorPunches: jest.fn() })
+  await wrapper.vm.getCompetitorDetails()
+  expect(wrapper.vm.getCompetitorPunches).toHaveBeenCalledTimes(1)
+})
+
 test('Create Competitor - Success', async () => {
   const wrapper = shallowMount(CompetitorForm, {
     stubs: ['router-link'],
@@ -398,7 +413,7 @@ test('On Archive Select', () => {
   wrapper.vm
   wrapper.vm.onArchiveSelect(false)
   expect(wrapper.vm.archiveData).toEqual([])
-  expect(wrapper.vm.competitor).toEqual({ 'club': '', 'ageClass': '', 'course': '', 'downloaded': false, 'id': undefined, 'membershipNumber': '', 'name': '', 'siid': '' })
+  expect(wrapper.vm.competitor).toEqual({ 'club': '', 'ageClass': '', 'course': '', 'downloaded': false, 'id': undefined, 'membershipNumber': '', 'name': '', siid: '' })
   wrapper.vm.onArchiveSelect({ name: 'Hi', siid: '123', id: 4, gender: 'f', yearOfBirth: '2003' })
   expect(wrapper.vm.competitor).toEqual({ name: 'Hi', siid: '123', id: null, ageClass: 'W16', gender: 'f', yearOfBirth: '2003' })
   wrapper.vm.onArchiveSelect({ name: 'Hi', siid: '123', id: 4, gender: 'f', yearOfBirth: '2003', status: 'Lost' })
@@ -474,4 +489,38 @@ test('Search Archive - Error', async () => {
   wrapper.setMethods({ getCourseNameFromId: jest.fn(), getCourseIdFromName: jest.fn() })
   await wrapper.vm.searchArchive()
   expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Fetching Data From Archive', 'error')
+})
+
+test('Get Competitor Punches - Success', async () => {
+  const wrapper = shallowMount(CompetitorForm, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockResolvedValue(['hello']),
+      },
+      $archive: { connection: {}, connected: true, query: jest.fn().mockRejectedValue([]) },
+      $route: { params: { eventId: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
+    },
+  })
+  await wrapper.vm.getCompetitorPunches()
+  expect(wrapper.vm.punches).toEqual(['hello'])
+})
+
+test('Get Competitor Punches Error', async () => {
+  const wrapper = shallowMount(CompetitorForm, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue({}) },
+      $route: { params: { eventId: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
+    },
+  })
+  await wrapper.vm.getCompetitorPunches()
+  expect(wrapper.vm.punches).toEqual([])
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Fetching Competitors Punches', 'error')
 })

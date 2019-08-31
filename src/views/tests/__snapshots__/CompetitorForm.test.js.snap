@@ -29,7 +29,7 @@ exports[`Renders Correctly - Create 1`] = `
   </div>
    
   <form
-    class="shadow mx-12"
+    class="shadow mx-12 mb-3"
   >
     <text-input-stub
       label="Name:"
@@ -71,6 +71,8 @@ exports[`Renders Correctly - Create 1`] = `
   <!---->
    
   <!---->
+   
+  <!---->
 </main>
 `;
 
@@ -103,7 +105,7 @@ exports[`Renders Correctly - Update 1`] = `
   </div>
    
   <form
-    class="shadow mx-12"
+    class="shadow mx-12 mb-3"
   >
     <text-input-stub
       label="Name:"
@@ -141,6 +143,8 @@ exports[`Renders Correctly - Update 1`] = `
       value="Long"
     />
   </form>
+   
+  <!---->
    
   <!---->
    

@@ -2,10 +2,11 @@
 
 exports[`Renders Correctly 1`] = `
 <div
+  class="dropdown-input w-full relative"
   includeblank="true"
 >
   <div
-    class="flex w-full px-2 py-2 border-solid border-b border-blue-point4 last:border-b-0"
+    class="relative flex w-full px-2 py-2 border-solid border-b border-blue-point4 last:border-b-0"
     id="visible"
   >
     <label
@@ -39,7 +40,7 @@ exports[`Renders Correctly 1`] = `
   </div>
    
   <div
-    class="block select-none"
+    class="absolute w-full bg-white block select-none shadow z-10 text-center"
     id="dropdown"
     name="open"
     style="display: none;"
