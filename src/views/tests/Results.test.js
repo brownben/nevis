@@ -116,17 +116,17 @@ test('Competitors On Course', () => {
       { course: 1, errors: 'W2', time: 22 },
       { course: 2, errors: 'M4', time: 0 },
       { course: 1, errors: '', time: 15 },
-      { course: 1, errors: '', time: 33 },
+      { course: 1, errors: '', time: 33, nonCompetitive: true },
     ],
   })
   expect(wrapper.vm.competitorsOnCourse(1)).toEqual([
-    { course: 1, errors: '', time: 15 },
-    { course: 1, errors: '', time: 33 },
-    { course: 1, errors: '', time: 35 },
-    { course: 1, errors: 'W2', time: 22 },
+    { course: 1, errors: '', time: 15, position: 1 },
+    { course: 1, errors: '', time: 33, position: 'n/c', nonCompetitive: true },
+    { course: 1, errors: '', time: 35, position: 2 },
+    { course: 1, errors: 'W2', time: 22, position: 3 },
   ])
   expect(wrapper.vm.competitorsOnCourse(2)).toEqual([
-    { course: 2, errors: '', time: 2 },
-    { course: 2, errors: 'M4', time: 0 },
+    { course: 2, errors: '', time: 2, position: 1 },
+    { course: 2, errors: 'M4', time: 0, position: 2 },
   ])
 })

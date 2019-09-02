@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders Correctly - Checked 1`] = `
+<div
+  class="flex w-full px-2 py-2 border-solid border-b border-blue-point4 last:border-b-0"
+>
+  <label>
+    <p
+      class="font-body text-blue flex-none px-2 select-none"
+    >
+      Test Checkbox
+    </p>
+     
+    <input
+      type="checkbox"
+    />
+     
+    <span />
+  </label>
+</div>
+`;
+
+exports[`Renders Correctly - Unchecked 1`] = `
+<div
+  class="flex w-full px-2 py-2 border-solid border-b border-blue-point4 last:border-b-0"
+>
+  <label>
+    <p
+      class="font-body text-blue flex-none px-2 select-none"
+    >
+      Another Input
+    </p>
+     
+    <input
+      type="checkbox"
+    />
+     
+    <span />
+  </label>
+</div>
+`;

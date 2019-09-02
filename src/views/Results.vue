@@ -20,11 +20,11 @@
             <th>Time</th>
           </tr>
           <tr
-            v-for="(competitor, position) of competitorsOnCourse(course.id)"
+            v-for="competitor of competitorsOnCourse(course.id)"
             :key="competitor.id"
             class="text-center even:bg-blue-lightest hover:bg-blue-light"
           >
-            <td v-if="competitor.errors === ''">{{ position + 1 }}</td>
+            <td v-if="competitor.errors === ''">{{ competitor.position }}</td>
             <td v-else></td>
             <td>{{ competitor.name }}</td>
             <td class="hidden sm:table-cell">{{ competitor.ageClass }}</td>
@@ -84,11 +84,19 @@ export default {
     },
 
     competitorsOnCourse: function (courseId) {
+      let position = 0
       return this.results
         .filter(competitor => competitor.course === courseId)
         .sort((a, b) => {
           if (a.errors !== '' || b.errors !== '') return a.errors.length - b.errors.length
           else return a.time - b.time
+        })
+        .map(result => {
+          if (result.nonCompetitive) return { ...result, position: 'n/c' }
+          else {
+            position += 1
+            return { ...result, position }
+          }
         })
     },
   },

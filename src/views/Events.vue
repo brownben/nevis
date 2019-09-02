@@ -143,6 +143,7 @@ export default {
           ageClass TEXT,
           club TEXT,
           downloaded BOOLEAN,
+          nonCompetitive BOOLEAN,
           course INT,
           event INT,
           FOREIGN KEY (course) REFERENCES courses(id) ON UPDATE CASCADE ON DELETE SET NULL,
