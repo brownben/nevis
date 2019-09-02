@@ -29,5 +29,4 @@ module.exports = {
   ],
   collectCoverage: true,
   coverageReporters: ['text', 'html'],
-  verbose: true,
 }

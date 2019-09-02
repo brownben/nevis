@@ -138,6 +138,10 @@ test('Port Functions', () => {
   si.parseData = jest.fn(() => false)
   wrapper.vm.portOnData()
   expect(wrapper.vm.saveDownload).toHaveBeenCalledTimes(1)
+
+  si.parseData = jest.fn(() => { throw Error() })
+  wrapper.vm.portOnData()
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Saving Download', 'error')
 })
 
 test('Refresh Ports List - Success', async () => {
@@ -267,43 +271,43 @@ test('Calculate Time', () => {
 
   expect(wrapper.vm.calculateTime(
     { errors: '' },
-    { punches: [{ controlCode: 'S', time: 10 }, { controlCode: 'F', time: 19 }] }))
+    [{ controlCode: 'S', time: 10 }, { controlCode: 'F', time: 19 }]).displayTime)
     .toBe('00:09')
 
   expect(wrapper.vm.calculateTime(
     { errors: '' },
-    { punches: [{ controlCode: 'S', time: 10 }, { controlCode: 'F', time: 130 }] }))
+    [{ controlCode: 'S', time: 10 }, { controlCode: 'F', time: 130 }]).displayTime)
     .toBe('02:00')
 
   expect(wrapper.vm.calculateTime(
     { errors: '' },
-    { punches: [{ controlCode: 'S', time: 10 }, { controlCode: 'F', time: 139 }] }))
+    [{ controlCode: 'S', time: 10 }, { controlCode: 'F', time: 139 }]).displayTime)
     .toBe('02:09')
 
   expect(wrapper.vm.calculateTime(
     { errors: 'M1' },
-    { punches: [{ controlCode: 'S', time: 10 }, { controlCode: 'F', time: 19 }] }))
+    [{ controlCode: 'S', time: 10 }, { controlCode: 'F', time: 19 }]).displayTime)
     .toBe('M1')
 
   expect(wrapper.vm.calculateTime(
     { errors: '' },
-    { punches: [{ controlCode: 'F', time: 19 }] }))
+    [{ controlCode: 'F', time: 19 }]).displayTime)
     .toBe('MS')
 
   expect(wrapper.vm.calculateTime(
     { errors: 'M1' },
-    { punches: [{ controlCode: 'F', time: 19 }] }))
+    [{ controlCode: 'F', time: 19 }]).displayTime)
     .toBe('MS M1')
 
   expect(wrapper.vm.calculateTime(
     { errors: '' },
-    { punches: [{ controlCode: 'S', time: 10 }] }))
-    .toBe('MF')
+    [{ controlCode: 'S', time: 10 }]).displayTime)
+    .toBe('Rtd')
 
   expect(wrapper.vm.calculateTime(
     { errors: 'M1' },
-    { punches: [{ controlCode: 'S', time: 10 }] }))
-    .toBe('M1 MF')
+    [{ controlCode: 'S', time: 10 }]).displayTime)
+    .toBe('Rtd')
 })
 
 test('Connect to Port - Already Open', () => {
@@ -448,13 +452,16 @@ test('Save Download', async () => {
     },
   })
   jest.spyOn(wrapper.vm, 'getCourseFromId')
-  courseMatching.linear.mockReturnValue({ percentageCorrect: 1, errors: '' })
+  courseMatching.linear.mockReturnValue({ percentageCorrect: 1, errors: '', links: [] })
   await wrapper.vm.saveDownload({
     punches: [{ controlCode: 'S', time: 5 }, { controlCode: '101', time: 32 }, { controlCode: 'F', time: 35 }],
   })
   expect(wrapper.vm.$database.query).toBeCalledWith('INSERT INTO punches (controlCode, time, competitor, event) VALUES ?', [[['S', 5, 6, 12], ['101', 32, 6, 12], ['F', 35, 6, 12]]])
   expect(wrapper.vm.getCourseFromId).toHaveBeenCalledTimes(1)
-  expect(wrapper.vm.$database.query).toBeCalledWith('UPDATE competitors competitors SET ? WHERE id=?', [{ downloaded: true }, 6])
+  expect(wrapper.vm.$database.query).toBeCalledWith('UPDATE competitors SET ? WHERE id=?', [{ downloaded: true }, 6])
+  expect(wrapper.vm.$database.query).toBeCalledWith('REPLACE INTO results SET ?', {
+    time: 30, links: expect.any(String), errors: '', competitor: 6, event: 12,
+  })
   expect(wrapper.vm.lastDownload).toEqual({
     id: 6, name: 'Bob', siid: '123', courseName: 'Long', time: '00:30', course: 3,
   })
@@ -483,9 +490,9 @@ test('Save Download - Unknown Course', async () => {
     punches: [{ controlCode: 'S', time: 5 }, { controlCode: '101', time: 32 }, { controlCode: 'F', time: 35 }],
   })
   expect(wrapper.vm.$database.query).toBeCalledWith('INSERT INTO punches (controlCode, time, competitor, event) VALUES ?', [[['S', 5, 6, 12], ['101', 32, 6, 12], ['F', 35, 6, 12]]])
-  expect(wrapper.vm.$database.query).toBeCalledWith('UPDATE competitors competitors SET ? WHERE id=?',
+  expect(wrapper.vm.$database.query).toBeCalledWith('UPDATE competitors SET ? WHERE id=?',
     [{ course: 3 }, 6])
-  expect(wrapper.vm.$database.query).toBeCalledWith('UPDATE competitors competitors SET ? WHERE id=?',
+  expect(wrapper.vm.$database.query).toBeCalledWith('UPDATE competitors SET ? WHERE id=?',
     [{ downloaded: true }, 6])
   expect(wrapper.vm.lastDownload).toEqual({
     id: 6, name: 'Bob', siid: '123', courseName: 'Long', time: '00:30',

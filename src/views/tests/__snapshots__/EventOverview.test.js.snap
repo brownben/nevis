@@ -41,7 +41,7 @@ exports[`Renders Correctly 1`] = `
         </h2>
          
         <p>
-           Entries
+          7 Entries
         </p>
       </router-link-stub>
     </div>
@@ -81,6 +81,8 @@ exports[`Renders Correctly 1`] = `
         </p>
       </router-link-stub>
     </div>
+     
+    <!---->
   </div>
 </main>
 `;

@@ -29,7 +29,7 @@
             SI Card
             <up-down-arrows :active="sortBy === 'siid'" :ascending="sortDirection === 'ASC'" />
           </th>
-          <th class="hidden md:block" @click="changeSortBy('ageClass')">
+          <th class="hidden md:table-cell" @click="changeSortBy('ageClass')">
             Age Class
             <up-down-arrows :active="sortBy === 'ageClass'" :ascending="sortDirection === 'ASC'" />
           </th>
@@ -37,7 +37,7 @@
             Course
             <up-down-arrows :active="sortBy === 'course'" :ascending="sortDirection === 'ASC'" />
           </th>
-          <th class="hidden lg:block" @click="changeSortBy('club')">
+          <th class="hidden lg:table-cell" @click="changeSortBy('club')">
             Club
             <up-down-arrows :active="sortBy === 'club'" :ascending="sortDirection === 'ASC'" />
           </th>
@@ -52,9 +52,9 @@
           >
             <td>{{ competitor.name }}</td>
             <td>{{ competitor.siid }}</td>
-            <td class="hidden md:block">{{ competitor.ageClass }}</td>
+            <td class="hidden md:table-cell">{{ competitor.ageClass }}</td>
             <td>{{ competitor.courseName }}</td>
-            <td class="hidden lg:block">{{ competitor.club }}</td>
+            <td class="hidden lg:table-cell">{{ competitor.club }}</td>
           </router-link>
         </tbody>
       </table>

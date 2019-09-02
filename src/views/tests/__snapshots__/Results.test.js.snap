@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders Correctly - No Results 1`] = `
+<main>
+  <h1
+    class="mx-10 mb-1"
+  >
+    <back-arrow-stub
+      to="/events/12"
+    />
+    Results
+  
+  </h1>
+   
+  <div
+    class="mx-12 mb-3"
+  >
+    <button
+      class="button"
+    >
+      Refresh
+    </button>
+  </div>
+   
+</main>
+`;
