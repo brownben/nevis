@@ -416,7 +416,7 @@ test('On Archive Select', () => {
   wrapper.vm
   wrapper.vm.onArchiveSelect(false)
   expect(wrapper.vm.archiveData).toEqual([])
-  expect(wrapper.vm.competitor).toEqual({ 'club': '', 'ageClass': '', 'course': '', 'downloaded': false, 'id': undefined, 'membershipNumber': '', 'name': '', siid: '' })
+  expect(wrapper.vm.competitor).toEqual({ 'club': '', 'ageClass': '', 'course': '', 'downloaded': false, 'id': undefined, 'membershipNumber': '', 'name': '', siid: '', nonCompetitive: false })
   wrapper.vm.onArchiveSelect({ name: 'Hi', siid: '123', id: 4, gender: 'f', yearOfBirth: '2003' })
   expect(wrapper.vm.competitor).toEqual({ name: 'Hi', siid: '123', id: null, ageClass: 'W16', gender: 'f', yearOfBirth: '2003' })
   wrapper.vm.onArchiveSelect({ name: 'Hi', siid: '123', id: 4, gender: 'f', yearOfBirth: '2003', status: 'Lost' })

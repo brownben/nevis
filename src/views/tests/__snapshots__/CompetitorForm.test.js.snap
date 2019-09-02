@@ -66,6 +66,10 @@ exports[`Renders Correctly - Create 1`] = `
       list=""
       value=""
     />
+     
+    <checkbox-input-stub
+      label="Non-Competitive?"
+    />
   </form>
    
   <!---->
@@ -141,6 +145,10 @@ exports[`Renders Correctly - Update 1`] = `
       label="Course:"
       list=""
       value="Long"
+    />
+     
+    <checkbox-input-stub
+      label="Non-Competitive?"
     />
   </form>
    

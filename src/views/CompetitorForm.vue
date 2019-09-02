@@ -24,6 +24,7 @@
       <text-input v-model.trim="competitor.ageClass" label="Age Class:" />
       <text-input v-model.trim="competitor.club" label="Club:" />
       <dropdown-input v-model="competitor.course" :list="listOfCourses" label="Course:" />
+      <checkbox-input v-model="competitor.nonCompetitive" label="Non-Competitive?" />
     </form>
     <div v-if="punches.length > 0" class="mx-12 mb-3 shadow px-3 pt-2 pb-2">
       <h2>Punches</h2>
@@ -66,6 +67,7 @@
 import BackArrow from '@/components/BackArrow'
 import TextInput from '@/components/TextInput'
 import DropdownInput from '@/components/DropdownInput'
+import CheckboxInput from '@/components/CheckboxInput'
 import ConfirmationDialog from '@/components/ConfirmationDialog'
 import ArchiveDialog from '@/components/ArchiveDialog'
 
@@ -78,6 +80,7 @@ export default {
     'back-arrow': BackArrow,
     'text-input': TextInput,
     'dropdown-input': DropdownInput,
+    'checkbox-input': CheckboxInput,
     'confirmation-dialog': ConfirmationDialog,
     'archive-dialog': ArchiveDialog,
   },
@@ -95,6 +98,7 @@ export default {
         club: '',
         course: '',
         downloaded: false,
+        nonCompetitive: false,
       },
       courses: [],
       punches: [],
@@ -173,6 +177,7 @@ export default {
         club: this.competitor.club,
         course: this.getCourseIdFromName(this.competitor.course),
         downloaded: false,
+        nonCompetitive: this.competitor.nonCompetitive,
       })
         .then(() => this.$messages.clearMessages())
         .then(() => this.$router.push(`/events/${this.$route.params.eventId}/competitors`))
@@ -189,6 +194,7 @@ export default {
         club: this.competitor.club,
         course: this.getCourseIdFromName(this.competitor.course),
         downloaded: this.competitor.downloaded,
+        nonCompetitive: this.competitor.nonCompetitive,
       }, this.competitor.id])
         .then(this.recalculateResult)
         .then(() => this.$messages.clearMessages())
@@ -235,6 +241,7 @@ export default {
         club: '',
         course: '',
         downloaded: false,
+        nonCompetitive: false,
       }
     },
 
