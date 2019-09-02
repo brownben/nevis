@@ -32,7 +32,7 @@ exports[`Renders Correctly 1`] = `
       class="w-full md:w-1/2 text-center mb-3"
     >
       <router-link-stub
-        class="shadow p-2 md:mr-3"
+        class="shadow p-2 md:mr-3 bg-blue text-white select-none hover:bg-blue-accent"
         tag="div"
         to="/events/12/competitors"
       >
@@ -50,7 +50,7 @@ exports[`Renders Correctly 1`] = `
       class="w-full md:w-1/2 text-center mb-3"
     >
       <router-link-stub
-        class="shadow p-2"
+        class="shadow p-2 bg-blue text-white select-none hover:bg-blue-accent"
         tag="div"
         to="/events/12/courses"
       >
@@ -68,7 +68,7 @@ exports[`Renders Correctly 1`] = `
       class="w-full md:w-1/2 text-center mb-3"
     >
       <router-link-stub
-        class="shadow p-2 md:mr-3"
+        class="shadow p-2 md:mr-3 bg-blue text-white select-none hover:bg-blue-accent"
         tag="div"
         to="/events/12/download"
       >

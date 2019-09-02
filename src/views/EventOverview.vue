@@ -10,25 +10,41 @@
     </div>
     <div class="mx-12 flex flex-wrap">
       <div class="w-full md:w-1/2 text-center mb-3">
-        <router-link tag="div" :to="`/events/${event.id}/competitors`" class="shadow p-2 md:mr-3">
+        <router-link
+          tag="div"
+          :to="`/events/${event.id}/competitors`"
+          class="shadow p-2 md:mr-3 bg-blue text-white select-none hover:bg-blue-accent"
+        >
           <h2>Entries</h2>
           <p>{{ event.numberOfCompetitors }} Entries</p>
         </router-link>
       </div>
       <div class="w-full md:w-1/2 text-center mb-3">
-        <router-link tag="div" :to="`/events/${event.id}/courses`" class="shadow p-2">
+        <router-link
+          tag="div"
+          :to="`/events/${event.id}/courses`"
+          class="shadow p-2 bg-blue text-white select-none hover:bg-blue-accent"
+        >
           <h2>Courses</h2>
           <p>{{ event.numberOfCourses }} Courses</p>
         </router-link>
       </div>
       <div v-if="event.numberOfCourses > 0" class="w-full md:w-1/2 text-center mb-3">
-        <router-link tag="div" :to="`/events/${event.id}/download`" class="shadow p-2 md:mr-3">
+        <router-link
+          tag="div"
+          :to="`/events/${event.id}/download`"
+          class="shadow p-2 md:mr-3 bg-blue text-white select-none hover:bg-blue-accent"
+        >
           <h2>Download</h2>
           <p>Download SI Cards</p>
         </router-link>
       </div>
       <div v-if="event.numberOfResults > 0" class="w-full md:w-1/2 text-center mb-3">
-        <router-link tag="div" :to="`/events/${event.id}/results`" class="shadow p-2">
+        <router-link
+          tag="div"
+          :to="`/events/${event.id}/results`"
+          class="shadow p-2 bg-blue text-white select-none hover:bg-blue-accent"
+        >
           <h2>Results</h2>
           <p>{{ event.numberOfResults }} Results</p>
         </router-link>

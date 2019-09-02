@@ -89,6 +89,35 @@ test('Get Competitors - Error', async () => {
   expect(wrapper.vm.competitors.length).toBe(0)
 })
 
+test('Get All Competitors - Success', async () => {
+  const wrapper = mount(Competitors, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue(['hello']) },
+      $route: { params: { id: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
+    },
+  })
+  await wrapper.vm.getAllCompetitors()
+  expect(wrapper.vm.allCompetitors).toEqual(['hello'])
+})
+
+test('Get Competitors - Error', async () => {
+  const wrapper = mount(Competitors, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
+      $route: { params: { id: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
+    },
+  })
+  await wrapper.vm.getAllCompetitors()
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Fetching Entries', 'error')
+  expect(wrapper.vm.allCompetitors.length).toBe(0)
+})
+
 test('Get Courses - Success', async () => {
   const wrapper = mount(Competitors, {
     stubs: ['router-link'],

@@ -11,9 +11,10 @@
       >
         Create Entry
       </router-link>
-      <button class="button" @click="getCompetitors">Refresh</button>
+      <button class="button" @click="refresh">Refresh</button>
     </div>
-    <div class="shadow mx-12 mb-3">
+    <div v-if="allCompetitors && allCompetitors.length >0" class="shadow mx-12 mb-3">
+      <h3 class="px-4 pt-2 text-blue select-none">Search Entries</h3>
       <text-input v-model="filterName" label="Name:" />
       <text-input v-model="filterSIID" label="SI Card:" />
       <dropdown-input v-model="filterCourse" :list="listOfCourseNames" label="Course:" />
@@ -78,6 +79,7 @@ export default {
 
   data: function () {
     return {
+      allCompetitors: [],
       competitors: [],
       listOfCourseNames: [],
       filterName: '',
@@ -99,13 +101,15 @@ export default {
       this.$router.push('/')
       this.$messages.addMessage('Problem Connecting To Database', 'error')
     }
-    else {
-      this.getCourses()
-      this.getCompetitors()
-    }
+    else this.refresh()
   },
 
   methods: {
+    refresh: function () {
+      this.getCourses()
+      this.getCompetitors()
+      this.getAllCompetitors()
+    },
     changeSortBy: function (field) {
       if (this.sortBy === field && this.sortDirection === 'ASC') this.sortDirection = 'DESC'
       else if (this.sortBy === field) this.sortDirection = 'ASC'
@@ -130,6 +134,12 @@ export default {
         AND competitors.siid LIKE '%${this.filterSIID}%'
       ORDER BY ${this.sortBy} ${this.sortDirection}`, [this.$route.params.id, this.$route.params.id])
         .then(result => { this.competitors = result })
+        .catch(() => this.$messages.addMessage('Problem Fetching Entries', 'error'))
+    },
+
+    getAllCompetitors: function () {
+      return this.$database.query(`SELECT * FROM competitors WHERE competitors.event=?`, [this.$route.params.id])
+        .then(result => { this.allCompetitors = result })
         .catch(() => this.$messages.addMessage('Problem Fetching Entries', 'error'))
     },
 
