@@ -61,6 +61,11 @@ export default new Router({
       component: () => import('./views/CourseForm.vue'),
     },
     {
+      path: '/events/:id/results',
+      name: 'results',
+      component: () => import('./views/Results.vue'),
+    },
+    {
       path: '/events/:id',
       name: 'event-overview',
       component: () => import('./views/EventOverview.vue'),

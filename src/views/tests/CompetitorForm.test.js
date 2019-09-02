@@ -1,6 +1,9 @@
 import { shallowMount } from '@vue/test-utils'
 import CompetitorForm from '@/views/CompetitorForm'
 
+import courseMatching from '@/scripts/courseMatching/courseMatching'
+jest.mock('@/scripts/courseMatching/courseMatching')
+
 test('Is a Vue Instance', () => {
   const wrapper = shallowMount(CompetitorForm, {
     stubs: ['router-link'],
@@ -524,3 +527,127 @@ test('Get Competitor Punches Error', async () => {
   expect(wrapper.vm.punches).toEqual([])
   expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Fetching Competitors Punches', 'error')
 })
+
+test('Calculate Time', () => {
+  const wrapper = shallowMount(CompetitorForm, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
+      $route: { params: { id: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
+    },
+  })
+
+  expect(wrapper.vm.calculateTime(
+    { errors: '' },
+    [{ controlCode: 'S', time: 10 }, { controlCode: 'F', time: 19 }]).displayTime)
+    .toBe('00:09')
+
+  expect(wrapper.vm.calculateTime(
+    { errors: '' },
+    [{ controlCode: 'S', time: 10 }, { controlCode: 'F', time: 130 }]).displayTime)
+    .toBe('02:00')
+
+  expect(wrapper.vm.calculateTime(
+    { errors: '' },
+    [{ controlCode: 'S', time: 10 }, { controlCode: 'F', time: 139 }]).displayTime)
+    .toBe('02:09')
+
+  expect(wrapper.vm.calculateTime(
+    { errors: 'M1' },
+    [{ controlCode: 'S', time: 10 }, { controlCode: 'F', time: 19 }]).displayTime)
+    .toBe('M1')
+
+  expect(wrapper.vm.calculateTime(
+    { errors: '' },
+    [{ controlCode: 'F', time: 19 }]).displayTime)
+    .toBe('MS')
+
+  expect(wrapper.vm.calculateTime(
+    { errors: 'M1' },
+    [{ controlCode: 'F', time: 19 }]).displayTime)
+    .toBe('MS M1')
+
+  expect(wrapper.vm.calculateTime(
+    { errors: '' },
+    [{ controlCode: 'S', time: 10 }]).displayTime)
+    .toBe('Rtd')
+
+  expect(wrapper.vm.calculateTime(
+    { errors: 'M1' },
+    [{ controlCode: 'S', time: 10 }]).displayTime)
+    .toBe('Rtd')
+})
+
+test('Recalculate Results', async () => {
+  const wrapper = shallowMount(CompetitorForm, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue() },
+      $route: { params: { eventId: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
+    },
+    methods: {
+      getCourseIdFromName: jest.fn(() => 7),
+      calculateTime: jest.fn(() => ({ time: 7, errors: 'M4' })),
+      getCourses: jest.fn(),
+    },
+  })
+
+  wrapper.setData({
+    originalCourse: 'hello',
+    competitor: { id: 6, name: 'Bob', course: 'hello' },
+    punches: [{ controlCode: 'S' }, { controlCode: 'F' }, { controlCode: '101' }, { controlCode: '102' }, { controlCode: '103' }],
+    courses: [{ id: 7, controls: '101,102,103' }],
+  })
+  expect(wrapper.vm.recalculateResult()).toBe(undefined)
+
+  wrapper.setData({ originalCourse: 'hello', competitor: { course: 'world' } })
+  courseMatching.linear = jest.fn(() => ({ errors: 'M4', links: [] }))
+  await wrapper.vm.recalculateResult()
+  expect(courseMatching.linear).toHaveBeenCalledWith(['101', '102', '103'], ['101', '102', '103'])
+  expect(wrapper.vm.$database.query).toHaveBeenCalledWith('REPLACE INTO results SET ?', {
+    time: 7,
+    links: JSON.stringify([]),
+    errors: 'M4',
+    competitor: 6,
+    event: 12,
+  })
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('"Bob" result recalculated')
+
+  wrapper.vm.$database.query.mockRejectedValue()
+  await wrapper.vm.recalculateResult()
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Recalculating Result', 'error')
+})
+
+test('Get Courses - Success', async () => {
+  const wrapper = shallowMount(CompetitorForm, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue(['hello']) },
+      $route: { params: { id: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
+    },
+  })
+  await wrapper.vm.getCourses()
+  expect(wrapper.vm.courses).toEqual(['hello'])
+})
+
+test('Get Courses - Error', async () => {
+  const wrapper = shallowMount(CompetitorForm, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
+      $route: { params: { id: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
+    },
+  })
+  await wrapper.vm.getCourses()
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Fetching Courses', 'error')
+  expect(wrapper.vm.courses.length).toBe(0)
+})
+

@@ -15,7 +15,7 @@
     </div>
     <div v-else class="mx-12 mb-3">
       <button class="button" @click="submit">Update Entry</button>
-      <button class="button" @click="showConfirmationDialog = true">Delete Entry</button>
+      <button class="button" @click="showDeleteConfirmationDialog = true">Delete Entry</button>
     </div>
     <form class="shadow mx-12 mb-3" @submit.prevent="submit">
       <text-input v-model.trim="competitor.name" label="Name:" />
@@ -44,7 +44,7 @@
     </div>
     <transition name="fade">
       <confirmation-dialog
-        v-if="showConfirmationDialog"
+        v-if="showDeleteConfirmationDialog"
         heading="Delete Entry"
         message="Are You Sure You Want to Delete This Entry and Any Attatched Downloads? This Action Can't Be Recovered."
         confirm="Delete"
@@ -69,8 +69,9 @@ import DropdownInput from '@/components/DropdownInput'
 import ConfirmationDialog from '@/components/ConfirmationDialog'
 import ArchiveDialog from '@/components/ArchiveDialog'
 
-import ageClassFunctions from '@/scripts/ageClass'
 import timeFunctions from '@/scripts/time'
+import ageClassFunctions from '@/scripts/ageClass'
+import courseMatching from '@/scripts/courseMatching/courseMatching'
 
 export default {
   components: {
@@ -83,7 +84,7 @@ export default {
 
   data: function () {
     return {
-      showConfirmationDialog: false,
+      showDeleteConfirmationDialog: false,
       showArchiveDialog: false,
       competitor: {
         name: '',
@@ -99,6 +100,7 @@ export default {
       punches: [],
       archiveData: [],
       time: timeFunctions,
+      originalCourse: '',
     }
   },
 
@@ -138,6 +140,7 @@ export default {
           if (result && result[0]) {
             this.competitor = result[0]
             this.competitor.course = await this.getCourseNameFromId(result[0].course)
+            this.originalCourse = this.competitor.course
             if (this.competitor.downloaded) this.getCompetitorPunches()
           }
           else this.$messages.addMessage('Problem Fetching Entry Data', 'error')
@@ -187,6 +190,7 @@ export default {
         course: this.getCourseIdFromName(this.competitor.course),
         downloaded: this.competitor.downloaded,
       }, this.competitor.id])
+        .then(this.recalculateResult)
         .then(() => this.$messages.clearMessages())
         .then(() => this.$router.push(`/events/${this.$route.params.eventId}/competitors`))
         .catch(() => this.$messages.addMessage('Problem Updating Entry', 'error'))
@@ -217,7 +221,7 @@ export default {
     },
 
     onDeleteConfirm: function (decision) {
-      this.showConfirmationDialog = false
+      this.showDeleteConfirmationDialog = false
       if (decision) this.deleteCompetitor()
     },
 
@@ -270,6 +274,53 @@ export default {
     },
 
     calculateAgeClass: (gender, yearOfBirth) => ageClassFunctions(gender, yearOfBirth),
+
+    recalculateResult: function () {
+      if (this.competitor.course !== this.originalCourse) {
+        const courseId = this.getCourseIdFromName(this.competitor.course)
+        const courseControls = this.courses
+          .filter(course => course.id === courseId)[0].controls
+          .split(',')
+          .filter(punch => punch !== '')
+        const punchesNoStartAndFinish = this.punches
+          .map(punch => punch.controlCode.toString())
+          .filter(punch => punch !== 'S' && punch !== 'F')
+
+        const courseMatchingStats = courseMatching.linear(punchesNoStartAndFinish, courseControls)
+        const time = this.calculateTime(courseMatchingStats, this.punches)
+
+        return this.$database.query('REPLACE INTO results SET ?', {
+          time: time.time,
+          links: JSON.stringify(courseMatchingStats.links),
+          errors: time.errors,
+          competitor: this.competitor.id,
+          event: this.$route.params.eventId,
+        })
+          .then(() => this.$messages.addMessage(`"${this.competitor.name}" result recalculated`))
+          .catch(() => this.$messages.addMessage('Problem Recalculating Result', 'error'))
+      }
+    },
+
+    calculateTime: function (courseMatchingStats, punches) {
+      let errors = courseMatchingStats.errors
+      const startPunch = punches.filter(punch => punch.controlCode === 'S')
+      const finishPunch = punches.filter(punch => punch.controlCode === 'F')
+
+      if (!startPunch || !startPunch[0] || !startPunch[0].time) errors = 'MS ' + errors
+      if (!finishPunch || !finishPunch[0] || !finishPunch[0].time) errors = 'Rtd'
+      errors = errors.trim()
+
+      let time = 0
+      if (startPunch[0] && startPunch[0].time && finishPunch[0] && finishPunch[0].time) {
+        time = finishPunch[0].time - startPunch[0].time
+      }
+
+      return {
+        time,
+        errors,
+        displayTime: timeFunctions.displayTime(time, errors),
+      }
+    },
   },
 }
 

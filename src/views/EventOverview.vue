@@ -27,6 +27,12 @@
           <p>Download SI Cards</p>
         </router-link>
       </div>
+      <div v-if="event.numberOfResults > 0" class="w-full md:w-1/2 text-center mb-3">
+        <router-link tag="div" :to="`/events/${event.id}/results`" class="shadow p-2">
+          <h2>Results</h2>
+          <p>{{ event.numberOfResults }} Results</p>
+        </router-link>
+      </div>
     </div>
   </main>
 </template>
@@ -58,10 +64,11 @@ export default {
       return this.$database.query(`
       SELECT events.*,
       (SELECT COUNT(*) FROM courses WHERE events.id=courses.event) numberOfCourses,
-      (SELECT COUNT(*) FROM competitors WHERE events.id=competitors.event) as numberOfCompetitors
+      (SELECT COUNT(*) FROM competitors WHERE events.id=competitors.event) as numberOfCompetitors,
+      (SELECT COUNT(*) FROM results WHERE events.id=results.event ) as numberOfResults
       FROM events
       WHERE events.id = ?
-`, this.$route.params.id)
+    `, this.$route.params.id)
         .then(result => { this.event = result[0] })
         .catch(() => this.$messages.addMessage('Problem Fetching Event Data', 'error'))
     },

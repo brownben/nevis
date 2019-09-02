@@ -4,6 +4,7 @@ export default (cardList, courseList) => {
   let courseCounter = -1
   let errors = ''
   let wrong = []
+  let links = []
   let correctVisited = courseList.length
 
   while (cardCounter < cardList.length && courseCounter < courseList.length) {
@@ -13,17 +14,20 @@ export default (cardList, courseList) => {
 
     if (cardList[cardCounter] && cardList[cardCounter] === courseList[courseCounter]) {
       match = true
+      links.push(cardList[cardCounter])
     }
 
     else if (cardList[cardCounter + 1] && cardList[cardCounter + 1] === courseList[courseCounter]) {
       cardCounter += 1
       match = true
+      links.push(cardList[cardCounter])
     }
 
     else if (cardList[cardCounter + 1] && cardList[cardCounter + 1] === courseList[courseCounter + 1]) {
       errors += ' W' + (courseCounter + 1)
       correctVisited -= 1
       match = true
+      links.push(null)
     }
 
     else if (cardList[cardCounter] && cardList[cardCounter] === courseList[courseCounter + 1]) {
@@ -31,6 +35,7 @@ export default (cardList, courseList) => {
       errors += ' M' + courseCounter
       correctVisited -= 1
       match = true
+      links.push(null)
     }
 
     if (!match) {
@@ -40,6 +45,7 @@ export default (cardList, courseList) => {
         if (cardList[tempCardCounter] && cardList[tempCardCounter] === courseList[courseCounter]) {
           cardCounter = tempCardCounter
           match = true
+          links.push(cardList[cardCounter])
         }
       }
     }
@@ -53,6 +59,7 @@ export default (cardList, courseList) => {
           courseCounter = tempCourseCounter
           correctVisited -= (tempCourseCounter - courseCounter) - 1
           match = true
+          links.fill(null, links.length, links.length + tempCourseCounter - courseCounter)
         }
       }
     }
@@ -69,12 +76,14 @@ export default (cardList, courseList) => {
           courseCounter = tempCourseCounter - 1
           correctVisited -= (tempCourseCounter - courseCounter)
           match = true
+          links.fill(null, links.length, links.length + tempCourseCounter - courseCounter)
         }
       }
     }
 
     if (!match && cardCounter < cardList.length && courseCounter < courseList.length) {
       wrong.push(courseCounter + 1)
+      links.push(null)
     }
   }
 
@@ -95,5 +104,6 @@ export default (cardList, courseList) => {
   return {
     errors: errors.trim(),
     percentageCorrect: percentageCorrect,
+    links: JSON.stringify(links),
   }
 }

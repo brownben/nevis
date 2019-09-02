@@ -154,9 +154,7 @@ export default {
         const siData = si.parseData(data, this.port)
         if (siData) this.saveDownload(siData)
       }
-      finally {
-        this.$messages.addMessage('Problem Saving Download', 'error')
-      }
+      catch (error) { this.$messages.addMessage('Problem Saving Download', 'error') }
     },
 
     saveDownload: async function (siData) {
@@ -172,17 +170,26 @@ export default {
       let competitorCourse
       if (!competitor.course) {
         competitorCourse = courseMatching.findBestCourse(cardPunches, await this.getCourses())
-        await this.$database.query('UPDATE competitors competitors SET ? WHERE id=?', [{ course: competitorCourse.id }, competitor.id])
+        await this.$database.query('UPDATE competitors SET ? WHERE id=?', [{ course: competitorCourse.id }, competitor.id])
       }
       else competitorCourse = await this.getCourseFromId(competitor.course)
 
       const courseMatchingStats = courseMatching.linear(cardPunches, competitorCourse.controls)
+      const time = this.calculateTime(courseMatchingStats, siData.punches)
 
-      await this.$database.query('UPDATE competitors competitors SET ? WHERE id=?', [{ downloaded: true }, competitor.id])
+      await this.$database.query('UPDATE competitors SET ? WHERE id=?', [{ downloaded: true }, competitor.id])
+      await this.$database.query('REPLACE INTO results SET ?', {
+        time: time.time,
+        links: JSON.stringify(courseMatchingStats.links),
+        errors: time.errors,
+        competitor: competitor.id,
+        event: this.$route.params.id,
+      })
+
       this.lastDownload = {
         ...competitor,
         courseName: competitorCourse.name,
-        time: this.calculateTime(courseMatchingStats, siData),
+        time: time.displayTime,
       }
     },
 
@@ -259,15 +266,25 @@ export default {
         .catch(() => this.$messages.addMessage('Problem Fetching Courses', 'error'))
     },
 
-    calculateTime: function (courseMatchingStats, siData) {
-      const startPunch = siData.punches.filter(punch => punch.controlCode === 'S')
-      const finishPunch = siData.punches.filter(punch => punch.controlCode === 'F')
+    calculateTime: function (courseMatchingStats, punches) {
+      let errors = courseMatchingStats.errors
+      const startPunch = punches.filter(punch => punch.controlCode === 'S')
+      const finishPunch = punches.filter(punch => punch.controlCode === 'F')
 
-      if (!startPunch || !startPunch[0] || !startPunch[0].time) courseMatchingStats.errors = 'MS ' + courseMatchingStats.errors
-      if (!finishPunch || !finishPunch[0] || !finishPunch[0].time) courseMatchingStats.errors += ' MF'
+      if (!startPunch || !startPunch[0] || !startPunch[0].time) errors = 'MS ' + errors
+      if (!finishPunch || !finishPunch[0] || !finishPunch[0].time) errors = 'Rtd'
+      errors = errors.trim()
 
-      if (courseMatchingStats.errors !== '') return courseMatchingStats.errors.trim()
-      else return timeFunctions.displayTime(finishPunch[0].time - startPunch[0].time)
+      let time = 0
+      if (startPunch[0] && startPunch[0].time && finishPunch[0] && finishPunch[0].time) {
+        time = finishPunch[0].time - startPunch[0].time
+      }
+
+      return {
+        time,
+        errors,
+        displayTime: timeFunctions.displayTime(time, errors),
+      }
     },
   },
 }

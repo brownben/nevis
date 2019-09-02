@@ -155,6 +155,14 @@ export default {
           event INT,
           FOREIGN KEY (competitor) REFERENCES competitors(id) ON UPDATE CASCADE ON DELETE CASCADE,
           FOREIGN KEY (event) REFERENCES events(id) ON UPDATE CASCADE ON DELETE CASCADE)`,
+        `CREATE TABLE IF NOT EXISTS results(
+          time INT,
+          errors TEXT,
+          links TEXT,
+          competitor INT PRIMARY KEY,
+          event INT,
+          FOREIGN KEY (competitor) REFERENCES competitors(id) ON UPDATE CASCADE ON DELETE CASCADE,
+          FOREIGN KEY (event) REFERENCES events(id) ON UPDATE CASCADE ON DELETE CASCADE)`,
       ]
       for (const query of createDatabaseQueries) {
         this.$database.query(query)

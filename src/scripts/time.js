@@ -22,13 +22,13 @@ export default {
     return download.finish - download.start
   },
 
-  displayTime: function (result) {
-    if (typeof result !== 'number') return result
+  displayTime: function (result, errors) {
+    if (errors) return errors
     else return this.elapsed(result)
   },
 
-  displayActualTime: function (result) {
-    if (typeof result !== 'number') return result
+  displayActualTime: function (result, errors) {
+    if (errors) return errors
     else return this.actual(result)
   },
 

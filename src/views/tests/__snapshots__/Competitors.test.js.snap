@@ -136,7 +136,7 @@ exports[`Renders Correctly - With Competitors 1`] = `
         </th>
          
         <th
-          class="hidden md:block"
+          class="hidden md:table-cell"
         >
           
           Age Class
@@ -152,7 +152,7 @@ exports[`Renders Correctly - With Competitors 1`] = `
         </th>
          
         <th
-          class="hidden lg:block"
+          class="hidden lg:table-cell"
         >
           
           Club
@@ -178,7 +178,7 @@ exports[`Renders Correctly - With Competitors 1`] = `
           </td>
            
           <td
-            class="hidden md:block"
+            class="hidden md:table-cell"
           >
             
           </td>
@@ -188,7 +188,7 @@ exports[`Renders Correctly - With Competitors 1`] = `
           </td>
            
           <td
-            class="hidden lg:block"
+            class="hidden lg:table-cell"
           >
             
           </td>
@@ -207,7 +207,7 @@ exports[`Renders Correctly - With Competitors 1`] = `
           </td>
            
           <td
-            class="hidden md:block"
+            class="hidden md:table-cell"
           >
             
           </td>
@@ -217,7 +217,7 @@ exports[`Renders Correctly - With Competitors 1`] = `
           </td>
            
           <td
-            class="hidden lg:block"
+            class="hidden lg:table-cell"
           >
             
           </td>
