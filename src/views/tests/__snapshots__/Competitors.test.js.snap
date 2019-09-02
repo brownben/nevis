@@ -32,27 +32,7 @@ exports[`Renders Correctly - No Competitors 1`] = `
     </button>
   </div>
    
-  <div
-    class="shadow mx-12 mb-3"
-  >
-    <text-input-stub
-      label="Name:"
-      type=""
-      value=""
-    />
-     
-    <text-input-stub
-      label="SI Card:"
-      type=""
-      value=""
-    />
-     
-    <dropdown-input-stub
-      label="Course:"
-      list=""
-      value=""
-    />
-  </div>
+  <!---->
    
   <!---->
 </main>
@@ -90,27 +70,7 @@ exports[`Renders Correctly - With Competitors 1`] = `
     </button>
   </div>
    
-  <div
-    class="shadow mx-12 mb-3"
-  >
-    <text-input-stub
-      label="Name:"
-      type=""
-      value=""
-    />
-     
-    <text-input-stub
-      label="SI Card:"
-      type=""
-      value=""
-    />
-     
-    <dropdown-input-stub
-      label="Course:"
-      list=""
-      value=""
-    />
-  </div>
+  <!---->
    
   <div
     class="shadow mx-12 mb-3 p-2"
