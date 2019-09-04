@@ -1,0 +1,84 @@
+@import 'normalize.css';
+
+html, body, main {
+  height: 100%;
+  width: 100%;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+
+  background: url('Unsplash Background.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  text-align: center;
+  color: white;
+  font-family: Montserrat;
+  font-weight: 300;
+}
+
+h1 {
+  font-weight: 500;
+  font-size: 4rem;
+  margin: 0.5rem 0;
+}
+
+h3 {
+  font-weight: 300;
+  font-size: 2rem;
+  margin: 0.5rem 0 1.5rem;
+  padding: 0 0.5rem;
+}
+
+.links {
+  display: block;
+}
+
+.links a {
+  color: white;
+  text-decoration: none;
+  border: 1px solid white;
+  padding: 0.6rem 0.8rem;
+  transition: 0.3s;
+  font-weight: 500;
+  display:inline-block;
+}
+
+.links a:not(:first-child){
+  margin-left:0.5rem;
+}
+
+.links a:hover {
+  background-color: #ffffff66;
+}
+
+.credit {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 0;
+  padding: 0.5rem;
+  color: white;
+  font-family: Montserrat;
+  font-weight: 300;
+  font-size: 0.75rem;
+}
+
+.credit a {
+  color: white;
+}
+
+@media (max-width:700px){
+  .links a {
+    display:block;
+    margin:0 2rem;
+  }
+  .links a:not(:first-child){
+    margin: 0.5rem 2rem 0;
+  }
+}
