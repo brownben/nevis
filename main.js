@@ -17,7 +17,7 @@ function createWindow () {
     },
   }
   let pathname = ''
-  if (process.env.NODE_ENV !== 'production') pathname = 'http://localhost:8080/'
+  if (process.env.NODE_ENV === 'development') pathname = 'http://localhost:8080/'
   else pathname = 'file://' + path.join(__dirname, '/dist/index.html')
   win = new BrowserWindow(options)
   win.loadURL(pathname)
