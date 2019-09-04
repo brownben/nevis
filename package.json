@@ -16,41 +16,54 @@
     "sportident"
   ],
   "scripts": {
-    "start": "concurrently -k -n vue,electron \"npm:serve\" \"npm:electron\"",
-    "electron": "electron . --NODE_ENV=development",
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
-    "test": "vue-cli-service test:unit -i",
-    "postinstall": "electron-rebuild"
+    "vue-run": "vue-cli-service serve",
+    "vue-build": "vue-cli-service build",
+    "vue-lint": "vue-cli-service lint",
+    "vue-test": "vue-cli-service test:unit -i",
+    "electron-run": "electron . --NODE_ENV=development",
+    "electron-pack": "electron-builder --dir",
+    "electron-build": "electron-builder",
+    "postinstall": "electron-builder install-app-deps",
+    "start": "concurrently -k -n vue,electron \"npm:vue-run\" \"npm:electron-run\" -c green,blue",
+    "lint": "npm run vue-lint",
+    "test": "npm run vue-test",
+    "build": "npm run vue-build && npm run electron-build"
   },
   "dependencies": {
     "core-js": "^2.6.5",
-    "electron": "^6.0.2",
     "mysql": "^2.17.1",
     "serialport": "^7.1.5",
     "vue": "^2.6.10",
-    "vue-router": "^3.0.3"
+    "vue-router": "^3.1.3"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.10.0",
-    "@vue/cli-plugin-eslint": "^3.10.0",
-    "@vue/cli-plugin-unit-jest": "^3.10.0",
-    "@vue/cli-service": "^3.10.0",
+    "@vue/cli-plugin-babel": "^3.11.0",
+    "@vue/cli-plugin-eslint": "^3.11.0",
+    "@vue/cli-plugin-unit-jest": "^3.11.0",
+    "@vue/cli-service": "^3.11.0",
     "@vue/test-utils": "1.0.0-beta.29",
     "babel-core": "7.0.0-bridge.0",
-    "babel-eslint": "^10.0.1",
+    "babel-eslint": "^10.0.3",
     "babel-jest": "^23.6.0",
-    "concurrently": "^4.1.1",
-    "electron-rebuild": "^1.8.6",
+    "concurrently": "^4.1.2",
+    "electron": "^6.0.7",
+    "electron-builder": "^21.2.0",
     "eslint": "^5.16.0",
     "eslint-plugin-import": "^2.17.2",
     "eslint-plugin-node": "^8.0.1",
     "eslint-plugin-promise": "^4.0.0",
-    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^5.0.0",
     "mockdate": "^2.0.5",
-    "tailwindcss": "^1.1.1",
+    "tailwindcss": "^1.1.2",
     "vue-template-compiler": "^2.6.10"
+  },
+  "build": {
+    "productName": "Nevis",
+    "copyright": "Copyright © Ben Brown 2019",
+    "directories": {
+      "output": "./build",
+      "buildResources": "./public"
+    }
   }
 }
