@@ -1,7 +1,7 @@
 {
   "name": "nevis",
   "productName": "Nevis",
-  "version": "5.0.0-alpha",
+  "version": "5.0.0",
   "description": "Fast and Easy Results for Orienteering",
   "author": "brownben",
   "license": "MIT",
@@ -20,7 +20,7 @@
     "vue-build": "vue-cli-service build",
     "vue-lint": "vue-cli-service lint",
     "vue-test": "vue-cli-service test:unit -i",
-    "electron-run": "electron . --NODE_ENV=development",
+    "electron-run": "electron . ",
     "electron-pack": "electron-builder --dir",
     "electron-build": "electron-builder",
     "postinstall": "electron-builder install-app-deps",

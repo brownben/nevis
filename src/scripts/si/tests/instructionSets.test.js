@@ -1,4 +1,4 @@
-import instructionSets from '@/scripts/si/instructionSets'
+import * as instructionSets from '@/scripts/si/instructionSets'
 
 test('Instruction Sets', () => {
   const port = { write: jest.fn() }
