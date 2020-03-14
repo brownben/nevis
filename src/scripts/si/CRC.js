@@ -15,15 +15,15 @@ export default buffer => {
     if (i > 1) val = (buffer[ptr++] << 8 | (buffer[ptr++] & 0xFF))
     else if (count % 2 === 1) val = buffer[count - 1] << 8
     else val = 0
-    for (let j = 0; j < 16; j++) {
+    for (let j = 0; j < 16; j += 1) {
       if ((tmp & 0x8000) !== 0) {
         tmp <<= 1
-        if ((val & 0x8000) !== 0) tmp++
+        if ((val & 0x8000) !== 0) tmp += 1
         tmp ^= 0x8005
       }
       else {
         tmp <<= 1
-        if ((val & 0x8000) !== 0) tmp++
+        if ((val & 0x8000) !== 0) tmp += 1
       }
       val <<= 1
     }

@@ -1,4 +1,4 @@
-import packetAnalysers from '@/scripts/si/packetAnalysers'
+import * as packetAnalysers from '@/scripts/si/packetAnalysers'
 
 test('Packet Analysers', () => {
   expect(packetAnalysers.card5.inserted([])).toBeFalsy()
