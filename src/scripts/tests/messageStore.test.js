@@ -8,7 +8,9 @@ beforeEach(() => {
 
 test('Add Message', () => {
   messages.addMessage('This is an Message')
-  expect(messages.messages).toEqual([{ id: 0, text: 'This is an Message', type: 'info' }])
+  expect(messages.messages).toEqual([
+    { id: 0, text: 'This is an Message', type: 'info' },
+  ])
 })
 
 test('Add Message and Check it is Remove after 30s', () => {
@@ -16,7 +18,11 @@ test('Add Message and Check it is Remove after 30s', () => {
   jest.advanceTimersByTime(30000)
   expect(messages.messages).toEqual([])
   expect(setTimeout).toHaveBeenCalledTimes(1)
-  expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 30000, expect.any(Number))
+  expect(setTimeout).toHaveBeenLastCalledWith(
+    expect.any(Function),
+    30000,
+    expect.any(Number)
+  )
 })
 
 test('Add Messages', () => {
@@ -38,7 +44,11 @@ test('Add Messages and Check all are Removed after 30s', () => {
   jest.advanceTimersByTime(30000)
   expect(messages.messages).toEqual([])
   expect(setTimeout).toHaveBeenCalledTimes(2)
-  expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 30000, expect.any(Number))
+  expect(setTimeout).toHaveBeenLastCalledWith(
+    expect.any(Function),
+    30000,
+    expect.any(Number)
+  )
 })
 
 test('Add Error and Warning Messages and Check not are Removed after 30s', () => {

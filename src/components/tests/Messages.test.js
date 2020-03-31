@@ -58,9 +58,7 @@ test('Clear Message when Clicked', () => {
   const removeMessage = jest.fn()
   const messages = {
     removeMessage: removeMessage,
-    messages: [
-      { id: 0, text: 'Message 0' },
-    ],
+    messages: [{ id: 0, text: 'Message 0' }],
   }
   const wrapper = mount(Messages, {
     mocks: {

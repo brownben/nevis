@@ -6,10 +6,18 @@
 
 <template>
   <div class="up-down-arrows">
-    <svg :class="{ active: (active && !ascending) }" class="fill-current" viewBox="0 0 24 24">
+    <svg
+      :class="{ active: active && !ascending }"
+      class="fill-current"
+      viewBox="0 0 24 24"
+    >
       <path d="M7 14l5-5 5 5z" />
     </svg>
-    <svg :class="{ active: (active && ascending) }" class="fill-current" viewBox="0 0 24 24">
+    <svg
+      :class="{ active: active && ascending }"
+      class="fill-current"
+      viewBox="0 0 24 24"
+    >
       <path d="M7 10l5 5 5-5z" />
     </svg>
   </div>
@@ -20,12 +28,12 @@ export default {
   name: 'UpDownArrows',
 
   props: {
-    'active': {
+    active: {
       type: Boolean,
       default: false,
     },
 
-    'ascending': {
+    ascending: {
       type: Boolean,
       default: false,
     },

@@ -1,12 +1,14 @@
 <template>
   <main>
-    <h1 class="mx-10 mb-1">
-      <back-arrow to="/" />Events
-    </h1>
+    <h1 class="mx-10 mb-1"><back-arrow to="/" />Events</h1>
     <div class="mx-12 mb-3">
-      <router-link tag="button" class="button" to="/events/create">Create Event</router-link>
-      <button v-if="$archive.connected" class="button" @click="importArchive">Import Archive</button>
-      <button class="button" @click="getEvents">Refresh</button>
+      <router-link tag="button" class="button" to="/events/create"
+        >Create Event</router-link
+      >
+      <button v-if="$archive.connected" @click="importArchive" class="button">
+        Import Archive
+      </button>
+      <button @click="getEvents" class="button">Refresh</button>
     </div>
     <div v-if="events && events.length > 0" class="shadow mx-12 mb-3 p-2">
       <table class="w-full font-body">
@@ -37,18 +39,17 @@ export default {
     'back-arrow': BackArrow,
   },
 
-  data: function () {
+  data: function() {
     return {
       events: [],
     }
   },
 
-  mounted: function () {
+  mounted: function() {
     if (this.$database.connection === null || !this.$database.connected) {
       this.$router.push('/')
       this.$messages.addMessage('Problem Connecting To Database', 'error')
-    }
-    else {
+    } else {
       this.createTables()
       this.getEvents()
       this.createArchiveConnection()
@@ -56,13 +57,18 @@ export default {
   },
 
   methods: {
-    getEvents: function () {
-      return this.$database.query('SELECT * FROM events ORDER BY date DESC')
-        .then(result => { this.events = result })
-        .catch(() => this.$messages.addMessage('Problem Fetching Events', 'error'))
+    getEvents: function() {
+      return this.$database
+        .query('SELECT * FROM events ORDER BY date DESC')
+        .then(result => {
+          this.events = result
+        })
+        .catch(() =>
+          this.$messages.addMessage('Problem Fetching Events', 'error')
+        )
     },
 
-    createArchiveConnection: function () {
+    createArchiveConnection: function() {
       this.$archive.connection = this.$mysql.createConnection({
         host: this.$database.connection.config.host,
         port: this.$database.connection.config.port,
@@ -70,8 +76,11 @@ export default {
         password: this.$database.connection.config.password,
         database: 'archive',
       })
-      return this.$archive.connect()
-        .then(() => { this.$archive.connected = true })
+      return this.$archive
+        .connect()
+        .then(() => {
+          this.$archive.connected = true
+        })
         .then(() => {
           return this.$archive.query(`CREATE TABLE IF NOT EXISTS people(
           id INT AUTO_INCREMENT PRIMARY KEY,
@@ -83,22 +92,29 @@ export default {
           club TEXT,
           yearOfBirth INT)`)
         })
-        .catch(() => this.$messages.addMessage('Problem Connecting To The Archive', 'error'))
+        .catch(() =>
+          this.$messages.addMessage(
+            'Problem Connecting To The Archive',
+            'error'
+          )
+        )
     },
 
-    importArchive: async function () {
+    importArchive: function() {
       const { dialog } = this.$electron.remote
-      return dialog.showOpenDialog({
-        title: 'Nevis - Import Archive',
-        buttonLabel: 'Import',
-        properties: ['openFile'],
-        filters: [
-          { name: 'Comma Separated Values', extensions: ['csv'] },
-          { name: 'All Files', extensions: ['*'] },
-        ],
-      })
+      return dialog
+        .showOpenDialog({
+          title: 'Nevis - Import Archive',
+          buttonLabel: 'Import',
+          properties: ['openFile'],
+          filters: [
+            { name: 'Comma Separated Values', extensions: ['csv'] },
+            { name: 'All Files', extensions: ['*'] },
+          ],
+        })
         .then(result => {
-          if (!result.canceled) return this.$fs.readFile(result.filePaths[0], { encoding: 'utf8' })
+          if (!result.canceled)
+            return this.$fs.readFile(result.filePaths[0], { encoding: 'utf8' })
           else throw Error()
         })
         .then(result => result.trim().split('\n'))
@@ -108,20 +124,44 @@ export default {
         })
         .then(result => result.map(row => row.split(',')))
         .then(result => result.filter(row => !row[0].includes('CardNumber')))
-        .then(result => result.map(row => [row[0], row[2].replace(/"/g, ''), row[3].replace(/"/g, ''), row[4].replace(/"/g, ''), this.getYearOfBirth(row[5]), row[6], row[7].replace(/"/g, '')]))
-        .then(result => Promise.all([this.$archive.query('DELETE FROM people'), result]))
-        .then(result => this.$archive.query('INSERT INTO people (siid, status, name, gender, yearOfBirth, membershipNumber, club) VALUES ?', [result[1]]))
-        .then(result => this.$messages.addMessage(`${result.affectedRows} Archive Records Imported`))
-        .catch(() => this.$messages.addMessage('Problem Importing the Archive', 'error'))
+        .then(result =>
+          result.map(row => [
+            row[0],
+            row[2].replace(/"/g, ''),
+            row[3].replace(/"/g, ''),
+            row[4].replace(/"/g, ''),
+            this.getYearOfBirth(row[5]),
+            row[6],
+            row[7].replace(/"/g, ''),
+          ])
+        )
+        .then(result =>
+          Promise.all([this.$archive.query('DELETE FROM people'), result])
+        )
+        .then(result =>
+          this.$archive.query(
+            'INSERT INTO people (siid, status, name, gender, yearOfBirth, membershipNumber, club) VALUES ?',
+            [result[1]]
+          )
+        )
+        .then(result =>
+          this.$messages.addMessage(
+            `${result.affectedRows} Archive Records Imported`
+          )
+        )
+        .catch(() =>
+          this.$messages.addMessage('Problem Importing the Archive', 'error')
+        )
     },
 
-    getYearOfBirth: function (date) {
+    getYearOfBirth: function(date) {
       if (date.length === 4) return parseInt(date)
-      else if (date.split('/')[2] && date.split('/')[2].length === 4) return parseInt(date.split('/')[2])
+      else if (date.split('/')[2] && date.split('/')[2].length === 4)
+        return parseInt(date.split('/')[2])
       else return 0
     },
 
-    createTables: function () {
+    createTables: function() {
       const createDatabaseQueries = [
         `CREATE TABLE IF NOT EXISTS events(
           id INT AUTO_INCREMENT PRIMARY KEY,
@@ -166,8 +206,11 @@ export default {
           FOREIGN KEY (event) REFERENCES events(id) ON UPDATE CASCADE ON DELETE CASCADE)`,
       ]
       for (const query of createDatabaseQueries) {
-        this.$database.query(query)
-          .catch(() => this.$messages.addMessage('Problem Setting Up Database', 'error'))
+        this.$database
+          .query(query)
+          .catch(() =>
+            this.$messages.addMessage('Problem Setting Up Database', 'error')
+          )
       }
     },
   },

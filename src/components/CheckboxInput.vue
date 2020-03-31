@@ -1,8 +1,14 @@
 <template>
-  <div class="flex w-full px-2 py-2 border-solid border-b border-blue-point4 last:border-b-0">
+  <div
+    class="flex w-full px-2 py-2 border-solid border-b border-blue-point4 last:border-b-0"
+  >
     <label>
       <p class="font-body text-blue flex-none px-2 select-none">{{ label }}</p>
-      <input :checked="value" type="checkbox" @change="$emit('input', $event.target.checked)" />
+      <input
+        :checked="value"
+        @change="$emit('input', $event.target.checked)"
+        type="checkbox"
+      />
       <span />
     </label>
   </div>
@@ -13,10 +19,10 @@ export default {
   name: 'CheckboxInput',
 
   props: {
-    'value': {
+    value: {
       default: false,
     },
-    'label': {
+    label: {
       type: String,
       default: '',
     },
@@ -30,7 +36,7 @@ p {
   margin-right: 0.5rem;
 }
 
-[type="checkbox"] {
+[type='checkbox'] {
   display: none;
 }
 
@@ -44,7 +50,7 @@ span {
   margin-bottom: -2px;
 }
 
-[type="checkbox"]:checked + span {
+[type='checkbox']:checked + span {
   position: relative;
   display: inline-block;
   margin-left: 3px;

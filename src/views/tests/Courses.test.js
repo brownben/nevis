@@ -5,7 +5,11 @@ test('Is a Vue Instance', () => {
   const wrapper = shallowMount(Courses, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue() },
+      $database: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockResolvedValue(),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
@@ -18,7 +22,11 @@ test('Renders Correctly - No Courses', () => {
   const wrapper = shallowMount(Courses, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue() },
+      $database: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockResolvedValue(),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
@@ -31,7 +39,11 @@ test('Renders Correctly - With Courses', () => {
   const wrapper = shallowMount(Courses, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue() },
+      $database: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockResolvedValue(),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
@@ -39,8 +51,20 @@ test('Renders Correctly - With Courses', () => {
   })
   wrapper.setData({
     courses: [
-      { id: 0, name: 'Long', length: 2.35, climb: 150, controls: '101,102,103' },
-      { id: 77, name: 'Short', length: 1.75, climb: 15, controls: '100,108,103' },
+      {
+        id: 0,
+        name: 'Long',
+        length: 2.35,
+        climb: 150,
+        controls: '101,102,103',
+      },
+      {
+        id: 77,
+        name: 'Short',
+        length: 1.75,
+        climb: 15,
+        controls: '100,108,103',
+      },
     ],
   })
   expect(wrapper.element).toMatchSnapshot()
@@ -50,7 +74,11 @@ test('Not Connected to the Database', () => {
   const wrapper = shallowMount(Courses, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: false, query: jest.fn().mockResolvedValue() },
+      $database: {
+        connection: {},
+        connected: false,
+        query: jest.fn().mockResolvedValue(),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
@@ -64,7 +92,11 @@ test('Get Courses - Success', async () => {
   const wrapper = mount(Courses, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue(['hello']) },
+      $database: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockResolvedValue(['hello']),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
@@ -78,13 +110,20 @@ test('Get Courses - Error', async () => {
   const wrapper = mount(Courses, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
+      $database: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockRejectedValue(),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   await wrapper.vm.getCourses()
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Fetching Courses', 'error')
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith(
+    'Problem Fetching Courses',
+    'error'
+  )
   expect(wrapper.vm.courses.length).toBe(0)
 })

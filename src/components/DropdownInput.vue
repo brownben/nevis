@@ -2,11 +2,15 @@
   <div class="dropdown-input w-full relative">
     <div
       id="visible"
-      class="relative flex w-full px-2 py-2 border-solid border-b border-blue-point4 last:border-b-0"
       @click="toggle"
+      class="relative flex w-full px-2 py-2 border-solid border-b border-blue-point4 last:border-b-0"
     >
-      <label class="font-body text-blue flex-none px-2 select-none">{{ label }}</label>
-      <p class="font-body outline-none flex-1 appearance-none">{{ currentValue }}</p>
+      <label class="font-body text-blue flex-none px-2 select-none">{{
+        label
+      }}</label>
+      <p class="font-body outline-none flex-1 appearance-none">
+        {{ currentValue }}
+      </p>
       <svg
         v-show="!currentHide"
         fill="#9E9E9E"
@@ -21,15 +25,15 @@
     </div>
     <transition name="open">
       <div
-        v-show="open"
         id="dropdown"
+        v-show="open"
         class="absolute w-full bg-white block select-none shadow z-10 text-center"
       >
         <p
           v-for="item in list"
           :key="item"
-          class="block text-body h-8 p-1 hover:bg-blue-point2 select-none"
           @click="changeSelection(item)"
+          class="block text-body h-8 p-1 hover:bg-blue-point2 select-none"
         >
           {{ item }}
         </p>
@@ -43,24 +47,24 @@ export default {
   name: 'DropdownInput',
 
   props: {
-    'label': {
+    label: {
       type: String,
       default: '',
     },
-    'value': {
+    value: {
       default: '',
     },
-    'list': {
+    list: {
       type: Array,
       default: () => [],
     },
-    'hide': {
+    hide: {
       type: Boolean,
       default: false,
     },
   },
 
-  data: function () {
+  data: function() {
     return {
       open: false,
       currentValue: this.value,
@@ -69,18 +73,22 @@ export default {
   },
 
   watch: {
-    value: function (value) { this.currentValue = value },
-    hide: function (value) { this.currentHide = value },
+    value: function(value) {
+      this.currentValue = value
+    },
+    hide: function(value) {
+      this.currentHide = value
+    },
   },
 
   methods: {
-    changeSelection: function (value) {
+    changeSelection: function(value) {
       this.open = false
       this.currentValue = value
       this.$emit('input', value)
     },
 
-    toggle: function () {
+    toggle: function() {
       if (!this.currentHide) {
         this.open = !this.open
         if (this.open) this.$emit('opened')

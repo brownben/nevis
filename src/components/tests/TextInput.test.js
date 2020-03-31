@@ -8,9 +8,7 @@ test('Is a Vue Instance', () => {
 
 test('Renders Correctly', () => {
   const wrapper = mount(TextInput, {
-    propsData: {
-
-    },
+    propsData: {},
   })
   expect(wrapper.element).toMatchSnapshot()
 })

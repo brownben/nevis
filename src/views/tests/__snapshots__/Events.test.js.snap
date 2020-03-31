@@ -9,7 +9,6 @@ exports[`Renders Correctly - Events 1`] = `
       to="/"
     />
     Events
-  
   </h1>
    
   <div
@@ -26,7 +25,9 @@ exports[`Renders Correctly - Events 1`] = `
     <button
       class="button"
     >
+      
       Import Archive
+    
     </button>
      
     <button
@@ -107,7 +108,6 @@ exports[`Renders Correctly - No Events 1`] = `
       to="/"
     />
     Events
-  
   </h1>
    
   <div
@@ -124,7 +124,9 @@ exports[`Renders Correctly - No Events 1`] = `
     <button
       class="button"
     >
+      
       Import Archive
+    
     </button>
      
     <button

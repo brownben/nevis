@@ -19,7 +19,11 @@ test('Connect to Database - Success', async () => {
   const wrapper = mount(Home, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connect: jest.fn().mockResolvedValue(), connected: false },
+      $database: {
+        connection: {},
+        connect: jest.fn().mockResolvedValue(),
+        connected: false,
+      },
       $mysql: { createConnection: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
       $router: { push: jest.fn() },
@@ -38,7 +42,11 @@ test('Connect to Database - Error', async () => {
   const wrapper = mount(Home, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connect: jest.fn().mockRejectedValue('Error'), connected: false },
+      $database: {
+        connection: {},
+        connect: jest.fn().mockRejectedValue('Error'),
+        connected: false,
+      },
       $mysql: { createConnection: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
@@ -47,6 +55,9 @@ test('Connect to Database - Error', async () => {
   expect(wrapper.vm.$mysql.createConnection).toHaveBeenCalledTimes(1)
   expect(wrapper.vm.$database.connect).toHaveBeenCalledTimes(1)
   expect(wrapper.vm.$messages.addMessage).toHaveBeenCalledTimes(1)
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Connecting To The Database', 'error')
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith(
+    'Problem Connecting To The Database',
+    'error'
+  )
   expect(wrapper.vm.$database.connected).toBeFalsy()
 })

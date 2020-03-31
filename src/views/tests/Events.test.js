@@ -6,8 +6,17 @@ test('Is a Vue Instance', () => {
     stubs: ['router-link'],
     mocks: {
       $mysql: { createConnection: jest.fn() },
-      $database: { connection: { config: { host: '', port: '', user: '', password: '' } }, connected: true, query: jest.fn().mockResolvedValue() },
-      $archive: { connection: {}, connected: true, query: jest.fn().mockRejectedValue(), connect: jest.fn().mockResolvedValue() },
+      $database: {
+        connection: { config: { host: '', port: '', user: '', password: '' } },
+        connected: true,
+        query: jest.fn().mockResolvedValue(),
+      },
+      $archive: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockRejectedValue(),
+        connect: jest.fn().mockResolvedValue(),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
@@ -21,8 +30,17 @@ test('Renders Correctly - No Events', () => {
     stubs: ['router-link'],
     mocks: {
       $mysql: { createConnection: jest.fn() },
-      $database: { connection: { config: { host: '', port: '', user: '', password: '' } }, connected: true, query: jest.fn().mockResolvedValue() },
-      $archive: { connection: {}, connected: true, query: jest.fn().mockRejectedValue(), connect: jest.fn().mockResolvedValue() },
+      $database: {
+        connection: { config: { host: '', port: '', user: '', password: '' } },
+        connected: true,
+        query: jest.fn().mockResolvedValue(),
+      },
+      $archive: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockRejectedValue(),
+        connect: jest.fn().mockResolvedValue(),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
@@ -36,14 +54,29 @@ test('Renders Correctly - Events', () => {
     stubs: ['router-link'],
     mocks: {
       $mysql: { createConnection: jest.fn() },
-      $database: { connection: { config: { host: '', port: '', user: '', password: '' } }, connected: true, query: jest.fn().mockResolvedValue() },
-      $archive: { connection: {}, connected: true, query: jest.fn().mockRejectedValue(), connect: jest.fn().mockResolvedValue() },
+      $database: {
+        connection: { config: { host: '', port: '', user: '', password: '' } },
+        connected: true,
+        query: jest.fn().mockResolvedValue(),
+      },
+      $archive: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockRejectedValue(),
+        connect: jest.fn().mockResolvedValue(),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
-  wrapper.setData({ events: [{ id: 1, name: 'Test', date: '1/2/3' }, { id: 2, name: 'Testing', date: '36/22/11' }, { id: 3, name: 'Event', date: '5/6/9' }] })
+  wrapper.setData({
+    events: [
+      { id: 1, name: 'Test', date: '1/2/3' },
+      { id: 2, name: 'Testing', date: '36/22/11' },
+      { id: 3, name: 'Event', date: '5/6/9' },
+    ],
+  })
   expect(wrapper.element).toMatchSnapshot()
 })
 
@@ -52,8 +85,17 @@ test('Not Connected to the Database', () => {
     stubs: ['router-link'],
     mocks: {
       $mysql: { createConnection: jest.fn() },
-      $database: { connection: { config: { host: '', port: '', user: '', password: '' } }, connected: false, query: jest.fn().mockResolvedValue() },
-      $archive: { connection: {}, connected: true, query: jest.fn().mockRejectedValue(), connect: jest.fn().mockResolvedValue() },
+      $database: {
+        connection: { config: { host: '', port: '', user: '', password: '' } },
+        connected: false,
+        query: jest.fn().mockResolvedValue(),
+      },
+      $archive: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockRejectedValue(),
+        connect: jest.fn().mockResolvedValue(),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
@@ -68,8 +110,17 @@ test('Get Events - Success', async () => {
     stubs: ['router-link'],
     mocks: {
       $mysql: { createConnection: jest.fn() },
-      $database: { connection: { config: { host: '', port: '', user: '', password: '' } }, connected: true, query: jest.fn().mockResolvedValue(['hello']) },
-      $archive: { connection: {}, connected: true, query: jest.fn().mockRejectedValue(), connect: jest.fn().mockResolvedValue() },
+      $database: {
+        connection: { config: { host: '', port: '', user: '', password: '' } },
+        connected: true,
+        query: jest.fn().mockResolvedValue(['hello']),
+      },
+      $archive: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockRejectedValue(),
+        connect: jest.fn().mockResolvedValue(),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
@@ -84,15 +135,27 @@ test('Get Events - Error', async () => {
     stubs: ['router-link'],
     mocks: {
       $mysql: { createConnection: jest.fn() },
-      $database: { connection: { config: { host: '', port: '', user: '', password: '' } }, connected: true, query: jest.fn().mockRejectedValue() },
-      $archive: { connection: {}, connected: true, query: jest.fn().mockRejectedValue(), connect: jest.fn().mockResolvedValue() },
+      $database: {
+        connection: { config: { host: '', port: '', user: '', password: '' } },
+        connected: true,
+        query: jest.fn().mockRejectedValue(),
+      },
+      $archive: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockRejectedValue(),
+        connect: jest.fn().mockResolvedValue(),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   await wrapper.vm.getEvents()
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Fetching Events', 'error')
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith(
+    'Problem Fetching Events',
+    'error'
+  )
   expect(wrapper.vm.events.length).toBe(0)
 })
 
@@ -101,8 +164,17 @@ test('Get Year Of Birth', () => {
     stubs: ['router-link'],
     mocks: {
       $mysql: { createConnection: jest.fn() },
-      $database: { connection: { config: { host: '', port: '', user: '', password: '' } }, connected: true, query: jest.fn().mockRejectedValue() },
-      $archive: { connection: {}, connected: true, query: jest.fn().mockRejectedValue(), connect: jest.fn().mockResolvedValue() },
+      $database: {
+        connection: { config: { host: '', port: '', user: '', password: '' } },
+        connected: true,
+        query: jest.fn().mockRejectedValue(),
+      },
+      $archive: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockRejectedValue(),
+        connect: jest.fn().mockResolvedValue(),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
@@ -122,16 +194,34 @@ test('Import Archive - Cancelled', async () => {
     mocks: {
       $mysql: { createConnection: jest.fn() },
       $fs: { readFile: jest.fn().mockResolvedValue() },
-      $electron: { remote: { dialog: { showOpenDialog: jest.fn().mockResolvedValue({ canceled: true }) } } },
-      $database: { connection: { config: { host: '', port: '', user: '', password: '' } }, connected: true, query: jest.fn().mockRejectedValue() },
-      $archive: { connection: {}, connected: true, query: jest.fn().mockRejectedValue(), connect: jest.fn().mockResolvedValue() },
+      $electron: {
+        remote: {
+          dialog: {
+            showOpenDialog: jest.fn().mockResolvedValue({ canceled: true }),
+          },
+        },
+      },
+      $database: {
+        connection: { config: { host: '', port: '', user: '', password: '' } },
+        connected: true,
+        query: jest.fn().mockRejectedValue(),
+      },
+      $archive: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockRejectedValue(),
+        connect: jest.fn().mockResolvedValue(),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   await wrapper.vm.importArchive()
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Importing the Archive', 'error')
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith(
+    'Problem Importing the Archive',
+    'error'
+  )
 })
 
 test('Import Archive - Wrong File Type', async () => {
@@ -147,10 +237,25 @@ CardNuber,CardLabel,CardStatus,Name,Sex,DateOfBirth,MemberNo,Club,Country
       $mysql: { createConnection: jest.fn() },
       $fs: { readFile: jest.fn().mockResolvedValue(sampleArchiveForImport) },
       $electron: {
-        remote: { dialog: { showOpenDialog: jest.fn().mockResolvedValue({ canceled: false, filePaths: ['/test'] }) } },
+        remote: {
+          dialog: {
+            showOpenDialog: jest
+              .fn()
+              .mockResolvedValue({ canceled: false, filePaths: ['/test'] }),
+          },
+        },
       },
-      $database: { connection: { config: { host: '', port: '', user: '', password: '' } }, connected: true, query: jest.fn().mockRejectedValue() },
-      $archive: { connection: {}, connected: true, query: jest.fn().mockResolvedValue(), connect: jest.fn().mockResolvedValue() },
+      $database: {
+        connection: { config: { host: '', port: '', user: '', password: '' } },
+        connected: true,
+        query: jest.fn().mockRejectedValue(),
+      },
+      $archive: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockResolvedValue(),
+        connect: jest.fn().mockResolvedValue(),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
@@ -161,7 +266,10 @@ CardNuber,CardLabel,CardStatus,Name,Sex,DateOfBirth,MemberNo,Club,Country
     },
   })
   await wrapper.vm.importArchive()
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Importing the Archive', 'error')
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith(
+    'Problem Importing the Archive',
+    'error'
+  )
 })
 
 test('Import Archive - Success', async () => {
@@ -177,10 +285,25 @@ CardNumber,CardLabel,CardStatus,Name,Sex,DateOfBirth,MemberNo,Club,Country
       $mysql: { createConnection: jest.fn() },
       $fs: { readFile: jest.fn().mockResolvedValue(sampleArchiveForImport) },
       $electron: {
-        remote: { dialog: { showOpenDialog: jest.fn().mockResolvedValue({ canceled: false, filePaths: ['/test'] }) } },
+        remote: {
+          dialog: {
+            showOpenDialog: jest
+              .fn()
+              .mockResolvedValue({ canceled: false, filePaths: ['/test'] }),
+          },
+        },
       },
-      $database: { connection: { config: { host: '', port: '', user: '', password: '' } }, connected: true, query: jest.fn().mockResolvedValue() },
-      $archive: { connection: {}, connected: true, query: jest.fn().mockResolvedValue({ affectedRows: 2 }), connect: jest.fn().mockResolvedValue() },
+      $database: {
+        connection: { config: { host: '', port: '', user: '', password: '' } },
+        connected: true,
+        query: jest.fn().mockResolvedValue(),
+      },
+      $archive: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockResolvedValue({ affectedRows: 2 }),
+        connect: jest.fn().mockResolvedValue(),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
@@ -192,11 +315,20 @@ CardNumber,CardLabel,CardStatus,Name,Sex,DateOfBirth,MemberNo,Club,Country
   })
   await wrapper.vm.importArchive()
   expect(wrapper.vm.$fs.readFile).toHaveBeenCalledTimes(1)
-  expect(wrapper.vm.$fs.readFile).toHaveBeenLastCalledWith('/test', { encoding: 'utf8' })
+  expect(wrapper.vm.$fs.readFile).toHaveBeenLastCalledWith('/test', {
+    encoding: 'utf8',
+  })
 
-  expect(wrapper.vm.$archive.query).toHaveBeenLastCalledWith('INSERT INTO people (siid, status, name, gender, yearOfBirth, membershipNumber, club) VALUES ?', [[
-    ['', '', 'Bob Eves', 'm', 2000, 'TARP1001', 'St Lukes'],
-    ['', '', 'Jo Smith', 'f', 2000, 'TARP1002', 'St Janes'],
-  ]])
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('2 Archive Records Imported')
+  expect(wrapper.vm.$archive.query).toHaveBeenLastCalledWith(
+    'INSERT INTO people (siid, status, name, gender, yearOfBirth, membershipNumber, club) VALUES ?',
+    [
+      [
+        ['', '', 'Bob Eves', 'm', 2000, 'TARP1001', 'St Lukes'],
+        ['', '', 'Jo Smith', 'f', 2000, 'TARP1002', 'St Janes'],
+      ],
+    ]
+  )
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith(
+    '2 Archive Records Imported'
+  )
 })

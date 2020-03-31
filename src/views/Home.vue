@@ -1,11 +1,15 @@
 <template>
   <div>
     <div class="bg-gradient text-center w-full shadow-md mb-3">
-      <img src="@/assets/images/Nevis Logo.png" alt="Nevis Logo" class="h-40 py-5" />
+      <img
+        src="@/assets/images/Nevis Logo.png"
+        alt="Nevis Logo"
+        class="h-40 py-5"
+      />
       <h1 class="pb-4 text-3xl text-white">Welcome to Nevis</h1>
     </div>
     <div class="mx-10 mb-3">
-      <button class="button" @click="connect">Connect</button>
+      <button @click="connect" class="button">Connect</button>
       <router-link tag="button" class="button" to="/about">About</router-link>
     </div>
     <div class="shadow mx-10">
@@ -26,7 +30,7 @@ export default {
     'text-input': TextInput,
   },
 
-  data: function () {
+  data: function() {
     return {
       server: 'localhost',
       port: '3306',
@@ -37,7 +41,7 @@ export default {
   },
 
   methods: {
-    connect: function () {
+    connect: function() {
       this.$database.connection = this.$mysql.createConnection({
         host: this.server,
         port: this.port,
@@ -45,13 +49,19 @@ export default {
         password: this.password,
         database: this.database,
       })
-      return this.$database.connect()
+      return this.$database
+        .connect()
         .then(() => {
           this.$database.connected = true
           this.$router.push('/events')
         })
         .then(() => this.$messages.clearMessages())
-        .catch(() => this.$messages.addMessage('Problem Connecting To The Database', 'error'))
+        .catch(() =>
+          this.$messages.addMessage(
+            'Problem Connecting To The Database',
+            'error'
+          )
+        )
     },
   },
 }

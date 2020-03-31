@@ -12,7 +12,7 @@ import Messages from '@/components/Messages'
 export default {
   components: {
     'title-bar': TitleBar,
-    'messages': Messages,
+    messages: Messages,
   },
 }
 </script>

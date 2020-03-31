@@ -5,7 +5,11 @@ test('Is a Vue Instance', () => {
   const wrapper = shallowMount(Results, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue() },
+      $database: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockResolvedValue(),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
@@ -18,7 +22,11 @@ test('Renders Correctly - No Results', () => {
   const wrapper = shallowMount(Results, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue() },
+      $database: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockResolvedValue(),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
@@ -31,7 +39,11 @@ test('Not Connected to the Database', () => {
   const wrapper = shallowMount(Results, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: false, query: jest.fn().mockResolvedValue() },
+      $database: {
+        connection: {},
+        connected: false,
+        query: jest.fn().mockResolvedValue(),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
@@ -45,7 +57,11 @@ test('Get Courses - Success', async () => {
   const wrapper = shallowMount(Results, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue(['hello']) },
+      $database: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockResolvedValue(['hello']),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
@@ -59,14 +75,21 @@ test('Get Courses - Error', async () => {
   const wrapper = shallowMount(Results, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
+      $database: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockRejectedValue(),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   await wrapper.vm.getCourses()
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Fetching Courses', 'error')
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith(
+    'Problem Fetching Courses',
+    'error'
+  )
   expect(wrapper.vm.courses.length).toBe(0)
 })
 
@@ -74,7 +97,11 @@ test('Get Results - Success', async () => {
   const wrapper = shallowMount(Results, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockResolvedValue(['hello']) },
+      $database: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockResolvedValue(['hello']),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
@@ -88,14 +115,21 @@ test('Get Results - Error', async () => {
   const wrapper = shallowMount(Results, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
+      $database: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockRejectedValue(),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
   })
   await wrapper.vm.getResults()
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith('Problem Fetching Results', 'error')
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith(
+    'Problem Fetching Results',
+    'error'
+  )
   expect(wrapper.vm.results.length).toBe(0)
 })
 
@@ -103,7 +137,11 @@ test('Competitors On Course', () => {
   const wrapper = shallowMount(Results, {
     stubs: ['router-link'],
     mocks: {
-      $database: { connection: {}, connected: true, query: jest.fn().mockRejectedValue() },
+      $database: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockRejectedValue(),
+      },
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },

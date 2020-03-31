@@ -3,7 +3,7 @@ const path = require('path')
 
 let win
 
-function createWindow () {
+function createWindow() {
   let options = {
     width: 775,
     height: 650,
@@ -17,8 +17,9 @@ function createWindow () {
     },
   }
   let pathname = ''
-  if (process.env.NODE_ENV === 'development') pathname = 'http://localhost:8080/'
-  else pathname = 'file://' + path.join(__dirname, '/dist/index.html')
+  if (process.env.NODE_ENV === 'development')
+    pathname = 'http://localhost:8080/'
+  else pathname = `file://${path.join(__dirname, '/dist/index.html')}`
   win = new BrowserWindow(options)
   win.loadURL(pathname)
   win.on('ready-to-show', () => {
@@ -44,39 +45,40 @@ app.on('activate', () => {
 })
 
 // Context Menu
-const contextMenu = [{
-  label: 'Copy',
-  accelerator: 'CmdOrCtrl+C',
-  role: 'copy',
-},
-{
-  label: 'Cut',
-  accelerator: 'CmdOrCtrl+X',
-  role: 'cut',
-},
-{
-  label: 'Paste',
-  accelerator: 'CmdOrCtrl+V',
-  role: 'paste',
-}]
+const contextMenu = [
+  {
+    label: 'Copy',
+    accelerator: 'CmdOrCtrl+C',
+    role: 'copy',
+  },
+  {
+    label: 'Cut',
+    accelerator: 'CmdOrCtrl+X',
+    role: 'cut',
+  },
+  {
+    label: 'Paste',
+    accelerator: 'CmdOrCtrl+V',
+    role: 'paste',
+  },
+]
 
 const ContextMenu = Menu.buildFromTemplate(contextMenu)
-app.on('browser-window-created', function (event, win) {
-  win.webContents.on('context-menu', function (e, params) {
+app.on('browser-window-created', function(event, win) {
+  win.webContents.on('context-menu', function(e, params) {
     ContextMenu.popup(win, params.x, params.y)
   })
 })
 
 // Menu Titlebar Icon
 let maximized = false
-ipcMain.on('window', function (event, arg) {
+ipcMain.on('window', function(event, arg) {
   if (arg === 'maximize') {
     if (maximized === false) win.maximize()
     else win.unmaximize()
     maximized = !maximized
     event.sender.send('window', maximized)
-  }
-  else if (arg === 'minimize') {
+  } else if (arg === 'minimize') {
     win.minimize()
   }
 })

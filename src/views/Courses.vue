@@ -5,13 +5,13 @@
     </h1>
     <div class="mx-12 mb-3">
       <router-link
+        :to="`/events/${$route.params.id}/courses/create`"
         tag="button"
         class="button"
-        :to="`/events/${$route.params.id}/courses/create`"
       >
         Create Course
       </router-link>
-      <button class="button" @click="getCourses">Refresh</button>
+      <button @click="getCourses" class="button">Refresh</button>
     </div>
     <template v-if="courses && courses.length > 0">
       <router-link
@@ -49,33 +49,39 @@ export default {
     'back-arrow': BackArrow,
   },
 
-  data: function () {
+  data: function() {
     return {
       courses: [],
     }
   },
 
-  mounted: function () {
+  mounted: function() {
     if (this.$database.connection === null || !this.$database.connected) {
       this.$router.push('/')
       this.$messages.addMessage('Problem Connecting To Database', 'error')
-    }
-    else this.getCourses()
+    } else this.getCourses()
   },
 
   methods: {
-    getCourses: function () {
-      return this.$database.query(`
+    getCourses: function() {
+      return this.$database
+        .query(
+          `
       SELECT courses.*, IFNULL(COUNT(competitors.course),0) AS numberOfCompetitors
       FROM courses
       LEFT JOIN competitors ON courses.id=competitors.course
       WHERE courses.event=?
       GROUP BY courses.id
-      ORDER BY courses.name`, this.$route.params.id)
-        .then(result => { this.courses = result })
-        .catch(() => this.$messages.addMessage('Problem Fetching Courses', 'error'))
+      ORDER BY courses.name`,
+          this.$route.params.id
+        )
+        .then(result => {
+          this.courses = result
+        })
+        .catch(() =>
+          this.$messages.addMessage('Problem Fetching Courses', 'error')
+        )
     },
   },
 }
 </script>
-

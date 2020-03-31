@@ -1,6 +1,8 @@
 @import 'normalize.css';
 
-html, body, main {
+html,
+body,
+main {
   height: 100%;
   width: 100%;
 }
@@ -46,11 +48,11 @@ h3 {
   padding: 0.6rem 0.8rem;
   transition: 0.3s;
   font-weight: 500;
-  display:inline-block;
+  display: inline-block;
 }
 
-.links a:not(:first-child){
-  margin-left:0.5rem;
+.links a:not(:first-child) {
+  margin-left: 0.5rem;
 }
 
 .links a:hover {
@@ -73,12 +75,12 @@ h3 {
   color: white;
 }
 
-@media (max-width:700px){
+@media (max-width: 700px) {
   .links a {
-    display:block;
-    margin:0 2rem;
+    display: block;
+    margin: 0 2rem;
   }
-  .links a:not(:first-child){
+  .links a:not(:first-child) {
     margin: 0.5rem 2rem 0;
   }
 }

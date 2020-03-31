@@ -47,10 +47,16 @@ test('Minimise/ Maximise', () => {
   })
   wrapper.vm.minimize()
   expect(wrapper.vm.$electron.ipcRenderer.send).toHaveBeenCalledTimes(1)
-  expect(wrapper.vm.$electron.ipcRenderer.send).toHaveBeenLastCalledWith('window', 'minimize')
+  expect(wrapper.vm.$electron.ipcRenderer.send).toHaveBeenLastCalledWith(
+    'window',
+    'minimize'
+  )
   wrapper.vm.maximize()
   expect(wrapper.vm.$electron.ipcRenderer.send).toHaveBeenCalledTimes(2)
-  expect(wrapper.vm.$electron.ipcRenderer.send).toHaveBeenLastCalledWith('window', 'maximize')
+  expect(wrapper.vm.$electron.ipcRenderer.send).toHaveBeenLastCalledWith(
+    'window',
+    'maximize'
+  )
 })
 
 test('Set Maximized', () => {

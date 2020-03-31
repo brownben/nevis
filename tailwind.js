@@ -16,8 +16,8 @@ module.exports = {
       orange: '#FFA500',
     },
     fontFamily: {
-      'heading': 'Montserrat-Bold',
-      'body': 'Montserrat-Light',
+      heading: 'Montserrat-Bold',
+      body: 'Montserrat-Light',
     },
     minWidth: {
       '1/4': '25%',
@@ -25,7 +25,15 @@ module.exports = {
     extend: {},
   },
   variants: {
-    backgroundColor: ['responsive', 'first', 'last', 'even', 'odd', 'hover', 'focus'],
+    backgroundColor: [
+      'responsive',
+      'first',
+      'last',
+      'even',
+      'odd',
+      'hover',
+      'focus',
+    ],
   },
   plugins: [],
 }

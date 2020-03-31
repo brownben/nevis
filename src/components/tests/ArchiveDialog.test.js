@@ -43,4 +43,3 @@ test('Emits Value on Close', () => {
   expect(wrapper.emitted().close[0]).toEqual(['Hello'])
   expect(wrapper.emitted().close[1]).toEqual([123])
 })
-

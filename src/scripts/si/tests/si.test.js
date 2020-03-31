@@ -1,8 +1,12 @@
 import si from '@/scripts/si/si'
 
-import * as helpers from '@/scripts/si/helpers'
-import * as card5 from '@/scripts/si/card5'
-import * as card10 from '@/scripts/si/card10'
+import * as helpersimport from '@/scripts/si/helpers'
+import * as card5import from '@/scripts/si/card5'
+import * as card10import from '@/scripts/si/card10'
+
+let helpers = helpersimport
+let card5 = card5import
+let card10 = card10import
 
 test('Parse Data', () => {
   const port = { flush: jest.fn(), write: jest.fn() }

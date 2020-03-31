@@ -8,7 +8,9 @@
 A Open Source, Easy to Use, Fast Download and Results Program for the SportIdent Timing System
 
 ### Version 5 is Currently in Development (Uses MySQL Database)
+
 ### Version 4 is Avaliable [Here](https://github.com/brownben/nevis/tree/v4) (Uses PouchDB to allow multiple machines/users/windows)
+
 ### Version 3 is Avaliable [Here](https://github.com/brownben/nevis/tree/84cdd43f5b913dd59acc62225878bb541a3249a7) (Uses a single local file as database, restricted to one window on one machine)
 
 ## Features
@@ -29,6 +31,7 @@ With Nevis you can:
   - Match unidentified downloads to the archive
 
 ## License
+
 Released under a MIT License.
 See [LICENSE.md](./LICENSE.md) for more details
 

@@ -8,8 +8,7 @@ exports[`Renders Correctly - Create 1`] = `
     <back-arrow-stub
       to=""
     />
-    Update Event
-    
+    Update Event 
   </h1>
    
   <div
@@ -24,7 +23,9 @@ exports[`Renders Correctly - Create 1`] = `
     <button
       class="button"
     >
+      
       Delete Event
+    
     </button>
   </div>
    
@@ -56,8 +57,7 @@ exports[`Renders Correctly - Update 1`] = `
     <back-arrow-stub
       to=""
     />
-    Update Event
-    
+    Update Event 
   </h1>
    
   <div
@@ -72,7 +72,9 @@ exports[`Renders Correctly - Update 1`] = `
     <button
       class="button"
     >
+      
       Delete Event
+    
     </button>
   </div>
    

@@ -1,4 +1,3 @@
-
 <template>
   <div
     class="fixed top-0 pt-8 flex w-full h-full bg-blue-point4 flex-col justify-around content-center select-none"
@@ -9,14 +8,14 @@
       <h1>{{ heading }}</h1>
       <p class="my-1 select-none">{{ message }}</p>
       <button
-        class="w-1/3 sm:w-1/4 m-1 mt-2 py-1 px-3 text-blue font-heading border border-solid border-blue hover:bg-blue-point4"
         @click="confirmAction(false)"
+        class="w-1/3 sm:w-1/4 m-1 mt-2 py-1 px-3 text-blue font-heading border border-solid border-blue hover:bg-blue-point4"
       >
         {{ cancel }}
       </button>
       <button
-        class="w-1/3 sm:w-1/4 m-1 mt-2 py-1 px-3 bg-blue text-white font-heading hover:bg-blue-point8 border border-solid border-blue"
         @click="confirmAction(true)"
+        class="w-1/3 sm:w-1/4 m-1 mt-2 py-1 px-3 bg-blue text-white font-heading hover:bg-blue-point8 border border-solid border-blue"
       >
         {{ confirm }}
       </button>
@@ -29,26 +28,28 @@ export default {
   name: 'ConfirmationDialog',
 
   props: {
-    'heading': {
+    heading: {
       type: String,
       default: '',
     },
-    'message': {
+    message: {
       type: String,
       default: '',
     },
-    'confirm': {
+    confirm: {
       type: String,
       default: '',
     },
-    'cancel': {
+    cancel: {
       type: String,
       default: 'Cancel',
     },
   },
 
   methods: {
-    confirmAction: function (value) { this.$emit('close', value) },
+    confirmAction: function(value) {
+      this.$emit('close', value)
+    },
   },
 }
 </script>

@@ -1,9 +1,8 @@
-
 <template>
   <div
     is="transition-group"
-    v-show="messages.length > 0"
     id="messages"
+    v-show="messages.length > 0"
     name="list"
     mode="out-in"
     class="fixed bottom-0 right-0 w-auto p-3 min-w-1/4 z-30"
@@ -12,8 +11,8 @@
       v-for="message of messages"
       :key="message.id"
       :class="message.type"
-      class="text-center font-heading shadow mt-3 p-2 px-3 w-full select-none z-30"
       @click="clear(message.id)"
+      class="text-center font-heading shadow mt-3 p-2 px-3 w-full select-none z-30"
     >
       <span v-if="message.type === 'error'">Error:</span>
       <span v-else-if="message.type === 'warning'">Warning:</span>
@@ -25,14 +24,14 @@
 <script>
 export default {
   name: 'Messages',
-  data: function () {
+  data: function() {
     return {
       messages: this.$messages.messages,
     }
   },
 
   methods: {
-    clear: function (id) {
+    clear: function(id) {
       this.$messages.removeMessage(id)
     },
   },

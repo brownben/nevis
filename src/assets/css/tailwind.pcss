@@ -15,11 +15,11 @@
 }
 
 * {
-  transition: 0.3s ease-out
+  transition: 0.3s ease-out;
 }
 
 h1 {
-  @apply  font-heading text-4xl text-blue select-none;
+  @apply font-heading text-4xl text-blue select-none;
 }
 
 h2 {
@@ -34,7 +34,10 @@ h4 {
   @apply font-heading text-lg select-none;
 }
 
-p, a, button, svg {
+p,
+a,
+button,
+svg {
   @apply font-body outline-none;
 }
 
@@ -42,11 +45,14 @@ button:focus {
   @apply outline-none;
 }
 
-img, svg {
-  display:inline-block
+img,
+svg {
+  display: inline-block;
 }
 
-button, svg, img{
+button,
+svg,
+img {
   @apply select-none;
 }
 
@@ -67,13 +73,13 @@ td {
 }
 
 .bg-gradient {
-  background: linear-gradient(#1976d2, #2196F3);
+  background: linear-gradient(#1976d2, #2196f3);
   @apply bg-blue;
 }
 
 .active {
   @apply text-blue;
-  transition:none;
+  transition: none;
 }
 
 .error {
@@ -96,7 +102,9 @@ td {
   opacity: 0;
 }
 
-html, body, #app {
+html,
+body,
+#app {
   height: 100%;
   overflow: hidden;
   box-sizing: border-box;
@@ -104,32 +112,32 @@ html, body, #app {
 
 .scroll {
   height: calc(100% - 2rem);
-  width:100%;
-  margin:0;
+  width: 100%;
+  margin: 0;
   overflow-y: auto;
   overflow-x: hidden;
 }
 
 ::-webkit-scrollbar {
-  width: 10px
+  width: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #ECEFF1;
-  transition: 0.3s ease-out
+  background: #eceff1;
+  transition: 0.3s ease-out;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #CFD8DC
+  background: #cfd8dc;
 }
 
 ::-webkit-scrollbar-thumb:active {
-  background: #B0BEC5
+  background: #b0bec5;
 }
 
 ::selection {
   background: #1976d2;
-  color: white
+  color: white;
 }
 
 @tailwind components;

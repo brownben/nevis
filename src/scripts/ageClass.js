@@ -5,8 +5,11 @@ export default (gender, yearOfBirth) => {
 
   let ageClass = ''
 
-  if (gender === 'f') ageClass += 'W'
-  else ageClass = 'M'
+  let genderLower = gender.toLowerCase()
+  if (genderLower === 'f' || genderLower === 'w' || genderLower === 'd')
+    ageClass += 'W'
+  else if (genderLower === 'm' || genderLower === 'h') ageClass = 'M'
+  else return ''
 
   if (age === currentYear) return ''
   else if (age <= 10) ageClass += '10'

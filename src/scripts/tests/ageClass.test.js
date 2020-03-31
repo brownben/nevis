@@ -1,6 +1,6 @@
 import ageClass from '@/scripts/ageClass'
 
-var MockDate = require('mockdate')
+let MockDate = require('mockdate')
 
 MockDate.set('2019-01-01')
 

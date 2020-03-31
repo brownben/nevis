@@ -10,8 +10,15 @@ test('Correct Course', () => {
   expect(linear([1, 2, 3], [1, 2, 3]).errors).toBe('')
   expect(linear([3, 2, 1], [3, 2, 1]).errors).toBe('')
   expect(linear([4, 3, 5, 2, 1, 9, 2], [4, 3, 5, 2, 1, 9, 2]).errors).toBe('')
-  expect(linear([1, 2, 3, 4, 5, 2, 6, 7], [1, 2, 3, 4, 5, 2, 6, 7]).errors).toBe('')
-  expect(linear([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]).errors).toBe('')
+  expect(
+    linear([1, 2, 3, 4, 5, 2, 6, 7], [1, 2, 3, 4, 5, 2, 6, 7]).errors
+  ).toBe('')
+  expect(
+    linear(
+      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+    ).errors
+  ).toBe('')
 })
 
 test('Extra Controls', () => {
@@ -40,7 +47,9 @@ test('Wrong Controls', () => {
   expect(linear([6, 2, 3, 4, 7], [1, 2, 3, 4, 5]).errors).toBe('W1 W5')
   expect(linear([1, 6, 3, 6, 5], [1, 2, 3, 4, 5]).errors).toBe('W2 W4')
   expect(linear([6, 7, 8, 9, 0], [1, 2, 3, 4, 5]).errors).toBe('W1-5')
-  expect(linear([1, 2, 9, 4, 5, 3, 7, 8], [1, 2, 3, 4, 5, 3, 7, 8]).errors).toBe('W3')
+  expect(
+    linear([1, 2, 9, 4, 5, 3, 7, 8], [1, 2, 3, 4, 5, 3, 7, 8]).errors
+  ).toBe('W3')
 })
 
 test('Missing Controls', () => {
@@ -86,5 +95,7 @@ test('Percentage Correct', () => {
   expect(linear([1, 2, 3, 5], [1, 2, 3, 4]).percentageCorrect).toBe(0.75)
   expect(linear([1, 2, 3], [1, 2, 3, 4]).percentageCorrect).toBe(0.75)
   expect(linear([1, 2, 3, 4], [1, 2, 3, 4]).percentageCorrect).toBe(1)
-  expect(linear([1, 5, 4, 3, 2, 1, 2, 3, 4, 2], [1, 2, 3, 4]).percentageCorrect).toBe(1)
+  expect(
+    linear([1, 5, 4, 3, 2, 1, 2, 3, 4, 2], [1, 2, 3, 4]).percentageCorrect
+  ).toBe(1)
 })

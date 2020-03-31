@@ -4,11 +4,14 @@
       <back-arrow :to="`/events/${$route.params.id}`" />Results
     </h1>
     <div class="mx-12 mb-3">
-      <button class="button" @click="refresh">Refresh</button>
+      <button @click="refresh" class="button">Refresh</button>
     </div>
 
     <div v-for="course of courses" :key="course.id">
-      <div v-if="competitorsOnCourse(course.id).length > 0" class="shadow mx-12 mb-3 px-3 py-2">
+      <div
+        v-if="competitorsOnCourse(course.id).length > 0"
+        class="shadow mx-12 mb-3 px-3 py-2"
+      >
         <h2>{{ course.name }}</h2>
         <p>{{ course.length / 1000 }}km {{ course.climb }}m</p>
         <table class="w-full font-body">
@@ -46,7 +49,7 @@ export default {
     'back-arrow': BackArrow,
   },
 
-  data: function () {
+  data: function() {
     return {
       results: [],
       courses: [],
@@ -54,41 +57,54 @@ export default {
     }
   },
 
-  mounted: function () {
+  mounted: function() {
     if (this.$database.connection === null || !this.$database.connected) {
       this.$router.push('/')
       this.$messages.addMessage('Problem Connecting To Database', 'error')
-    }
-    else this.refresh()
+    } else this.refresh()
   },
 
   methods: {
-    refresh: function () {
+    refresh: function() {
       this.getCourses()
       this.getResults()
     },
 
-    getResults: function () {
-      return this.$database.query(`
+    getResults: function() {
+      return this.$database
+        .query(
+          `
       SELECT *
       FROM competitors, results
-      WHERE competitors.downloaded=true AND competitors.event=? AND competitors.id=results.competitor`, this.$route.params.id)
-        .then(result => { this.results = result })
-        .catch(() => this.$messages.addMessage('Problem Fetching Results', 'error'))
+      WHERE competitors.downloaded=true AND competitors.event=? AND competitors.id=results.competitor`,
+          this.$route.params.id
+        )
+        .then(result => {
+          this.results = result
+        })
+        .catch(() =>
+          this.$messages.addMessage('Problem Fetching Results', 'error')
+        )
     },
 
-    getCourses: function () {
-      return this.$database.query('SELECT * FROM courses WHERE event=?', this.$route.params.id)
-        .then(result => { this.courses = result })
-        .catch(() => this.$messages.addMessage('Problem Fetching Courses', 'error'))
+    getCourses: function() {
+      return this.$database
+        .query('SELECT * FROM courses WHERE event=?', this.$route.params.id)
+        .then(result => {
+          this.courses = result
+        })
+        .catch(() =>
+          this.$messages.addMessage('Problem Fetching Courses', 'error')
+        )
     },
 
-    competitorsOnCourse: function (courseId) {
+    competitorsOnCourse: function(courseId) {
       let position = 0
       return this.results
         .filter(competitor => competitor.course === courseId)
         .sort((a, b) => {
-          if (a.errors !== '' || b.errors !== '') return a.errors.length - b.errors.length
+          if (a.errors !== '' || b.errors !== '')
+            return a.errors.length - b.errors.length
           else return a.time - b.time
         })
         .map(result => {
@@ -102,4 +118,3 @@ export default {
   },
 }
 </script>
-

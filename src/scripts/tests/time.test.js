@@ -3,12 +3,20 @@ import time from '@/scripts/time'
 test('Calculate Time', () => {
   expect(time.calculateTime({ start: 0, finish: 0, other: '' })).toBe(0)
   expect(time.calculateTime({ start: 10, finish: 20, other: '' })).toBe(10)
-  expect(time.calculateTime({ start: 2124, finish: 5445, other: '' })).toBe(3321)
-  expect(time.calculateTime({ start: 20, finish: 5468524, other: '' })).toBe(5468504)
+  expect(time.calculateTime({ start: 2124, finish: 5445, other: '' })).toBe(
+    3321
+  )
+  expect(time.calculateTime({ start: 20, finish: 5468524, other: '' })).toBe(
+    5468504
+  )
   expect(time.calculateTime({ start: 0, finish: 0, other: 'MS' })).toBe('MS')
   expect(time.calculateTime({ start: 10, finish: 20, other: 'MF' })).toBe('MF')
-  expect(time.calculateTime({ start: 2124, finish: 5445, other: 'Test' })).toBe('Test')
-  expect(time.calculateTime({ start: 20, finish: 5468524, other: 'MS W1 M2-3 MF' })).toBe('MS W1 M2-3 MF')
+  expect(time.calculateTime({ start: 2124, finish: 5445, other: 'Test' })).toBe(
+    'Test'
+  )
+  expect(
+    time.calculateTime({ start: 20, finish: 5468524, other: 'MS W1 M2-3 MF' })
+  ).toBe('MS W1 M2-3 MF')
 })
 
 test('Elapsed Time', () => {
