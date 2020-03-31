@@ -3,7 +3,7 @@
 exports[`Renders Correctly - Create 1`] = `
 <main>
   <h1
-    class="mx-10 mb-1"
+    class="mx-10 mb-1 px-1"
   >
     <back-arrow-stub
       to=""
@@ -30,7 +30,7 @@ exports[`Renders Correctly - Create 1`] = `
   </div>
    
   <form
-    class="shadow mx-12 mb-3"
+    class="my-shadow mx-12 mb-3"
   >
     <text-input-stub
       label="Name:"
@@ -84,7 +84,7 @@ exports[`Renders Correctly - Create 1`] = `
 exports[`Renders Correctly - Update 1`] = `
 <main>
   <h1
-    class="mx-10 mb-1"
+    class="mx-10 mb-1 px-1"
   >
     <back-arrow-stub
       to=""
@@ -111,7 +111,7 @@ exports[`Renders Correctly - Update 1`] = `
   </div>
    
   <form
-    class="shadow mx-12 mb-3"
+    class="my-shadow mx-12 mb-3"
   >
     <text-input-stub
       label="Name:"

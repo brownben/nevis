@@ -57,19 +57,35 @@ img {
 }
 
 th {
-  @apply p-1 select-none;
+  @apply p-1 pt-2 pb-2 select-none font-medium;
 }
 
 td {
-  @apply p-1;
+  @apply p-1 pt-2 pb-2;
+}
+
+b {
+  @apply mr-2;
+}
+
+.my-shadow {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.my-shadow-lg {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.my-shadow-lg-hover:hover {
+  @apply .my-shadow-lg;
 }
 
 .button {
-  @apply bg-blue text-white font-body shadow px-4 py-1 mr-2 mb-2 select-none;
+  @apply bg-white text-blue font-body px-4 py-1 mr-2 mb-2 select-none font-semibold border-blue-point6 border;
 }
 
 .button:hover {
-  @apply bg-blue-accent;
+  @apply border-blue bg-blue-point2;
 }
 
 .bg-gradient {

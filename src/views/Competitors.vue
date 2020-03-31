@@ -1,7 +1,8 @@
 <template>
   <main>
-    <h1 class="mx-10 mb-1">
-      <back-arrow :to="`/events/${$route.params.id}`" />Entries
+    <back-arrow :to="`/events/${$route.params.id}`" />
+    <h1 class="mx-10 mb-1 px-1">
+      Entries
     </h1>
     <div class="mx-12 mb-3">
       <router-link
@@ -15,9 +16,11 @@
     </div>
     <div
       v-if="allCompetitors && allCompetitors.length > 0"
-      class="shadow mx-12 mb-3"
+      class="my-shadow mx-12 mb-5"
     >
-      <h3 class="px-4 pt-2 text-blue select-none">Search Entries</h3>
+      <h3 class="px-4 pt-2 text-blue select-none">
+        Search Entries
+      </h3>
       <text-input v-model="filterName" label="Name:" />
       <text-input v-model="filterSIID" label="SI Card:" />
       <dropdown-input
@@ -28,7 +31,7 @@
     </div>
     <div
       v-if="competitors && competitors.length > 0"
-      class="shadow mx-12 mb-3 p-2"
+      class="my-shadow mx-12 mb-3 p-2"
     >
       <table class="w-full font-body">
         <tr class="font-heading text-center hover:bg-blue-light">

@@ -1,7 +1,8 @@
 <template>
   <main>
-    <h1 class="mx-10 mb-1">
-      <back-arrow :to="`/events/${$route.params.id}`" />Results
+    <back-arrow :to="`/events/${$route.params.id}`" />
+    <h1 class="mx-10 mb-1 px-1">
+      Results
     </h1>
     <div class="mx-12 mb-3">
       <button @click="refresh" class="button">Refresh</button>
@@ -10,7 +11,7 @@
     <div v-for="course of courses" :key="course.id">
       <div
         v-if="competitorsOnCourse(course.id).length > 0"
-        class="shadow mx-12 mb-3 px-3 py-2"
+        class="my-shadow mx-12 mb-5 px-3 py-2 border-t-4 border-blue"
       >
         <h2>{{ course.name }}</h2>
         <p>{{ course.length / 1000 }}km {{ course.climb }}m</p>

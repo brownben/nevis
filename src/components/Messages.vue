@@ -12,7 +12,7 @@
       :key="message.id"
       :class="message.type"
       @click="clear(message.id)"
-      class="text-center font-heading shadow mt-3 p-2 px-3 w-full select-none z-30"
+      class="text-center font-body font-semibold my-shadow mt-3 p-3 px-6 w-full select-none z-30"
     >
       <span v-if="message.type === 'error'">Error:</span>
       <span v-else-if="message.type === 'warning'">Warning:</span>

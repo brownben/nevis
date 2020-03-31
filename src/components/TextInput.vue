@@ -4,7 +4,7 @@
   >
     <label
       :for="label"
-      class="font-body text-blue flex-none px-2 select-none"
+      class="font-body font-semibold text-blue flex-none px-2 select-none"
       >{{ label }}</label
     >
     <input

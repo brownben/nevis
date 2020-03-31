@@ -1,6 +1,6 @@
 <template>
   <main>
-    <h1 class="mx-10 mb-1">
+    <h1 class="mx-10 mb-1 px-1">
       <template v-if="$route.path.includes('create')">
         <back-arrow :to="`/events/${$route.params.eventId}/courses`" />Create
         Course
@@ -16,7 +16,7 @@
         Delete Course
       </button>
     </div>
-    <form @submit.prevent="submit" class="shadow mx-12">
+    <form @submit.prevent="submit" class="my-shadow mx-12">
       <text-input v-model.trim="course.name" label="Name:" />
       <text-input v-model="course.length" label="Length (km): " />
       <text-input v-model="course.climb" label="Climb (m):" />

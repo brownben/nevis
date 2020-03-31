@@ -10,7 +10,7 @@ exports[`Renders Correctly 1`] = `
     id="visible"
   >
     <label
-      class="font-body text-blue flex-none px-2 select-none"
+      class="font-body text-blue font-semibold flex-none px-2 select-none"
     >
       
     </label>
@@ -42,7 +42,7 @@ exports[`Renders Correctly 1`] = `
   </div>
    
   <div
-    class="absolute w-full bg-white block select-none shadow z-10 text-center"
+    class="absolute w-full bg-white block select-none my-shadow z-10 text-center"
     id="dropdown"
     name="open"
     style="display: none;"

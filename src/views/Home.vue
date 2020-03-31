@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bg-gradient text-center w-full shadow-md mb-3">
+    <div class="bg-gradient text-center w-full my-shadow-lg mb-5">
       <img
         src="@/assets/images/Nevis Logo.png"
         alt="Nevis Logo"
@@ -12,7 +12,7 @@
       <button @click="connect" class="button">Connect</button>
       <router-link tag="button" class="button" to="/about">About</router-link>
     </div>
-    <div class="shadow mx-10">
+    <div class="my-shadow mx-10">
       <text-input v-model.trim="server" label="Server:" />
       <text-input v-model.trim="port" label="Port:" />
       <text-input v-model.trim="username" label="Username:" />

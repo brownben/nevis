@@ -1,7 +1,7 @@
 <template>
   <main>
-    <h1 class="mx-10 mb-1">
-      <back-arrow to="/events" />
+    <back-arrow to="/events" />
+    <h1 class="mx-10 mb-1 px-1">
       {{ event.name }}
       <template v-if="event.date">on {{ event.date }}</template>
     </h1>
@@ -11,49 +11,49 @@
       >
     </div>
     <div class="mx-12 flex flex-wrap">
-      <div class="w-full md:w-1/2 text-center mb-3">
+      <div class="w-full md:w-1/2 text-center mb-5">
         <router-link
           :to="`/events/${event.id}/competitors`"
           tag="div"
-          class="shadow p-2 md:mr-3 bg-blue text-white select-none hover:bg-blue-accent"
+          class="my-shadow my-shadow-lg-hover p-2 md:mr-5 select-none border-blue border-t-4"
         >
-          <h2>Entries</h2>
+          <h2 class="text-blue mb-1">Entries</h2>
           <p>{{ event.numberOfCompetitors }} Entries</p>
         </router-link>
       </div>
-      <div class="w-full md:w-1/2 text-center mb-3">
+      <div class="w-full md:w-1/2 text-center mb-5">
         <router-link
           :to="`/events/${event.id}/courses`"
           tag="div"
-          class="shadow p-2 bg-blue text-white select-none hover:bg-blue-accent"
+          class="my-shadow my-shadow-lg-hover p-2 md:mr-5 select-none  border-blue border-t-4"
         >
-          <h2>Courses</h2>
+          <h2 class="text-blue mb-1">Courses</h2>
           <p>{{ event.numberOfCourses }} Courses</p>
         </router-link>
       </div>
       <div
         v-if="event.numberOfCourses > 0"
-        class="w-full md:w-1/2 text-center mb-3"
+        class="w-full md:w-1/2 text-center mb-5"
       >
         <router-link
           :to="`/events/${event.id}/download`"
           tag="div"
-          class="shadow p-2 md:mr-3 bg-blue text-white select-none hover:bg-blue-accent"
+          class="my-shadow my-shadow-lg-hover p-2 md:mr-5 select-none border-blue border-t-4"
         >
-          <h2>Download</h2>
+          <h2 class="text-blue mb-1">Download</h2>
           <p>Download SI Cards</p>
         </router-link>
       </div>
       <div
         v-if="event.numberOfResults > 0"
-        class="w-full md:w-1/2 text-center mb-3"
+        class="w-full md:w-1/2 text-center mb-5"
       >
         <router-link
           :to="`/events/${event.id}/results`"
           tag="div"
-          class="shadow p-2 bg-blue text-white select-none hover:bg-blue-accent"
+          class="my-shadow my-shadow-lg-hover p-2 md:mr-5 select-none  border-blue border-t-4"
         >
-          <h2>Results</h2>
+          <h2 class="text-blue mb-1">Results</h2>
           <p>{{ event.numberOfResults }} Results</p>
         </router-link>
       </div>

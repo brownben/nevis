@@ -2,7 +2,7 @@
 
 exports[`Renders Correctly 1`] = `
 <svg
-  class="text-blue fill-current hover:text-blue-accent h-8 -ml-8 p-1 pt-0"
+  class="text-blue fill-current hover:text-blue-accent"
   viewBox="0 0 24 24"
   xmlns="http://www.w3.org/2000/svg"
 >

@@ -3,7 +3,7 @@
     class="fixed top-0 pt-8 flex w-full h-full bg-blue-point4 flex-col justify-around content-center select-none"
   >
     <div
-      class="-mt-16 relative bg-white justify-around content-center text-center flex-none shadow-md mx-12 sm:mx-16 md:mx-20 px-3 pt-2 pb-3 select-none"
+      class="-mt-16 relative bg-white justify-around content-center text-center flex-none my-shadow-lg mx-12 sm:mx-16 md:mx-20 px-3 pt-2 pb-3 select-none"
     >
       <h1>Multiple Records Found</h1>
       <p v-if="listOfRecords.length > 5" class="select-none">

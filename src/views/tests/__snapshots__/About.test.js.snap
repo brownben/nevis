@@ -2,17 +2,18 @@
 
 exports[`Renders Correctly 1`] = `
 <main>
+  <back-arrow-stub
+    to=""
+  />
+   
   <h1
-    class="mx-10 mb-1"
+    class="mx-10 mb-1 px-1"
   >
-    <back-arrow-stub
-      to=""
-    />
     About
   </h1>
    
   <div
-    class="shadow mx-12 mb-3 px-3 pt-2 pb-1"
+    class="my-shadow mx-12 mb-3 px-3 pt-2 pb-1 border-t-4 border-blue"
   >
     <h2
       class="pb-1"
@@ -42,7 +43,7 @@ exports[`Renders Correctly 1`] = `
   </div>
    
   <div
-    class="shadow mx-12 mb-3 px-3 pt-2 pb-1"
+    class="my-shadow mx-12 mb-3 px-3 pt-2 pb-1 border-t-4 border-blue"
   >
     <h2
       class="pb-1"
@@ -57,7 +58,7 @@ exports[`Renders Correctly 1`] = `
     </h3>
      
     <p>
-      Copyright (c) 2019 Ben Brown
+      Copyright (c) 2020 Ben Brown
     </p>
      
     <p

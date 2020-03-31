@@ -3,7 +3,7 @@
 exports[`Renders Correctly 1`] = `
 <div>
   <div
-    class="bg-gradient text-center w-full shadow-md mb-3"
+    class="bg-gradient text-center w-full my-shadow-lg mb-5"
   >
     <img
       alt="Nevis Logo"
@@ -37,7 +37,7 @@ exports[`Renders Correctly 1`] = `
   </div>
    
   <div
-    class="shadow mx-10"
+    class="my-shadow mx-10"
   >
     <text-input-stub
       label="Server:"

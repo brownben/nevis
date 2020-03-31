@@ -5,9 +5,10 @@
       @click="toggle"
       class="relative flex w-full px-2 py-2 border-solid border-b border-blue-point4 last:border-b-0"
     >
-      <label class="font-body text-blue flex-none px-2 select-none">{{
-        label
-      }}</label>
+      <label
+        class="font-body text-blue font-semibold flex-none px-2 select-none"
+        >{{ label }}</label
+      >
       <p class="font-body outline-none flex-1 appearance-none">
         {{ currentValue }}
       </p>
@@ -27,7 +28,7 @@
       <div
         id="dropdown"
         v-show="open"
-        class="absolute w-full bg-white block select-none shadow z-10 text-center"
+        class="absolute w-full bg-white block select-none my-shadow z-10 text-center"
       >
         <p
           v-for="item in list"

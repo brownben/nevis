@@ -1,6 +1,7 @@
 <template>
   <main>
-    <h1 class="mx-10 mb-1"><back-arrow to="/" />Events</h1>
+    <back-arrow to="/" />
+    <h1 class="mx-10 mb-1 px-1">Events</h1>
     <div class="mx-12 mb-3">
       <router-link tag="button" class="button" to="/events/create"
         >Create Event</router-link
@@ -10,7 +11,7 @@
       </button>
       <button @click="getEvents" class="button">Refresh</button>
     </div>
-    <div v-if="events && events.length > 0" class="shadow mx-12 mb-3 p-2">
+    <div v-if="events && events.length > 0" class="my-shadow mx-12 mb-3 p-2">
       <table class="w-full font-body">
         <tr class="font-heading text-center hover:bg-blue-light">
           <th>Event Name</th>

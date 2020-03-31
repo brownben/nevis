@@ -2,12 +2,14 @@
 
 exports[`Renders Correctly - No Results 1`] = `
 <main>
+  <back-arrow-stub
+    to="/events/12"
+  />
+   
   <h1
-    class="mx-10 mb-1"
+    class="mx-10 mb-1 px-1"
   >
-    <back-arrow-stub
-      to="/events/12"
-    />
+    
     Results
   
   </h1>

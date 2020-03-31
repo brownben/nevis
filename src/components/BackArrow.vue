@@ -1,7 +1,7 @@
 <template>
   <svg
     @click="go"
-    class="text-blue fill-current hover:text-blue-accent h-8 -ml-8 p-1 pt-0"
+    class="text-blue fill-current hover:text-blue-accent"
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 24 24"
   >
@@ -31,3 +31,11 @@ export default {
   },
 }
 </script>
+<style scoped>
+svg {
+  position: absolute;
+  top: 2.85rem;
+  left: 0.35rem;
+  height: 1.65rem;
+}
+</style>

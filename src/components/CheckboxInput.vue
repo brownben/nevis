@@ -3,7 +3,9 @@
     class="flex w-full px-2 py-2 border-solid border-b border-blue-point4 last:border-b-0"
   >
     <label>
-      <p class="font-body text-blue flex-none px-2 select-none">{{ label }}</p>
+      <p class="font-body font-semibold text-blue flex-none px-2 select-none">
+        {{ label }}
+      </p>
       <input
         :checked="value"
         @change="$emit('input', $event.target.checked)"

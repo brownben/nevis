@@ -1,7 +1,8 @@
 <template>
   <main>
-    <h1 class="mx-10 mb-1"><back-arrow />About</h1>
-    <div class="shadow mx-12 mb-3 px-3 pt-2 pb-1">
+    <back-arrow />
+    <h1 class="mx-10 mb-1 px-1">About</h1>
+    <div class="my-shadow mx-12 mb-3 px-3 pt-2 pb-1 border-t-4 border-blue">
       <h2 class="pb-1">System</h2>
       <p>Nevis Version: {{ $electron.remote.app.getVersion() }}</p>
       <p>System: {{ system }}</p>
@@ -9,10 +10,10 @@
       <p>Chrome Version: {{ chromium }}</p>
       <p>Electron Version: {{ electron }}</p>
     </div>
-    <div class="shadow mx-12 mb-3 px-3 pt-2 pb-1">
+    <div class="my-shadow mx-12 mb-3 px-3 pt-2 pb-1 border-t-4 border-blue">
       <h2 class="pb-1">License</h2>
       <h3 class="pb-1">MIT License</h3>
-      <p>Copyright (c) 2019 Ben Brown</p>
+      <p>Copyright (c) 2020 Ben Brown</p>
       <p class="pb-1">
         Permission is hereby granted, free of charge, to any person obtaining a
         copy of this software and associated documentation files (the"

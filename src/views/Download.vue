@@ -1,9 +1,10 @@
 <template>
   <main>
-    <h1 class="mx-10 mb-1">
-      <back-arrow :disable="true" @clicked="exit" />Download
+    <back-arrow :disable="true" @clicked="exit" />
+    <h1 class="mx-10 mb-1 px-1">
+      Download
     </h1>
-    <div class="mx-12 mb-3 shadow">
+    <div class="mx-12 mb-3 my-shadow">
       <dropdown-input
         v-model="selectedPort"
         :hide="connected"
@@ -26,7 +27,7 @@
     </div>
     <div
       v-if="lastDownload && lastDownload.siid"
-      class="mx-12 mb-3 shadow px-3 pt-2 pb-1"
+      class="mx-12 mb-3 my-shadow px-3 pt-2 pb-1"
     >
       <h2 class="mb-1">Last Download</h2>
       <p>

@@ -2,19 +2,21 @@
 
 exports[`Renders Correctly 1`] = `
 <main>
+  <back-arrow-stub
+    disable="true"
+    to=""
+  />
+   
   <h1
-    class="mx-10 mb-1"
+    class="mx-10 mb-1 px-1"
   >
-    <back-arrow-stub
-      disable="true"
-      to=""
-    />
+    
     Download
   
   </h1>
    
   <div
-    class="mx-12 mb-3 shadow"
+    class="mx-12 mb-3 my-shadow"
   >
     <dropdown-input-stub
       label="Port:"
@@ -40,7 +42,7 @@ exports[`Renders Correctly 1`] = `
   </div>
    
   <div
-    class="mx-12 mb-3 shadow px-3 pt-2 pb-1"
+    class="mx-12 mb-3 my-shadow px-3 pt-2 pb-1"
   >
     <h2
       class="mb-1"

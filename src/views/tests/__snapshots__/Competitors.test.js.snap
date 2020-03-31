@@ -2,12 +2,14 @@
 
 exports[`Renders Correctly - No Competitors 1`] = `
 <main>
+  <back-arrow-stub
+    to="/events/12"
+  />
+   
   <h1
-    class="mx-10 mb-1"
+    class="mx-10 mb-1 px-1"
   >
-    <back-arrow-stub
-      to="/events/12"
-    />
+    
     Entries
   
   </h1>
@@ -40,12 +42,14 @@ exports[`Renders Correctly - No Competitors 1`] = `
 
 exports[`Renders Correctly - With Competitors 1`] = `
 <main>
+  <back-arrow-stub
+    to="/events/12"
+  />
+   
   <h1
-    class="mx-10 mb-1"
+    class="mx-10 mb-1 px-1"
   >
-    <back-arrow-stub
-      to="/events/12"
-    />
+    
     Entries
   
   </h1>
@@ -73,7 +77,7 @@ exports[`Renders Correctly - With Competitors 1`] = `
   <!---->
    
   <div
-    class="shadow mx-12 mb-3 p-2"
+    class="my-shadow mx-12 mb-3 p-2"
   >
     <table
       class="w-full font-body"

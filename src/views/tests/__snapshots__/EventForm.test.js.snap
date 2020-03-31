@@ -3,7 +3,7 @@
 exports[`Renders Correctly - Create 1`] = `
 <main>
   <h1
-    class="mx-10 mb-1"
+    class="mx-10 mb-1 px-1"
   >
     <back-arrow-stub
       to=""
@@ -30,7 +30,7 @@ exports[`Renders Correctly - Create 1`] = `
   </div>
    
   <div
-    class="shadow mx-12"
+    class="my-shadow mx-12"
   >
     <text-input-stub
       label="Name:"
@@ -52,7 +52,7 @@ exports[`Renders Correctly - Create 1`] = `
 exports[`Renders Correctly - Update 1`] = `
 <main>
   <h1
-    class="mx-10 mb-1"
+    class="mx-10 mb-1 px-1"
   >
     <back-arrow-stub
       to=""
@@ -79,7 +79,7 @@ exports[`Renders Correctly - Update 1`] = `
   </div>
    
   <div
-    class="shadow mx-12"
+    class="my-shadow mx-12"
   >
     <text-input-stub
       label="Name:"

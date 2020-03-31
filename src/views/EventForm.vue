@@ -1,6 +1,6 @@
 <template>
   <main>
-    <h1 class="mx-10 mb-1">
+    <h1 class="mx-10 mb-1 px-1">
       <template v-if="$route.path.includes('create')">
         <back-arrow to="/events" />Create Event
       </template>
@@ -15,7 +15,7 @@
         Delete Event
       </button>
     </div>
-    <div class="shadow mx-12">
+    <div class="my-shadow mx-12">
       <text-input v-model.trim="eventData.name" label="Name:" />
       <text-input v-model.trim="eventData.date" label="Date:" />
     </div>

@@ -1,7 +1,8 @@
 <template>
   <main>
-    <h1 class="mx-10 mb-1">
-      <back-arrow :to="`/events/${$route.params.id}`" />Courses
+    <back-arrow :to="`/events/${$route.params.id}`" />
+    <h1 class="mx-10 mb-1 px-1">
+      Courses
     </h1>
     <div class="mx-12 mb-3">
       <router-link
@@ -19,12 +20,13 @@
         :key="course.id"
         :to="`/events/${$route.params.id}/courses/${course.id}/edit`"
         tag="div"
-        class="shadow mx-12 mb-3 px-3 py-2"
+        class="my-shadow mx-12 mb-5 px-3 py-2 border-t-4 border-blue"
       >
         <h2 class="pb-1">{{ course.name }}</h2>
         <p>
           <b>Length:</b>
           {{ course.length / 1000 }} km
+          <b />
           <b>Climb:</b>
           {{ course.climb }} m
         </p>

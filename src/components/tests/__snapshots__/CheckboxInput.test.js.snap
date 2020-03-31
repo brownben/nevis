@@ -6,9 +6,11 @@ exports[`Renders Correctly - Checked 1`] = `
 >
   <label>
     <p
-      class="font-body text-blue flex-none px-2 select-none"
+      class="font-body font-semibold text-blue flex-none px-2 select-none"
     >
+      
       Test Checkbox
+    
     </p>
      
     <input
@@ -26,9 +28,11 @@ exports[`Renders Correctly - Unchecked 1`] = `
 >
   <label>
     <p
-      class="font-body text-blue flex-none px-2 select-none"
+      class="font-body font-semibold text-blue flex-none px-2 select-none"
     >
+      
       Another Input
+    
     </p>
      
     <input

@@ -2,12 +2,13 @@
 
 exports[`Renders Correctly 1`] = `
 <main>
+  <back-arrow-stub
+    to="/events"
+  />
+   
   <h1
-    class="mx-10 mb-1"
+    class="mx-10 mb-1 px-1"
   >
-    <back-arrow-stub
-      to="/events"
-    />
     
     Test Event
     on 11/22/33
@@ -29,14 +30,16 @@ exports[`Renders Correctly 1`] = `
     class="mx-12 flex flex-wrap"
   >
     <div
-      class="w-full md:w-1/2 text-center mb-3"
+      class="w-full md:w-1/2 text-center mb-5"
     >
       <router-link-stub
-        class="shadow p-2 md:mr-3 bg-blue text-white select-none hover:bg-blue-accent"
+        class="my-shadow my-shadow-lg-hover p-2 md:mr-5 select-none border-blue border-t-4"
         tag="div"
         to="/events/12/competitors"
       >
-        <h2>
+        <h2
+          class="text-blue mb-1"
+        >
           Entries
         </h2>
          
@@ -47,14 +50,16 @@ exports[`Renders Correctly 1`] = `
     </div>
      
     <div
-      class="w-full md:w-1/2 text-center mb-3"
+      class="w-full md:w-1/2 text-center mb-5"
     >
       <router-link-stub
-        class="shadow p-2 bg-blue text-white select-none hover:bg-blue-accent"
+        class="my-shadow my-shadow-lg-hover p-2 md:mr-5 select-none  border-blue border-t-4"
         tag="div"
         to="/events/12/courses"
       >
-        <h2>
+        <h2
+          class="text-blue mb-1"
+        >
           Courses
         </h2>
          
@@ -65,14 +70,16 @@ exports[`Renders Correctly 1`] = `
     </div>
      
     <div
-      class="w-full md:w-1/2 text-center mb-3"
+      class="w-full md:w-1/2 text-center mb-5"
     >
       <router-link-stub
-        class="shadow p-2 md:mr-3 bg-blue text-white select-none hover:bg-blue-accent"
+        class="my-shadow my-shadow-lg-hover p-2 md:mr-5 select-none border-blue border-t-4"
         tag="div"
         to="/events/12/download"
       >
-        <h2>
+        <h2
+          class="text-blue mb-1"
+        >
           Download
         </h2>
          

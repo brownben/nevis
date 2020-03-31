@@ -1,10 +1,9 @@
 <template>
   <main>
-    <h1 class="mx-10 mb-1">
+    <h1 class="mx-10 mb-1 px-1">
       <template v-if="$route.path.includes('create')">
-        <back-arrow
-          :to="`/events/${$route.params.eventId}/competitors`"
-        />Create Entry
+        <back-arrow :to="`/events/${$route.params.eventId}/competitors`" />
+        Create Entry
       </template>
       <template v-else> <back-arrow />Update Entry </template>
     </h1>
@@ -21,7 +20,7 @@
         Delete Entry
       </button>
     </div>
-    <form @submit.prevent="submit" class="shadow mx-12 mb-3">
+    <form @submit.prevent="submit" class="my-shadow mx-12 mb-3">
       <text-input v-model.trim="competitor.name" label="Name:" />
       <text-input v-model.trim="competitor.siid" label="SI Card: " />
       <text-input
@@ -40,7 +39,7 @@
         label="Non-Competitive?"
       />
     </form>
-    <div v-if="punches.length > 0" class="mx-12 mb-3 shadow px-3 pt-2 pb-2">
+    <div v-if="punches.length > 0" class="mx-12 mb-3 my-shadow px-3 pt-2 pb-2">
       <h2>Punches</h2>
       <table class="w-full font-body">
         <tr class="font-heading text-center hover:bg-blue-light">

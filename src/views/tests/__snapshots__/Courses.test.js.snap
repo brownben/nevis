@@ -2,12 +2,14 @@
 
 exports[`Renders Correctly - No Courses 1`] = `
 <main>
+  <back-arrow-stub
+    to="/events/12"
+  />
+   
   <h1
-    class="mx-10 mb-1"
+    class="mx-10 mb-1 px-1"
   >
-    <back-arrow-stub
-      to="/events/12"
-    />
+    
     Courses
   
   </h1>
@@ -38,12 +40,14 @@ exports[`Renders Correctly - No Courses 1`] = `
 
 exports[`Renders Correctly - With Courses 1`] = `
 <main>
+  <back-arrow-stub
+    to="/events/12"
+  />
+   
   <h1
-    class="mx-10 mb-1"
+    class="mx-10 mb-1 px-1"
   >
-    <back-arrow-stub
-      to="/events/12"
-    />
+    
     Courses
   
   </h1>
@@ -69,7 +73,7 @@ exports[`Renders Correctly - With Courses 1`] = `
   </div>
    
   <router-link-stub
-    class="shadow mx-12 mb-3 px-3 py-2"
+    class="my-shadow mx-12 mb-5 px-3 py-2 border-t-4 border-blue"
     tag="div"
     to="/events/12/courses/0/edit"
   >
@@ -86,6 +90,8 @@ exports[`Renders Correctly - With Courses 1`] = `
       
         0.00235 km
         
+      <b />
+       
       <b>
         Climb:
       </b>
@@ -113,7 +119,7 @@ exports[`Renders Correctly - With Courses 1`] = `
     </p>
   </router-link-stub>
   <router-link-stub
-    class="shadow mx-12 mb-3 px-3 py-2"
+    class="my-shadow mx-12 mb-5 px-3 py-2 border-t-4 border-blue"
     tag="div"
     to="/events/12/courses/77/edit"
   >
@@ -130,6 +136,8 @@ exports[`Renders Correctly - With Courses 1`] = `
       
         0.00175 km
         
+      <b />
+       
       <b>
         Climb:
       </b>
