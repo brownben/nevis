@@ -6,6 +6,7 @@
     </h1>
     <div class="mx-12 mb-3">
       <button @click="refresh" class="button">Refresh</button>
+      <button @click="saveHTMLResults" class="button">Export HTML</button>
     </div>
 
     <div v-for="course of courses" :key="course.id">
@@ -44,6 +45,7 @@
 <script>
 import BackArrow from '@/components/BackArrow'
 import timeFunctions from '@/scripts/time'
+import * as htmlFunctions from '@/scripts/resultsHTML'
 
 export default {
   components: {
@@ -115,6 +117,66 @@ export default {
             return { ...result, position }
           }
         })
+    },
+
+    courseToHTML: function(course) {
+      const results = this.competitorsOnCourse(course.id)
+        .map(htmlFunctions.resultRow)
+        .join('')
+      return htmlFunctions.courseTable(course, results)
+    },
+
+    generateHTML: async function() {
+      try {
+        const eventDetails = await this.getEventDetails()
+        const body = this.courses
+          .filter(course => this.competitorsOnCourse(course.id).length > 0)
+          .map(course => this.courseToHTML(course))
+          .join('')
+
+        return htmlFunctions.htmlPage(eventDetails, body)
+      } catch (error) {
+        this.$messages.addMessage('Problem Generating HTML', 'error')
+      }
+    },
+
+    saveHTMLResults: async function() {
+      const { dialog } = this.$electron.remote
+      const htmlResults = await this.generateHTML()
+
+      return dialog
+        .showSaveDialog({
+          title: 'Nevis - Save HTML Results',
+          filters: [
+            { name: 'HTML', extensions: ['html'] },
+            { name: 'All Files', extensions: ['*'] },
+          ],
+        })
+        .then(result => {
+          if (!result.canceled)
+            return this.$fs.writeFile(result.filePath, htmlResults, {
+              encoding: 'utf8',
+            })
+          else throw Error()
+        })
+        .then(result =>
+          this.$messages.addMessage('Results Successfully Written')
+        )
+        .catch(() =>
+          this.$messages.addMessage('Problem Saving Results', 'error')
+        )
+    },
+
+    getEventDetails: function() {
+      return this.$database
+        .query(
+          `SELECT * FROM events WHERE events.id = ?`,
+          this.$route.params.id
+        )
+        .then(result => result[0])
+        .catch(() =>
+          this.$messages.addMessage('Problem Fetching Event Data', 'error')
+        )
     },
   },
 }

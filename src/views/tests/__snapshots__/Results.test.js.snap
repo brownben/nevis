@@ -22,6 +22,12 @@ exports[`Renders Correctly - No Results 1`] = `
     >
       Refresh
     </button>
+     
+    <button
+      class="button"
+    >
+      Export HTML
+    </button>
   </div>
    
 </main>
