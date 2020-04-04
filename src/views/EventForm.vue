@@ -7,11 +7,11 @@
       <template v-else> <back-arrow />Update Event </template>
     </h1>
     <div v-if="$route.path.includes('create')" class="mx-12 mb-3">
-      <button @click="createEvent" class="button">Create Event</button>
+      <button class="button" @click="createEvent">Create Event</button>
     </div>
     <div v-else class="mx-12 mb-3">
-      <button @click="updateEvent" class="button">Update Event</button>
-      <button @click="showConfirmationDialog = true" class="button">
+      <button class="button" @click="updateEvent">Update Event</button>
+      <button class="button" @click="showConfirmationDialog = true">
         Delete Event
       </button>
     </div>
@@ -22,11 +22,11 @@
     <transition name="fade">
       <confirmation-dialog
         v-if="showConfirmationDialog"
-        @close="onConfirm"
         heading="Delete Event"
         message="Are You Sure You Want to Delete This Event and All Attatched Data? This Action Can't Be Recovered."
         confirm="Delete"
         cancel="Cancel"
+        @close="onConfirm"
       />
     </transition>
   </main>
@@ -44,7 +44,7 @@ export default {
     'confirmation-dialog': ConfirmationDialog,
   },
 
-  data: function() {
+  data: function () {
     return {
       showConfirmationDialog: false,
       eventData: {
@@ -55,7 +55,7 @@ export default {
     }
   },
 
-  mounted: function() {
+  mounted: function () {
     if (this.$database.connection === null || !this.$database.connected) {
       this.$router.push('/')
       this.$messages.addMessage('Problem Connecting To Database', 'error')
@@ -64,10 +64,10 @@ export default {
   },
 
   methods: {
-    getEventDetails: function() {
+    getEventDetails: function () {
       return this.$database
         .query('SELECT * FROM events WHERE id=? LIMIT 1', this.$route.params.id)
-        .then(result => {
+        .then((result) => {
           this.eventData = result[0]
         })
         .catch(() =>
@@ -75,20 +75,20 @@ export default {
         )
     },
 
-    createEvent: function() {
+    createEvent: function () {
       return this.$database
         .query('INSERT INTO events SET ?', {
           name: this.eventData.name,
           date: this.eventData.date,
         })
-        .then(result => this.$router.push(`/events/${result.insertId}`))
+        .then((result) => this.$router.push(`/events/${result.insertId}`))
         .then(() => this.$messages.clearMessages())
         .catch(() =>
           this.$messages.addMessage('Problem Creating Event', 'error')
         )
     },
 
-    updateEvent: function() {
+    updateEvent: function () {
       return this.$database
         .query('UPDATE events SET name=?, date=? WHERE id=?', [
           this.eventData.name,
@@ -102,7 +102,7 @@ export default {
         )
     },
 
-    deleteEvent: function() {
+    deleteEvent: function () {
       return this.$database
         .query('DELETE FROM events WHERE id=?', this.eventData.id)
         .then(() => {
@@ -114,7 +114,7 @@ export default {
         )
     },
 
-    onConfirm: function(decision) {
+    onConfirm: function (decision) {
       this.showConfirmationDialog = false
       if (decision) this.deleteEvent()
     },

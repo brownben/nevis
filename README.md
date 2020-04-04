@@ -26,6 +26,8 @@ With Nevis you can:
 - Use Automatic Course Checking and matching if course is unknown
 - Add + Edit Courses
 - View Results
+- Export Results as HTML
+- Perform Safety Check and View Outstanding Competitors, by importing punches from SIConfig
 - Archive Support
   - Search for competitors in the archive when creating entries
   - Match unidentified downloads to the archive

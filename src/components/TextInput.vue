@@ -11,8 +11,8 @@
       :name="label"
       :value="value"
       :type="inputType"
-      @input="$emit('input', $event.target.value)"
       class="font-body outline-none flex-1 appearance-none"
+      @input="$emit('input', $event.target.value)"
     />
   </div>
 </template>
@@ -36,7 +36,7 @@ export default {
   },
 
   computed: {
-    inputType: function() {
+    inputType: function () {
       if (this.type === 'password') return 'password'
       else return 'text'
     },

@@ -9,8 +9,8 @@
         v-model="selectedPort"
         :hide="connected"
         :list="portsList"
-        @opened="refreshPortsList"
         label="Port:"
+        @opened="refreshPortsList"
       />
       <dropdown-input
         v-model="selectedBaudString"
@@ -20,14 +20,14 @@
       />
     </div>
     <div class="mx-12 mb-3">
-      <button @click="connect" class="button">
+      <button class="button" @click="connect">
         <template v-if="!connected">Connect</template>
         <template v-else>Disconnect</template>
       </button>
     </div>
     <div
       v-if="lastDownload && lastDownload.siid"
-      class="mx-12 mb-3 my-shadow px-3 pt-2 pb-1"
+      class="mx-12 mb-3 my-shadow px-3 pt-2 pb-1 border-t-4 border-blue"
     >
       <h2 class="mb-1">Last Download</h2>
       <p>
@@ -50,11 +50,11 @@
     <transition name="fade">
       <confirmation-dialog
         v-if="showConfirmationDialog"
-        @close="leavePage"
         heading="Leave Download"
         message="Are You Sure You Want to Stop Downloading SI Cards?"
         confirm="Continue"
         cancel="Cancel"
+        @close="leavePage"
       />
     </transition>
   </main>
@@ -77,7 +77,7 @@ export default {
     'confirmation-dialog': ConfirmationDialog,
   },
 
-  data: function() {
+  data: function () {
     return {
       connected: false,
       showConfirmationDialog: false,
@@ -90,13 +90,13 @@ export default {
   },
 
   computed: {
-    selectedBaud: function() {
+    selectedBaud: function () {
       if (this.selectedBaudString === 'USB (38400)') return 38400
       else return 4800
     },
   },
 
-  mounted: function() {
+  mounted: function () {
     if (this.$database.connection === null || !this.$database.connected) {
       this.$router.push('/')
       this.$messages.addMessage('Problem Connecting To Database', 'error')
@@ -106,12 +106,12 @@ export default {
   },
 
   methods: {
-    exit: function() {
+    exit: function () {
       if (this.connected) this.showConfirmationDialog = true
       else this.$router.push(`/events/${this.$route.params.id}`)
     },
 
-    leavePage: function(decision) {
+    leavePage: function (decision) {
       this.showConfirmationDialog = false
       if (decision) {
         this.port.close()
@@ -119,19 +119,19 @@ export default {
       }
     },
 
-    refreshPortsList: function() {
+    refreshPortsList: function () {
       return this.$serialPort
         .list()
-        .then(ports => {
+        .then((ports) => {
           if (ports.length === 0) this.portsList = ['No Ports Found']
-          else this.portsList = ports.map(port => port.comName)
+          else this.portsList = ports.map((port) => port.comName)
         })
         .catch(() =>
           this.$messages.addMessage('Problem Finding Ports', 'error')
         )
     },
 
-    connect: function() {
+    connect: function () {
       if (this.connected) this.port.close()
       else if (
         this.selectedPort === '' ||
@@ -153,17 +153,17 @@ export default {
       }
     },
 
-    portOnOpen: function() {
+    portOnOpen: function () {
       this.connected = true
       this.$messages.clearMessages()
     },
-    portOnClose: function() {
+    portOnClose: function () {
       this.connected = false
     },
-    portOnError: function(error) {
+    portOnError: function (error) {
       this.$messages.addMessage(error.message, 'error')
     },
-    portOnData: function(data) {
+    portOnData: function (data) {
       try {
         const siData = si.parseData(data, this.port)
         if (siData) this.saveDownload(siData)
@@ -172,16 +172,15 @@ export default {
       }
     },
 
-    saveDownload: async function(siData) {
+    saveDownload: async function (siData) {
       const competitor = await this.findCompetitorForDownload(siData)
 
-      const punchesForDatabase = siData.punches.map(punch => [
+      const punchesForDatabase = siData.punches.map((punch) => [
         punch.controlCode,
         punch.time,
         competitor.id,
         this.$route.params.id,
       ])
-
       if (punchesForDatabase.length > 0)
         await this.$database.query(
           'INSERT INTO punches (controlCode, time, competitor, event) VALUES ?',
@@ -189,8 +188,8 @@ export default {
         )
 
       const cardPunches = siData.punches
-        .map(punch => punch.controlCode.toString())
-        .filter(punch => punch !== 'S' && punch !== 'F')
+        .map((punch) => punch.controlCode.toString())
+        .filter((punch) => punch !== 'S' && punch !== 'F')
 
       let competitorCourse
       if (!competitor.course) {
@@ -221,7 +220,7 @@ export default {
         competitor: competitor.id,
         event: this.$route.params.id,
       })
-
+      await this.removeSafetyCheckPunches(competitor.id)
       this.lastDownload = {
         ...competitor,
         courseName: competitorCourse.name,
@@ -229,7 +228,7 @@ export default {
       }
     },
 
-    findCompetitorForDownload: async function(siData) {
+    findCompetitorForDownload: async function (siData) {
       const databaseCompetitors = await this.$database.query(
         `SELECT * FROM competitors WHERE competitors.event=? AND competitors.siid=?`,
         [this.$route.params.id, siData.siid, this.$route.params.id, siData.siid]
@@ -240,10 +239,10 @@ export default {
           'SELECT * FROM people WHERE siid=? AND status != "Hire" LIMIT 1',
           siData.siid.toString()
         )
-        .then(result => result[0])
+        .then((result) => result[0])
 
       const databaseCompetitorsNotDownloaded = databaseCompetitors.filter(
-        competitor => !competitor.downloaded
+        (competitor) => !competitor.downloaded
       )
 
       if (databaseCompetitorsNotDownloaded.length > 0)
@@ -254,7 +253,7 @@ export default {
           databaseCompetitors[0].id
         )
         const siCardStartAndFinishPunches = siData.punches.filter(
-          punch => punch.controlCode === 'S' || punch.controlCode === 'F'
+          (punch) => punch.controlCode === 'S' || punch.controlCode === 'F'
         )
 
         if (
@@ -262,7 +261,7 @@ export default {
           JSON.stringify(siCardStartAndFinishPunches)
         ) {
           await this.$database.query(
-            `DELETE FROM punches WHERE competitor=?`,
+            `DELETE FROM punches WHERE competitor=? AND type IS NULL`,
             databaseCompetitors[0].id
           )
           return databaseCompetitors[0]
@@ -311,14 +310,14 @@ export default {
       return newCompetitor
     },
 
-    getCourses: function() {
+    getCourses: function () {
       return this.$database
         .query(`SELECT * FROM courses WHERE event=?`, this.$route.params.id)
-        .then(courses =>
-          courses.map(course => {
+        .then((courses) =>
+          courses.map((course) => {
             course.controls = course.controls
               .split(',')
-              .filter(punch => punch !== '')
+              .filter((punch) => punch !== '')
             return course
           })
         )
@@ -327,17 +326,17 @@ export default {
         )
     },
 
-    getCourseFromId: function(id) {
+    getCourseFromId: function (id) {
       return this.$database
         .query(`SELECT * FROM courses WHERE event=? AND id=?`, [
           this.$route.params.id,
           id,
         ])
-        .then(courses => {
+        .then((courses) => {
           const course = courses[0]
           course.controls = course.controls
             .split(',')
-            .filter(punch => punch !== '')
+            .filter((punch) => punch !== '')
           return course
         })
         .catch(() =>
@@ -345,10 +344,27 @@ export default {
         )
     },
 
-    calculateTime: function(courseMatchingStats, punches) {
+    removeSafetyCheckPunches: async function (competitor) {
+      const duplicate = await this.$database.query(
+        `
+        SELECT id
+        FROM punches
+        WHERE competitor=?
+        GROUP BY controlCode,time
+        HAVING COUNT(*) > 1
+        `,
+        competitor
+      )
+
+      for (const packet of duplicate) {
+        this.$database.query(`DELETE FROM punches WHERE id=?`, packet.id)
+      }
+    },
+
+    calculateTime: function (courseMatchingStats, punches) {
       let errors = courseMatchingStats.errors
-      const startPunch = punches.filter(punch => punch.controlCode === 'S')
-      const finishPunch = punches.filter(punch => punch.controlCode === 'F')
+      const startPunch = punches.filter((punch) => punch.controlCode === 'S')
+      const finishPunch = punches.filter((punch) => punch.controlCode === 'F')
 
       if (!startPunch || !startPunch[0] || !startPunch[0].time)
         errors = `MS ${errors}`

@@ -3,8 +3,8 @@
     <h4 class="p-1 pl-2 float-left text-base">Nevis</h4>
     <button
       id="close"
-      @click="close()"
       class="h-full w-12 hover:bg-red float-right"
+      @click="close"
     >
       <svg fill="white" width="10" height="10">
         <path
@@ -13,8 +13,8 @@
       </svg>
     </button>
     <button
-      @click="maximize()"
       class="h-full w-12 hover:bg-blue-accent float-right"
+      @click="maximize"
     >
       <svg v-if="!maximized" fill="white" width="10" height="10">
         <path d="M 0,0 0,10 10,10 10,0 Z M 1,1 9,1 9,9 1,9 Z" />
@@ -26,8 +26,8 @@
       </svg>
     </button>
     <button
-      @click="minimize()"
       class="h-full w-12 hover:bg-blue-accent float-right"
+      @click="minimize"
     >
       <svg fill="white" width="10" height="10">
         <path d="M 0,5 10,5 10,6 0,6 Z" />
@@ -44,19 +44,19 @@ export default {
     maximized: false,
   }),
 
-  mounted: function() {
+  mounted: function () {
     this.$electron.ipcRenderer.on('window', this.setMaximized)
   },
 
   methods: {
     close: () => window.close(),
-    maximize: function() {
+    maximize: function () {
       this.$electron.ipcRenderer.send('window', 'maximize')
     },
-    minimize: function() {
+    minimize: function () {
       this.$electron.ipcRenderer.send('window', 'minimize')
     },
-    setMaximized: function(event, data) {
+    setMaximized: function (event, data) {
       this.maximized = data === 'maximized'
     },
   },

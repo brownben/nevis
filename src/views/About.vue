@@ -2,7 +2,7 @@
   <main>
     <back-arrow />
     <h1 class="mx-10 mb-1 px-1">About</h1>
-    <div class="my-shadow mx-12 mb-3 px-3 pt-2 pb-1 border-t-4 border-blue">
+    <div class="my-shadow mx-12 mb-5 px-3 pt-2 pb-1 border-t-4 border-blue">
       <h2 class="pb-1">System</h2>
       <p>Nevis Version: {{ $electron.remote.app.getVersion() }}</p>
       <p>System: {{ system }}</p>
@@ -10,7 +10,7 @@
       <p>Chrome Version: {{ chromium }}</p>
       <p>Electron Version: {{ electron }}</p>
     </div>
-    <div class="my-shadow mx-12 mb-3 px-3 pt-2 pb-1 border-t-4 border-blue">
+    <div class="my-shadow mx-12 mb-5 px-3 pt-2 pb-1 border-t-4 border-blue">
       <h2 class="pb-1">License</h2>
       <h3 class="pb-1">MIT License</h3>
       <p>Copyright (c) 2020 Ben Brown</p>

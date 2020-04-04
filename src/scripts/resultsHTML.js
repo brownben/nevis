@@ -1,6 +1,6 @@
 import time from '@/scripts/time'
 
-export const competitorPosition = competitor => {
+export const competitorPosition = (competitor) => {
   if (competitor.errors === '') return competitor.position
   else return ''
 }
@@ -21,7 +21,7 @@ export const courseTable = (course, results) => `
     </table>
   </div>
 `
-export const resultRow = competitor => `
+export const resultRow = (competitor) => `
     <tr>
       <td>${competitorPosition(competitor)}</td>
       <td>${competitor.name || ''}</td>

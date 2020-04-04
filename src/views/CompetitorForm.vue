@@ -8,19 +8,19 @@
       <template v-else> <back-arrow />Update Entry </template>
     </h1>
     <div v-if="$route.path.includes('create')" class="mx-12 mb-3">
-      <button @click="submit" class="button">Create Entry</button>
-      <button v-if="$archive.connected" @click="searchArchive" class="button">
+      <button class="button" @click="submit">Create Entry</button>
+      <button v-if="$archive.connected" class="button" @click="searchArchive">
         Search Archive
       </button>
-      <button @click="clearForm" class="button">Clear Form</button>
+      <button class="button" @click="clearForm">Clear Form</button>
     </div>
     <div v-else class="mx-12 mb-3">
-      <button @click="submit" class="button">Update Entry</button>
-      <button @click="showDeleteConfirmationDialog = true" class="button">
+      <button class="button" @click="submit">Update Entry</button>
+      <button class="button" @click="showDeleteConfirmationDialog = true">
         Delete Entry
       </button>
     </div>
-    <form @submit.prevent="submit" class="my-shadow mx-12 mb-3">
+    <form class="my-shadow mx-12 mb-5" @submit.prevent="submit">
       <text-input v-model.trim="competitor.name" label="Name:" />
       <text-input v-model.trim="competitor.siid" label="SI Card: " />
       <text-input
@@ -39,8 +39,11 @@
         label="Non-Competitive?"
       />
     </form>
-    <div v-if="punches.length > 0" class="mx-12 mb-3 my-shadow px-3 pt-2 pb-2">
-      <h2>Punches</h2>
+    <div
+      v-if="punches.length > 0"
+      class="mx-12 mb-3 my-shadow px-3 pt-2 pb-2 border-t-4 border-blue"
+    >
+      <h3>Punches</h3>
       <table class="w-full font-body">
         <tr class="font-heading text-center hover:bg-blue-light">
           <th>Control Code</th>
@@ -59,11 +62,11 @@
     <transition name="fade">
       <confirmation-dialog
         v-if="showDeleteConfirmationDialog"
-        @close="onDeleteConfirm"
         heading="Delete Entry"
         message="Are You Sure You Want to Delete This Entry and Any Attatched Downloads? This Action Can't Be Recovered."
         confirm="Delete"
         cancel="Cancel"
+        @close="onDeleteConfirm"
       />
     </transition>
     <transition name="fade">
@@ -98,7 +101,7 @@ export default {
     'archive-dialog': ArchiveDialog,
   },
 
-  data: function() {
+  data: function () {
     return {
       showDeleteConfirmationDialog: false,
       showArchiveDialog: false,
@@ -122,14 +125,14 @@ export default {
   },
 
   computed: {
-    listOfCourses: function() {
+    listOfCourses: function () {
       if (this.courses && typeof this.courses.map === 'function')
-        return this.courses.map(course => course.name)
+        return this.courses.map((course) => course.name)
       else return []
     },
   },
 
-  mounted: function() {
+  mounted: function () {
     if (this.$database.connection === null || !this.$database.connected) {
       this.$router.push('/')
       this.$messages.addMessage('Problem Connecting To Database', 'error')
@@ -139,7 +142,7 @@ export default {
   },
 
   methods: {
-    submit: async function() {
+    submit: async function () {
       if (this.competitor.name === '')
         this.$messages.addMessage('Please Enter a Name', 'error')
       else if (
@@ -164,20 +167,20 @@ export default {
       else this.createCompetitor()
     },
 
-    getCompetitorDetails: function() {
+    getCompetitorDetails: function () {
       return this.$database
         .query(
           'SELECT * FROM competitors WHERE id=? LIMIT 1',
           this.$route.params.competitorId
         )
-        .then(async result => {
+        .then(async (result) => {
           if (result && result[0]) {
             this.competitor = result[0]
             this.competitor.course = await this.getCourseNameFromId(
               result[0].course
             )
             this.originalCourse = this.competitor.course
-            if (this.competitor.downloaded) this.getCompetitorPunches()
+            this.getCompetitorPunches()
           } else
             this.$messages.addMessage('Problem Fetching Entry Data', 'error')
         })
@@ -186,13 +189,13 @@ export default {
         )
     },
 
-    getCourses: function() {
+    getCourses: function () {
       return this.$database
         .query(
           'SELECT * FROM courses WHERE event=?',
           this.$route.params.eventId
         )
-        .then(result => {
+        .then((result) => {
           this.courses = result
           if (this.courses.length === 0)
             this.$messages.addMessage('No Courses Exist', 'warning')
@@ -202,13 +205,13 @@ export default {
         )
     },
 
-    getCompetitorPunches: function() {
+    getCompetitorPunches: function () {
       return this.$database
         .query(
           'SELECT * FROM punches WHERE competitor=? ORDER BY time',
           this.competitor.id
         )
-        .then(result => {
+        .then((result) => {
           this.punches = result
         })
         .catch(() =>
@@ -219,7 +222,7 @@ export default {
         )
     },
 
-    createCompetitor: function() {
+    createCompetitor: function () {
       return this.$database
         .query('INSERT INTO competitors SET ?', {
           name: this.competitor.name,
@@ -241,7 +244,7 @@ export default {
         )
     },
 
-    updateCompetitor: function() {
+    updateCompetitor: function () {
       return this.$database
         .query('UPDATE competitors SET ? WHERE id=?', [
           {
@@ -267,7 +270,7 @@ export default {
         )
     },
 
-    deleteCompetitor: function() {
+    deleteCompetitor: function () {
       return this.$database
         .query('DELETE FROM competitors WHERE id=?', this.competitor.id)
         .then(() => {
@@ -281,36 +284,36 @@ export default {
         )
     },
 
-    getCourseIdFromName: function(name) {
-      return this.courses.filter(course => course.name === name)[0].id
+    getCourseIdFromName: function (name) {
+      return this.courses.filter((course) => course.name === name)[0].id
     },
 
-    getCourseNameFromId: async function(id) {
+    getCourseNameFromId: async function (id) {
       await this.getCourses()
       if (this.competitor.course === null || this.competitor.course === '')
         return ''
-      else return this.courses.filter(course => course.id === id)[0].name
+      else return this.courses.filter((course) => course.id === id)[0].name
     },
 
-    checkForDuplicateSIID: async function() {
+    checkForDuplicateSIID: async function () {
       const queryResult = await this.$database.query(
         'SELECT id, downloaded FROM competitors WHERE siid=? AND event=?',
         [this.competitor.siid, parseInt(this.$route.params.eventId)]
       )
       return (
         queryResult.filter(
-          competitor =>
+          (competitor) =>
             !competitor.downloaded && competitor.id !== this.competitor.id
         ).length > 0
       )
     },
 
-    onDeleteConfirm: function(decision) {
+    onDeleteConfirm: function (decision) {
       this.showDeleteConfirmationDialog = false
       if (decision) this.deleteCompetitor()
     },
 
-    clearForm: function() {
+    clearForm: function () {
       this.competitor = {
         name: '',
         id: undefined,
@@ -324,7 +327,7 @@ export default {
       }
     },
 
-    searchArchive: function() {
+    searchArchive: function () {
       return this.$archive
         .query(
           `
@@ -336,7 +339,7 @@ export default {
         AND status != 'Hire'
      `
         )
-        .then(result => {
+        .then((result) => {
           if (result.length === 1) {
             this.competitor = result[0]
             this.competitor.id = null
@@ -362,7 +365,7 @@ export default {
         )
     },
 
-    onArchiveSelect: function(decision) {
+    onArchiveSelect: function (decision) {
       this.showArchiveDialog = false
       this.archiveData = []
       if (decision) {
@@ -380,16 +383,16 @@ export default {
     calculateAgeClass: (gender, yearOfBirth) =>
       ageClassFunctions(gender, yearOfBirth),
 
-    recalculateResult: function() {
+    recalculateResult: function () {
       if (this.competitor.course !== this.originalCourse) {
         const courseId = this.getCourseIdFromName(this.competitor.course)
         const courseControls = this.courses
-          .filter(course => course.id === courseId)[0]
+          .filter((course) => course.id === courseId)[0]
           .controls.split(',')
-          .filter(punch => punch !== '')
+          .filter((punch) => punch !== '')
         const punchesNoStartAndFinish = this.punches
-          .map(punch => punch.controlCode.toString())
-          .filter(punch => punch !== 'S' && punch !== 'F')
+          .map((punch) => punch.controlCode.toString())
+          .filter((punch) => punch !== 'S' && punch !== 'F')
 
         const courseMatchingStats = courseMatching.linear(
           punchesNoStartAndFinish,
@@ -416,10 +419,10 @@ export default {
       }
     },
 
-    calculateTime: function(courseMatchingStats, punches) {
+    calculateTime: function (courseMatchingStats, punches) {
       let errors = courseMatchingStats.errors
-      const startPunch = punches.filter(punch => punch.controlCode === 'S')
-      const finishPunch = punches.filter(punch => punch.controlCode === 'F')
+      const startPunch = punches.filter((punch) => punch.controlCode === 'S')
+      const finishPunch = punches.filter((punch) => punch.controlCode === 'F')
 
       if (!startPunch || !startPunch[0] || !startPunch[0].time)
         errors = `MS ${errors}`

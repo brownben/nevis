@@ -8,8 +8,8 @@
       </p>
       <input
         :checked="value"
-        @change="$emit('input', $event.target.checked)"
         type="checkbox"
+        @change="$emit('input', $event.target.checked)"
       />
       <span />
     </label>

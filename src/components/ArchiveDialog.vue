@@ -20,8 +20,8 @@
         <tr
           v-for="record of trimmedListOfRecords"
           :key="record.id"
-          @click="confirmAction(record)"
           class="text-center even:bg-blue-lightest hover:bg-blue-light"
+          @click="confirmAction(record)"
         >
           <td>{{ record.name }}</td>
           <td>{{ record.siid }}</td>
@@ -31,8 +31,8 @@
       </table>
 
       <button
-        @click="confirmAction(false)"
         class="bg-white text-blue border border-blue font-heading px-4 py-1 mr-2 mt-3 select-none hover:bg-blue-point2"
+        @click="confirmAction(false)"
       >
         Cancel
       </button>
@@ -54,14 +54,14 @@ export default {
   },
 
   computed: {
-    trimmedListOfRecords: function() {
+    trimmedListOfRecords: function () {
       if (this.listOfRecords.length > 5) return this.listOfRecords.slice(0, 5)
       else return this.listOfRecords
     },
   },
 
   methods: {
-    confirmAction: function(value) {
+    confirmAction: function (value) {
       this.$emit('close', value)
     },
     calculateAgeClass: (gender, ageClass) =>

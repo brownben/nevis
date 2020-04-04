@@ -15,14 +15,14 @@ export const processData = (rawData, port, currentCard) => {
   else if (currentCard.siid) return processBlockNext(data, port, currentCard)
 }
 
-export const getCardType = siid => {
+export const getCardType = (siid) => {
   if (siid >= 7000000) return 10
   else if (siid >= 2000000 && siid <= 2999999) return 8
   else if (siid >= 1000000 && siid <= 1999999) return 9
   else if (siid >= 4000000 && siid <= 4999999) return 'p'
 }
 
-export const processTime = data => {
+export const processTime = (data) => {
   const time = helpers.combineBytes(data.slice(2, 5))
   const timeOfDay = parseInt((data[0] >>> 0).toString(2).substr(-1))
   return time + timeOfDay * helpers.SECONDS_IN_12_HOURS
@@ -53,9 +53,9 @@ export const getPersonalData = (data, cardType) => {
   else return processPersonalData(data.slice(38, 133))
 }
 
-export const processPersonalData = data =>
+export const processPersonalData = (data) =>
   data
-    .map(byte => String.fromCharCode(byte))
+    .map((byte) => String.fromCharCode(byte))
     .join('')
     .split(';')
 

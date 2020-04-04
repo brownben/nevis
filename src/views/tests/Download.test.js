@@ -529,7 +529,7 @@ test('Connect to Port - Open', () => {
       $route: { params: { id: 12 }, path: '' },
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
-      $serialPort: function() {
+      $serialPort: function () {
         this.list = jest.fn().mockRejectedValue()
         this.open = jest.fn()
         this.close = jest.fn()
@@ -589,7 +589,7 @@ test('Find Competitor For Download', async () => {
     })
   ).toEqual({ id: 6, siid: '123', downloaded: true, name: 'person' })
   expect(wrapper.vm.$database.query).toHaveBeenLastCalledWith(
-    `DELETE FROM punches WHERE competitor=?`,
+    `DELETE FROM punches WHERE competitor=? AND type IS NULL`,
     6
   )
 
@@ -689,6 +689,7 @@ test('Save Download', async () => {
       getCourseFromId: jest
         .fn()
         .mockResolvedValue({ name: 'Long', controls: [], id: 3 }),
+      removeSafetyCheckPunches: jest.fn(),
     },
   })
   jest.spyOn(wrapper.vm, 'getCourseFromId')
@@ -766,6 +767,7 @@ test('Save Download - Unknown Course', async () => {
         .fn()
         .mockResolvedValue({ id: 6, name: 'Bob', siid: '123' }),
       getCourses: jest.fn(),
+      removeSafetyCheckPunches: jest.fn(),
     },
   })
 
@@ -808,4 +810,104 @@ test('Save Download - Unknown Course', async () => {
     courseName: 'Long',
     time: '00:30',
   })
+})
+
+test('Save Download - No Punches', async () => {
+  const wrapper = shallowMount(Download, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockResolvedValue(),
+      },
+      $archive: { connection: {}, connected: true, query: jest.fn() },
+      $route: { params: { id: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
+      $serialPort: {
+        list: jest.fn().mockRejectedValue(),
+        open: jest.fn(),
+        close: jest.fn(),
+        on: jest.fn(),
+      },
+    },
+    methods: {
+      findCompetitorForDownload: jest
+        .fn()
+        .mockResolvedValue({ id: 6, name: 'Bob', siid: '123', course: 3 }),
+      getCourseFromId: jest
+        .fn()
+        .mockResolvedValue({ name: 'Long', controls: [], id: 3 }),
+      removeSafetyCheckPunches: jest.fn(),
+    },
+  })
+  jest.spyOn(wrapper.vm, 'getCourseFromId')
+  courseMatching.linear.mockReturnValue({
+    percentageCorrect: 1,
+    errors: '',
+    links: [],
+  })
+  await wrapper.vm.saveDownload({
+    punches: [],
+  })
+  expect(wrapper.vm.$database.query).not.toBeCalledWith(
+    'INSERT INTO punches (controlCode, time, competitor, event) VALUES ?'
+  )
+  expect(wrapper.vm.getCourseFromId).toHaveBeenCalledTimes(1)
+  expect(
+    wrapper.vm.$database.query
+  ).toBeCalledWith('UPDATE competitors SET ? WHERE id=?', [
+    { downloaded: true },
+    6,
+  ])
+})
+
+test('Delete Duplicate Safety Punches', async () => {
+  const wrapper = shallowMount(Download, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockResolvedValue([{ id: 1 }, { id: 2 }, { id: 3 }]),
+      },
+      $archive: { connection: {}, connected: true, query: jest.fn() },
+      $route: { params: { id: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
+      $serialPort: {
+        list: jest.fn().mockRejectedValue(),
+        open: jest.fn(),
+        close: jest.fn(),
+        on: jest.fn(),
+      },
+    },
+  })
+  wrapper.vm.$database.query.mockClear()
+  await wrapper.vm.removeSafetyCheckPunches(7)
+
+  expect(wrapper.vm.$database.query).toHaveBeenCalledWith(
+    `DELETE FROM punches WHERE id=?`,
+    1
+  )
+  expect(wrapper.vm.$database.query).toHaveBeenCalledWith(
+    `DELETE FROM punches WHERE id=?`,
+    2
+  )
+  expect(wrapper.vm.$database.query).toHaveBeenLastCalledWith(
+    `DELETE FROM punches WHERE id=?`,
+    3
+  )
+  expect(wrapper.vm.$database.query).toHaveBeenCalledTimes(4)
+  expect(wrapper.vm.$database.query.mock.calls[0]).toEqual([
+    `
+        SELECT id
+        FROM punches
+        WHERE competitor=?
+        GROUP BY controlCode,time
+        HAVING COUNT(*) > 1
+        `,
+    7,
+  ])
 })

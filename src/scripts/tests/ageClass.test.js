@@ -30,4 +30,7 @@ test('Age Class Returns Correct Values', () => {
   expect(ageClass('m', 1919)).toBe('M100')
   expect(ageClass('m', 0)).toBe('')
   expect(ageClass('q', 1955)).toBe('')
+  expect(ageClass(null, undefined)).toBe('')
+  expect(ageClass()).toBe('')
+  expect(ageClass(undefined, undefined)).toBe('')
 })

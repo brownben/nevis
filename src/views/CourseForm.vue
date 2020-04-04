@@ -8,15 +8,15 @@
       <template v-else> <back-arrow />Update Course </template>
     </h1>
     <div v-if="$route.path.includes('create')" class="mx-12 mb-3">
-      <button @click="submit" class="button">Create Course</button>
+      <button class="button" @click="submit">Create Course</button>
     </div>
     <div v-else class="mx-12 mb-3">
-      <button @click="submit" class="button">Update Course</button>
-      <button @click="showConfirmationDialog = true" class="button">
+      <button class="button" @click="submit">Update Course</button>
+      <button class="button" @click="showConfirmationDialog = true">
         Delete Course
       </button>
     </div>
-    <form @submit.prevent="submit" class="my-shadow mx-12">
+    <form class="my-shadow mx-12" @submit.prevent="submit">
       <text-input v-model.trim="course.name" label="Name:" />
       <text-input v-model="course.length" label="Length (km): " />
       <text-input v-model="course.climb" label="Climb (m):" />
@@ -25,11 +25,11 @@
     <transition name="fade">
       <confirmation-dialog
         v-if="showConfirmationDialog"
-        @close="onConfirm"
         heading="Delete Course"
         message="Are You Sure You Want to Delete This Course? This Action Can't Be Recovered."
         confirm="Delete"
         cancel="Cancel"
+        @close="onConfirm"
       />
     </transition>
   </main>
@@ -49,7 +49,7 @@ export default {
     'confirmation-dialog': ConfirmationDialog,
   },
 
-  data: function() {
+  data: function () {
     return {
       showConfirmationDialog: false,
       originalControls: '',
@@ -63,7 +63,7 @@ export default {
     }
   },
 
-  mounted: function() {
+  mounted: function () {
     if (this.$database.connection === null || !this.$database.connected) {
       this.$router.push('/')
       this.$messages.addMessage('Problem Connecting To Database', 'error')
@@ -72,7 +72,7 @@ export default {
   },
 
   methods: {
-    submit: async function() {
+    submit: async function () {
       if (await this.checkForDuplicateCourse()) {
         this.$messages.addMessage(
           `Course "${this.course.name}" Already Exists`,
@@ -106,13 +106,13 @@ export default {
       else this.createCourse()
     },
 
-    getCourseDetails: function() {
+    getCourseDetails: function () {
       return this.$database
         .query(
           'SELECT * FROM courses WHERE id=? LIMIT 1',
           this.$route.params.courseId
         )
-        .then(result => {
+        .then((result) => {
           if (result && result[0]) {
             this.course = result[0]
             this.originalControls = this.course.controls
@@ -126,7 +126,7 @@ export default {
         )
     },
 
-    createCourse: function() {
+    createCourse: function () {
       return this.$database
         .query('INSERT INTO courses SET ?', {
           name: this.course.name,
@@ -145,7 +145,7 @@ export default {
         )
     },
 
-    updateCourse: function() {
+    updateCourse: function () {
       return this.$database
         .query('UPDATE courses SET ? WHERE id=?', [
           {
@@ -169,7 +169,7 @@ export default {
         )
     },
 
-    deleteCourse: function() {
+    deleteCourse: function () {
       return this.$database
         .query('DELETE FROM courses WHERE id=?', this.course.id)
         .then(() => {
@@ -185,7 +185,7 @@ export default {
         )
     },
 
-    checkForDuplicateCourse: async function() {
+    checkForDuplicateCourse: async function () {
       const queryResult = await this.$database.query(
         'SELECT * FROM courses WHERE name=? AND event=?',
         [this.course.name, parseInt(this.$route.params.eventId)]
@@ -199,21 +199,21 @@ export default {
       else return queryResult.length > 0
     },
 
-    onConfirm: function(decision) {
+    onConfirm: function (decision) {
       this.showConfirmationDialog = false
       if (decision) this.deleteCourse()
     },
 
-    recalculateCourseResults: function() {
+    recalculateCourseResults: function () {
       if (this.course.controls !== this.originalControls) {
         return this.$database
           .query(
             'SELECT * FROM competitors WHERE event=? AND course=? AND downloaded=true',
             [this.$route.params.eventId, this.course.id]
           )
-          .then(competitors =>
+          .then((competitors) =>
             Promise.all(
-              competitors.map(async competitor => {
+              competitors.map(async (competitor) => {
                 const punches = await this.$database.query(
                   'SELECT * FROM punches WHERE competitor=?',
                   [competitor.id]
@@ -236,13 +236,13 @@ export default {
       }
     },
 
-    recalculateResult: function(competitor, punches) {
+    recalculateResult: function (competitor, punches) {
       const courseControls = this.course.controls
         .split(',')
-        .filter(punch => punch !== '')
+        .filter((punch) => punch !== '')
       const punchesNoStartAndFinish = punches
-        .map(punch => punch.controlCode.toString())
-        .filter(punch => punch !== 'S' && punch !== 'F')
+        .map((punch) => punch.controlCode.toString())
+        .filter((punch) => punch !== 'S' && punch !== 'F')
 
       const courseMatchingStats = courseMatching.linear(
         punchesNoStartAndFinish,
@@ -258,10 +258,10 @@ export default {
       })
     },
 
-    calculateTime: function(courseMatchingStats, punches) {
+    calculateTime: function (courseMatchingStats, punches) {
       let errors = courseMatchingStats.errors
-      const startPunch = punches.filter(punch => punch.controlCode === 'S')
-      const finishPunch = punches.filter(punch => punch.controlCode === 'F')
+      const startPunch = punches.filter((punch) => punch.controlCode === 'S')
+      const finishPunch = punches.filter((punch) => punch.controlCode === 'F')
 
       if (!startPunch || !startPunch[0] || !startPunch[0].time)
         errors = `MS ${errors}`

@@ -2,19 +2,19 @@ import computeCRC from '@/scripts/si/CRC'
 
 export const SECONDS_IN_12_HOURS = 60 * 60 * 12
 
-export const checkUndefined = bytes => combineBytes(bytes) === 0xeeee
+export const checkUndefined = (bytes) => combineBytes(bytes) === 0xeeee
 
 export const checkEmptyPunch = (data, position = 0) =>
   checkUndefined(data.slice(position + 1, position + 3))
 
-export const shortByte = byte => {
+export const shortByte = (byte) => {
   if (byte.toString(16).length < 2) return `0${byte.toString(16)}`
   else return byte.toString(16)
 }
 
-export const combineBytes = bytes => {
+export const combineBytes = (bytes) => {
   const arrayOfBytes = [...bytes]
-  const fullBytes = arrayOfBytes.map(byte => shortByte(byte).toString())
+  const fullBytes = arrayOfBytes.map((byte) => shortByte(byte).toString())
   const string = fullBytes.reduce(
     (result, byte) => result + byte.toString(),
     ''
@@ -22,7 +22,7 @@ export const combineBytes = bytes => {
   return parseInt(string, 16)
 }
 
-export const validityCheck = data => {
+export const validityCheck = (data) => {
   const length = data.length
   return (
     computeCRC(data.slice(1, length - 3)) ===
@@ -48,7 +48,7 @@ export const calculateSIIDCard5 = (siid, byte1, byte2) => {
   return null
 }
 
-export const calculateSIIDOtherCards = siid => {
+export const calculateSIIDOtherCards = (siid) => {
   // SI Card 6
   if (siid >= 500000 && siid <= 999999) return siid
   // SI Card 8 + comCard Up

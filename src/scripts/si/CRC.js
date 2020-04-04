@@ -5,7 +5,7 @@
 */
 
 /* eslint no-plusplus: "off" */
-export default buffer => {
+export default (buffer) => {
   const count = buffer.length
   if (count < 2) return 0
   let ptr = 0

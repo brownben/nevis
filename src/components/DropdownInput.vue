@@ -2,8 +2,8 @@
   <div class="dropdown-input w-full relative">
     <div
       id="visible"
-      @click="toggle"
       class="relative flex w-full px-2 py-2 border-solid border-b border-blue-point4 last:border-b-0"
+      @click="toggle"
     >
       <label
         class="font-body text-blue font-semibold flex-none px-2 select-none"
@@ -26,15 +26,15 @@
     </div>
     <transition name="open">
       <div
-        id="dropdown"
         v-show="open"
+        id="dropdown"
         class="absolute w-full bg-white block select-none my-shadow z-10 text-center"
       >
         <p
           v-for="item in list"
           :key="item"
-          @click="changeSelection(item)"
           class="block text-body h-8 p-1 hover:bg-blue-point2 select-none"
+          @click="changeSelection(item)"
         >
           {{ item }}
         </p>
@@ -65,7 +65,7 @@ export default {
     },
   },
 
-  data: function() {
+  data: function () {
     return {
       open: false,
       currentValue: this.value,
@@ -74,22 +74,22 @@ export default {
   },
 
   watch: {
-    value: function(value) {
+    value: function (value) {
       this.currentValue = value
     },
-    hide: function(value) {
+    hide: function (value) {
       this.currentHide = value
     },
   },
 
   methods: {
-    changeSelection: function(value) {
+    changeSelection: function (value) {
       this.open = false
       this.currentValue = value
       this.$emit('input', value)
     },
 
-    toggle: function() {
+    toggle: function () {
       if (!this.currentHide) {
         this.open = !this.open
         if (this.open) this.$emit('opened')

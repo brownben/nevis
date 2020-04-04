@@ -13,7 +13,7 @@ exports[`Renders Correctly 1`] = `
   </h1>
    
   <div
-    class="my-shadow mx-12 mb-3 px-3 pt-2 pb-1 border-t-4 border-blue"
+    class="my-shadow mx-12 mb-5 px-3 pt-2 pb-1 border-t-4 border-blue"
   >
     <h2
       class="pb-1"
@@ -43,7 +43,7 @@ exports[`Renders Correctly 1`] = `
   </div>
    
   <div
-    class="my-shadow mx-12 mb-3 px-3 pt-2 pb-1 border-t-4 border-blue"
+    class="my-shadow mx-12 mb-5 px-3 pt-2 pb-1 border-t-4 border-blue"
   >
     <h2
       class="pb-1"

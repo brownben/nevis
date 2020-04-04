@@ -1,0 +1,151 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders Correctly 1`] = `
+<main>
+  <back-arrow-stub
+    to="/events/undefined"
+  />
+   
+  <h1
+    class="mx-10 mb-1 px-1"
+  >
+    
+    Safety Check
+  
+  </h1>
+   
+  <div
+    class="mx-12 mb-3"
+  >
+    <button
+      class="button"
+    >
+      Import Punches
+    </button>
+     
+    <button
+      class="button"
+    >
+      Refresh
+    </button>
+  </div>
+   
+  <div
+    class="mx-12 my-shadow mx-12 mb-3 p-2"
+  >
+    <table
+      class="w-full font-body"
+    >
+      <tr
+        class="font-heading text-center hover:bg-blue-light"
+      >
+        <th>
+          Name
+        </th>
+         
+        <th>
+          Control
+        </th>
+         
+        <th>
+          Time
+        </th>
+         
+        <th
+          class="hidden sm:table-cell"
+        >
+          Course
+        </th>
+         
+        <th
+          class="hidden md:table-cell"
+        >
+          Age Class
+        </th>
+      </tr>
+       
+      <tr
+        class="text-center even:bg-blue-lightest hover:bg-blue-light"
+      >
+        <td>
+          Bob
+        </td>
+         
+        <td>
+          202
+        </td>
+         
+        <td>
+          01:34:15
+        </td>
+         
+        <td
+          class="hidden sm:table-cell"
+        >
+          Long
+        </td>
+         
+        <td
+          class="hidden md:table-cell"
+        >
+          
+        </td>
+      </tr>
+      <tr
+        class="text-center even:bg-blue-lightest hover:bg-blue-light"
+      >
+        <td>
+          James
+        </td>
+         
+        <td>
+          202
+        </td>
+         
+        <td>
+          01:15:55
+        </td>
+         
+        <td
+          class="hidden sm:table-cell"
+        >
+          Short
+        </td>
+         
+        <td
+          class="hidden md:table-cell"
+        >
+          
+        </td>
+      </tr>
+      <tr
+        class="text-center even:bg-blue-lightest hover:bg-blue-light"
+      >
+        <td>
+          Alfie
+        </td>
+         
+        <td>
+          201
+        </td>
+         
+        <td>
+          01:34:25
+        </td>
+         
+        <td
+          class="hidden sm:table-cell"
+        >
+          
+        </td>
+         
+        <td
+          class="hidden md:table-cell"
+        >
+          
+        </td>
+      </tr>
+    </table>
+  </div>
+</main>
+`;

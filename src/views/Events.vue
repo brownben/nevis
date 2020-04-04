@@ -6,10 +6,10 @@
       <router-link tag="button" class="button" to="/events/create"
         >Create Event</router-link
       >
-      <button v-if="$archive.connected" @click="importArchive" class="button">
+      <button v-if="$archive.connected" class="button" @click="importArchive">
         Import Archive
       </button>
-      <button @click="getEvents" class="button">Refresh</button>
+      <button class="button" @click="getEvents">Refresh</button>
     </div>
     <div v-if="events && events.length > 0" class="my-shadow mx-12 mb-3 p-2">
       <table class="w-full font-body">
@@ -40,13 +40,13 @@ export default {
     'back-arrow': BackArrow,
   },
 
-  data: function() {
+  data: function () {
     return {
       events: [],
     }
   },
 
-  mounted: function() {
+  mounted: function () {
     if (this.$database.connection === null || !this.$database.connected) {
       this.$router.push('/')
       this.$messages.addMessage('Problem Connecting To Database', 'error')
@@ -58,10 +58,10 @@ export default {
   },
 
   methods: {
-    getEvents: function() {
+    getEvents: function () {
       return this.$database
         .query('SELECT * FROM events ORDER BY date DESC')
-        .then(result => {
+        .then((result) => {
           this.events = result
         })
         .catch(() =>
@@ -69,7 +69,7 @@ export default {
         )
     },
 
-    createArchiveConnection: function() {
+    createArchiveConnection: function () {
       this.$archive.connection = this.$mysql.createConnection({
         host: this.$database.connection.config.host,
         port: this.$database.connection.config.port,
@@ -101,7 +101,7 @@ export default {
         )
     },
 
-    importArchive: function() {
+    importArchive: function () {
       const { dialog } = this.$electron.remote
       return dialog
         .showOpenDialog({
@@ -113,20 +113,22 @@ export default {
             { name: 'All Files', extensions: ['*'] },
           ],
         })
-        .then(result => {
+        .then((result) => {
           if (!result.canceled)
             return this.$fs.readFile(result.filePaths[0], { encoding: 'utf8' })
           else throw Error()
         })
-        .then(result => result.trim().split('\n'))
-        .then(result => {
+        .then((result) => result.trim().split('\n'))
+        .then((result) => {
           if (!result[0].includes('CardNumber')) throw Error()
           else return result
         })
-        .then(result => result.map(row => row.split(',')))
-        .then(result => result.filter(row => !row[0].includes('CardNumber')))
-        .then(result =>
-          result.map(row => [
+        .then((result) => result.map((row) => row.split(',')))
+        .then((result) =>
+          result.filter((row) => !row[0].includes('CardNumber'))
+        )
+        .then((result) =>
+          result.map((row) => [
             row[0],
             row[2].replace(/"/g, ''),
             row[3].replace(/"/g, ''),
@@ -136,16 +138,16 @@ export default {
             row[7].replace(/"/g, ''),
           ])
         )
-        .then(result =>
+        .then((result) =>
           Promise.all([this.$archive.query('DELETE FROM people'), result])
         )
-        .then(result =>
+        .then((result) =>
           this.$archive.query(
             'INSERT INTO people (siid, status, name, gender, yearOfBirth, membershipNumber, club) VALUES ?',
             [result[1]]
           )
         )
-        .then(result =>
+        .then((result) =>
           this.$messages.addMessage(
             `${result.affectedRows} Archive Records Imported`
           )
@@ -155,14 +157,14 @@ export default {
         )
     },
 
-    getYearOfBirth: function(date) {
+    getYearOfBirth: function (date) {
       if (date.length === 4) return parseInt(date)
       else if (date.split('/')[2] && date.split('/')[2].length === 4)
         return parseInt(date.split('/')[2])
       else return 0
     },
 
-    createTables: function() {
+    createTables: function () {
       const createDatabaseQueries = [
         `CREATE TABLE IF NOT EXISTS events(
           id INT AUTO_INCREMENT PRIMARY KEY,
@@ -195,6 +197,7 @@ export default {
           controlCode TEXT,
           competitor INT,
           event INT,
+          type VARCHAR(10),
           FOREIGN KEY (competitor) REFERENCES competitors(id) ON UPDATE CASCADE ON DELETE CASCADE,
           FOREIGN KEY (event) REFERENCES events(id) ON UPDATE CASCADE ON DELETE CASCADE)`,
         `CREATE TABLE IF NOT EXISTS results(

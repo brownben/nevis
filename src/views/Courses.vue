@@ -12,7 +12,7 @@
       >
         Create Course
       </router-link>
-      <button @click="getCourses" class="button">Refresh</button>
+      <button class="button" @click="getCourses">Refresh</button>
     </div>
     <template v-if="courses && courses.length > 0">
       <router-link
@@ -20,7 +20,7 @@
         :key="course.id"
         :to="`/events/${$route.params.id}/courses/${course.id}/edit`"
         tag="div"
-        class="my-shadow mx-12 mb-5 px-3 py-2 border-t-4 border-blue"
+        class="my-shadow mx-12 mb-5 px-3 py-2 border-t-4 border-blue my-shadow-lg-hover"
       >
         <h2 class="pb-1">{{ course.name }}</h2>
         <p>
@@ -51,13 +51,13 @@ export default {
     'back-arrow': BackArrow,
   },
 
-  data: function() {
+  data: function () {
     return {
       courses: [],
     }
   },
 
-  mounted: function() {
+  mounted: function () {
     if (this.$database.connection === null || !this.$database.connected) {
       this.$router.push('/')
       this.$messages.addMessage('Problem Connecting To Database', 'error')
@@ -65,7 +65,7 @@ export default {
   },
 
   methods: {
-    getCourses: function() {
+    getCourses: function () {
       return this.$database
         .query(
           `
@@ -73,11 +73,10 @@ export default {
       FROM courses
       LEFT JOIN competitors ON courses.id=competitors.course
       WHERE courses.event=?
-      GROUP BY courses.id
       ORDER BY courses.name`,
           this.$route.params.id
         )
-        .then(result => {
+        .then((result) => {
           this.courses = result
         })
         .catch(() =>

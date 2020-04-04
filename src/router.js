@@ -75,5 +75,10 @@ export default new Router({
       name: 'download',
       component: () => import('./views/Download.vue'),
     },
+    {
+      path: '/events/:id/safetyCheck',
+      name: 'safety-check',
+      component: () => import('./views/SafetyCheck.vue'),
+    },
   ],
 })

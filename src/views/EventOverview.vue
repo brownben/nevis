@@ -11,7 +11,10 @@
       >
     </div>
     <div class="mx-12 flex flex-wrap">
-      <div class="w-full md:w-1/2 text-center mb-5">
+      <div
+        v-if="event.numberOfCourses > 0"
+        class="w-full md:w-1/2 text-center mb-5"
+      >
         <router-link
           :to="`/events/${event.id}/competitors`"
           tag="div"
@@ -25,7 +28,7 @@
         <router-link
           :to="`/events/${event.id}/courses`"
           tag="div"
-          class="my-shadow my-shadow-lg-hover p-2 md:mr-5 select-none  border-blue border-t-4"
+          class="my-shadow my-shadow-lg-hover p-2 md:mr-5 select-none border-blue border-t-4"
         >
           <h2 class="text-blue mb-1">Courses</h2>
           <p>{{ event.numberOfCourses }} Courses</p>
@@ -51,10 +54,23 @@
         <router-link
           :to="`/events/${event.id}/results`"
           tag="div"
-          class="my-shadow my-shadow-lg-hover p-2 md:mr-5 select-none  border-blue border-t-4"
+          class="my-shadow my-shadow-lg-hover p-2 md:mr-5 select-none border-blue border-t-4"
         >
           <h2 class="text-blue mb-1">Results</h2>
           <p>{{ event.numberOfResults }} Results</p>
+        </router-link>
+      </div>
+      <div
+        v-if="event.numberOfCourses > 0"
+        class="w-full md:w-1/2 text-center mb-5"
+      >
+        <router-link
+          :to="`/events/${event.id}/safetyCheck`"
+          tag="div"
+          class="my-shadow my-shadow-lg-hover p-2 md:mr-5 select-none border-blue border-t-4"
+        >
+          <h2 class="text-blue mb-1">Safety Check</h2>
+          <p>{{ event.outstandingCompetitors }} Outstanding Competitors</p>
         </router-link>
       </div>
     </div>
@@ -69,13 +85,13 @@ export default {
     'back-arrow': BackArrow,
   },
 
-  data: function() {
+  data: function () {
     return {
       event: {},
     }
   },
 
-  mounted: function() {
+  mounted: function () {
     if (this.$database.connection === null || !this.$database.connected) {
       this.$router.push('/')
       this.$messages.addMessage('Problem Connecting To Database', 'error')
@@ -83,20 +99,28 @@ export default {
   },
 
   methods: {
-    getEventDetails: function() {
+    getEventDetails: function () {
       return this.$database
         .query(
           `
       SELECT events.*,
-      (SELECT COUNT(*) FROM courses WHERE events.id=courses.event) numberOfCourses,
+      (SELECT COUNT(*) FROM courses WHERE events.id=courses.event) as numberOfCourses,
       (SELECT COUNT(*) FROM competitors WHERE events.id=competitors.event) as numberOfCompetitors,
-      (SELECT COUNT(*) FROM results WHERE events.id=results.event ) as numberOfResults
+      (SELECT COUNT(*) FROM results WHERE events.id=results.event ) as numberOfResults,
+      (SELECT COUNT(*) FROM (
+          SELECT time
+          FROM punches, competitors
+          WHERE punches.competitor=competitors.id
+              AND competitors.downloaded=False
+			        AND punches.event=?
+          GROUP BY competitors.id
+      ) as outstanding) as outstandingCompetitors
       FROM events
       WHERE events.id = ?
     `,
-          this.$route.params.id
+          [this.$route.params.id, this.$route.params.id, this.$route.params.id]
         )
-        .then(result => {
+        .then((result) => {
           this.event = result[0]
         })
         .catch(() =>

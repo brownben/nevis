@@ -42,7 +42,7 @@ exports[`Renders Correctly 1`] = `
   </div>
    
   <div
-    class="mx-12 mb-3 my-shadow px-3 pt-2 pb-1"
+    class="mx-12 mb-3 my-shadow px-3 pt-2 pb-1 border-t-4 border-blue"
   >
     <h2
       class="mb-1"

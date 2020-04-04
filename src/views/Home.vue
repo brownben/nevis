@@ -9,7 +9,7 @@
       <h1 class="pb-4 text-3xl text-white">Welcome to Nevis</h1>
     </div>
     <div class="mx-10 mb-3">
-      <button @click="connect" class="button">Connect</button>
+      <button class="button" @click="connect">Connect</button>
       <router-link tag="button" class="button" to="/about">About</router-link>
     </div>
     <div class="my-shadow mx-10">
@@ -30,7 +30,7 @@ export default {
     'text-input': TextInput,
   },
 
-  data: function() {
+  data: function () {
     return {
       server: 'localhost',
       port: '3306',
@@ -41,7 +41,7 @@ export default {
   },
 
   methods: {
-    connect: function() {
+    connect: function () {
       this.$database.connection = this.$mysql.createConnection({
         host: this.server,
         port: this.port,

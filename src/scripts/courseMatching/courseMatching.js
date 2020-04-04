@@ -3,9 +3,9 @@ import linear from './linear.js'
 export default {
   linear: linear,
 
-  findBestCourse: function(cardList, coursesList) {
+  findBestCourse: function (cardList, coursesList) {
     if (coursesList.length > 0) {
-      const coursesListWithPercentageMatch = coursesList.map(course => {
+      const coursesListWithPercentageMatch = coursesList.map((course) => {
         course.percentageMatch = this.linear(
           cardList,
           course.controls

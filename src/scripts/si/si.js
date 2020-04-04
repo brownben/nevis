@@ -5,7 +5,7 @@ import * as card10 from '@/scripts/si/card10'
 let currentCard = {}
 
 export default {
-  parseData: function(data, port) {
+  parseData: function (data, port) {
     if (helpers.validityCheck(data)) {
       if (card5.packetAnalyser.inserted(data))
         card5.instructionSets.getData(port)

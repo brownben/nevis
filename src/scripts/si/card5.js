@@ -49,7 +49,7 @@ export const processPunch = (data, position, code) => ({
   time: helpers.combineBytes(data.slice(position + 1, position + 3)),
 })
 
-export const fixPunchTimes = controls => {
+export const fixPunchTimes = (controls) => {
   let lastPunchTime = 0
   for (const control of controls) {
     if (control.time < lastPunchTime)

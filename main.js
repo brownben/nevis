@@ -64,15 +64,15 @@ const contextMenu = [
 ]
 
 const ContextMenu = Menu.buildFromTemplate(contextMenu)
-app.on('browser-window-created', function(event, win) {
-  win.webContents.on('context-menu', function(e, params) {
+app.on('browser-window-created', function (event, win) {
+  win.webContents.on('context-menu', function (e, params) {
     ContextMenu.popup(win, params.x, params.y)
   })
 })
 
 // Menu Titlebar Icon
 let maximized = false
-ipcMain.on('window', function(event, arg) {
+ipcMain.on('window', function (event, arg) {
   if (arg === 'maximize') {
     if (maximized === false) win.maximize()
     else win.unmaximize()

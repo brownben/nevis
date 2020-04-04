@@ -1,4 +1,6 @@
 export default (gender, yearOfBirth) => {
+  if (gender === undefined || yearOfBirth === undefined) return ''
+
   const currentDate = new Date()
   const currentYear = currentDate.getFullYear()
   const age = parseInt(currentYear) - parseInt(yearOfBirth)

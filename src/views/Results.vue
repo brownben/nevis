@@ -5,8 +5,8 @@
       Results
     </h1>
     <div class="mx-12 mb-3">
-      <button @click="refresh" class="button">Refresh</button>
-      <button @click="saveHTMLResults" class="button">Export HTML</button>
+      <button class="button" @click="refresh">Refresh</button>
+      <button class="button" @click="saveHTMLResults">Export HTML</button>
     </div>
 
     <div v-for="course of courses" :key="course.id">
@@ -52,7 +52,7 @@ export default {
     'back-arrow': BackArrow,
   },
 
-  data: function() {
+  data: function () {
     return {
       results: [],
       courses: [],
@@ -60,7 +60,7 @@ export default {
     }
   },
 
-  mounted: function() {
+  mounted: function () {
     if (this.$database.connection === null || !this.$database.connected) {
       this.$router.push('/')
       this.$messages.addMessage('Problem Connecting To Database', 'error')
@@ -68,12 +68,12 @@ export default {
   },
 
   methods: {
-    refresh: function() {
+    refresh: function () {
       this.getCourses()
       this.getResults()
     },
 
-    getResults: function() {
+    getResults: function () {
       return this.$database
         .query(
           `
@@ -82,7 +82,7 @@ export default {
       WHERE competitors.downloaded=true AND competitors.event=? AND competitors.id=results.competitor`,
           this.$route.params.id
         )
-        .then(result => {
+        .then((result) => {
           this.results = result
         })
         .catch(() =>
@@ -90,10 +90,10 @@ export default {
         )
     },
 
-    getCourses: function() {
+    getCourses: function () {
       return this.$database
         .query('SELECT * FROM courses WHERE event=?', this.$route.params.id)
-        .then(result => {
+        .then((result) => {
           this.courses = result
         })
         .catch(() =>
@@ -101,16 +101,16 @@ export default {
         )
     },
 
-    competitorsOnCourse: function(courseId) {
+    competitorsOnCourse: function (courseId) {
       let position = 0
       return this.results
-        .filter(competitor => competitor.course === courseId)
+        .filter((competitor) => competitor.course === courseId)
         .sort((a, b) => {
           if (a.errors !== '' || b.errors !== '')
             return a.errors.length - b.errors.length
           else return a.time - b.time
         })
-        .map(result => {
+        .map((result) => {
           if (result.nonCompetitive) return { ...result, position: 'n/c' }
           else {
             position += 1
@@ -119,19 +119,19 @@ export default {
         })
     },
 
-    courseToHTML: function(course) {
+    courseToHTML: function (course) {
       const results = this.competitorsOnCourse(course.id)
         .map(htmlFunctions.resultRow)
         .join('')
       return htmlFunctions.courseTable(course, results)
     },
 
-    generateHTML: async function() {
+    generateHTML: async function () {
       try {
         const eventDetails = await this.getEventDetails()
         const body = this.courses
-          .filter(course => this.competitorsOnCourse(course.id).length > 0)
-          .map(course => this.courseToHTML(course))
+          .filter((course) => this.competitorsOnCourse(course.id).length > 0)
+          .map((course) => this.courseToHTML(course))
           .join('')
 
         return htmlFunctions.htmlPage(eventDetails, body)
@@ -140,7 +140,7 @@ export default {
       }
     },
 
-    saveHTMLResults: async function() {
+    saveHTMLResults: async function () {
       const { dialog } = this.$electron.remote
       const htmlResults = await this.generateHTML()
 
@@ -152,14 +152,14 @@ export default {
             { name: 'All Files', extensions: ['*'] },
           ],
         })
-        .then(result => {
+        .then((result) => {
           if (!result.canceled)
             return this.$fs.writeFile(result.filePath, htmlResults, {
               encoding: 'utf8',
             })
           else throw Error()
         })
-        .then(result =>
+        .then((result) =>
           this.$messages.addMessage('Results Successfully Written')
         )
         .catch(() =>
@@ -167,13 +167,13 @@ export default {
         )
     },
 
-    getEventDetails: function() {
+    getEventDetails: function () {
       return this.$database
         .query(
           `SELECT * FROM events WHERE events.id = ?`,
           this.$route.params.id
         )
-        .then(result => result[0])
+        .then((result) => result[0])
         .catch(() =>
           this.$messages.addMessage('Problem Fetching Event Data', 'error')
         )

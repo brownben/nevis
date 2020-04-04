@@ -22,12 +22,7 @@ module.exports = {
   },
 
   rules: {
-    camelcase: [
-      'error',
-      {
-        properties: 'never',
-      },
-    ],
+    camelcase: ['error', { properties: 'never' }],
     radix: 'off',
     complexity: 'off',
     'default-param-last': 'error',
@@ -45,9 +40,7 @@ module.exports = {
     'max-params': ['error', { max: 4 }],
     'vue/component-tags-order': [
       'error',
-      {
-        order: ['template', 'script', 'style'],
-      },
+      { order: ['template', 'script', 'style'] },
     ],
     'vue/no-duplicate-attributes': [
       'error',

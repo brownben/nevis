@@ -1,16 +1,16 @@
-const twoDigits = number => {
+const twoDigits = (number) => {
   if (number.toString().length < 2) return `0${number.toString()}`
   else return number
 }
 
 export default {
-  elapsed: totalTimeInSeconds => {
+  elapsed: (totalTimeInSeconds) => {
     const timeInMinutes = Math.floor(totalTimeInSeconds / 60)
     const timeInSeconds = Math.abs(totalTimeInSeconds % 60)
     return `${twoDigits(timeInMinutes)}:${twoDigits(timeInSeconds)}`
   },
 
-  actual: totalTimeInSeconds => {
+  actual: (totalTimeInSeconds) => {
     const timeInHours = Math.floor(totalTimeInSeconds / 3600)
     const timeInMinutes = Math.floor((totalTimeInSeconds % 3600) / 60)
     const timeInSeconds = (totalTimeInSeconds % 3600) % 60
@@ -19,22 +19,22 @@ export default {
     )}`
   },
 
-  calculateTime: download => {
+  calculateTime: (download) => {
     if (download.other !== '') return download.other
     return download.finish - download.start
   },
 
-  displayTime: function(result, errors) {
+  displayTime: function (result, errors) {
     if (errors) return errors
     else return this.elapsed(result)
   },
 
-  displayActualTime: function(result, errors) {
+  displayActualTime: function (result, errors) {
     if (errors) return errors
     else return this.actual(result)
   },
 
-  timeToSeconds: function(string) {
+  timeToSeconds: function (string) {
     const parts = string.split(':')
     if (parts.length === 3) {
       let time = 0

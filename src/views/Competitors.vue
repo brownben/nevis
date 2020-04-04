@@ -12,7 +12,7 @@
       >
         Create Entry
       </router-link>
-      <button @click="refresh" class="button">Refresh</button>
+      <button class="button" @click="refresh">Refresh</button>
     </div>
     <div
       v-if="allCompetitors && allCompetitors.length > 0"
@@ -49,7 +49,7 @@
               :ascending="sortDirection === 'ASC'"
             />
           </th>
-          <th @click="changeSortBy('ageClass')" class="hidden md:table-cell">
+          <th class="hidden md:table-cell" @click="changeSortBy('ageClass')">
             Age Class
             <up-down-arrows
               :active="sortBy === 'ageClass'"
@@ -63,7 +63,7 @@
               :ascending="sortDirection === 'ASC'"
             />
           </th>
-          <th @click="changeSortBy('club')" class="hidden lg:table-cell">
+          <th class="hidden lg:table-cell" @click="changeSortBy('club')">
             Club
             <up-down-arrows
               :active="sortBy === 'club'"
@@ -75,9 +75,7 @@
           <router-link
             v-for="competitor of competitors"
             :key="competitor.id"
-            :to="
-              `/events/${$route.params.id}/competitors/${competitor.id}/edit`
-            "
+            :to="`/events/${$route.params.id}/competitors/${competitor.id}/edit`"
             tag="tr"
             class="text-center odd:bg-blue-lightest hover:bg-blue-light"
           >
@@ -107,7 +105,7 @@ export default {
     'up-down-arrows': UpDownArrows,
   },
 
-  data: function() {
+  data: function () {
     return {
       allCompetitors: [],
       competitors: [],
@@ -121,18 +119,18 @@ export default {
   },
 
   watch: {
-    filterName: function() {
+    filterName: function () {
       this.getCompetitors()
     },
-    filterSIID: function() {
+    filterSIID: function () {
       this.getCompetitors()
     },
-    filterCourse: function() {
+    filterCourse: function () {
       this.getCompetitors()
     },
   },
 
-  mounted: function() {
+  mounted: function () {
     if (this.$database.connection === null || !this.$database.connected) {
       this.$router.push('/')
       this.$messages.addMessage('Problem Connecting To Database', 'error')
@@ -140,12 +138,12 @@ export default {
   },
 
   methods: {
-    refresh: function() {
+    refresh: function () {
       this.getCourses()
       this.getCompetitors()
       this.getAllCompetitors()
     },
-    changeSortBy: function(field) {
+    changeSortBy: function (field) {
       if (this.sortBy === field && this.sortDirection === 'ASC')
         this.sortDirection = 'DESC'
       else if (this.sortBy === field) this.sortDirection = 'ASC'
@@ -153,7 +151,7 @@ export default {
       this.getCompetitors()
     },
 
-    getCompetitors: function() {
+    getCompetitors: function () {
       return this.$database
         .query(
           `
@@ -173,7 +171,7 @@ export default {
       ORDER BY ${this.sortBy} ${this.sortDirection}`,
           [this.$route.params.id, this.$route.params.id]
         )
-        .then(result => {
+        .then((result) => {
           this.competitors = result
         })
         .catch(() =>
@@ -181,12 +179,12 @@ export default {
         )
     },
 
-    getAllCompetitors: function() {
+    getAllCompetitors: function () {
       return this.$database
         .query(`SELECT * FROM competitors WHERE competitors.event=?`, [
           this.$route.params.id,
         ])
-        .then(result => {
+        .then((result) => {
           this.allCompetitors = result
         })
         .catch(() =>
@@ -194,11 +192,11 @@ export default {
         )
     },
 
-    getCourses: function() {
+    getCourses: function () {
       return this.$database
         .query('SELECT * FROM courses WHERE event=?', this.$route.params.id)
-        .then(result => {
-          this.listOfCourseNames = result.map(course => course.name)
+        .then((result) => {
+          this.listOfCourseNames = result.map((course) => course.name)
           this.listOfCourseNames.unshift('')
         })
         .catch(() =>

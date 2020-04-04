@@ -53,7 +53,7 @@ exports[`Renders Correctly 1`] = `
       class="w-full md:w-1/2 text-center mb-5"
     >
       <router-link-stub
-        class="my-shadow my-shadow-lg-hover p-2 md:mr-5 select-none  border-blue border-t-4"
+        class="my-shadow my-shadow-lg-hover p-2 md:mr-5 select-none border-blue border-t-4"
         tag="div"
         to="/events/12/courses"
       >
@@ -90,6 +90,26 @@ exports[`Renders Correctly 1`] = `
     </div>
      
     <!---->
+     
+    <div
+      class="w-full md:w-1/2 text-center mb-5"
+    >
+      <router-link-stub
+        class="my-shadow my-shadow-lg-hover p-2 md:mr-5 select-none border-blue border-t-4"
+        tag="div"
+        to="/events/12/safetyCheck"
+      >
+        <h2
+          class="text-blue mb-1"
+        >
+          Safety Check
+        </h2>
+         
+        <p>
+           Outstanding Competitors
+        </p>
+      </router-link-stub>
+    </div>
   </div>
 </main>
 `;
