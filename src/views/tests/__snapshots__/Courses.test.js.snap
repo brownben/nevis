@@ -30,6 +30,12 @@ exports[`Renders Correctly - No Courses 1`] = `
     <button
       class="button"
     >
+      Import IOF XML
+    </button>
+     
+    <button
+      class="button"
+    >
       Refresh
     </button>
   </div>
@@ -64,6 +70,12 @@ exports[`Renders Correctly - With Courses 1`] = `
       Create Course
     
     </router-link-stub>
+     
+    <button
+      class="button"
+    >
+      Import IOF XML
+    </button>
      
     <button
       class="button"

@@ -12,6 +12,7 @@
       >
         Create Course
       </router-link>
+      <button class="button" @click="importXML">Import IOF XML</button>
       <button class="button" @click="getCourses">Refresh</button>
     </div>
     <template v-if="courses && courses.length > 0">
@@ -73,6 +74,7 @@ export default {
       FROM courses
       LEFT JOIN competitors ON courses.id=competitors.course
       WHERE courses.event=?
+      GROUP BY courses.id
       ORDER BY courses.name`,
           this.$route.params.id
         )
@@ -82,6 +84,70 @@ export default {
         .catch(() =>
           this.$messages.addMessage('Problem Fetching Courses', 'error')
         )
+    },
+
+    importXML: function () {
+      const { dialog } = this.$electron.remote
+      return dialog
+        .showOpenDialog({
+          title: 'Nevis - Import XML Courses',
+          buttonLabel: 'Import',
+          properties: ['openFile'],
+          filters: [
+            { name: 'IOF XML 3.0', extensions: ['xml'] },
+            { name: 'All Files', extensions: ['*'] },
+          ],
+        })
+        .then((result) => {
+          if (!result.canceled)
+            return this.$fs.readFile(result.filePaths[0], { encoding: 'utf8' })
+          else throw Error()
+        })
+        .then((result) =>
+          this.$xml.xml2js(result, {
+            compact: true,
+            trim: true,
+            alwaysArray: true,
+            nativeType: true,
+            nativeTypeAttributes: true,
+          })
+        )
+        .then(this.processXMLImport)
+        .then((result) =>
+          this.$database.query(
+            'INSERT INTO courses (name, length, climb, type, event, controls) VALUES ?',
+            [result]
+          )
+        )
+        .then((result) =>
+          this.$messages.addMessage(`${result.affectedRows} Courses Imported`)
+        )
+        .then(this.getCourses)
+        .catch(() =>
+          this.$messages.addMessage('Problem Importing Courses', 'error')
+        )
+    },
+
+    processXMLImport: function (json) {
+      const eventData = json?.CourseData?.[0]?.RaceCourseData?.[0]?.Course
+
+      return eventData.map((course) => {
+        const name = course?.Name?.[0]?._text?.[0]
+        const length = course?.Length?.[0]?._text?.[0]
+        const climb = course?.Climb?.[0]?._text?.[0]
+        const controls =
+          course?.CourseControl?.filter(
+            (control) => control?._attributes?.type === 'Control'
+          )
+            .map((control) => control?.Control?.[0]?._text)
+            .filter((control) => !!control)
+            .map((control) => control.toString())
+            .join(',') || ''
+        const type = 'linear'
+        const event = this.$route.params.id
+
+        return [name, length, climb, type, event, controls]
+      })
     },
   },
 }

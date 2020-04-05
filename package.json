@@ -1,7 +1,7 @@
 {
   "name": "nevis",
   "productName": "Nevis",
-  "version": "5.1.0",
+  "version": "5.2.0",
   "description": "Fast and Easy Results for Orienteering",
   "author": "brownben <9870007+brownben@users.noreply.github.com>",
   "license": "MIT",
@@ -37,7 +37,8 @@
     "mysql": "^2.18.1",
     "serialport": "^8.0.7",
     "vue": "^2.6.11",
-    "vue-router": "^3.1.6"
+    "vue-router": "^3.1.6",
+    "xml-js": "^1.6.11"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.3.0",
