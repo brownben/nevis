@@ -9,6 +9,7 @@
       <router-link :to="`/events/edit/${event.id}`" tag="button" class="button"
         >Edit Event</router-link
       >
+      <button class="button" @click="getEventDetails">Refresh</button>
     </div>
     <div class="mx-12 flex flex-wrap">
       <div

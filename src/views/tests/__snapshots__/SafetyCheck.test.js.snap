@@ -85,7 +85,7 @@ exports[`Renders Correctly 1`] = `
         name="fade"
       >
         <tr
-          class="text-center even:bg-blue-lightest hover:bg-blue-light"
+          class="text-center odd:bg-blue-lightest hover:bg-blue-light"
         >
           <td>
             Bob
@@ -112,7 +112,7 @@ exports[`Renders Correctly 1`] = `
           </td>
         </tr>
         <tr
-          class="text-center even:bg-blue-lightest hover:bg-blue-light"
+          class="text-center odd:bg-blue-lightest hover:bg-blue-light"
         >
           <td>
             James
@@ -139,7 +139,7 @@ exports[`Renders Correctly 1`] = `
           </td>
         </tr>
         <tr
-          class="text-center even:bg-blue-lightest hover:bg-blue-light"
+          class="text-center odd:bg-blue-lightest hover:bg-blue-light"
         >
           <td>
             Alfie

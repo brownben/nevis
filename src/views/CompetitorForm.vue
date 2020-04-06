@@ -384,7 +384,10 @@ export default {
       ageClassFunctions(gender, yearOfBirth),
 
     recalculateResult: function () {
-      if (this.competitor.course !== this.originalCourse) {
+      if (
+        this.competitor.course !== this.originalCourse &&
+        this.competitor.downloaded
+      ) {
         const courseId = this.getCourseIdFromName(this.competitor.course)
         const courseControls = this.courses
           .filter((course) => course.id === courseId)[0]

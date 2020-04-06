@@ -57,7 +57,7 @@
           <tr
             v-for="competitor of outstandingCompetitors"
             :key="competitor.punchesId"
-            class="text-center even:bg-blue-lightest hover:bg-blue-light"
+            class="text-center odd:bg-blue-lightest hover:bg-blue-light"
           >
             <td>{{ competitor.name }}</td>
             <td>{{ competitor.controlCode }}</td>

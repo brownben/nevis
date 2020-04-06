@@ -910,6 +910,16 @@ test('Recalculate Results', async () => {
   wrapper.setData({ originalCourse: 'hello', competitor: { course: 'world' } })
   courseMatching.linear = jest.fn(() => ({ errors: 'M4', links: [] }))
   await wrapper.vm.recalculateResult()
+  expect(courseMatching.linear).not.toHaveBeenCalledWith(
+    ['101', '102', '103'],
+    ['101', '102', '103']
+  )
+
+  wrapper.setData({
+    originalCourse: 'hello',
+    competitor: { course: 'world', downloaded: true },
+  })
+  await wrapper.vm.recalculateResult()
   expect(courseMatching.linear).toHaveBeenCalledWith(
     ['101', '102', '103'],
     ['101', '102', '103']

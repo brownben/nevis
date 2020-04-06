@@ -24,6 +24,12 @@ exports[`Renders Correctly 1`] = `
     >
       Edit Event
     </router-link-stub>
+     
+    <button
+      class="button"
+    >
+      Refresh
+    </button>
   </div>
    
   <div
