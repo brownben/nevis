@@ -210,7 +210,6 @@ test('Get Outstanding Competitors - Success', async () => {
   await wrapper.vm.getOutstandingCompetitors()
   expect(wrapper.vm.$database.query).toHaveBeenCalledWith(expect.any(String), [
     12,
-    12,
   ])
   expect(wrapper.vm.outstandingCompetitors).toEqual([1, 2, 3])
 })
@@ -235,7 +234,6 @@ test('Get Outstanding Competitors - Failure', async () => {
   })
   await wrapper.vm.getOutstandingCompetitors()
   expect(wrapper.vm.$database.query).toHaveBeenCalledWith(expect.any(String), [
-    12,
     12,
   ])
   expect(wrapper.vm.outstandingCompetitors).toEqual([])
@@ -518,4 +516,39 @@ test('Find Competitor For Punches', async () => {
       siid: 3,
     }
   )
+})
+
+test('Change Sort By', () => {
+  const wrapper = shallowMount(SafetyCheck, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockRejectedValue(),
+      },
+      $route: { params: { id: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
+    },
+  })
+  wrapper.setMethods({
+    getOutstandingCompetitors: jest.fn(),
+  })
+  wrapper.vm.changeSortBy('name')
+  expect(wrapper.vm.sortBy).toBe('name')
+  expect(wrapper.vm.sortDirection).toBe('DESC')
+  expect(wrapper.vm.getOutstandingCompetitors).toHaveBeenCalledTimes(1)
+  wrapper.vm.changeSortBy('name')
+  expect(wrapper.vm.sortBy).toBe('name')
+  expect(wrapper.vm.sortDirection).toBe('ASC')
+  expect(wrapper.vm.getOutstandingCompetitors).toHaveBeenCalledTimes(2)
+  wrapper.vm.changeSortBy('siid')
+  expect(wrapper.vm.sortBy).toBe('siid')
+  expect(wrapper.vm.sortDirection).toBe('ASC')
+  expect(wrapper.vm.getOutstandingCompetitors).toHaveBeenCalledTimes(3)
+  wrapper.vm.changeSortBy('siid')
+  expect(wrapper.vm.sortBy).toBe('siid')
+  expect(wrapper.vm.sortDirection).toBe('DESC')
+  expect(wrapper.vm.getOutstandingCompetitors).toHaveBeenCalledTimes(4)
 })

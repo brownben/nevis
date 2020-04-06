@@ -40,111 +40,132 @@ exports[`Renders Correctly 1`] = `
         class="font-heading text-center hover:bg-blue-light"
       >
         <th>
+          
           Name
+          
+          <up-down-arrows-stub />
         </th>
          
         <th>
+          
           Control
+          
+          <up-down-arrows-stub />
         </th>
          
         <th>
+          
           Time
+          
+          <up-down-arrows-stub
+            active="true"
+          />
         </th>
          
         <th
           class="hidden sm:table-cell"
         >
+          
           Course
+          
+          <up-down-arrows-stub />
         </th>
          
         <th
           class="hidden md:table-cell"
         >
+          
           Age Class
+          
+          <up-down-arrows-stub />
         </th>
       </tr>
        
-      <tr
-        class="text-center even:bg-blue-lightest hover:bg-blue-light"
+      <tbody
+        name="fade"
       >
-        <td>
-          Bob
-        </td>
-         
-        <td>
-          202
-        </td>
-         
-        <td>
-          01:34:15
-        </td>
-         
-        <td
-          class="hidden sm:table-cell"
+        <tr
+          class="text-center even:bg-blue-lightest hover:bg-blue-light"
         >
-          Long
-        </td>
-         
-        <td
-          class="hidden md:table-cell"
+          <td>
+            Bob
+          </td>
+           
+          <td>
+            202
+          </td>
+           
+          <td>
+            01:34:15
+          </td>
+           
+          <td
+            class="hidden sm:table-cell"
+          >
+            Long
+          </td>
+           
+          <td
+            class="hidden md:table-cell"
+          >
+            
+          </td>
+        </tr>
+        <tr
+          class="text-center even:bg-blue-lightest hover:bg-blue-light"
         >
-          
-        </td>
-      </tr>
-      <tr
-        class="text-center even:bg-blue-lightest hover:bg-blue-light"
-      >
-        <td>
-          James
-        </td>
-         
-        <td>
-          202
-        </td>
-         
-        <td>
-          01:15:55
-        </td>
-         
-        <td
-          class="hidden sm:table-cell"
+          <td>
+            James
+          </td>
+           
+          <td>
+            202
+          </td>
+           
+          <td>
+            01:15:55
+          </td>
+           
+          <td
+            class="hidden sm:table-cell"
+          >
+            Short
+          </td>
+           
+          <td
+            class="hidden md:table-cell"
+          >
+            
+          </td>
+        </tr>
+        <tr
+          class="text-center even:bg-blue-lightest hover:bg-blue-light"
         >
-          Short
-        </td>
-         
-        <td
-          class="hidden md:table-cell"
-        >
-          
-        </td>
-      </tr>
-      <tr
-        class="text-center even:bg-blue-lightest hover:bg-blue-light"
-      >
-        <td>
-          Alfie
-        </td>
-         
-        <td>
-          201
-        </td>
-         
-        <td>
-          01:34:25
-        </td>
-         
-        <td
-          class="hidden sm:table-cell"
-        >
-          
-        </td>
-         
-        <td
-          class="hidden md:table-cell"
-        >
-          
-        </td>
-      </tr>
+          <td>
+            Alfie
+          </td>
+           
+          <td>
+            201
+          </td>
+           
+          <td>
+            01:34:25
+          </td>
+           
+          <td
+            class="hidden sm:table-cell"
+          >
+            
+          </td>
+           
+          <td
+            class="hidden md:table-cell"
+          >
+            
+          </td>
+        </tr>
+      </tbody>
     </table>
   </div>
 </main>

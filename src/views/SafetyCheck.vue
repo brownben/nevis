@@ -14,23 +14,58 @@
     >
       <table class="w-full font-body">
         <tr class="font-heading text-center hover:bg-blue-light">
-          <th>Name</th>
-          <th>Control</th>
-          <th>Time</th>
-          <th class="hidden sm:table-cell">Course</th>
-          <th class="hidden md:table-cell">Age Class</th>
+          <th @click="changeSortBy('name')">
+            Name
+            <up-down-arrows
+              :active="sortBy === 'name'"
+              :ascending="sortDirection === 'ASC'"
+            />
+          </th>
+          <th @click="changeSortBy('controlCode')">
+            Control
+            <up-down-arrows
+              :active="sortBy === 'controlCode'"
+              :ascending="sortDirection === 'ASC'"
+            />
+          </th>
+          <th @click="changeSortBy('time')">
+            Time
+            <up-down-arrows
+              :active="sortBy === 'time'"
+              :ascending="sortDirection === 'ASC'"
+            />
+          </th>
+          <th
+            class="hidden sm:table-cell"
+            @click="changeSortBy('competitors.course')"
+          >
+            Course
+            <up-down-arrows
+              :active="sortBy === 'competitors.course'"
+              :ascending="sortDirection === 'ASC'"
+            />
+          </th>
+          <th class="hidden md:table-cell" @click="changeSortBy('ageClass')">
+            Age Class
+            <up-down-arrows
+              :active="sortBy === 'ageClass'"
+              :ascending="sortDirection === 'ASC'"
+            />
+          </th>
         </tr>
-        <tr
-          v-for="competitor of outstandingCompetitors"
-          :key="competitor.punchesId"
-          class="text-center even:bg-blue-lightest hover:bg-blue-light"
-        >
-          <td>{{ competitor.name }}</td>
-          <td>{{ competitor.controlCode }}</td>
-          <td>{{ time.displayActualTime(competitor.time) }}</td>
-          <td class="hidden sm:table-cell">{{ competitor.course }}</td>
-          <td class="hidden md:table-cell">{{ competitor.ageClass }}</td>
-        </tr>
+        <tbody is="transition-group" name="fade">
+          <tr
+            v-for="competitor of outstandingCompetitors"
+            :key="competitor.punchesId"
+            class="text-center even:bg-blue-lightest hover:bg-blue-light"
+          >
+            <td>{{ competitor.name }}</td>
+            <td>{{ competitor.controlCode }}</td>
+            <td>{{ time.displayActualTime(competitor.time) }}</td>
+            <td class="hidden sm:table-cell">{{ competitor.course }}</td>
+            <td class="hidden md:table-cell">{{ competitor.ageClass }}</td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </main>
@@ -38,6 +73,7 @@
 
 <script>
 import BackArrow from '@/components/BackArrow'
+import UpDownArrows from '@/components/UpDownArrows'
 
 import time from '@/scripts/time'
 import ageClassFunctions from '@/scripts/ageClass'
@@ -45,12 +81,15 @@ import ageClassFunctions from '@/scripts/ageClass'
 export default {
   components: {
     'back-arrow': BackArrow,
+    'up-down-arrows': UpDownArrows,
   },
 
   data: function () {
     return {
       outstandingCompetitors: [],
       time: time,
+      sortBy: 'time',
+      sortDirection: 'DESC',
     }
   },
 
@@ -62,28 +101,28 @@ export default {
   },
 
   methods: {
+    changeSortBy: function (field) {
+      if (this.sortBy === field && this.sortDirection === 'ASC')
+        this.sortDirection = 'DESC'
+      else if (this.sortBy === field) this.sortDirection = 'ASC'
+      this.sortBy = field
+      this.getOutstandingCompetitors()
+    },
+
     getOutstandingCompetitors: function () {
       return this.$database
         .query(
           `
           SELECT time, controlCode, punches.id as punchesId, competitors.*, courses.name as course
-          FROM punches, competitors, courses
-          WHERE punches.competitor=competitors.id
-			        AND competitors.course IS NOT NULL
-              AND competitors.course=courses.id
-              AND competitors.downloaded=False
-			        AND punches.event=?
-          GROUP BY competitors.id
-          UNION
-          SELECT time, controlCode, punches.id as punchesId, competitors.*, NULL
-          FROM punches, competitors, courses
+          FROM punches, competitors
+          LEFT JOIN courses ON competitors.course=courses.id
           WHERE punches.competitor=competitors.id
               AND competitors.downloaded=False
 			        AND punches.event=?
           GROUP BY competitors.id
-          ORDER BY time ASC
+          ORDER BY ${this.sortBy} ${this.sortDirection}
       `,
-          [this.$route.params.id, this.$route.params.id]
+          [this.$route.params.id]
         )
         .then((result) => {
           this.outstandingCompetitors = result
