@@ -25,6 +25,7 @@ With Nevis you can:
   - SI Card 6 - Support to Come Later
 - Use Automatic Course Checking and matching if course is unknown
 - Add + Edit Courses
+- Import Courses from IOF XML 3.0
 - View Results
 - Export Results as HTML
 - Perform Safety Check and View Outstanding Competitors, by importing punches from SIConfig

@@ -179,8 +179,9 @@ test('Process XML Import', async () => {
     },
   })
   wrapper.setMethods({
-    processXMLImport: jest.fn().mockResolvedValue('b'),
+    processXMLImport: jest.fn().mockResolvedValue(['b']),
     getCourses: jest.fn().mockResolvedValue(),
+    checkForDuplicateCourse: jest.fn().mockResolvedValue('b'),
   })
 
   await wrapper.vm.importXML()
@@ -198,13 +199,14 @@ test('Process XML Import', async () => {
   expect(wrapper.vm.$fs.readFile).toHaveBeenCalledWith('hi', {
     encoding: 'utf8',
   })
+  expect(wrapper.vm.checkForDuplicateCourse).toHaveBeenCalled()
   expect(wrapper.vm.processXMLImport).toHaveBeenCalledTimes(1)
   expect(wrapper.vm.getCourses).toHaveBeenCalledTimes(1)
   expect(
     wrapper.vm.$database.query
   ).toHaveBeenCalledWith(
     'INSERT INTO courses (name, length, climb, type, event, controls) VALUES ?',
-    ['b']
+    [['b']]
   )
 })
 
@@ -248,4 +250,28 @@ test('Process XML Import - Cancelled', async () => {
   expect(wrapper.vm.$fs.readFile).toHaveBeenCalledTimes(0)
   expect(wrapper.vm.processXMLImport).toHaveBeenCalledTimes(0)
   expect(wrapper.vm.getCourses).toHaveBeenCalledTimes(0)
+})
+
+test('Check For Duplicate Course', async () => {
+  const wrapper = mount(Courses, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockResolvedValue([]),
+      },
+      $route: { params: { id: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
+    },
+  })
+
+  expect(
+    await wrapper.vm.checkForDuplicateCourse(['Name', 0, 1, 2, 3])
+  ).toEqual(['Name', 0, 1, 2, 3])
+  wrapper.vm.$database.query = jest.fn().mockResolvedValue([1])
+  expect(
+    await wrapper.vm.checkForDuplicateCourse(['Name', 0, 1, 2, 3])
+  ).toEqual(['Name **IMPORTED**', 0, 1, 2, 3])
 })

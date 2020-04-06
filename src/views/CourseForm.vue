@@ -169,15 +169,27 @@ export default {
         )
     },
 
-    deleteCourse: function () {
+    numberOfCompetitorsOnCourse: function () {
+      return this.$database
+        .query(
+          'SELECT COUNT(*) as count FROM competitors WHERE course=?',
+          this.course.id
+        )
+        .then((result) => result?.[0]?.count)
+    },
+
+    deleteCourse: async function () {
+      const numberOfCompetitorsOnCourse = await this.numberOfCompetitorsOnCourse()
+
       return this.$database
         .query('DELETE FROM courses WHERE id=?', this.course.id)
         .then(() => {
-          this.$messages.addMessage(
-            `Some Competitors May Not Have a Course Allocated`,
-            'warning'
-          )
           this.$messages.addMessage(`Course "${this.course.name}" Deleted`)
+          if (numberOfCompetitorsOnCourse > 0)
+            this.$messages.addMessage(
+              `${numberOfCompetitorsOnCourse} Competitors Don't Have a Course Allocated`,
+              'warning'
+            )
           this.$router.push(`/events/${this.$route.params.eventId}/courses`)
         })
         .catch(() =>

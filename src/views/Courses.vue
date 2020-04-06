@@ -113,6 +113,7 @@ export default {
           })
         )
         .then(this.processXMLImport)
+        .then((result) => Promise.all(result.map(this.checkForDuplicateCourse)))
         .then((result) =>
           this.$database.query(
             'INSERT INTO courses (name, length, climb, type, event, controls) VALUES ?',
@@ -126,6 +127,21 @@ export default {
         .catch(() =>
           this.$messages.addMessage('Problem Importing Courses', 'error')
         )
+    },
+
+    checkForDuplicateCourse: async function (course) {
+      const queryResult = await this.$database.query(
+        'SELECT * FROM courses WHERE name=? AND event=?',
+        [course[0], this.$route.params.id]
+      )
+      if (queryResult.length > 0) {
+        this.$messages.addMessage(
+          `Course ${course[0]} already exists, imported course renamed to "${course[0]} **IMPORTED**"`,
+          'warning'
+        )
+        course[0] += ' **IMPORTED**'
+      }
+      return course
     },
 
     processXMLImport: function (json) {

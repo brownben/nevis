@@ -259,12 +259,30 @@ test('Delete Course - Success', async () => {
     },
   })
   wrapper.setData({ course: { id: 0, name: 'Test', length: 1000, climb: 2 } })
+  wrapper.setMethods({
+    numberOfCompetitorsOnCourse: jest.fn().mockResolvedValue(0),
+  })
   await wrapper.vm.deleteCourse()
   expect(wrapper.vm.$router.push).toHaveBeenCalledTimes(1)
   expect(wrapper.vm.$router.push).toHaveBeenLastCalledWith('/events/12/courses')
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenCalledTimes(2)
-  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith(
+  expect(wrapper.vm.$messages.addMessage).not.toHaveBeenCalledWith(
+    "7 Competitors Don't Have a Course Allocated",
+    'warning'
+  )
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenCalledWith(
     'Course "Test" Deleted'
+  )
+  wrapper.setMethods({
+    numberOfCompetitorsOnCourse: jest.fn().mockResolvedValue(8),
+  })
+  wrapper.setData({ course: { id: 0, name: 'Test 2', length: 1000, climb: 2 } })
+  await wrapper.vm.deleteCourse()
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenCalledWith(
+    "8 Competitors Don't Have a Course Allocated",
+    'warning'
+  )
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenCalledWith(
+    'Course "Test 2" Deleted'
   )
 })
 
@@ -281,6 +299,9 @@ test('Delete Course - Error', async () => {
       $router: { push: jest.fn() },
       $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
     },
+  })
+  wrapper.setMethods({
+    numberOfCompetitorsOnCourse: jest.fn().mockResolvedValue(4),
   })
   await wrapper.vm.deleteCourse()
   expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith(
@@ -576,5 +597,27 @@ test('Recalculate Course Results', async () => {
   expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith(
     'Problem Recalulating Course Results',
     'error'
+  )
+})
+
+test('Number Of Competitors On Course', async () => {
+  const wrapper = mount(CourseForm, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockResolvedValue([{ count: 7 }]),
+      },
+      $route: { params: { eventId: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
+    },
+  })
+  wrapper.setData({ course: { id: 0, name: 'Test', length: 1000, climb: 2 } })
+  expect(await wrapper.vm.numberOfCompetitorsOnCourse()).toBe(7)
+  expect(wrapper.vm.$database.query).toHaveBeenCalledWith(
+    'SELECT COUNT(*) as count FROM competitors WHERE course=?',
+    0
   )
 })
