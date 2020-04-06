@@ -19,6 +19,7 @@ With Nevis you can:
 
 - Add + Edit Entries
 - View of Entries Live with Searching and Sorting
+- Import Entries from IOF XML 3.0
 - Download SI Cards
   - Tested with SI Card 5, 8, 10, 11 + SIAC
   - SI Card P + 9 (Untested)

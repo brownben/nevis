@@ -37,8 +37,15 @@ h4 {
 p,
 a,
 button,
-svg {
+svg,
+ul,
+li {
   @apply font-body outline-none;
+}
+
+ul {
+  list-style-type: '- ';
+  @apply ml-8;
 }
 
 button:focus {
@@ -68,6 +75,14 @@ b {
   @apply mr-2;
 }
 
+.code {
+  @apply bg-blue-lightest font-body mx-6 my-2 p-3;
+}
+
+.code p {
+  width: auto;
+}
+
 .my-shadow {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
@@ -91,6 +106,10 @@ b {
 .bg-gradient {
   background: linear-gradient(#1976d2, #2196f3);
   @apply bg-blue;
+}
+
+.link {
+  @apply text-blue underline;
 }
 
 .active {

@@ -34,6 +34,14 @@ exports[`Renders Correctly 1`] = `
     >
       About
     </router-link-stub>
+     
+    <router-link-stub
+      class="button"
+      tag="button"
+      to="/help"
+    >
+      Help
+    </router-link-stub>
   </div>
    
   <div

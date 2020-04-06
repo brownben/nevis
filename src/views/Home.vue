@@ -11,6 +11,7 @@
     <div class="mx-10 mb-3">
       <button class="button" @click="connect">Connect</button>
       <router-link tag="button" class="button" to="/about">About</router-link>
+      <router-link tag="button" class="button" to="/help">Help</router-link>
     </div>
     <div class="my-shadow mx-10">
       <text-input v-model.trim="server" label="Server:" />

@@ -1,0 +1,287 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Renders Correctly 1`] = `
+<main>
+  <back-arrow-stub
+    to=""
+  />
+   
+  <h1
+    class="mx-10 mb-1 px-1"
+  >
+    Help
+  </h1>
+   
+  <div
+    class="my-shadow mx-12 mb-5 px-3 pt-2 pb-1 border-t-4 border-blue"
+  >
+    <h2
+      class="pb-1"
+    >
+      Set Up Database
+    </h2>
+     
+    <p>
+      
+      To set up a database for use with Nevis v5, this only needs done on one
+      computer to act as a 'server.'
+    
+    </p>
+     
+    <p>
+      
+      - Download the MySQL installer from
+      
+      <a
+        class="link"
+        href="#"
+      >
+        https://dev.mysql.com/downloads/installer/
+      </a>
+    </p>
+     
+    <p>
+      
+      - Run the installer and select the "Server only" setup type or ensure
+      the MySQL Server is installed. Check all Requirements are met, and then
+      install the server
+    
+    </p>
+     
+    <img
+      alt="Select \`Server only\` MySQL Setup Type"
+      class="smaller"
+      src="@/assets/images/help/MYSQL-SetupType.png"
+    />
+     
+    <img
+      alt="MySQL Installer - Install Server"
+      class="smaller"
+      src="@/assets/images/help/MYSQL-Installation.png"
+    />
+     
+    <p>
+      - Check and Install any Requirements and the Server
+    </p>
+     
+    <p>
+      - Enter the Server Configuration and use the following options:
+    </p>
+     
+    <ul>
+      <li>
+        <b>
+           High Availability 
+        </b>
+         
+        <ul>
+          <li>
+            
+            Select "Standalone MySQL Server / Classic MySQL Replication"
+          
+          </li>
+        </ul>
+      </li>
+       
+      <li>
+        <b>
+          Type and Networking
+        </b>
+         
+        <ul>
+          <li>
+            Config Type: Development Computer
+          </li>
+           
+          <li>
+            Connectivity: TCP/IP
+          </li>
+           
+          <li>
+            Port 3306
+          </li>
+           
+          <li>
+            Open Firewall to Connections to Database
+          </li>
+        </ul>
+      </li>
+       
+      <li>
+        <b>
+          Authentication Method 
+        </b>
+         
+        <ul>
+          <li>
+            Use Strong Password Encryption for Authentication
+          </li>
+        </ul>
+      </li>
+       
+      <li>
+        <b>
+          Accounts and Roles 
+        </b>
+         
+        <ul>
+          <li>
+            Create a password for the root user
+          </li>
+           
+          <li>
+            Don't create any other users at this stage
+          </li>
+        </ul>
+      </li>
+       
+      <li>
+        <b>
+          Windows Service
+        </b>
+         
+        <ul>
+          <li>
+            Set Server to run as a service starting as System Start-Up
+          </li>
+           
+          <li>
+            Set to run as a Standard System Account
+          </li>
+        </ul>
+      </li>
+    </ul>
+     
+    <div
+      class="gallery"
+    >
+      <img
+        alt="MySQL Installer - Select Networking Options"
+        src="@/assets/images/help/MYSQL-Network.png"
+      />
+       
+      <img
+        alt="MySQL Installer - Set Secure Authentication Type"
+        src="@/assets/images/help/MYSQL-Authentication.png"
+      />
+       
+      <img
+        alt="MySQL Installer - Set Root Password"
+        src="@/assets/images/help/MYSQL-Accounts.png"
+      />
+       
+      <img
+        alt="MySQL Installer - Set Secure Authentication Type"
+        src="@/assets/images/help/MYSQL-Service.png"
+      />
+    </div>
+     
+    <p>
+      
+      - Then apply configuration and finish installation
+    
+    </p>
+     
+    <p>
+      
+      - Open MySQL Command Line, login using the root password, then enter the
+      following:
+    
+    </p>
+     
+    <div
+      class="code"
+    >
+      <p>
+        
+        CREATE USER 'sa'@'%' IDENTIFIED WITH mysql_native_password BY
+        'orienteer'
+      
+      </p>
+       
+      <p>
+        GRANT ALL PRIVILEGES ON * . * TO 'sa'@'%';
+      </p>
+       
+      <p>
+        CREATE DATABASE nevis;
+      </p>
+       
+      <p>
+        CREATE DATABASE archive;
+      </p>
+    </div>
+     
+    <p>
+      
+      - Replace "sa" and "orienteer" with your chosen username and password,
+      if you don't want to use the default values in Nevis
+    
+    </p>
+     
+    <img
+      alt="Command Line Showing Commands Entered"
+      class="smaller"
+      src="@/assets/images/help/MYSQL-Commands.png"
+    />
+     
+    <p>
+      - The database should now be setup to use with Nevis
+    </p>
+  </div>
+   
+  <div
+    class="my-shadow mx-12 mb-5 px-3 pt-2 pb-1 border-t-4 border-blue"
+  >
+    <h2
+      class="pb-1"
+    >
+      Import Punches
+    </h2>
+     
+    <p>
+      To import punches from SIConfig+:
+    </p>
+     
+    <p>
+      
+      - Open SIConfig+, Connect to the correct unit and go to the backup tab
+    
+    </p>
+     
+    <img
+      alt="SIConfig+ open with the Backup tab"
+      src="@/assets/images/help/SIConfig-ReadBackup.png"
+    />
+     
+    <p>
+      - Click Export&gt;Export current view
+    </p>
+     
+    <p>
+      - You should have a view similar to this:
+    </p>
+     
+    <img
+      alt="SIConfig+ Export Settings"
+      src="@/assets/images/help/SIConfig-SavePunches.png"
+    />
+     
+    <p>
+      
+      - Enter the path to where you want the file to be saved, and make sure
+      that the "Field delimeter" is "Semicolon" and the "Text delimiter" is
+      "(none)"
+    
+    </p>
+     
+    <p>
+      - Go to Safety Check in Nevis and import the file you just saved
+    </p>
+     
+    <p>
+      - The punches should now have been imported
+    </p>
+  </div>
+</main>
+`;
