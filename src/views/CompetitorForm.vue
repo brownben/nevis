@@ -87,7 +87,7 @@ import CheckboxInput from '@/components/CheckboxInput'
 import ConfirmationDialog from '@/components/ConfirmationDialog'
 import ArchiveDialog from '@/components/ArchiveDialog'
 
-import timeFunctions from '@/scripts/time'
+import * as timeFunctions from '@/scripts/time'
 import ageClassFunctions from '@/scripts/ageClass'
 import courseMatching from '@/scripts/courseMatching/courseMatching'
 

@@ -44,7 +44,7 @@
 
 <script>
 import BackArrow from '@/components/BackArrow'
-import timeFunctions from '@/scripts/time'
+import * as timeFunctions from '@/scripts/time'
 import * as htmlFunctions from '@/scripts/resultsHTML'
 
 export default {

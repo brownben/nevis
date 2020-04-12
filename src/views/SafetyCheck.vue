@@ -75,7 +75,7 @@
 import BackArrow from '@/components/BackArrow'
 import UpDownArrows from '@/components/UpDownArrows'
 
-import time from '@/scripts/time'
+import * as time from '@/scripts/time'
 import ageClassFunctions from '@/scripts/ageClass'
 
 export default {

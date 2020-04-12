@@ -67,7 +67,7 @@ import ConfirmationDialog from '@/components/ConfirmationDialog'
 
 import si from '@/scripts/si/si'
 import ageClassFunctions from '@/scripts/ageClass'
-import timeFunctions from '@/scripts/time'
+import * as timeFunctions from '@/scripts/time'
 import courseMatching from '@/scripts/courseMatching/courseMatching'
 
 export default {

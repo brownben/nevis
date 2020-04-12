@@ -1,4 +1,4 @@
-import time from '@/scripts/time'
+import * as time from '@/scripts/time'
 
 export const competitorPosition = (competitor) => {
   if (competitor.errors === '') return competitor.position

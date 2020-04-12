@@ -1,4 +1,4 @@
-import time from '@/scripts/time'
+import * as time from '@/scripts/time'
 
 test('Calculate Time', () => {
   expect(time.calculateTime({ start: 0, finish: 0, other: '' })).toBe(0)
@@ -85,4 +85,36 @@ test('Time To Seconds', () => {
   expect(time.timeToSeconds('19:0000')).toBe(undefined)
   expect(time.timeToSeconds('19:00')).toBe(undefined)
   expect(time.timeToSeconds('19')).toBe(undefined)
+})
+
+test('Display Time For Splits', () => {
+  expect(time.displayTimeForSplits(1)).toBe('00:01')
+  expect(time.displayTimeForSplits(45)).toBe('00:45')
+  expect(time.displayTimeForSplits(60)).toBe('01:00')
+  expect(time.displayTimeForSplits(83)).toBe('01:23')
+  expect(time.displayTimeForSplits(1023)).toBe('17:03')
+  expect(time.displayTimeForSplits(3600)).toBe('60:00')
+  expect(time.displayTimeForSplits(11520)).toBe('192:00')
+  expect(time.displayTimeForSplits('a')).toBe('--:--')
+  expect(time.displayTimeForSplits(null)).toBe('--:--')
+  expect(time.displayTimeForSplits(undefined)).toBe('--:--')
+  expect(time.displayTimeForSplits({})).toBe('--:--')
+  expect(time.displayTimeForSplits([])).toBe('--:--')
+})
+
+test('Display Actual Time For Splits', () => {
+  expect(time.displayActualTimeForSplits(0)).toBe('00:00:00')
+  expect(time.displayActualTimeForSplits(1)).toBe('00:00:01')
+  expect(time.displayActualTimeForSplits(45)).toBe('00:00:45')
+  expect(time.displayActualTimeForSplits(60)).toBe('00:01:00')
+  expect(time.displayActualTimeForSplits(83)).toBe('00:01:23')
+  expect(time.displayActualTimeForSplits(1023)).toBe('00:17:03')
+  expect(time.displayActualTimeForSplits(3600)).toBe('01:00:00')
+  expect(time.displayActualTimeForSplits(11520)).toBe('03:12:00')
+  expect(time.displayActualTimeForSplits(32130)).toBe('08:55:30')
+  expect(time.displayActualTimeForSplits('a')).toBe('--:--')
+  expect(time.displayActualTimeForSplits(null)).toBe('--:--')
+  expect(time.displayActualTimeForSplits(undefined)).toBe('--:--')
+  expect(time.displayActualTimeForSplits({})).toBe('--:--')
+  expect(time.displayActualTimeForSplits([])).toBe('--:--')
 })
