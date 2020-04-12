@@ -40,14 +40,45 @@
       />
     </form>
     <div
-      v-if="punches.length > 0"
+      v-if="competitor.downloaded && splits.length > 0"
       class="mx-12 mb-3 my-shadow px-3 pt-2 pb-2 border-t-4 border-blue"
     >
-      <h3>Punches</h3>
+      <h2 class="pb-2">
+        Result: {{ time.displayTime(result.time, result.errors) }}
+      </h2>
+      <table class="w-full font-body">
+        <tr class="font-heading text-center hover:bg-blue-light">
+          <th>No.</th>
+          <th>Control Code</th>
+          <th>Split Time</th>
+          <th>Elapsed Time</th>
+          <th>Punch Time</th>
+        </tr>
+        <template v-for="split of splits">
+          <tr
+            v-if="split.type !== 'missing'"
+            :key="splits.indexOf(split)"
+            class="text-center even:bg-blue-lightest hover:bg-blue-light"
+          >
+            <td>{{ split.number }}</td>
+            <td>{{ split.controlCode }}</td>
+            <td>{{ time.displayTimeForSplits(split.splitTime) }}</td>
+            <td>{{ time.displayTimeForSplits(split.elapsedTime) }}</td>
+            <td>{{ time.displayActualTimeForSplits(split.punchTime) }}</td>
+          </tr>
+        </template>
+      </table>
+    </div>
+
+    <div
+      v-if="punches.length > 0 && !competitor.downloaded"
+      class="mx-12 mb-3 my-shadow px-3 pt-2 pb-2 border-t-4 border-blue"
+    >
+      <h3>Punches:</h3>
       <table class="w-full font-body">
         <tr class="font-heading text-center hover:bg-blue-light">
           <th>Control Code</th>
-          <th>Time</th>
+          <th>Punch Time</th>
         </tr>
         <tr
           v-for="punch of punches"
@@ -59,6 +90,7 @@
         </tr>
       </table>
     </div>
+
     <transition name="fade">
       <confirmation-dialog
         v-if="showDeleteConfirmationDialog"
@@ -90,6 +122,7 @@ import ArchiveDialog from '@/components/ArchiveDialog'
 import * as timeFunctions from '@/scripts/time'
 import ageClassFunctions from '@/scripts/ageClass'
 import courseMatching from '@/scripts/courseMatching/courseMatching'
+import * as splits from '@/scripts/splits'
 
 export default {
   components: {
@@ -118,6 +151,8 @@ export default {
       },
       courses: [],
       punches: [],
+      result: {},
+      splits: [],
       archiveData: [],
       time: timeFunctions,
       originalCourse: '',
@@ -176,6 +211,7 @@ export default {
         .then(async (result) => {
           if (result && result[0]) {
             this.competitor = result[0]
+            this.competitor.courseId = this.competitor.course
             this.competitor.course = await this.getCourseNameFromId(
               result[0].course
             )
@@ -213,12 +249,35 @@ export default {
         )
         .then((result) => {
           this.punches = result
+          if (this.competitor.downloaded && this.punches)
+            this.getCompetitorResult()
         })
         .catch(() =>
           this.$messages.addMessage(
             'Problem Fetching Competitors Punches',
             'error'
           )
+        )
+    },
+
+    getCompetitorResult: function () {
+      return this.$database
+        .query(
+          'SELECT * FROM results WHERE competitor=?',
+          this.$route.params.competitorId
+        )
+        .then((result) => {
+          this.result = result[0]
+
+          if (result[0])
+            this.splits = this.calculateSplits(
+              this.punches,
+              JSON.parse(result[0].links),
+              this.competitorCourse().controls.split(',')
+            )
+        })
+        .catch(() =>
+          this.$messages.addMessage('Problem Fetching Result', 'error')
         )
     },
 
@@ -382,6 +441,15 @@ export default {
 
     calculateAgeClass: (gender, yearOfBirth) =>
       ageClassFunctions(gender, yearOfBirth),
+
+    calculateSplits: (punches, matchedControls, course) =>
+      splits.calculateSplits(punches, matchedControls, course),
+
+    competitorCourse: function () {
+      return this.courses.filter(
+        (course) => course.id === this.competitor.courseId
+      )[0]
+    },
 
     recalculateResult: function () {
       if (

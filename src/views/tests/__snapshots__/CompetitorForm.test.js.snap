@@ -78,6 +78,8 @@ exports[`Renders Correctly - Create 1`] = `
   <!---->
    
   <!---->
+   
+  <!---->
 </main>
 `;
 
@@ -153,6 +155,8 @@ exports[`Renders Correctly - Update 1`] = `
       label="Non-Competitive?"
     />
   </form>
+   
+  <!---->
    
   <!---->
    

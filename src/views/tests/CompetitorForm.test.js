@@ -986,3 +986,110 @@ test('Get Courses - Error', async () => {
   )
   expect(wrapper.vm.courses.length).toBe(0)
 })
+
+test('Get Result - Success', async () => {
+  const wrapper = shallowMount(CompetitorForm, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockResolvedValue(),
+      },
+      $route: { params: { id: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
+    },
+  })
+  wrapper.setData({
+    punches: 'a',
+    courses: [{ id: 2, controls: 'c' }],
+    competitor: { courseId: 2 },
+  })
+  wrapper.setMethods({
+    calculateSplits: jest.fn(() => 'Calculated Splits'),
+    getCourses: jest.fn(),
+    competitorCourse: jest.fn().mockReturnValue({ id: 2, controls: 'c' }),
+  })
+
+  wrapper.vm.$database.query = jest.fn().mockResolvedValue(false)
+  await wrapper.vm.getCompetitorResult()
+  expect(wrapper.vm.calculateSplits).not.toHaveBeenCalledWith('a', 'b', ['c'])
+  wrapper.vm.$database.query = jest.fn().mockResolvedValue([{ links: '"b"' }])
+  await wrapper.vm.getCompetitorResult()
+  expect(wrapper.vm.result).toEqual({ links: '"b"' })
+  expect(wrapper.vm.calculateSplits).toHaveBeenCalledWith('a', 'b', ['c'])
+  expect(wrapper.vm.splits).toBe('Calculated Splits')
+})
+
+test('Get Result - Error', async () => {
+  const wrapper = shallowMount(CompetitorForm, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockRejectedValue(),
+      },
+      $route: { params: { id: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
+    },
+  })
+  await wrapper.vm.getCompetitorResult()
+  expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith(
+    'Problem Fetching Result',
+    'error'
+  )
+  expect(wrapper.vm.result).toEqual({})
+})
+
+test('Competitor Course', () => {
+  const wrapper = shallowMount(CompetitorForm, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockResolvedValue(),
+      },
+      $route: { params: { id: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
+    },
+  })
+
+  wrapper.setData({
+    courses: [
+      { id: 2, controls: 'c' },
+      { id: 3, controls: 'b' },
+    ],
+    competitor: { courseId: 3 },
+  })
+  expect(wrapper.vm.competitorCourse()).toEqual({ id: 3, controls: 'b' })
+  wrapper.setData({
+    courses: [
+      { id: 2, controls: 'c' },
+      { id: 3, controls: 'b' },
+    ],
+    competitor: { courseId: 2 },
+  })
+  expect(wrapper.vm.competitorCourse()).toEqual({ id: 2, controls: 'c' })
+})
+
+test('Compute Splits', () => {
+  const wrapper = shallowMount(CompetitorForm, {
+    stubs: ['router-link'],
+    mocks: {
+      $database: {
+        connection: {},
+        connected: true,
+        query: jest.fn().mockResolvedValue(),
+      },
+      $route: { params: { id: 12 }, path: '' },
+      $router: { push: jest.fn() },
+      $messages: { addMessage: jest.fn(), clearMessages: jest.fn() },
+    },
+  })
+  expect(wrapper.vm.calculateSplits([], [], [])).toEqual([])
+})
