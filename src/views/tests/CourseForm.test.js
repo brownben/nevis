@@ -372,14 +372,14 @@ test('Submit', async () => {
   await wrapper.vm.submit()
   expect(wrapper.vm.$messages.addMessage).toHaveBeenCalledTimes(3)
   expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith(
-    'Please Separate Each Code With a Comma e.g. 101, 102, 103'
+    'Please Separate Each Code With a Comma e.g. "101, 102, 103"'
   )
 
   wrapper.setData({ course: { controls: '12,23,' } })
   await wrapper.vm.submit()
   expect(wrapper.vm.$messages.addMessage).toHaveBeenCalledTimes(5)
   expect(wrapper.vm.$messages.addMessage).toHaveBeenLastCalledWith(
-    'Please Separate Each Code With a Comma e.g. 101, 102, 103'
+    'Please Separate Each Code With a Comma e.g. "101, 102, 103"'
   )
 
   wrapper.setData({ course: { controls: '12,23', length: 'hello' } })
@@ -518,7 +518,7 @@ test('Recalculate Results', async () => {
   })
 
   wrapper.setData({ course: { controls: '101,102,103' } })
-  courseMatching.linear = jest.fn(() => ({ errors: 'M4', links: [] }))
+  courseMatching.linear = jest.fn(() => ({ errors: 'M4', links: '[]' }))
   await wrapper.vm.recalculateResult({ id: 6, name: 'Bob', course: 'world' }, [
     { controlCode: 'S' },
     { controlCode: 'F' },
@@ -527,7 +527,7 @@ test('Recalculate Results', async () => {
     { controlCode: '103' },
   ])
   expect(courseMatching.linear).toHaveBeenCalledWith(
-    ['101', '102', '103'],
+    [{ controlCode: '101' }, { controlCode: '102' }, { controlCode: '103' }],
     ['101', '102', '103']
   )
   expect(wrapper.vm.$database.query).toHaveBeenCalledWith(

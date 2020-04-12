@@ -84,7 +84,7 @@ export default {
       ) {
         this.$messages.addMessage(`Invalid Format for Controls`, 'error')
         this.$messages.addMessage(
-          `Please Separate Each Code With a Comma e.g. 101, 102, 103`
+          `Please Separate Each Code With a Comma e.g. "101, 102, 103"`
         )
       } else if (
         typeof this.course.length === 'string' &&
@@ -253,8 +253,13 @@ export default {
         .split(',')
         .filter((punch) => punch !== '')
       const punchesNoStartAndFinish = punches
-        .map((punch) => punch.controlCode.toString())
-        .filter((punch) => punch !== 'S' && punch !== 'F')
+        .map((punch) => ({
+          ...punch,
+          controlCode: punch.controlCode.toString(),
+        }))
+        .filter(
+          (punch) => punch.controlCode !== 'S' && punch.controlCode !== 'F'
+        )
 
       const courseMatchingStats = courseMatching.linear(
         punchesNoStartAndFinish,
@@ -263,7 +268,7 @@ export default {
       const time = this.calculateTime(courseMatchingStats, punches)
       return this.$database.query('REPLACE INTO results SET ?', {
         time: time.time,
-        links: JSON.stringify(courseMatchingStats.links),
+        links: courseMatchingStats.links,
         errors: time.errors,
         competitor: competitor.id,
         event: this.$route.params.eventId,

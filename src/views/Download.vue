@@ -188,8 +188,13 @@ export default {
         )
 
       const cardPunches = siData.punches
-        .map((punch) => punch.controlCode.toString())
-        .filter((punch) => punch !== 'S' && punch !== 'F')
+        .map((punch) => ({
+          ...punch,
+          controlCode: punch.controlCode.toString(),
+        }))
+        .filter(
+          (punch) => punch.controlCode !== 'S' && punch.controlCode !== 'F'
+        )
 
       let competitorCourse
       if (!competitor.course) {
@@ -215,7 +220,7 @@ export default {
       ])
       await this.$database.query('REPLACE INTO results SET ?', {
         time: time.time,
-        links: JSON.stringify(courseMatchingStats.links),
+        links: courseMatchingStats.links,
         errors: time.errors,
         competitor: competitor.id,
         event: this.$route.params.id,

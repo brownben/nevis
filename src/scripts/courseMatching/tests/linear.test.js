@@ -1,4 +1,13 @@
-import linear from '@/scripts/courseMatching/linear'
+import linearFunction from '@/scripts/courseMatching/linear'
+
+const linear = (card, controls) =>
+  linearFunction(
+    card.map((control) => ({
+      controlCode: control,
+      time: card.indexOf(control),
+    })),
+    controls
+  )
 
 test('Empty Course', () => {
   expect(linear([], []).errors).toBe('')

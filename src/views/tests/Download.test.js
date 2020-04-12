@@ -696,7 +696,7 @@ test('Save Download', async () => {
   courseMatching.linear.mockReturnValue({
     percentageCorrect: 1,
     errors: '',
-    links: [],
+    links: '[]',
   })
   await wrapper.vm.saveDownload({
     punches: [

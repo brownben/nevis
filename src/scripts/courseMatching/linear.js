@@ -1,3 +1,11 @@
+const convertControlLinks = (links) =>
+  JSON.stringify(
+    links.map((punch) => {
+      if (punch) return { time: punch.time, controlCode: punch.controlCode }
+      else return null
+    })
+  )
+
 export default (cardList, courseList) => {
   // Initialize Variables
   let cardCounter = -1
@@ -13,29 +21,29 @@ export default (cardList, courseList) => {
     courseCounter += 1
 
     if (
-      cardList[cardCounter] &&
-      cardList[cardCounter] === courseList[courseCounter]
+      cardList[cardCounter]?.controlCode &&
+      cardList[cardCounter]?.controlCode === courseList[courseCounter]
     ) {
       match = true
       links.push(cardList[cardCounter])
     } else if (
-      cardList[cardCounter + 1] &&
-      cardList[cardCounter + 1] === courseList[courseCounter]
+      cardList[cardCounter + 1]?.controlCode &&
+      cardList[cardCounter + 1]?.controlCode === courseList[courseCounter]
     ) {
       cardCounter += 1
       match = true
       links.push(cardList[cardCounter])
     } else if (
-      cardList[cardCounter + 1] &&
-      cardList[cardCounter + 1] === courseList[courseCounter + 1]
+      cardList[cardCounter + 1]?.controlCode &&
+      cardList[cardCounter + 1]?.controlCode === courseList[courseCounter + 1]
     ) {
       errors += ` W${courseCounter + 1}`
       correctVisited -= 1
       match = true
       links.push(null)
     } else if (
-      cardList[cardCounter] &&
-      cardList[cardCounter] === courseList[courseCounter + 1]
+      cardList[cardCounter]?.controlCode &&
+      cardList[cardCounter]?.controlCode === courseList[courseCounter + 1]
     ) {
       courseCounter += 1
       errors += ` M${courseCounter}`
@@ -49,8 +57,8 @@ export default (cardList, courseList) => {
       while (!match && tempCardCounter < cardList.length) {
         tempCardCounter += 1
         if (
-          cardList[tempCardCounter] &&
-          cardList[tempCardCounter] === courseList[courseCounter]
+          cardList[tempCardCounter]?.controlCode &&
+          cardList[tempCardCounter]?.controlCode === courseList[courseCounter]
         ) {
           cardCounter = tempCardCounter
           match = true
@@ -64,8 +72,8 @@ export default (cardList, courseList) => {
       while (!match && tempCourseCounter < courseList.length) {
         tempCourseCounter += 1
         if (
-          cardList[cardCounter] &&
-          cardList[cardCounter] === courseList[tempCourseCounter]
+          cardList[cardCounter]?.controlCode &&
+          cardList[cardCounter]?.controlCode === courseList[tempCourseCounter]
         ) {
           errors += ` M${courseCounter + 1}-${tempCourseCounter}`
           courseCounter = tempCourseCounter
@@ -92,8 +100,9 @@ export default (cardList, courseList) => {
         tempCardCounter += 1
         tempCourseCounter += 1
         if (
-          cardList[tempCardCounter] &&
-          cardList[tempCardCounter] === courseList[tempCourseCounter]
+          cardList[tempCardCounter]?.controlCode &&
+          cardList[tempCardCounter]?.controlCode ===
+            courseList[tempCourseCounter]
         ) {
           errors += ` W${courseCounter + 1}-${tempCourseCounter}`
           cardCounter = tempCardCounter - 1
@@ -138,6 +147,6 @@ export default (cardList, courseList) => {
   return {
     errors: errors.trim(),
     percentageCorrect: percentageCorrect,
-    links: JSON.stringify(links),
+    links: convertControlLinks(links),
   }
 }

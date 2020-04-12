@@ -394,8 +394,13 @@ export default {
           .controls.split(',')
           .filter((punch) => punch !== '')
         const punchesNoStartAndFinish = this.punches
-          .map((punch) => punch.controlCode.toString())
-          .filter((punch) => punch !== 'S' && punch !== 'F')
+          .map((punch) => ({
+            ...punch,
+            controlCode: punch.controlCode.toString(),
+          }))
+          .filter(
+            (punch) => punch.controlCode !== 'S' && punch.controlCode !== 'F'
+          )
 
         const courseMatchingStats = courseMatching.linear(
           punchesNoStartAndFinish,
@@ -406,7 +411,7 @@ export default {
         return this.$database
           .query('REPLACE INTO results SET ?', {
             time: time.time,
-            links: JSON.stringify(courseMatchingStats.links),
+            links: courseMatchingStats.links,
             errors: time.errors,
             competitor: this.competitor.id,
             event: this.$route.params.eventId,

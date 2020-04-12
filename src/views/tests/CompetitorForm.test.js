@@ -134,6 +134,7 @@ test('Get Competitor Details - Success', async () => {
     club: 'HAT',
     course: 'Long',
     downloaded: false,
+    courseId: 7,
   })
 })
 
@@ -908,10 +909,10 @@ test('Recalculate Results', async () => {
   expect(wrapper.vm.recalculateResult()).toBe(undefined)
 
   wrapper.setData({ originalCourse: 'hello', competitor: { course: 'world' } })
-  courseMatching.linear = jest.fn(() => ({ errors: 'M4', links: [] }))
+  courseMatching.linear = jest.fn(() => ({ errors: 'M4', links: '[]' }))
   await wrapper.vm.recalculateResult()
   expect(courseMatching.linear).not.toHaveBeenCalledWith(
-    ['101', '102', '103'],
+    [{ controlCode: '101' }, { controlCode: '102' }, { controlCode: '103' }],
     ['101', '102', '103']
   )
 
@@ -921,7 +922,7 @@ test('Recalculate Results', async () => {
   })
   await wrapper.vm.recalculateResult()
   expect(courseMatching.linear).toHaveBeenCalledWith(
-    ['101', '102', '103'],
+    [{ controlCode: '101' }, { controlCode: '102' }, { controlCode: '103' }],
     ['101', '102', '103']
   )
   expect(wrapper.vm.$database.query).toHaveBeenCalledWith(
