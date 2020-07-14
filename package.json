@@ -56,7 +56,7 @@
     "eslint-config-alloy": "^3.5.0",
     "eslint-plugin-vue": "^6.1.2",
     "mockdate": "^2.0.5",
-    "prettier": "^2.0.2",
+    "prettier": "^2.0.5",
     "tailwindcss": "^1.2.0",
     "vue-eslint-parser": "^7.0.0",
     "vue-template-compiler": "^2.6.11"
