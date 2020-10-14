@@ -36,7 +36,7 @@
     "core-js": "^3.6.4",
     "mysql": "^2.18.1",
     "serialport": "^8.0.7",
-    "vue": "^2.6.11",
+    "vue": "^2.6.12",
     "vue-router": "^3.3.4",
     "xml-js": "^1.6.11"
   },
@@ -59,7 +59,7 @@
     "prettier": "^2.1.2",
     "tailwindcss": "^1.2.0",
     "vue-eslint-parser": "^7.1.1",
-    "vue-template-compiler": "^2.6.11"
+    "vue-template-compiler": "^2.6.12"
   },
   "build": {
     "productName": "Nevis",
