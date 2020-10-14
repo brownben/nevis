@@ -33,7 +33,7 @@
     "start": "concurrently -k -n vue,electron \"npm:vue-run\" \"npm:electron-run\" -c green,blue"
   },
   "dependencies": {
-    "core-js": "^3.6.4",
+    "core-js": "^3.6.5",
     "mysql": "^2.18.1",
     "serialport": "^8.0.7",
     "vue": "^2.6.11",
