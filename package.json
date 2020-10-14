@@ -37,7 +37,7 @@
     "mysql": "^2.18.1",
     "serialport": "^8.0.7",
     "vue": "^2.6.11",
-    "vue-router": "^3.3.4",
+    "vue-router": "^3.4.6",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
