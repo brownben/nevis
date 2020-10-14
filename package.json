@@ -35,7 +35,7 @@
   "dependencies": {
     "core-js": "^3.6.4",
     "mysql": "^2.18.1",
-    "serialport": "^8.0.7",
+    "serialport": "^9.0.1",
     "vue": "^2.6.11",
     "vue-router": "^3.3.4",
     "xml-js": "^1.6.11"
